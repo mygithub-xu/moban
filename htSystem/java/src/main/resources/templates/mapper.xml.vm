@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="$!{packageName}.module.$!{projectName}.$!{domainName}.dao.$!{DomainName}Mapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="$!{packageName}.module.$!{projectName}.$!{domainName}.entity.$!{DomainName}">
+        <id column="id" property="id" />
+#foreach ($table in $tableClassList)
+    #if($!table.fieldName !=  'id')
+        <result column="${table.fieldName}" property="${table.attrName}" />
+    #end
+#end
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        #foreach ($table in $tableClassList)
+                ${table.fieldName}#if($foreach.hasNext),#end
+        #end
+    </sql>
+
+    <select id="queryByCondition" parameterType="com.dhlg.utils.common.Parameter" resultType="$!{packageName}.module.$!{projectName}.$!{domainName}.entity.$!{DomainName}">
+        select * from $!{tableName}
+        <trim prefix="where" prefixOverrides="and">
+            <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">
+                CONCAT(
+                #foreach ($table in $tableClassList)
+                    #if($!table.attrType ==  'String'&&$!table.fieldName !=  'id')
+                        #if($foreach.first)
+                            ${table.fieldName}
+                        #else
+                            ,${table.fieldName}
+                        #end
+                    #end
+                #end
+                ) like concat('%',#{parameter.condition.queryContent},'%')
+            </if>
+        </trim>
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select * from $!{tableName}
+        <trim prefix="where" prefixOverrides="and">
+            #foreach ($table in $tableClassList)
+                #if($!table.attrName !=  'id')
+
+                #if($!table.attrType ==  'String')
+                    <if test=" parameter.${table.attrName} !=null and parameter.${table.attrName} !='' ">
+                        and ${table.fieldName} like concat('%',#{parameter.${table.attrName}},'%')
+                    </if>
+                #elseif($!table.fieldLength ==  '1')
+                    <if test="parameter.${table.attrName}  != null and parameter.${table.attrName}.size() > 0">
+                        and ${table.fieldName}  in
+                        <foreach collection="parameter.${table.attrName} " index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                #elseif($!table.attrType ==  'Integer'||$!table.attrType ==  'Date')
+                        <if test="parameter.${table.attrName} != null and parameter.${table.attrName} .size() == 2">
+                            and ${table.fieldName} between
+                            <foreach collection="parameter.${table.attrName}" index="index" item="item" open=" " separator=" and " close=" ">
+                                #{item}
+                            </foreach>
+                        </if>
+
+                #end
+                #end
+
+            #end
+        </trim>
+        order by id desc
+    </select>
+
+</mapper>
