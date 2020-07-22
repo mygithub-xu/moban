@@ -9,6 +9,7 @@ import com.dhlg.module.system.sysdic.dao.SysDicTypeMapper;
 import com.dhlg.module.system.sysdic.service.ISysDicTypeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.common.*;
+import com.dhlg.utils.common.Parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

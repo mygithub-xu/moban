@@ -8,7 +8,7 @@ import com.dhlg.module.system.sysLoginLog.service.ISysLoginLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.common.DateUtils;
 import com.dhlg.utils.common.Dictionaries;
-import com.dhlg.utils.common.Parameter;
+import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

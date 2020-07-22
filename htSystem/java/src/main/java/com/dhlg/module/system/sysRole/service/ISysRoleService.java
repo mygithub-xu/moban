@@ -3,7 +3,7 @@ package com.dhlg.module.system.sysRole.service;
 import com.dhlg.module.system.sysMenu.entity.SysMenu;
 import com.dhlg.module.system.sysRole.entity.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dhlg.utils.common.Parameter;
+import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.Result;
 
 import java.util.List;

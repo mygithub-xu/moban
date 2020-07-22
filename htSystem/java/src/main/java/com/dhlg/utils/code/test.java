@@ -14,7 +14,7 @@ public class test {
     public static void main(String []args){
         //生成模板
         codeAutoGenerationUtil test = new codeAutoGenerationUtil();
-        String tableName = "text_user"; //表名称
+        String tableName = "sys_test_detail"; //表名称
         String packageName = "com.dhlg";//包名
         String projectName = "test";//模块名
         test.getTemplates(tableName,packageName,projectName);

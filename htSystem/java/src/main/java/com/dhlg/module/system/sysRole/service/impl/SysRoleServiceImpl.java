@@ -7,6 +7,7 @@ import com.dhlg.module.system.sysRole.dao.SysRoleMapper;
 import com.dhlg.module.system.sysRole.service.ISysRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.common.*;
+import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.exception.UncheckedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

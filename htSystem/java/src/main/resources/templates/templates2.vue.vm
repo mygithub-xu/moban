@@ -50,31 +50,9 @@
                                     </el-popover>
                                     </span>
                                 </template>
-                            #elseif($!table.attrType ==  'String')
-                                <template slot="header" slot-scope="scope">
-                                    <span class="col-filter">
-                                    {{scope.column.label}}
-                                    <el-popover placement="bottom-end" width="200" trigger="click" v-model="queryVisible.${table.attrName}">
-                                        <div>
-                                        <el-input
-                                                type="text"
-                                                v-model="condition.${table.attrName}"
-                                                placeholder="请输入"
-                                        ></el-input>
-                                        </div>
-                                        <hr
-                                                style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"
-                                        />
-                                        <div style="display: flex; justify-content: space-evenly;">
-                                        <el-button type="text" @click="handleSimpleFilterOk('${table.attrName}')">确定</el-button>
-                                        <el-button type="text" @click="handleSimpleFilterCancel('${table.attrName}')">重置</el-button>
-                                        </div>
-                                        <i slot="reference" class="icon-filter"  @click.stop></i>
-                                    </el-popover>
-                                    </span>
-                                </template>
-                            #elseif($!table.attrType ==  'Integer')
-                                #if($!table.fieldLength ==  '1')
+
+
+                            #elseif($!table.fieldLength ==  '1')
                                     <template slot="header" slot-scope="scope">
                                         <span class="col-filter">
                                         {{scope.column.label}}
@@ -111,25 +89,31 @@
                                         </div>
                                     </template>
 
-                                    #else
-                                    <template slot="header" slot-scope="scope">
-                                        <span class="col-filter">
-                                        {{scope.column.label}}
-                                        <el-popover placement="bottom-end" width="300" trigger="click" v-model="queryVisible.${table.attrName}">
-                                            <div>
-                                                <el-input size="small"  v-model="condition.${table.attrName}[0]" placeholder="请输入数字" oninput ="value=value.replace(/[^\d]/g,'')" style="width:120px"></el-input> ——
-                                                <el-input size="small"  v-model="condition.${table.attrName}[1]" placeholder="请输入数字" oninput ="value=value.replace(/[^\d]/g,'')" style="width:120px"></el-input>
-                                            </div>
-                                            <hr style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"/>
-                                            <div style="display: flex; justify-content: space-evenly;">
-                                                <el-button type="text" @click="handleNumFilterOk('${table.attrName}')">确定</el-button>
-                                                <el-button type="text" @click="handleNumFilterCancel('${table.attrName}')">重置</el-button>
-                                            </div>
-                                            <i slot="reference" class="icon-filter"  @click.stop></i>
-                                        </el-popover>
-                                        </span>
-                                    </template>
-                                #end
+
+                            #elseif($!table.attrType ==  'String')
+                                <template slot="header" slot-scope="scope">
+                                    <span class="col-filter">
+                                    {{scope.column.label}}
+                                    <el-popover placement="bottom-end" width="200" trigger="click" v-model="queryVisible.${table.attrName}">
+                                        <div>
+                                        <el-input
+                                                type="text"
+                                                v-model="condition.${table.attrName}"
+                                                placeholder="请输入"
+                                        ></el-input>
+                                        </div>
+                                        <hr
+                                                style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"
+                                        />
+                                        <div style="display: flex; justify-content: space-evenly;">
+                                        <el-button type="text" @click="handleSimpleFilterOk('${table.attrName}')">确定</el-button>
+                                        <el-button type="text" @click="handleSimpleFilterCancel('${table.attrName}')">重置</el-button>
+                                        </div>
+                                        <i slot="reference" class="icon-filter"  @click.stop></i>
+                                    </el-popover>
+                                    </span>
+                                </template>
+
                             #end
 
                         </el-table-column>
@@ -233,7 +217,7 @@
                     id: "",
             #foreach ($table in $tableClassList)
                 #if($!table.attrName != 'id')
-                    #if($!table.attrType == 'Date'||$!table.attrType == 'Integer')
+                    #if($!table.attrType == 'Date'||$!table.fieldLength ==  '1')
                         ${table.attrName}: [],
                     #else
                         ${table.attrName}: "",
@@ -478,7 +462,7 @@
                     id: "",
                 #foreach ($table in $tableClassList)
                     #if($!table.attrName != 'id')
-                        #if($!table.attrType == 'Date'||$!table.attrType == 'Integer')
+                        #if($!table.attrType == 'Date'||$!table.fieldLength ==  '1')
                             ${table.attrName}: [],
                         #else
                             ${table.attrName}: "",

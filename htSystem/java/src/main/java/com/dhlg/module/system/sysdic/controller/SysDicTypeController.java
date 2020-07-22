@@ -4,7 +4,7 @@ package com.dhlg.module.system.sysdic.controller;
 import com.dhlg.module.system.sysdic.entity.Option;
 import com.dhlg.module.system.sysdic.entity.SysDicType;
 import com.dhlg.module.system.sysdic.service.impl.SysDicTypeServiceImpl;
-import com.dhlg.utils.common.Parameter;
+import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

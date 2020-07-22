@@ -2,7 +2,7 @@ package com.dhlg.module.system.sysFile.controller;
 
 
 import com.dhlg.module.system.sysFile.service.ISysFileService;
-import com.dhlg.utils.common.Parameter;
+import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.Result;
 import com.dhlg.utils.common.StringUtils;
 import com.dhlg.utils.common.exception.ParamIsNullException;

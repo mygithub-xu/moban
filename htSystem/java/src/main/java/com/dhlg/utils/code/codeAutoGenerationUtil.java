@@ -34,7 +34,7 @@ public class codeAutoGenerationUtil {
 //    @Value("${spring.datasource.url}")
 //    private  String URL;
     //获得url
-    private final String URL = "jdbc:mysql://localhost:3306/moban?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC";
+    private final String URL = "jdbc:mysql://localhost:3306/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC";
 
     //获得驱动
     private final String DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -66,13 +66,14 @@ public class codeAutoGenerationUtil {
 
         //根据模板生成文件
         Map<String,Object> map = new HashMap();
-        map.put("controller.java.vm","controller/" + DomainName + "Controller.java");
-        map.put("service.java.vm","service/"+"I" + DomainName + "Service.java");
-        map.put("serviceImpl.java.vm","service/impl/" + DomainName + "ServiceImpl.java");
-        map.put("mapper.java.vm","dao/" + DomainName + "Mapper.java");
-        map.put("entity.java.vm","entity/" + DomainName + ".java");
-        map.put("mapper.xml.vm","dao/xml/" + DomainName + "Mapper.xml");
+//        map.put("controller.java.vm","controller/" + DomainName + "Controller.java");
+//        map.put("service.java.vm","service/"+"I" + DomainName + "Service.java");
+//        map.put("serviceImpl.java.vm","service/impl/" + DomainName + "ServiceImpl.java");
+//        map.put("mapper.java.vm","dao/" + DomainName + "Mapper.java");
+//        map.put("entity.java.vm","entity/" + DomainName + ".java");
+//        map.put("mapper.xml.vm","dao/xml/" + DomainName + "Mapper.xml");
         map.put("templates2.vue.vm",domainName +"/" + domainName + "List.vue");
+//        map.put("templates1.vue.vm",domainName +"/" + domainName + "List.vue");
         for(String templateFile:map.keySet()){
             String targetFile = (String) map.get(templateFile);
             Properties pro = new Properties();
@@ -132,7 +133,7 @@ public class codeAutoGenerationUtil {
             connection = getConnection();
 
             String sql="SELECT COLUMN_NAME as fieldName,column_type as fieldLength, DATA_TYPE as fieldType,COLUMN_COMMENT as fieldComment FROM INFORMATION_SCHEMA. COLUMNS WHERE" +
-                    " table_schema = 'moban'" +
+                    " table_schema = 'houtaisql'" +
                     " AND " +
                     "table_name = '"+tableName+"'" ;
             pre = connection.prepareStatement(sql);
@@ -151,7 +152,7 @@ public class codeAutoGenerationUtil {
                 tableClass.setAttrName(StringUtils.underscoreToCamelCase(fieldName));
                 //Java属性类型
                 tableClass.setAttrType(CommonMap.javaTypeMap.get(tableClass.getFieldType()));
-                //java字段长度,1代表int为11的字段，0代表无
+                //java字段长度
                 String ss=resultSet.getString("fieldLength").equals("varchar(36)")?"1":"0";
                 tableClass.setFieldLength(ss) ;
                 System.out.println(tableClass.getFieldName()+" : "+ tableClass.getFieldLength());

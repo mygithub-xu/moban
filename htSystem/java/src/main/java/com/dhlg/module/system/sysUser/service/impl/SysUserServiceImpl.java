@@ -6,22 +6,19 @@ import com.dhlg.module.system.sysButton.entity.SysButton;
 import com.dhlg.module.system.sysButton.service.impl.SysButtonServiceImpl;
 import com.dhlg.module.system.sysMenu.entity.SysMenu;
 import com.dhlg.module.system.sysMenu.service.impl.SysMenuServiceImpl;;
-import com.dhlg.module.system.sysRole.entity.SysRole;
 import com.dhlg.module.system.sysUser.entity.SysUser;
 import com.dhlg.module.system.sysUser.dao.SysUserMapper;
 import com.dhlg.module.system.sysUser.service.ISysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.common.*;
-import com.dhlg.utils.common.exception.OperatorException;
+import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.exception.ParamIsNullException;
 import com.dhlg.utils.common.exception.UncheckedException;
-import com.dhlg.utils.shiro.token.PhoneToken;
 import com.dhlg.utils.shiro.utils.PasswordHelper;
 import net.sf.json.JSONObject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
@@ -29,13 +26,8 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**

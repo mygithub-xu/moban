@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.test.sysTest.dao.SysTestMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.test.sysTest.entity.SysTest">
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="test_name" property="testName" />
+        <result column="test_status" property="testStatus" />
+        <result column="test_type" property="testType" />
+        <result column="parent_id" property="parentId" />
+        <result column="test_area" property="testArea" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+           test_area,     create_time,                create_user,                id,                test_name,                test_status,                test_type   ,parent_id </sql>
+
+    <select id="queryByCondition" parameterType="java.util.Map" resultType="com.dhlg.module.test.sysTest.entity.SysTest">
+        select * from sys_test
+        <trim prefix="where" prefixOverrides="and">
+            <if test="parameter.createTimeList != null and parameter.createTimeList .size() == 2">
+                and create_time between
+                <foreach collection="parameter.createTimeList" index="index" item="item" open=" " separator=" and " close=" ">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test=" parameter.testName !=null and parameter.testName !='' ">
+                and test_name like concat('%',#{parameter.testName},'%')
+            </if>
+
+
+            <if test="parameter.status  != null and parameter.status!=''">
+                and test_status  = #{parameter.status}
+            </if>
+
+
+            <if test="parameter.typeList  != null and parameter.typeList.size() > 0">
+                and test_type  in
+                <foreach collection="parameter.typeList " index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+        </trim>
+        order by create_time desc
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select * from sys_test
+        <trim prefix="where" prefixOverrides="and">
+
+                        <if test="parameter.createTime != null and parameter.createTime .size() == 2">
+                            and create_time between
+                            <foreach collection="parameter.createTime" index="index" item="item" open=" " separator=" and " close=" ">
+                                #{item}
+                            </foreach>
+                        </if>
+
+
+
+                    <if test="parameter.createUser  != null and parameter.createUser.size() > 0">
+                        and create_user  in
+                        <foreach collection="parameter.createUser " index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+
+
+
+                    <if test=" parameter.testName !=null and parameter.testName !='' ">
+                        and test_name like concat('%',#{parameter.testName},'%')
+                    </if>
+
+
+                    <if test="parameter.testStatus  != null and parameter.testStatus.size() > 0">
+                        and test_status  in
+                        <foreach collection="parameter.testStatus " index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+
+
+                    <if test="parameter.testType  != null and parameter.testType.size() > 0">
+                        and test_type  in
+                        <foreach collection="parameter.testType " index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+
+        </trim>
+        order by create_time desc
+    </select>
+
+</mapper>

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dhlg.module.system.sysLoginLog.entity.SysLoginLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dhlg.utils.common.Parameter;
+import com.dhlg.utils.common.Parameter.Parameter;
 import org.apache.ibatis.annotations.Param;
 
 /**

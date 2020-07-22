@@ -3,7 +3,7 @@ package com.dhlg.module.system.sysUser.controller;
 
 import com.dhlg.module.system.sysUser.entity.SysUser;
 import com.dhlg.module.system.sysUser.service.ISysUserService;
-import com.dhlg.utils.common.Parameter;
+import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.Result;
 import com.dhlg.utils.common.StringUtils;
 import com.dhlg.utils.common.exception.ParamIsNullException;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**

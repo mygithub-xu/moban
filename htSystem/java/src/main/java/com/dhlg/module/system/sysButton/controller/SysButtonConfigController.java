@@ -3,8 +3,7 @@ package com.dhlg.module.system.sysButton.controller;
 
 import com.dhlg.module.system.sysButton.entity.SysButtonConfig;
 import com.dhlg.module.system.sysButton.service.ISysButtonConfigService;
-import com.dhlg.module.system.sysButton.service.impl.SysButtonConfigServiceImpl;
-import com.dhlg.utils.common.Parameter;
+import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.Result;
 import com.dhlg.utils.common.StringUtils;
 import com.dhlg.utils.common.exception.ParamIsNullException;

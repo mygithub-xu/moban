@@ -1,24 +1,16 @@
 package com.dhlg.module.system.sysLoginLog.controller;
 
 
-import com.dhlg.module.system.sysLoginLog.entity.SysLoginLog;
 import com.dhlg.module.system.sysLoginLog.service.ISysLoginLogService;
-import com.dhlg.utils.common.Parameter;
+import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.Result;
 import com.dhlg.utils.common.StringUtils;
 import com.dhlg.utils.common.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileOutputStream;
 import java.util.List;
 
 /**

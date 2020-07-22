@@ -26,7 +26,7 @@
         select  *from sys_role
     </select>
 
-    <select id="queryByCondition" parameterType="com.dhlg.utils.common.Parameter" resultMap="BaseResultMap">
+    <select id="queryByCondition" parameterType="com.dhlg.utils.common.Parameter.Parameter" resultMap="BaseResultMap">
         select  *from sys_role t1
         <trim prefix="where" prefixOverrides="and">
             <if test="parameter.condition != null and parameter.condition.name !=null and parameter.condition.name !='' ">

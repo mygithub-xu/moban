@@ -2,7 +2,7 @@ package $!{packageName}.module.$!{projectName}.$!{domainName}.controller;
 
 import $!{packageName}.module.$!{projectName}.$!{domainName}.entity.$!{DomainName};
 import $!{packageName}.module.$!{projectName}.$!{domainName}.service.I$!{DomainName}Service;
-import $!{packageName}.utils.common.Parameter;
+import $!{packageName}.utils.common.Parameter.Parameter;
 import $!{packageName}.utils.common.Result;
 import $!{packageName}.utils.common.StringUtils;
 import $!{packageName}.utils.common.exception.ParamIsNullException;

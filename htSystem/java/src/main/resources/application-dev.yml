@@ -8,14 +8,20 @@ mybatisPlus:
   typeAliasesPackage: com.dhlg.module.*.*.entity
 
 spring:
+  # 文件上传
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
   datasource:
     name: db
     type: com.alibaba.druid.pool.DruidDataSource #表明使用Druid连接池
     username: root
-#    password: zmy1022a.
-    password: 123456
+    password: zmy1022a.
+#    password: 123456
 #    url: jdbc:mysql://120.25.197.11:3306/moban?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
-    url: jdbc:mysql://127.0.0.1:3306/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://120.25.197.11:3306/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     minIdle: 500
     maxActive: 1000 #最大连接池数量

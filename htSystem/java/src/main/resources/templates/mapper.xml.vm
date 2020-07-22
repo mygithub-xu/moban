@@ -19,7 +19,7 @@
         #end
     </sql>
 
-    <select id="queryByCondition" parameterType="com.dhlg.utils.common.Parameter" resultType="$!{packageName}.module.$!{projectName}.$!{domainName}.entity.$!{DomainName}">
+    <select id="queryByCondition" parameterType="com.dhlg.utils.common.Parameter.Parameter" resultType="$!{packageName}.module.$!{projectName}.$!{domainName}.entity.$!{DomainName}">
         select * from $!{tableName}
         <trim prefix="where" prefixOverrides="and">
             <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">
@@ -45,16 +45,16 @@
             #foreach ($table in $tableClassList)
                 #if($!table.attrName !=  'id')
 
-                #if($!table.attrType ==  'String')
-                    <if test=" parameter.${table.attrName} !=null and parameter.${table.attrName} !='' ">
-                        and ${table.fieldName} like concat('%',#{parameter.${table.attrName}},'%')
-                    </if>
-                #elseif($!table.fieldLength ==  '1')
+                #if($!table.fieldLength ==  '1')
                     <if test="parameter.${table.attrName}  != null and parameter.${table.attrName}.size() > 0">
                         and ${table.fieldName}  in
                         <foreach collection="parameter.${table.attrName} " index="index" item="item" open="(" separator="," close=")">
                             #{item}
                         </foreach>
+                    </if>
+                #elseif($!table.attrType ==  'String')
+                    <if test=" parameter.${table.attrName} !=null and parameter.${table.attrName} !='' ">
+                        and ${table.fieldName} like concat('%',#{parameter.${table.attrName}},'%')
                     </if>
                 #elseif($!table.attrType ==  'Integer'||$!table.attrType ==  'Date')
                         <if test="parameter.${table.attrName} != null and parameter.${table.attrName} .size() == 2">
