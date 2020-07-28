@@ -2,6 +2,7 @@ package com.dhlg.module.test.sysTest.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.dhlg.module.test.sysTest.entity.ExportSysTest;
 import com.dhlg.module.test.sysTest.entity.SysTest;
 import com.dhlg.module.test.sysTest.dao.SysTestMapper;
 import com.dhlg.module.test.sysTest.service.ISysTestService;
@@ -46,14 +47,18 @@ public class SysTestServiceImpl extends ServiceImpl<SysTestMapper, SysTest> impl
             }
 
             //构造明细表
-            for (SysTestDetail testDetail:sysTest.getTestSysTetailList()){
-                testDetail.setId(StringUtils.uuid());
-                testDetail.setParentId(sysTest.getId());
+            if (!StringUtils.isBlank(sysTest.getTestSysTetailList())){
+                for (SysTestDetail testDetail:sysTest.getTestSysTetailList()){
+                    testDetail.setId(StringUtils.uuid());
+                    testDetail.setParentId(sysTest.getId());
+                }
+
+                //删除其他明细表
+                testDetailService.deleteByParentId(sysTest.getId());
+                //保存现在的明细表
+                testDetailService.saveBatch(sysTest.getTestSysTetailList());
             }
-            //删除其他明细表
-            testDetailService.deleteByParentId(sysTest.getParentId());
-            //保存现在的明细表
-            testDetailService.saveBatch(sysTest.getTestSysTetailList());
+
 
 
             return new Result("200","",Dictionaries.UPDATE_SUCCESS);
@@ -65,12 +70,14 @@ public class SysTestServiceImpl extends ServiceImpl<SysTestMapper, SysTest> impl
             return new Result("500","", Dictionaries.SAVE_FAILED);
         }
         //构造明细表
-        for (SysTestDetail testDetail:sysTest.getTestSysTetailList()){
-            testDetail.setId(StringUtils.uuid());
-            testDetail.setParentId(sysTest.getId());
+        if (!StringUtils.isBlank(sysTest.getTestSysTetailList())){
+            for (SysTestDetail testDetail:sysTest.getTestSysTetailList()){
+                testDetail.setId(StringUtils.uuid());
+                testDetail.setParentId(sysTest.getId());
+            }
+            //保存现在的明细表
+            testDetailService.saveBatch(sysTest.getTestSysTetailList());
         }
-        //保存现在的明细表
-        testDetailService.saveBatch(sysTest.getTestSysTetailList());
 
         return new Result("200","",Dictionaries.SAVE_SUCCESS);
     }
@@ -112,5 +119,10 @@ public class SysTestServiceImpl extends ServiceImpl<SysTestMapper, SysTest> impl
         List<SysTest> rootNodes = InitTree.getRootNodes(list);
 
         return new Result("200",rootNodes);
+    }
+
+    @Override
+    public List<ExportSysTest> findAllUser() {
+        return doMapper.exportgetList();
     }
 }

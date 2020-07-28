@@ -1,5 +1,7 @@
 package com.dhlg.utils.common.entity;
 
+
+
 public class CommonEntity {
     private String commonKeyString;
 

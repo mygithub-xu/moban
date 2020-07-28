@@ -96,4 +96,8 @@
         order by create_time desc
     </select>
 
+
+    <select id="exportgetList" resultType="com.dhlg.module.test.sysTest.entity.ExportSysTest">
+        select *from sys_test
+    </select>
 </mapper>

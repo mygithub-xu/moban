@@ -1,55 +1,53 @@
 <template>
-    <div class="app-container">
+    <div class="app-container2">
         <div class="container">
             <!-- 区域一 查询区域 -->
             <div class="container_btn" >
             <span>
-            <el-button type="warning" size="small"   @click="handleAdd">新增</el-button>
-            <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
-            <el-button type="primary" plain size="small"   @click="search">刷新</el-button>
-			<el-button type="info" plain size="small" @click="reset">重置搜索</el-button>
+                <el-button type="warning" size="small"   @click="handleAdd">新增</el-button>
+                <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
+                <el-button type="primary" plain size="small"   @click="search">刷新</el-button>
+                <el-button type="info" plain size="small" @click="reset">重置搜索</el-button>
             </span>
             </div>
             <!-- 区域二---表格+分页 -->
             <el-table :data="pageData.list" style="width: 100%" height="100%" :row-style="{height:'50px'}" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange" >
-                <el-table-column type="selection"  fixed width="45"  align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column type="index" width="55" label="序号" align="center" v-if="xuhao" show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip>
-                                <template slot="header" slot-scope="scope">
-                                    <span class="col-filter">
-                                    {{scope.column.label}}
-                                    <el-popover placement="bottom-end" width="400" trigger="click"  v-model="queryVisible.createTime">
-                                        <el-date-picker
-                                                v-model="condition.createTime"
-                                                type="daterange"
-                                                align="right"
-                                                unlink-panels
-                                                range-separator="至"
-                                                start-placeholder="开始日期"
-                                                end-placeholder="结束日期"
-                                                :picker-options="pickerOptions"
-                                                value-format="yyyy-MM-dd HH:mm:ss"
-                                        ></el-date-picker>
-                                        <hr
-                                                style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"
-                                        />
-                                        <div style="display: flex; justify-content: space-evenly;">
-                                        <el-button
-                                                type="text"
-                                                @click="handleDateRangeListFilterOk('createTime')"
-                                        >确定</el-button>
-                                        <el-button
-                                                type="text"
-                                                @click="handleDateRangeListFilterCancel('createTime')"
-                                        >重置</el-button>
-                                        </div>
-                                        <i slot="reference" class="icon-filter" @click.stop></i>
-                                    </el-popover>
-                                    </span>
-                                </template>
-
-
-
+                <el-table-column type="selection"  fixed width="50"  align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column type="index" width="45" label="序号" align="center" v-if="xuhao" show-overflow-tooltip></el-table-column>
+                
+                    <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip>
+                            <template slot="header" slot-scope="scope">
+                                <span class="col-filter">
+                                {{scope.column.label}}
+                                <el-popover placement="bottom-end" width="400" trigger="click"  v-model="queryVisible.createTime">
+                                    <el-date-picker
+                                            v-model="condition.createTime"
+                                            type="daterange"
+                                            align="right"
+                                            unlink-panels
+                                            range-separator="至"
+                                            start-placeholder="开始日期"
+                                            end-placeholder="结束日期"
+                                            :picker-options="pickerOptions"
+                                            value-format="yyyy-MM-dd HH:mm:ss"
+                                    ></el-date-picker>
+                                    <hr
+                                            style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"
+                                    />
+                                    <div style="display: flex; justify-content: space-evenly;">
+                                    <el-button
+                                            type="text"
+                                            @click="handleDateRangeListFilterOk('createTime')"
+                                    >确定</el-button>
+                                    <el-button
+                                            type="text"
+                                            @click="handleDateRangeListFilterCancel('createTime')"
+                                    >重置</el-button>
+                                    </div>
+                                    <i slot="reference" class="icon-filter" @click.stop></i>
+                                </el-popover>
+                                </span>
+                            </template>
                         </el-table-column>
 
                         <el-table-column prop="testName" min-width="140" label="测试名" align="center" show-overflow-tooltip>

@@ -1,5 +1,6 @@
 package com.dhlg.module.test.sysTest.service;
 
+import com.dhlg.module.test.sysTest.entity.ExportSysTest;
 import com.dhlg.module.test.sysTest.entity.SysTest;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlg.utils.common.Parameter.Parameter;
@@ -30,4 +31,6 @@ public interface ISysTestService extends IService<SysTest> {
     Result listFieldQuery(Map<String, Object> params);
 
     Result getTreeData();
+
+    List<ExportSysTest> findAllUser();
 }

@@ -1,5 +1,7 @@
-package com.dhlg.utils.common;
+package com.dhlg.utils.common.uploadDown;
 
+import com.dhlg.utils.common.Dictionaries;
+import com.dhlg.utils.common.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;

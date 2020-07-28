@@ -230,9 +230,10 @@ export default {
               if (res.data.code == "200") {
                 this.$message.success(res.data.message);
                 //更新头像
-                this.$store.dispatch('changeUrlFun',res.data.body);
+                // this.$store.dispatch('changeUrlFun',res.data.body);
+                sessionStorage.setItem("user", JSON.stringify(res.data.body));
                 //使用bus通知更换头像
-                bus.$emit("changeHead",res.data.body);
+                bus.$emit("changeHead","change");
 
                 this.showImg();
               } else {
@@ -333,7 +334,9 @@ export default {
         //     this.form.headPortrait = res.data.body;
         //   }
         // });
-        this.form.headPortrait =this.getAvatar
+        let user = JSON.parse(sessionStorage.getItem('user')); 
+        var avatar=user.headPortrait;
+        this.form.headPortrait =avatar
       },
     //下拉数据
     getxiala(){

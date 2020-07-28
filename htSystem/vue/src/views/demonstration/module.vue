@@ -6,7 +6,7 @@
               <el-col :span="20"  >
                   <div class="common-div">
                 <span>树形下拉框组件（带查询）：</span>
-                <div class="treeSelect">
+                <div class="treeSelect" >
                     <treeSelect v-model="id"  :data="data" label="label" />
                 </div>
                 </div>
@@ -127,6 +127,7 @@ export default {
     width: 300px;
     height: 33px;
     margin-top: 5px;
+    line-height: 20px;
 }
 .common-div span{
     margin-bottom: 10px;

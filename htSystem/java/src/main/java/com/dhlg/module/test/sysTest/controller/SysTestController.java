@@ -1,16 +1,29 @@
 package com.dhlg.module.test.sysTest.controller;
 
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.metadata.Sheet;
+import com.alibaba.excel.support.ExcelTypeEnum;
+import com.dhlg.module.test.sysTest.entity.ExportSysTest;
 import com.dhlg.module.test.sysTest.entity.SysTest;
 import com.dhlg.module.test.sysTest.service.ISysTestService;
-import com.dhlg.utils.common.Parameter.Parameter;
+
+import com.dhlg.utils.common.DateUtils;
 import com.dhlg.utils.common.Parameter.Parameter2;
 import com.dhlg.utils.common.Result;
 import com.dhlg.utils.common.StringUtils;
 import com.dhlg.utils.common.exception.ParamIsNullException;
+import com.dhlg.utils.common.uploadDown.ExcelUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -75,5 +88,74 @@ public class SysTestController {
         public Result getTreeData() {
                 return  doService.getTreeData();
         }
-}
+
+
+        @ApiOperation("导出")
+        @GetMapping ("/exportExcel")
+        public void  export(HttpServletResponse response)  {
+                List<ExportSysTest> list=doService.findAllUser();
+                ExportSysTest exportSysTest=new ExportSysTest();
+                ExcelUtil.writeExcel(response,list,"测试xlsx","aaaa",exportSysTest);
+
+//                ServletOutputStream out = null;
+//                try {
+//                        out = response.getOutputStream();
+//
+//                ExcelWriter writer = new ExcelWriter(out, ExcelTypeEnum.XLSX, true);
+//                String fileName = "测试exportExcel";
+//                Sheet sheet = new Sheet(1, 0,ExportSysTest.class);
+//                //设置自适应宽度
+//                sheet.setAutoWidth(Boolean.TRUE);
+//                // 第一个 sheet 名称
+//                sheet.setSheetName("第一个sheet");
+//                writer.write(list, sheet);
+//                //通知浏览器以附件的形式下载处理，设置返回头要注意文件名有中文
+//                response.setHeader("Content-disposition", "attachment;filename=" + new String( fileName.getBytes("gb2312"), "ISO8859-1" ) + ".xlsx");
+//                writer.finish();
+//                response.setContentType("multipart/form-data");
+//                response.setCharacterEncoding("utf-8");
+//                out.flush();
+//                } catch (IOException e) {
+//                        e.printStackTrace();
+//                }
+        }
+
+
+        @ApiOperation("导入")
+        @PostMapping("/importExcel")
+        public Result import_order(@RequestParam("file")MultipartFile excel) {
+
+                Object objList = ExcelUtil.readExcel(excel, new ExportSysTest(), 1, 1);
+
+                if (objList == null) {
+                        return new Result("500", "导入的数据不能为空","");
+                }
+
+                List<ExportSysTest> orderList = (List) objList;
+
+                for (ExportSysTest test : orderList) {
+                        System.out.println("aaaa");
+
+                }
+
+                List<SysTest> orderList2 = (List) objList;
+
+                for (SysTest test : orderList2) {
+                        test.setId(StringUtils.uuid());
+                        test.setCreateTime(DateUtils.getCurrentDate());
+                        System.out.println("bbbb");
+
+                }
+
+                if (orderList == null || orderList.size() <= 0) {
+                        return new Result("500", "导入的数据不能为空","");
+                }
+
+//                orderList.forEach(System.out::println);
+
+                return new Result("500", "导入的数据不能为空","");
+        }
+
+
+        }
 

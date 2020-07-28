@@ -14,7 +14,7 @@
   >
     <el-input
       placeholder
-      size="small"
+      
       v-model="currentLabel"
       :readonly="readonly"
       slot="reference"

@@ -1,5 +1,7 @@
 package com.dhlg.module.test.sysTest.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.metadata.BaseRowModel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import java.math.BigDecimal;
@@ -28,51 +30,63 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("sys_test")
-public class SysTest implements Serializable {
+public class SysTest  implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
      /**
      *id
      */
+
     @TableId("id")
     private String id;
 
     /**
      * 创建时间
      */
+
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @TableField("create_time")
     private Date createTime;
+
     /**
      * 创建人
      */
+
     @TableField("create_user")
     private String createUser;
+
     /**
      * 测试名
      */
+
     @TableField("test_name")
     private String testName;
+
     /**
      * 测试状态
      */
+
     @TableField("test_status")
     private String testStatus;
+
     /**
      * 测试类型
      */
+
     @TableField("test_type")
     private String testType;
 
     /**
-     * 父id
+     * 文本域
      */
+
     @TableField("test_area")
     private String testArea;
 
     /**
-     * 文本域
+     * 父id
      */
     @TableField("parent_id")
     private String parentId;

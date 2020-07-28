@@ -7,6 +7,7 @@ import com.dhlg.module.system.sysFile.service.ISysFileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.common.*;
 import com.dhlg.utils.common.Parameter.Parameter;
+import com.dhlg.utils.common.uploadDown.uploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

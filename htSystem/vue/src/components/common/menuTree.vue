@@ -5,14 +5,14 @@
             <el-submenu :index="item.url" :key="item.url" v-if="item.children" >
                 <template slot="title">
                     <i :class="item.icon" style="font-size:18px;width: 24px;"></i>
-                    <span slot="title" style="margin-left: 12px;">{{item.menuName}}</span>
+                    <span slot="title" style="font-size: 13px;margin-left: 12px;">{{item.menuName}}</span>
                 </template>
                 <div class="treeCss" style="background:blue}">
                 <MenuTree :menuData="item.children"></MenuTree>
                 </div>
             </el-submenu>
             <el-menu-item :index="item.url" :key="item.url" v-else>
-                <i :class="item.icon" style="font-size:15px;width: 14px;"></i>
+                <i :class="item.icon" style="font-size:18px;width: 14px;"></i>
                 <span slot="title" style="font-size: 13px;margin-left: 12px;">{{item.menuName}}</span>
             </el-menu-item>
         </template>

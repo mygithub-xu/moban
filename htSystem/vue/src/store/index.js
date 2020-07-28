@@ -4,12 +4,12 @@ import Vuex from 'vuex'
 Vue.use(Vuex) 
 
 import menu from './modules/menu'
-import avatar from './modules/avatar'
+import userInfo from './modules/userInfo'
 
 const store = new Vuex.Store({
     modules: {
         menu,
-        avatar
+        userInfo
     }
 });
 

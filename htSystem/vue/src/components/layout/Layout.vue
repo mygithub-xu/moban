@@ -8,9 +8,8 @@
     element-loading-spinner="el-icon-loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
   >
- <!-- <div class="app-wrapper"> -->
+
    <el-container class="app-wrapper">
-    <!-- <el-header>Header</el-header> -->
     <!-- 左 -->
     <el-container>
     <sidebar class="sidebar-container" :style="{width:sidebar.width+'px'}"/>

@@ -51,7 +51,6 @@ public class SysUser implements Serializable {
      */
     @TableField("password")
     private String password;
-
     /**
      * 手机号码
      */

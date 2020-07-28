@@ -41,9 +41,7 @@ Vue.prototype.$echarts = echarts
 import axios from 'axios';
 import { get, post,del,patch} from '../static/js/http'//暴露https;
 Vue.prototype.$post=post;
-Vue.prototype.$get=get;
-Vue.prototype.$delete=del;
-Vue.prototype.$patch=patch;
+
 axios.defaults.baseURL = 'http://127.0.0.1:4040/moban/';//定义统一的请求url，，后面接接口名称即可
 //等同于Vue.prototype.$axios = axios，命名习惯，全局使用$http
 Vue.prototype.$http = axios;
@@ -56,7 +54,14 @@ Vue.prototype.api = api;//全局使用api
 import timeUtils from '../static/js/timeUtils'//暴露https;
 Vue.prototype.$timeUtils=timeUtils;
 
+//国际化
+import i18n from './i18n/index'
+import locale from 'element-ui/lib/locale/lang/en'
+
+Vue.use({locale});
+
 Vue.config.productionTip = false
+
 
 // 安装路由
 Vue.use(VueRouter);
@@ -70,8 +75,6 @@ Vue.use(globalComponents);
 
 
 //改变请求的head内容
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; 
-// axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.interceptors.request.use(
   config => {
     //这里取到token，可能你们不是这样取的。
@@ -166,6 +169,8 @@ axios.interceptors.request.use(
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  //启用国际化
+  i18n,
   // 启用路由
   router,
   //启用状态管理

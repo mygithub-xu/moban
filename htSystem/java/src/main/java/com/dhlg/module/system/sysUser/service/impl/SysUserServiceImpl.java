@@ -14,6 +14,7 @@ import com.dhlg.utils.common.*;
 import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.exception.ParamIsNullException;
 import com.dhlg.utils.common.exception.UncheckedException;
+import com.dhlg.utils.common.uploadDown.uploadFileUtils;
 import com.dhlg.utils.shiro.utils.PasswordHelper;
 import net.sf.json.JSONObject;
 import org.apache.shiro.SecurityUtils;
@@ -228,7 +229,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 //            byte[] bytes = new BASE64Decoder().decodeBuffer(new String(sysUser.getHeadPortrait()));
 //            String baseString = org.apache.commons.codec.binary.Base64.encodeBase64String(bytes);
 
-            result.setBody(sysUser.getHeadPortrait());
+            result.setBody(sysUser);
             return result;
     }
 

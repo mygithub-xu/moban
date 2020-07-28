@@ -1,10 +1,7 @@
 <template>
-    <div class="app-container">
-
-
+    <div class="app-container2">
         <div class="tree-table" >
-            <el-row :gutter="10" style="height:100%;width:100%">
-                <el-col :span="5" style="height:100%;">
+
                     <div class="tree-area">
                         <div class="common-header">
                             <span class="common-header-title">
@@ -18,8 +15,7 @@
                         </div>
 
                     </div>
-                </el-col>
-                <el-col :span="19" style="height:100%;">
+
                     <div class="table-area">
                         <div class="common-header">
                             <span class="common-header-title">
@@ -88,12 +84,7 @@
                                             </el-select>
                                         </el-form-item>
 
-                                        
-                                            <el-form-item label="测试文本（文本域" prop="testArea" style="width:500px;">
-                                              
-                                                <el-input maxlength="200"  :rows="4" type="textarea" style="max-width: 35rem;" @input="descInput_fou()" v-model="form.testArea" :disabled="lookModel"></el-input>
-                                                <span>{{remnant_fou}}/200</span>
-                                            </el-form-item>
+                    
                                         
 
 
@@ -104,8 +95,7 @@
                         </div>
 
                     </div>
-                </el-col>
-            </el-row>
+
         </div>
 
 
@@ -309,35 +299,39 @@ export default {
 }
 </script>
 <style scoped>
-.app-container{
+.tree-table{
+    height: 100%;
+    width: 100%;
+}
+.tree-area{
+    height: 99%;
+    width: 20%;
+    min-width: 200px;
+    margin-right: 10px;
+    float: left;
+    border: 1px solid rgb(209, 219, 229);
+    /* border-right: 1px solid rgb(209, 219, 229);
+    border-top: 1px solid rgb(209, 219, 229); */
     background-color: #ffffff;
-    padding: 10px 0;
+}
+.table-area{
+    height: 99%;
+    width: calc(80% - 14px);
+    min-width: 600px;
+    float: left;
+    border: 1px solid rgb(209, 219, 229);
+
+    background-color: #ffffff;
+}
+.table-area-header{
+    height: 100%;
+    width: 100%;
 }
 .common-header{
     width: 100%;
     height: 30px;
     border-bottom: 1px solid rgb(209, 219, 229);
     background: linear-gradient(to bottom, #fff, #eeeff5);
-}
-.tree-table{
-    height: 100%;
-    width: 100%;
-    border-bottom: 1px solid rgb(209, 219, 229);
-    border-top: 1px solid rgb(209, 219, 229);
-}
-.tree-area{
-    height: 100%;
-    width: 100%;
-    border-right: 1px solid rgb(209, 219, 229);
-}
-.table-area{
-    height: 100%;
-    width: 100%;
-    border-left: 1px solid rgb(209, 219, 229);
-}
-.table-area-header{
-    height: 100%;
-    width: 100%;
 }
 .common-header-title{
     font-size: 14px;
@@ -349,8 +343,7 @@ export default {
 }
 .common-treeTable-header{
     width: 100%;
-    height: 100%;
-
+    height: (100% - 30px)
 }
 .treeTable-button{
     width: 100%;
@@ -361,4 +354,5 @@ export default {
     margin-top: 10px;
     margin-right: 20px;
 }
+
 </style>

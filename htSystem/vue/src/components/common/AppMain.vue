@@ -27,10 +27,6 @@ export default {
       }
   },
   mounted() {
-    // vm.$nextTick(function(){
-    //     this.height=this.$refs.MenuListSpan.clientHeight-36;
-    //     console.log(this.height);
-    // })
   }
 
 }

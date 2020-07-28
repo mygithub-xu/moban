@@ -1,75 +1,123 @@
 <template>
-    <div class="app-container">
-        <div class="query-container">
-          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12"  style="margin-top:10px">
-            <el-select v-model="queryContion.status"  placeholder="请选择"   size="small" style="width:25rem;" clearable>
-                <el-option
-                        v-for="item in statusList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                ></el-option>
-            </el-select>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="margin-top:10px">
-            <el-date-picker
-             size="small" style="width:25rem;"
-                    v-model="queryContion.createTimeList"
-                    type="daterange"
-                    align="right"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-            ></el-date-picker>
-          </el-col>
+    <div class="app-container2">
+      
+        <div class="container-query">
+          <el-scrollbar class="query-scrollbar">
 
-          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="margin-top:10px" >
-            <el-input v-model="queryContion.testName" placeholder="请输入测试名" size="small" style="width:25rem;" clearable></el-input>
-          </el-col>
+          <el-row >
+            <el-form  label-width="100px" size="small" class="query-from">
 
-          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="margin-top:10px">
-            <span>
-                  <el-button type="warning" size="small"   @click="search">搜索</el-button>
-                  <el-button type="primary" plain size="small"   @click="reset">重置</el-button>
-            </span>
+               <el-col  :span="12" style="height:45px">
+                <el-form-item label="测试状态：" >
+                  <el-select v-model="queryContion.status"  placeholder="请选择"   size="small" clearable style="width:25rem;">
+                      <el-option
+                              v-for="item in statusList"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value"
+                      ></el-option>
+                  </el-select>
+                </el-form-item>
 
-          </el-col>
+               
+              </el-col>
 
+              <el-col :span="12" style="height:45px" >
+                <el-form-item label="创建日期：">
+                  <el-date-picker
+                  size="small" style="width:25rem;"
+                          v-model="queryContion.createTimeList"
+                          type="daterange"
+                          align="right"
+                          range-separator="至"
+                          start-placeholder="开始日期"
+                          end-placeholder="结束日期"
+                          value-format="yyyy-MM-dd HH:mm:ss"
+                  ></el-date-picker>
+                </el-form-item>
+              
+              </el-col>
+
+
+              <el-col :span="12" style="height:45px">
+                
+                <el-form-item label="测试名：" >
+                    <el-input size="small" v-model="queryContion.testName" style="width:25rem;" placeholder="请输入测试名"></el-input>
+                </el-form-item>
+                
+              </el-col>
+
+              <el-col :span="12" style="height:45px;">
+                <span style="margin-left:20px">
+                  <el-button type="primary"  size="small"   @click="search" icon="el-icon-search">搜索</el-button>
+                  <el-button  size="small" plain  @click="reset" icon="el-icon-refresh">重置</el-button>
+                </span>
+              </el-col>
+    
+
+            </el-form>
+            </el-row>
+          </el-scrollbar>
 
         </div>
-        <div class="container">
 
-          <div class="container_btn" >
+        <div class="container-table">
+          <div class="container_btn2" >
             <span>
-            <el-button type="warning" size="small"   @click="handleAdd">新增</el-button>
+            <el-button type="primary"  size="small"   @click="handleAdd">新增</el-button>
             <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
-            <el-button type="primary" plain size="small"   @click="search">刷新</el-button>
+            <el-button type="primary"  size="small"  >打印</el-button>
+            <el-button type="primary"  size="small"  >审批</el-button>
+            <el-button type="primary"  size="small"  @click="handleExport">导出</el-button>
+            <uploadFile   @click="handleImport" :uploadUrl="uploadUrl">导入</uploadFile>
+            <el-button type="primary"  size="small"  >按钮二</el-button>
+            <el-button type="primary"  size="small"  >按钮三</el-button>
+            <el-button type="primary"  size="small"  >按钮四</el-button>
+            
             </span>
           </div>
-          <!-- 区域二---表格+分页 -->
-          <el-table :data="pageData.list" style="width: 100%" height="100%" :row-style="{height:'50px'}" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange" >
-                <el-table-column type="selection"  fixed width="45"  align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column type="index" width="55" label="序号" align="center" v-if="xuhao" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="createUser" min-width="140" label="创建人" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="testName" min-width="140" label="测试名" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="testStatus" min-width="140" label="测试状态" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="testType" min-width="140" label="测试类型" align="center" show-overflow-tooltip></el-table-column>
 
-                <el-table-column label="操作" fixed="right" min-width="160" align="center" show-overflow-tooltip>
-                    <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)" >编辑</el-button>
-                        <el-button type="text" icon="el-icon-delete" class="red"  @click="handleDelete(scope.row.id)" >删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
 
+          <div style="width: 100%;height: calc(100% - 85px);margin-top: 10px;}">
+            <el-table :data="pageData.list" border ref="multipleTable" align="center" @selection-change="handleSelectionChange" :row-style="{height:'50px'}" :cell-style="{height:'35px'}"  height="100%"  @row-click="handleEdit">
+                  <el-table-column fixed type="selection" width="50" align="center"> </el-table-column>
+                  <el-table-column type="index" width="46" align="center" label="序号"></el-table-column>
+                  <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
+                  <!-- <el-table-column prop="createUser" min-width="140" label="创建人" align="center" show-overflow-tooltip></el-table-column> -->
+                  <el-table-column prop="testName" min-width="140" label="测试名" align="center" show-overflow-tooltip></el-table-column>
+                  <el-table-column prop="testStatus" min-width="140" label="测试状态" align="center" show-overflow-tooltip></el-table-column>
+                  <el-table-column  min-width="140" label="表格一" align="center" show-overflow-tooltip>
+                    表格一
+                  </el-table-column>
+                  <el-table-column  min-width="140" label="表格二" align="center" show-overflow-tooltip>
+                    表格二
+                  </el-table-column>
+                  <el-table-column prop="testType" min-width="140" label="表格三" align="center" show-overflow-tooltip>
+                    表格三
+                  </el-table-column>
+                  <el-table-column prop="testType" min-width="140" label="表格四" align="center" show-overflow-tooltip>
+                    表格四
+                  </el-table-column>
+                  <el-table-column prop="testType" min-width="140" label="表格五" align="center" show-overflow-tooltip>
+                    表格五
+                  </el-table-column>
+                  <el-table-column prop="testType" min-width="140" label="表格六" align="center" show-overflow-tooltip>
+                    表格六
+                  </el-table-column>
+                  <el-table-column prop="testType" min-width="140" label="表格七" align="center" show-overflow-tooltip>
+                    表格七
+                  </el-table-column>
+                  <el-table-column prop="testType" min-width="140" label="表格八" align="center" show-overflow-tooltip>
+                    表格八
+                  </el-table-column>
+              </el-table>
+            </div>
           <div class="pagination">
             <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
           </div>
         </div>
-        <!-- 弹出框--start -->
+ 
+
         <div class="showDialog">
             <el-dialog  :visible.sync="editVisible"  :show-close="false" :modal="false" fullscreen>
               <div class="dialogFix">
@@ -78,39 +126,44 @@
               </div>
               <el-row class="dialogForm">
                   <el-col :span="24">
-                    <div style="margin-top: 42px;">
-                         <el-form  ref="form" :model="form" :rules="rules" label-width="150px" size="small" style="margin-top:10px">
-                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
+                    <div class="tableFrom">
+                         <el-form  ref="form" :model="form" :rules="rules" label-width="100px" size="small" style="margin-top:10px">
+                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" style="height:45px">
                                   <el-form-item label="创建时间" prop="createTime">
                                           <el-date-picker
                                                   v-model="form.createTime"
                                                   type="datetime"
                                                   placeholder="选择日期时间"
-                                                  default-time="12:00:00"
                                                   style="width:100%">
                                           </el-date-picker>
                                   </el-form-item>
                             </el-col>
-                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
+                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" style="height:45px">
                                 <el-form-item label="测试名" prop="testName" >
                                     <el-input v-model="form.testName" ></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
+                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" style="height:45px">
+                            </el-col>
+                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" style="height:45px">
                                 <el-form-item label="测试状态"  >
-                                  <el-select v-model="form.testStatus"  placeholder="请选择"  style="width:100%;" >
+                                  <!-- <el-select v-model="form.testStatus"  placeholder="请选择"  style="width:100%;" >
                                       <el-option
                                               v-for="item in statusList"
                                               :key="item.value"
                                               :label="item.label"
                                               :value="item.value"
                                       ></el-option>
-                                  </el-select>
+                                  </el-select> -->
+                                <el-radio-group v-model="form.testStatus" size="small">
+                                  <el-radio v-for="item in statusList" :key="item.value" :label="item.value" border size="medium">{{item.label}}</el-radio>
+                                </el-radio-group>
+
                                 </el-form-item>
                             </el-col>
-                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
+                            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="height:45px">
                                 <el-form-item label="测试类型"  >
-                                    <el-select v-model="fromTypeList"  placeholder="请选择" multiple style="width:100%;" @change="fromTypeChange">
+                                    <!-- <el-select v-model="fromTypeList"  placeholder="请选择" multiple style="width:100%;" @change="fromTypeChange">
                                       <el-option
                                         v-for="item in typeList"
                                         :key="item.value"
@@ -118,9 +171,39 @@
                                         :value="item.value"
                                         >
                                       </el-option>
-                                    </el-select>
+                                    </el-select> -->
+                                        
+                                <el-checkbox v-for="item in typeList" :key="item.value" :label="item.label" v-model="item.checked" border @change="changebox"></el-checkbox>
+                                        
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :xs="24" :sm="24" :md="15" :lg="15" :xl="15" >
+                                <el-form-item label="测试文本" prop="testArea" style="width:600px;margin-top:5px">
+                                  
+
+                                    <el-input maxlength="200"  :rows="4" type="textarea" style="max-width: 35rem;" 
+                                    @input="descInput_fou()" v-model="form.testArea"  ></el-input>
+                                    <span style="float: right;">{{remnant_fou}}/200</span>
                                 </el-form-item>
                             </el-col>
+
+
+                            <el-col :xs="24" :sm="24" :md="15" :lg="15" :xl="15" >
+                                <el-form-item label="附件" style="width:600px;margin-top:5px">
+                                  <el-upload
+                                      class="upload-demo"
+                                      action="https://jsonplaceholder.typicode.com/posts/"
+                                      multiple
+                                      :limit="3"
+                                      :file-list="fileList">
+                                      <el-button size="small" type="primary">点击上传</el-button>
+                                      <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+                                    </el-upload>
+                                </el-form-item>
+                            </el-col>
+
 
                           </el-form>
                     </div>
@@ -130,18 +213,20 @@
 
               <div class="tabDiv">
                 <el-tabs v-model="activeName">
-                  <el-tab-pane label="商品sku" name="first">
+                  <el-tab-pane label="明细表" name="first">
 
                       <div class="buttonSku">
                               <el-button icon="el-icon-plus" size="small" type="primary" @click="addList" ></el-button>
                               <el-button icon="el-icon-minus" size="small" type="danger" @click="delList" ></el-button>
                       </div>
-                      <div class="formBody">
-                        <el-table @selection-change="handleSelectionChangeDetil" ref="tableData" :data="form.testSysTetailList" border align="center">
+                      <div class="tableBody">
+                        <el-table @selection-change="handleSelectionChangeDetil" ref="tableData" :data="form.testSysTetailList" border align="center" 
+                        >
+                        
                                   <el-table-column type="selection"  fixed width="45"  align="center" show-overflow-tooltip></el-table-column>
                                     <el-table-column type="index" width="55" label="序号" align="center"  show-overflow-tooltip ></el-table-column>
 
-                                    <el-table-column prop="name" min-width="140" label="名称" align="center" show-overflow-tooltip>
+                                    <el-table-column prop="name" min-width="200" label="名称" align="center" show-overflow-tooltip>
                                         <template slot-scope="scope">
                                             <div>
                                                 <el-input size="small" v-model="scope.row.name" ></el-input>
@@ -150,7 +235,7 @@
                                     </el-table-column>
 
 
-                                    <el-table-column prop="status" min-width="140" label="状态" align="center" show-overflow-tooltip>
+                                    <el-table-column prop="status" min-width="200" label="状态" align="center" show-overflow-tooltip>
                                         <template slot-scope="scope">
                                             <div>
                                               
@@ -167,13 +252,30 @@
                                         </template>
                                     </el-table-column>
 
-                                    <el-table-column prop="money" min-width="140" label="金额" align="center" show-overflow-tooltip>
+                                    <el-table-column prop="money" min-width="200" label="金额" align="center" >
                                         <template slot-scope="scope">
-                                            <div>
-                                                <currencyInput v-model="scope.row.money" ></currencyInput>
-                                            </div>
+                                              <currencyInput v-model="scope.row.money" ></currencyInput>
                                         </template>
                                     </el-table-column>
+
+
+                  <el-table-column  min-width="200" label="表格一" align="center" show-overflow-tooltip>
+                    表格一
+                  </el-table-column>
+                  <el-table-column  min-width="200" label="表格二" align="center" show-overflow-tooltip>
+                    表格二
+                  </el-table-column>
+                  <el-table-column  min-width="200" label="表格三" align="center" show-overflow-tooltip>
+                    表格三
+                  </el-table-column>
+                  <el-table-column  min-width="200" label="表格四" align="center" show-overflow-tooltip>
+                    表格四
+                  </el-table-column>
+                  <el-table-column  min-width="200" label="表格五" align="center" show-overflow-tooltip>
+                    表格五
+                  </el-table-column>
+
+
 
                         </el-table>
                       </div>
@@ -192,6 +294,7 @@ export default {
   data(){
     return{
       // 区域一--start
+      uploadUrl:"http://127.0.0.1:4040/moban/api/test/sysTest/importExcel",
       queryContent:"",//查询内容
       xuhao:true,
       dicDisabled:true,
@@ -234,19 +337,25 @@ export default {
         typeList: [
             {
               value: '1',
-              label: '黄金糕'
+              label: '黄金糕',
+              checked:true,
+              
             }, {
               value: '2',
-              label: '双皮奶'
+              label: '双皮奶',
+              checked:false,
             }, {
               value: '3',
-              label: '蚵仔煎'
+              label: '蚵仔煎',
+              checked:true,
             }, {
               value: '4',
-              label: '龙须面'
+              label: '龙须面',
+              checked:true,
             }, {
               value: '5',
-              label: '北京烤鸭'
+              label: '北京烤鸭',
+              checked:true,
             }
           ],
 
@@ -262,12 +371,16 @@ export default {
           ],
           activeName:'first',
           delVal:"",
+          fileList:[]
         }
   },
   created(){
     this.getdata();
   },
   methods:{
+    changebox(item){
+      console.log(item)
+    },
       handleSelectionChangeDetil(val){
           this.delVal = val;
       },
@@ -302,7 +415,11 @@ export default {
                 status: "",
                 money: 0,
             }
+            if(!this.form.testSysTetailList){
+              this.form.testSysTetailList=[];
+            }
         this.form.testSysTetailList.push(aa);
+        this.$forceUpdate();
     },
 
     fromTypeChange(){
@@ -310,6 +427,11 @@ export default {
         this.form.testType="";
       }else{
         this.form.testType=this.fromTypeList.join(",");
+        this.form.testType=this.form.testType.map(item => ({
+                        label: item.storeName,
+                        value: item.id,
+                        checked: false
+                    }));
       }
     },
     //新增
@@ -352,6 +474,7 @@ export default {
     },
     //重置
     reset(){
+
       this.empty();
       this.getdata();
     },
@@ -372,6 +495,9 @@ export default {
       if(!!this.form.testType){
         this.fromTypeList=this.form.testType.split(',');
       }
+
+      this.$nextTick(() => {
+
       this.$http.post(this.api.sysTestDetailQueryByCondition, {
                   condition: {
                       parentId:row.id
@@ -382,8 +508,13 @@ export default {
               .then(res => {
               if (res.data.code == "200") {
                   this.form.testSysTetailList= res.data.body.records;
+                  this.$forceUpdate();
               }
           });
+
+
+      })
+
 
     },
     //单个删除
@@ -437,12 +568,15 @@ export default {
     //保存/修改
     handleSave(){
       
-        this.$refs['form'].validate(valid => {
-          if (valid) {
-
+      //   this.$refs['form'].validate(valid => {
+      //     if (valid) {
+      //  }
+      //   })
+     
             if(!!this.form.createTime){
                 var d=this.form.createTime;
                 this.form.createTime=this.$timeUtils.dateUtils(d);
+                this.$forceUpdate();
             }
 
             this.$http.post(this.api.sysTestSaveOrUpdate, this.form).then(res => {
@@ -452,16 +586,18 @@ export default {
                   this.empty();
                   this.getdata();
               }
+              else {
+                this.$message.success(res.data.message);
+              }
+
             });
-          }else {
-            this.$message.success(res.data.message);
-          }
-        })
+   
     },
 
 
     //取消
     cancelSave(){
+      this.empty();
       this.editVisible=false;
     },
     //箭头剩余字数
@@ -486,8 +622,57 @@ export default {
             typeList:[],
             createTimeList:[]
         }
-    }
+        this.pageData.pageNumber=1;
+        this.pageData.pageSize=10;
+    },
 
+    descInput_fou(){
+        if(!this.form.testArea){
+            this.remnant_fou=200;
+        }else{
+            var txtVal = this.form.testArea.length;
+            this.remnant_fou = 200 - txtVal;
+        }
+      
+    },
+
+    //导出
+    handleExport(){
+          this.$http.get(this.api.sysTestExportExcel, {
+          responseType: 'blob',
+        }).then(res => { 
+
+          if (res) {
+            //eslint-disable-next-line
+            const blob = new Blob([res.data]);
+            //对于<a>标签，只有 Firefox 和 Chrome（内核） 支持 download 属性
+            //IE10以上支持blob但是依然不支持download
+            if ('download' in document.createElement('a')) { 
+           //支持a标签download的浏览器
+            const link = document.createElement('a')//创建a标签
+            var fileName="测试.xlsx";
+              link.download = fileName//a标签添加属性
+              link.style.display = 'none'
+              link.href = URL.createObjectURL(blob)
+              document.body.appendChild(link)
+              link.click()//执行下载
+              URL.revokeObjectURL(link.href) //释放url
+              document.body.removeChild(link)//释放标签
+          
+           }else{
+               navigator.msSaveBlob(blob, fileName)
+          }
+          } else {
+            t.$message.warning('转化word文件失败，请检查文件并且重试！');
+          }
+
+        });
+    },
+
+    //导入
+    handleImport(){
+      
+    }
 
   },
   
@@ -503,21 +688,56 @@ export default {
 .showDialog .el-dialog__body{
   padding: 15px 20px;
 }
-.query-container{
+
+.dialogForm{
+    min-height: 250px;
+    width: calc(100% - 20px);
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+.container-query{
+  float: left;
+  margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
-  padding: 7px 10px;
   background: #fff;
   height: 100px;
-  margin-bottom: 10px;
+  width: 100%;
+  min-width: 1100px;
 }
-.dialogForm{
-    min-height: 300px;
-    width: 100%;
+.query-scrollbar{
+  width: calc(100% - 20px);
+  height: 90px;
+  padding: 5px 30px;
 
 }
-.tabDiv{
-    min-height: 500px;
-    width: 100%;
+.query-from{
+  margin-top: 5px;
+}
+.container-table{
+  float: left;
+  width: 100%;
+  height: calc(100% - 120px);
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  padding: 10px 10px;
+}
+.tableBody{
+  margin-top: 10px;
+  height: calc(100% - 120px);
+  width: 100%;
+}
+
+.el-dialog__header{
+  padding: 0;
+}
+.el-radio{
+  margin-right: 0px;
+}
+.el-checkbox{
+  margin-right: 0px;
 }
 </style>

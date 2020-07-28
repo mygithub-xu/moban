@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="app-container2">
         <div class="container">
             <!-- 区域一 查询区域 -->
             <div class="container_btn" >

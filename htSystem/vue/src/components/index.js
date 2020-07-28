@@ -1,4 +1,9 @@
 // 存放一些全局的组件
+import sidebar2 from './layout/otherLayoutCom/sidebar2.vue';
+import AppMain2 from './layout/otherLayoutCom/AppMain2.vue';
+
+
+
 import menuTree from './common/menuTree.vue';
 import Hamburger from './common/Hamburger.vue';//折叠样式图标
 import breadcrumb from './common/Breadcrumb.vue';//面包屑
@@ -12,12 +17,17 @@ import uploadMore from './upload/uploadMore';//图片上传组件
 import photoShow from './upload/photoShow';
 import editor from './vueEditor/VueEditor';
 import currencyInput from './input/currencyInput';
+import uploadFile from './upload/uploadFile';
 
 
 
 //全局注册icon-svg
 
 const components = [
+  sidebar2,
+  AppMain2,
+  uploadFile,
+
   menuTree,
   Hamburger,
   breadcrumb,

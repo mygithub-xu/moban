@@ -6,8 +6,8 @@
         v-on:input="onInput($event.target.value)"
         v-on:focus="selectAll"
         v-on:blur="onBlur"
-        :style="{'width':width+'px'}"
       />
+      <!-- :style="{'width':width+'px'}" -->
 </template>
 <script>
 import accounting from "accounting"; // 数字格式
@@ -26,7 +26,7 @@ export default {
         },
         width:{
             type:Number,
-            default:298,
+            default:140,
         },
         decimal:{
             type:Number,

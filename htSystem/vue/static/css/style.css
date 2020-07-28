@@ -135,3 +135,16 @@
 
 /* 全局样式 end*/
 
+/* 全局样式v2 start*/
+.app-container2{
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 61px;
+  height: calc(100% - 61px);
+  width: calc(100% - 20px);
+  position: relative;
+}
+
+
+
+/* 全局样式v2 end*/
