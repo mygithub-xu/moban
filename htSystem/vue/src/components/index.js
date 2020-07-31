@@ -1,8 +1,8 @@
 // 存放一些全局的组件
 import sidebar2 from './layout/otherLayoutCom/sidebar2.vue';
 import AppMain2 from './layout/otherLayoutCom/AppMain2.vue';
-
-
+import menuTree2 from './layout/otherLayoutCom/menuTree2.vue';
+import menuTree2Hor from './layout/otherLayoutCom/menuTree2Hor.vue';
 
 import menuTree from './common/menuTree.vue';
 import Hamburger from './common/Hamburger.vue';//折叠样式图标
@@ -26,6 +26,9 @@ import uploadFile from './upload/uploadFile';
 const components = [
   sidebar2,
   AppMain2,
+  menuTree2,
+  menuTree2Hor,
+  
   uploadFile,
 
   menuTree,

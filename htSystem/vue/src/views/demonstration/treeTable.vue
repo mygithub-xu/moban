@@ -26,13 +26,13 @@
 
                             <div class="treeTable-button" >
                                 <span v-if="editModel">
-                                    <el-button type="warning" size="small"   @click="handleAdd">新增</el-button>
+                                    <el-button type="primary" size="small"   @click="handleAdd">新增</el-button>
                                     <el-button type="danger" size="small" :disabled="delable"  @click="handleDelete">删除</el-button>
-                                    <el-button type="primary" plain size="small"   @click="handleEdit">编辑</el-button>
+                                    <el-button type="primary"  size="small"   @click="handleEdit">编辑</el-button>
                                 </span>
                                 <span v-else>
                                     <el-button type="primary" size="small"   @click="handleSave">保存</el-button>
-                                    <el-button type="warning" plain size="small"   @click="handleCancel">取消</el-button>
+                                    <el-button  plain size="small"   @click="handleCancel">取消</el-button>
                                 </span>
                             </div>
 

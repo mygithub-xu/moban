@@ -66,11 +66,8 @@
                     </if>
 
 
-                    <if test="parameter.tableName  != null and parameter.tableName.size() > 0">
-                        and table_name  in
-                        <foreach collection="parameter.tableName " index="index" item="item" open="(" separator="," close=")">
-                            #{item}
-                        </foreach>
+                    <if test=" parameter.tableName !=null and parameter.tableName !='' ">
+                        and table_name like concat('%',#{parameter.tableName},'%')
                     </if>
 
 

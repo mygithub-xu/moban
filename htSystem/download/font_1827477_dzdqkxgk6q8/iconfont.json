@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "12294232",
+      "name": "确定",
+      "font_class": "queding",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "13258144",
+      "name": "暗色菜单风格",
+      "font_class": "ansecaidanfengge",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "13258203",
+      "name": "暗色菜单风格",
+      "font_class": "ansecaidanfengge1",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
       "icon_id": "306293",
       "name": "国际",
       "font_class": "guoji",

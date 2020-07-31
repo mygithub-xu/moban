@@ -205,7 +205,7 @@ const router = new Router({
 
       {
         // 组件演示
-        path: '/views/demonstration/module.vue',
+        path: '/views/demonstration/module',
         component: resolve => require(['../views/demonstration/module.vue'], resolve),
         meta: [
           {

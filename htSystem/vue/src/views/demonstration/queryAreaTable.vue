@@ -66,13 +66,13 @@
             <span>
             <el-button type="primary"  size="small"   @click="handleAdd">新增</el-button>
             <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
-            <el-button type="primary"  size="small"  >打印</el-button>
-            <el-button type="primary"  size="small"  >审批</el-button>
-            <el-button type="primary"  size="small"  @click="handleExport">导出</el-button>
+            <el-button size="small"  >打印</el-button>
+            <el-button size="small"  >审批</el-button>
+            <el-button size="small"  @click="handleExport">导出</el-button>
             <uploadFile   @click="handleImport" :uploadUrl="uploadUrl">导入</uploadFile>
-            <el-button type="primary"  size="small"  >按钮二</el-button>
-            <el-button type="primary"  size="small"  >按钮三</el-button>
-            <el-button type="primary"  size="small"  >按钮四</el-button>
+            <el-button size="small"  >按钮二</el-button>
+            <el-button size="small"  >按钮三</el-button>
+            <el-button size="small"  >按钮四</el-button>
             
             </span>
           </div>
