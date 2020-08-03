@@ -64,15 +64,15 @@
         <div class="container-table">
           <div class="container_btn2" >
             <span>
-            <el-button type="primary"  size="small"   @click="handleAdd">新增</el-button>
-            <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
-            <el-button size="small"  >打印</el-button>
-            <el-button size="small"  >审批</el-button>
-            <el-button size="small"  @click="handleExport">导出</el-button>
-            <uploadFile   @click="handleImport" :uploadUrl="uploadUrl">导入</uploadFile>
-            <el-button size="small"  >按钮二</el-button>
-            <el-button size="small"  >按钮三</el-button>
-            <el-button size="small"  >按钮四</el-button>
+              <el-button type="primary"  size="small" icon="el-icon-plus"  @click="handleAdd">新增</el-button>
+              <el-button type="primary"  size="small" icon="el-icon-edit" >编辑</el-button>
+              <el-button type="danger" size="small" icon="el-icon-delete"  @click="handleDeleteBatch">删除</el-button>
+              <el-button type="primary"  size="small" icon="el-icon-view" >预览</el-button>
+              <el-button size="small"  @click="handleExport" icon="el-icon-download">导出</el-button>
+              <uploadFile   @click="handleImport" :uploadUrl="uploadUrl" icon="el-icon-upload2"></uploadFile>
+              <el-button size="small"  icon="el-icon-coordinate">审批</el-button> <!-- el-icon-s-check -->
+              <el-button size="small"  icon="el-icon-printer">打印</el-button>
+              <el-button size="small" @click="cancelSave" icon="el-icon-close">取消</el-button>
             
             </span>
           </div>
@@ -83,9 +83,21 @@
                   <el-table-column fixed type="selection" width="50" align="center"> </el-table-column>
                   <el-table-column type="index" width="46" align="center" label="序号"></el-table-column>
                   <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
-                  <!-- <el-table-column prop="createUser" min-width="140" label="创建人" align="center" show-overflow-tooltip></el-table-column> -->
                   <el-table-column prop="testName" min-width="140" label="测试名" align="center" show-overflow-tooltip></el-table-column>
-                  <el-table-column prop="testStatus" min-width="140" label="测试状态" align="center" show-overflow-tooltip></el-table-column>
+                  <el-table-column prop="testStatus" min-width="140" label="测试状态" align="center" show-overflow-tooltip>
+                    <template  slot-scope="scope">
+                      <el-tag v-if="scope.row.testStatus=='1'"  type="success">启用</el-tag>
+                      <el-tag v-if="scope.row.testStatus=='2'"  type="danger">禁用</el-tag>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column prop="testNum" min-width="140" label="数量" align="center" show-overflow-tooltip>
+                  </el-table-column>
+                  <el-table-column prop="testUnit" min-width="140" label="单价" align="center" show-overflow-tooltip>
+                  </el-table-column>
+                  <el-table-column prop="testTotal" min-width="140" label="总额" align="center" show-overflow-tooltip>
+                  </el-table-column>
+
                   <el-table-column  min-width="140" label="表格一" align="center" show-overflow-tooltip>
                     表格一
                   </el-table-column>
@@ -101,15 +113,8 @@
                   <el-table-column prop="testType" min-width="140" label="表格五" align="center" show-overflow-tooltip>
                     表格五
                   </el-table-column>
-                  <el-table-column prop="testType" min-width="140" label="表格六" align="center" show-overflow-tooltip>
-                    表格六
-                  </el-table-column>
-                  <el-table-column prop="testType" min-width="140" label="表格七" align="center" show-overflow-tooltip>
-                    表格七
-                  </el-table-column>
-                  <el-table-column prop="testType" min-width="140" label="表格八" align="center" show-overflow-tooltip>
-                    表格八
-                  </el-table-column>
+
+
               </el-table>
             </div>
           <div class="pagination">
@@ -121,14 +126,15 @@
         <div class="showDialog">
             <el-dialog  :visible.sync="editVisible"  :show-close="false" :modal="false" fullscreen>
               <div class="dialogFix">
-                  <el-button type="primary" size="small"  @click="handleSave('form')">保 存</el-button>
-                  <el-button size="small" @click="cancelSave">返 回</el-button>
+                <el-button size="small" @click="cancelSave" icon="el-icon-back">返回</el-button>
+                <el-button type="primary" size="small" icon="el-icon-check" @click="handleSave('form')">保存</el-button>
+                  
               </div>
               <el-row class="dialogForm">
-                  <el-col :span="24">
+                  <el-col :span="17">
                     <div class="tableFrom">
                          <el-form  ref="form" :model="form" :rules="rules" label-width="100px" size="small" style="margin-top:10px">
-                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" style="height:45px">
+                            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="height:45px">
                                   <el-form-item label="创建时间" prop="createTime">
                                           <el-date-picker
                                                   v-model="form.createTime"
@@ -138,14 +144,12 @@
                                           </el-date-picker>
                                   </el-form-item>
                             </el-col>
-                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" style="height:45px">
+                            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="height:45px">
                                 <el-form-item label="测试名" prop="testName" >
                                     <el-input v-model="form.testName" ></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" style="height:45px">
-                            </el-col>
-                            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" style="height:45px">
+                            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" >
                                 <el-form-item label="测试状态"  >
                                   <!-- <el-select v-model="form.testStatus"  placeholder="请选择"  style="width:100%;" >
                                       <el-option
@@ -155,13 +159,13 @@
                                               :value="item.value"
                                       ></el-option>
                                   </el-select> -->
-                                <el-radio-group v-model="form.testStatus" size="small">
+                                <el-radio-group v-model="form.testStatus" size="small"  style="height:45px">
                                   <el-radio v-for="item in statusList" :key="item.value" :label="item.value" border size="medium">{{item.label}}</el-radio>
                                 </el-radio-group>
 
                                 </el-form-item>
                             </el-col>
-                            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="height:45px">
+                            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
                                 <el-form-item label="测试类型"  >
                                     <!-- <el-select v-model="fromTypeList"  placeholder="请选择" multiple style="width:100%;" @change="fromTypeChange">
                                       <el-option
@@ -179,7 +183,7 @@
 
                             </el-col>
 
-                            <el-col :xs="24" :sm="24" :md="15" :lg="15" :xl="15" >
+                            <el-col :xs="24" :sm="24" :md="20" :lg="20" :xl="20" >
                                 <el-form-item label="测试文本" prop="testArea" style="width:600px;margin-top:5px">
                                   
 
@@ -190,7 +194,7 @@
                             </el-col>
 
 
-                            <el-col :xs="24" :sm="24" :md="15" :lg="15" :xl="15" >
+                            <el-col :xs="24" :sm="24" :md="20" :lg="20" :xl="20" >
                                 <el-form-item label="附件" style="width:600px;margin-top:5px">
                                   <el-upload
                                       class="upload-demo"
@@ -724,6 +728,7 @@ export default {
   box-sizing: border-box;
   background-color: #ffffff;
   padding: 10px 10px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 .tableBody{
   margin-top: 10px;

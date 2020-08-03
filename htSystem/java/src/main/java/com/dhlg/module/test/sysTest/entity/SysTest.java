@@ -91,6 +91,26 @@ public class SysTest  implements Serializable {
     @TableField("parent_id")
     private String parentId;
 
+
+    /**
+     * 个数
+     */
+    @TableField("test_num")
+    private int testNum;
+
+
+    /**
+     * 单价
+     */
+    @TableField("test_unit")
+    private BigDecimal testUnit;
+
+
+    /**
+     * 总价
+     */
+    @TableField("test_total")
+    private BigDecimal testTotal;
     /**
      * 下级list
      */

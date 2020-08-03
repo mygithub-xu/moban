@@ -74,7 +74,8 @@ public class SysTestController {
                 if(StringUtils.isBlank(parameter)){
                         throw new ParamIsNullException();
                 }
-                return  doService.queryByCondition(parameter);
+                Result result=doService.queryByCondition(parameter);
+                return  result;
         }
 
         @ApiOperation("列表字段查询")

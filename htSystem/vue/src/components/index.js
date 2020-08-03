@@ -3,6 +3,11 @@ import sidebar2 from './layout/otherLayoutCom/sidebar2.vue';
 import AppMain2 from './layout/otherLayoutCom/AppMain2.vue';
 import menuTree2 from './layout/otherLayoutCom/menuTree2.vue';
 import menuTree2Hor from './layout/otherLayoutCom/menuTree2Hor.vue';
+import breadcrumb2 from './layout/otherLayoutCom/breadcrumb2.vue';
+import headTabs from './layout/otherLayoutCom/headTabs.vue';
+import userSetting from './layout/otherLayoutCom/userSetting.vue';
+import customPopBox from './layout/otherLayoutCom/customPopBox.vue';
+
 
 import menuTree from './common/menuTree.vue';
 import Hamburger from './common/Hamburger.vue';//折叠样式图标
@@ -28,6 +33,10 @@ const components = [
   AppMain2,
   menuTree2,
   menuTree2Hor,
+  breadcrumb2,
+  headTabs,
+  userSetting,
+  customPopBox,
   
   uploadFile,
 

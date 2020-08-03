@@ -1,7 +1,7 @@
 <template>
     <div class="uploadDiv">
 
-        <el-button  @click="openUploadDialog" size="small">上传</el-button>
+        <el-button  @click="openUploadDialog" :icon="icon" size="small">导入</el-button>
         <!-- :type="type" -->
         <el-dialog
           :visible.sync="uploadVisible"
@@ -41,6 +41,10 @@ export default {
         type:{
             type:String,
             default: "primary"
+        },
+        icon:{
+            type:String,
+            default: ""
         }
     },
     methods: {

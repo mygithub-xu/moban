@@ -30,8 +30,9 @@
       <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
     </el-col>
   </el-form-item>
-  <el-form-item label="即时配送">
-    <el-switch v-model="form.delivery"></el-switch>
+  <el-form-item label="即时配送" prop="money">
+    
+    <currencyInput v-model="form.money" ></currencyInput>
   </el-form-item>
   <el-form-item label="活动性质">
     <el-checkbox-group v-model="form.type">
@@ -64,7 +65,9 @@ import jrQrcode from "jr-qrcode"
 export default {
         data(){
             return{
+              
         form: {
+          money:0,
           name: '',
           region: '',
           date1: '',

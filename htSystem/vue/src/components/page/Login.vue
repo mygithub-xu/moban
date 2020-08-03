@@ -81,8 +81,8 @@
                 sessionStorage.setItem("Token", res.data.body.token);
                 sessionStorage.setItem("buttonUrlList",JSON.stringify(res.data.body.buttonUrlList));
                 //更新头像
-                this.$store.dispatch('changeUrlFun',res.data.body.user.headPortrait);
-                this.$store.dispatch('changeUsernameFun',res.data.body.user.userName);
+                // this.$store.dispatch('changeUrlFun',res.data.body.user.headPortrait);
+                // this.$store.dispatch('changeUsernameFun',res.data.body.user.userName);
 
                 this.$router.push("/page/Dashboard");
                 this.$message.success("登入成功");

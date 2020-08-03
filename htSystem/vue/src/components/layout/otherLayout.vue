@@ -24,22 +24,7 @@
                 </span>
 
                 <span class="layout-header-right-icon">
-
-                    <el-menu class="el-menu-demo"  mode="horizontal" :background-color="layoutType1Param.headerBgcolor">
-                        <el-submenu index="2"  popper-class="infoItem">
-                             <template slot="title">
-                                <el-avatar :src="avatar" class="avatarDiv" ></el-avatar>
-                                <div class='welcome'>
-                                    <span v-if="username">您好：{{username}}  </span>
-                                    <span v-else></span>
-                                </div>
-                            </template>
-                            <el-menu-item index="2-1" @click="setDialogInfo('info')">个人信息</el-menu-item>
-                            <el-menu-item index="2-2" @click="setDialogInfo('xiugai')">修改信息</el-menu-item>
-                            <el-menu-item index="2-3" @click="setDialogInfo('logout')">退出</el-menu-item>
-
-                        </el-submenu>
-                    </el-menu>
+                     <userSetting :bgColor="layoutType1Param.headerBgcolor"  :username="username"  :avatar="avatar"></userSetting>
                 </span>
 
                 <span class="layout-header-right-icon">
@@ -55,9 +40,7 @@
                 </span> -->
 
                 <span class="layout-header-right-icon">
-                    <!-- <el-tooltip  effect="light" content="模式" placement="bottom"> -->
-                        <i class="el-icon-setting" @click="changeSysType"> </i>
-                    <!-- </el-tooltip> -->
+                    <i class="el-icon-setting" @click="changeSysType"> </i>
                 </span>
             </div>
         </div>
@@ -72,14 +55,9 @@
             <AppMain2 class="app-main"  :style="{'width': 'calc(100% - ' +layoutType1Param.menuWidth2+'px)'}">
                 <!-- 面包屑 -->
                 <slot>
-                    <div class="breadcrumbDiv">
-                        <el-breadcrumb  separator="/">
-                        
-                            <el-breadcrumb-item v-for="(item, index) in levelList" :key="index">
-                                <a v-if="item.path" @click="handleLink(item)">{{item.name}}</a>
-                                <span v-else>{{item.name}}</span>
-                            </el-breadcrumb-item>
-                        </el-breadcrumb>
+                    <div class="mainTopDiv">
+                        <!-- <breadcrumb2 :levelList="levelList"></breadcrumb2> -->
+                        <headTabs  :tableTabs="getOpenTab" :indexTab="getIndexTab" @removeTab="removeTab"></headTabs>
                     </div>
                 </slot>
 
@@ -111,22 +89,7 @@
                 </span>
 
                 <span class="layout-header-right-icon">
-
-                    <el-menu class="el-menu-demo"  mode="horizontal" :background-color="layoutType2Param.headerBgcolor">
-                        <el-submenu index="2"  popper-class="infoItem">
-                             <template slot="title">
-                                <el-avatar :src="avatar" class="avatarDiv" ></el-avatar>
-                                <div class='welcome'>
-                                    <span v-if="username">您好：{{username}}  </span>
-                                    <span v-else></span>
-                                </div>
-                            </template>
-                            <el-menu-item index="2-1" @click="setDialogInfo('info')">个人信息</el-menu-item>
-                            <el-menu-item index="2-2" @click="setDialogInfo('xiugai')">修改信息</el-menu-item>
-                            <el-menu-item index="2-3" @click="setDialogInfo('logout')">退出</el-menu-item>
-
-                        </el-submenu>
-                    </el-menu>
+                    <userSetting :bgColor="layoutType2Param.headerBgcolor"  :username="username"  :avatar="avatar"></userSetting>
                 </span>
 
                 <span class="layout-header-right-icon">
@@ -142,9 +105,7 @@
                 </span> -->
 
                 <span class="layout-header-right-icon">
-                    <el-tooltip  effect="light" content="模式" placement="bottom">
                         <i class="el-icon-setting" @click="changeSysType"> </i>
-                    </el-tooltip>
                 </span>
             </div>
         </div>
@@ -155,15 +116,7 @@
             <AppMain2 class="app-main" style="width:100%">
                 <!-- 面包屑 -->
                 <slot>
-                    <div class="breadcrumbDiv">
-                        <el-breadcrumb  separator="/">
-                        
-                            <el-breadcrumb-item v-for="(item, index) in levelList" :key="index">
-                                <a v-if="item.path" @click="handleLink(item)">{{item.name}}</a>
-                                <span v-else>{{item.name}}</span>
-                            </el-breadcrumb-item>
-                        </el-breadcrumb>
-                    </div>
+                    <breadcrumb2 :levelList="levelList"></breadcrumb2>
                 </slot>
 
             </AppMain2>
@@ -179,7 +132,7 @@
         size="320px">
         <div class="drawer-body">
             <div class="common-drawer-item">
-                <span>布局模式:</span>
+                <h4>布局模式:</h4>
                     <el-select v-model="layoutType" size="small" placeholder="请选择" @change="typeClick()">
                         <el-option
                         v-for="item in options"
@@ -193,8 +146,8 @@
             </div>
 
             <div class="common-drawer-item">
-                <span>风格设置:</span>
-                    <el-select v-model="indexStyle" size="small" placeholder="请选择">
+                <h4>风格自选:</h4>
+                    <el-select v-model="indexStyle" size="small" placeholder="请选择" @change="styleClick()">
                     <el-option
                     v-for="item in options2"
                     :key="item.value"
@@ -217,7 +170,7 @@
             <div class="common-drawer-item">
                 <h4>顶部导航栏颜色:</h4>
                 <div class="sider-menu-color">
-                    <div class="sider-menu-color-item" v-for="(item,index) in siderMenuColorList" :key="index" :style="{'background-color':item}" @click="changeTopColor(item)">
+                    <div class="sider-menu-color-item" v-for="(item,index) in TopMenuColorList" :key="index" :style="{'background-color':item}" @click="changeTopColor(item)">
                         <template v-if="layoutType=='1'">
                             <i v-if="layoutType1Param.headerBgcolor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
                         </template>
@@ -231,7 +184,7 @@
     </div>
 </template>
 <script>
-// import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import screenfull from 'screenfull';
 import bus from "../common/js/bus";
 export default {
@@ -243,7 +196,6 @@ export default {
             layoutType:'2',
             //风格
             indexStyle:'1',
-
             houtaiName:"某某某后台",
 
             //布局1参数
@@ -308,7 +260,7 @@ export default {
             //侧边栏颜色
             siderMenuColorList:["#409EFF","#67C23A","#ffffff","#E6A23C","#F56C6C","#909399","#303133","#333744"],
             //顶部导航栏颜色
-            siderMenuColorList:["#409EFF","#67C23A","#ffffff","#E6A23C","#F56C6C","#909399"],
+            TopMenuColorList:["#409EFF","#67C23A","#ffffff","#E6A23C","#F56C6C","#909399"],
             //头像
             avatar:"",
             //昵称
@@ -323,9 +275,8 @@ export default {
             this.showImg();
         })
         //样式变化
-        this.getLayoutType();
-        this.showImg();
-        this.getBreadcrumb();
+        this.getdata();
+        // this.getBreadcrumb();
     },
     mounted(){
         
@@ -342,18 +293,75 @@ export default {
     //动态检测路由变化
     watch: {
         $route(route) {
-            this.getBreadcrumb()
+            this.changeTabRouter()
         }
     },
     computed: {
-        // ...mapGetters([
-        //     'getAvatar',
-        //     'getUserName'
-        // ])
+        ...mapGetters([
+            'getOpenTab',
+            'getIndexTab'
+        ])
     },
     methods:{
 
-        //调节菜单宽度
+        getdata(){
+            // this.fuzhi();
+            this.getLayoutType();
+            this.showImg();
+        },
+        removeTab(tabPath){
+
+            if(tabPath==this.getIndexTab){
+                //确定关闭当前页面？？
+
+                this.$confirm("是否关掉当前页面?", "提示", {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning"
+                }).then(() => {
+
+                        let index=this.tabPathChange(tabPath);
+
+                        //更新当前选定的tab
+                        if(this.getOpenTab.length==0){
+                            this.$router.push("/page/Dashboard");
+                            
+                        }else if(this.getOpenTab.length<=index){
+                            this.$router.push(this.getOpenTab[this.getOpenTab.length-1].path);
+                        }else{
+                            this.$router.push(this.getOpenTab[index].path);
+                        }
+
+
+                    }).catch(() => {
+                    this.$message({
+                        type: "info",
+                        message: "已取消批量删除"
+                    });
+                    });
+
+
+            }else{
+                let index=this.tabPathChange(tabPath);   
+            }
+
+        },
+        //删除选中tab，更新tab路由，返回删除的第几个
+        tabPathChange(tabPath){
+                let tableTabsList=this.getOpenTab;
+                let index=0;
+                for(let i=0;i<tableTabsList.length;i++){
+                    if(tabPath==tableTabsList[i].path){
+                        tableTabsList.splice(i, 1);
+                        index=i;
+                        break;
+                    }
+                }
+                this.$store.dispatch('changeTabFun',tableTabsList);
+            return index;
+           
+        },
+
 
         //缩放菜单
         changeWidth(){
@@ -373,11 +381,12 @@ export default {
 
         // 从缓存获取头像和姓名
         showImg() {
+
+            //
             //获取头像
             let user = JSON.parse(sessionStorage.getItem('user')); 
             this.avatar=user.headPortrait;
             this.username=user.userName;
-            // console.log("showImg");
 
             //此处不需要vuex的方式来传递变量，因为一刷新值就没了。按储在本地，然后在axios前检测有没有token，后台用返回特定的code来判断在后台中有没有失效
             // this.avatar=this.getAvatar;
@@ -409,6 +418,31 @@ export default {
         handleLink(item) {
             this.$router.push(item.path)
         },
+        //路由变化，相应的tab也要改变
+        changeTabRouter(){
+            //获取要进入的路由
+            let matched = this.$route.matched;
+            
+            //判断tab中是否存在该路由，存在不更新，不存在更新
+            let nowRouterList=this.getOpenTab;
+            let isExist=false;
+            nowRouterList.forEach(v => {
+                if(matched[1].path==v.path){
+                    isExist=true;
+                }
+            });
+            if(!isExist){
+                let newTab={
+                    name: matched[1].name,
+                    path: matched[1].path
+                }
+                nowRouterList.push(newTab);
+                this.$store.dispatch('changeTabFun',nowRouterList);
+            }
+            //更新当前路由
+            this.$store.dispatch('changeIndexTabFun',matched[1].path);
+
+        },
         //国际化，改编语言
         changeLanguage(){
             this.isChinese=!this.isChinese;
@@ -418,25 +452,27 @@ export default {
                 this.$i18n.locale="en";
             }
         },
-        //用户下拉功能菜单
-        setDialogInfo(type){
 
-            if(type=="info"){
-
-            }
-            if(type=="xiugai"){
-                // 跳转到用户信息，传是否刷新的参数
-                this.$router.push({path:'/views/user/userinfo'});
-            }
-        },
         //离开系统
         exitSys(){
-            this.$http.post(this.api.logout).then(res => {});
+
             sessionStorage.removeItem("Token");
             sessionStorage.removeItem("userId");
             sessionStorage.removeItem("menuData");
             sessionStorage.removeItem("menuList");
             sessionStorage.removeItem("buttonUrlList");
+            sessionStorage.removeItem("store");
+            //将开启的tab关闭
+            var openTab=[
+                {
+                    name:"系统首页",
+                    path:"/page/Dashboard"
+                }
+            ]
+            this.$store.dispatch('changeTabFun',openTab);
+
+            this.$http.post(this.api.logout).then(res => {});
+
             this.$router.push("/login");
         },
         //全屏
@@ -505,6 +541,7 @@ export default {
 
         },
 
+        //布局选择
         typeClick(){
             if(this.layoutType=='1'){
 
@@ -520,6 +557,7 @@ export default {
             }
             
         },
+        //侧边栏颜色选择
         changeMenuColor(color){
                 if(this.layoutType1Param.menuBgcolor==color){
                     return;
@@ -533,32 +571,39 @@ export default {
                 }
 
         },
+        //顶部导航栏颜色选择
         changeTopColor(color){
         
-        if(this.layoutType=='1'){
+            if(this.layoutType=='1'){
 
-            if(this.layoutType1Param.headerBgcolor==color){
-                return;
-            }else{
-                this.layoutType1Param.headerBgcolor=color;
-            }  
-        }
-        if(this.layoutType=='2'){
-            if(this.layoutType2Param.headerBgcolor==color){
-                return;
-            }else{
-                this.layoutType2Param.headerBgcolor=color;
-                if(this.layoutType2Param.headerBgcolor=="#ffffff"){
-                    this.layoutType2Param.menuFontcolor="#000000"
+                if(this.layoutType1Param.headerBgcolor==color){
+                    return;
                 }else{
-                    this.layoutType2Param.menuFontcolor="#ffffff"
-                }
-            }   
+                    this.layoutType1Param.headerBgcolor=color;
+                }  
+            }
+            if(this.layoutType=='2'){
+                if(this.layoutType2Param.headerBgcolor==color){
+                    return;
+                }else{
+                    this.layoutType2Param.headerBgcolor=color;
+                    if(this.layoutType2Param.headerBgcolor=="#ffffff"){
+                        this.layoutType2Param.menuFontcolor="#000000"
+                    }else{
+                        this.layoutType2Param.menuFontcolor="#ffffff"
+                    }
+                }   
+            }
+        },
+        //风格选择
+        styleClick(){
+            if(this.indexStyle=='1'){
+
+            }
         }
 
 
 
-        }
 
     }
 
@@ -643,27 +688,9 @@ export default {
         line-height: 50px;
         margin-right: 15px;
     }
-    .avatarDiv{
-        height: 34px;
-        width: 34px;
-        margin-left: 10px;
-        margin-top: 8px;
-        float: right;
-    }
+
     .layout-header-right-icon .el-dropdown{
         margin-right: 15px;
-    }
-    .breadcrumbDiv{
-        height: 48px;
-        width: 100%;
-        float: left;
-        background-color: #ffffff;
-        border-top: 1px solid #f0f0f0;
-        border-bottom: 1px solid #f0f0f0;
-    }
-    .breadcrumbDiv .el-breadcrumb{
-        line-height: 48px;
-        margin-left: 15px;
     }
 
 
@@ -702,27 +729,18 @@ export default {
         top: 5px;
         right: 4px;
     }
+    .mainTopDiv{
+        height: 48px;
+        width: 100%;
+        float: left;
+        background-color: #ffffff;
+        border-top: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+
 </style>
 
 <style lang="less">
-    .layout-header-right .layout-header-right .el-submenu__title{
-        height: 50px;
-    }
-    .layout-header-right .el-menu--horizontal>.el-submenu .el-submenu__title{
-        height: 50px!important;
-        line-height: 50px!important;
-    }
-    .layout-header-right .el-menu--horizontal>.el-submenu.is-active .el-submenu__title{
-        border-bottom:0px solid #409EFF
-    }
 
-    .layout-header-right .el-submenu .el-icon-arrow-down{
-        display: none;
-    }
-    .layout-header-right .el-menu--horizontal{
-        border-bottom:solid 0px #e6e6e6;
-    }
-    .layout-header-right  .el-submenu__title{
-        padding-left: 0px;
-    }
 </style>
