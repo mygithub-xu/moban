@@ -2,6 +2,7 @@
  <div >
    
    <template v-if="layoutType == '1'">
+     <el-scrollbar class="menu-scrollbar">
       <el-menu
             :background-color="bgcolor"
             :text-color="textColor"
@@ -23,6 +24,7 @@
             </div>
                 <menuTree2 :menuData="menuData"></menuTree2>
         </el-menu>
+      </el-scrollbar >
     </template>
 
     <template v-if="layoutType == '2'">
@@ -161,6 +163,11 @@ export default {
 //     background-color: #E2EFF9 !important;
 //     color: #38B2FF !important;
 //     }
+
+.menu-scrollbar{
+  height: 100%;
+  width: 100%;
+}
 </style>
 <style>
 

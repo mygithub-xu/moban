@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-	    <li v-if="isShowReflash"><el-button type="text" @click.stop="popClick('reflash')" size="mini">刷新</el-button></li>
+	    <!-- <li v-if="isShowReflash"><el-button type="text" @click.stop="popClick('reflash')" size="mini">刷新</el-button></li> -->
 	    <li><el-button type="text" @click="popClick('closeAll')" size="mini">关闭所有</el-button></li>
 	    <li v-if="!isShowLeft"><el-button type="text" @click="popClick('closeLeft')"  size="mini">关闭左边</el-button></li>
 	    <li v-if="!isShowRight"><el-button type="text" @click="popClick('closeRight')"  size="mini">关闭右边</el-button></li>

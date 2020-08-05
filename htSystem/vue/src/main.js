@@ -39,10 +39,11 @@ Vue.prototype.$echarts = echarts
 
 //封装axios
 import axios from 'axios';
-import { get, post,del,patch} from '../static/js/http'//暴露https;
-Vue.prototype.$post=post;
+// import { get, post,del,patch} from '../static/js/http'//暴露https;
+// Vue.prototype.$post=post;
 
-axios.defaults.baseURL = 'http://127.0.0.1:4040/moban/';//定义统一的请求url，，后面接接口名称即可
+axios.defaults.baseURL = 'http://120.25.197.11/moban/';//定义统一的请求url，，后面接接口名称即可
+// axios.defaults.baseURL = 'http://127.0.0.1:4040/moban/';
 //等同于Vue.prototype.$axios = axios，命名习惯，全局使用$http
 Vue.prototype.$http = axios;
 
@@ -54,6 +55,21 @@ Vue.prototype.api = api;//全局使用api
 import timeUtils from '../static/js/timeUtils'//暴露https;
 Vue.prototype.$timeUtils=timeUtils;
 
+//金额过滤器
+import filter from '../static/js/filter.js'
+/* 注册过滤器 */
+
+for (const key in filter) {
+
+      if (filter.hasOwnProperty(key)) {
+  
+          const element = filter[key]
+  
+          Vue.filter(key, element)
+  
+      }
+  
+  }
 //国际化
 import i18n from './i18n/index'
 import locale from 'element-ui/lib/locale/lang/en'
@@ -89,24 +105,6 @@ axios.interceptors.request.use(
   error => {
     return Promise.reject(error)
   });
-
-
-  // axios.interceptors.response.use(
-  //   response => {
-  //     return response;
-  //   },
-  //   error => {
-  //     if (error.response) {
-  //       console.log(error.response.status)
-  //       //统一定义401为登录失败状态码
-  //       if(error.response.status == 401){
-  //         alt.error("登陆失效,请重新登录!");
-  //         //移除token
-  //         sessionStorage.removeItem("Token");
-  //       }
-  //     }
-  //     // return Promise.reject(error.response.data)
-  // })
 
 
   /**

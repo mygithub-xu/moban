@@ -1,5 +1,5 @@
 <template>
-    <div class="layoutDiv">
+    <div class="layoutDiv" @mousemove="walk()">
         <!-- 头部 -->
 
         <template v-if="layoutType == '1'">
@@ -7,42 +7,17 @@
             <div class="layout-header-title" :style="{'width':layoutType1Param.headWidth+'px','background-color':layoutType1Param.menuBgcolor}">
                 <span  :style="{'width':layoutType1Param.headWidth+'px','color':layoutType1Param.menuFontcolor}">
                     <img src="../../assets/logo.png" class="layout-header-title-img"/>
-                    <template v-if="!layoutType1Param.isCollapse">{{houtaiName}}</template>
+                    <template v-if="!layoutType1Param.isCollapse">{{companyAtt.name}}</template>
                 </span>
             </div>
+            <!-- <leftHeader :layoutType="layoutType1Param" :companyAtt="companyAtt"></leftHeader> -->
             <div class="layout-header-left" >
                     <span class="layout-header-left-icon">
                         <i class="icon iconfont" :class="layoutType1Param.isCollapse?'icon-zhedie2':'icon-zhedie1'" @click="changeWidth"></i>
                     </span>
             </div>
 
-            <div class="layout-header-right" id="layout-header-right" >
-                <span class="layout-header-right-icon">
-                    <el-tooltip  effect="light" content="退出" placement="bottom">
-                        <i class="icon iconfont icon-tuichu" @click="exitSys"> </i>
-                    </el-tooltip>
-                </span>
-
-                <span class="layout-header-right-icon">
-                     <userSetting :bgColor="layoutType1Param.headerBgcolor"  :username="username"  :avatar="avatar"></userSetting>
-                </span>
-
-                <span class="layout-header-right-icon">
-                    <el-tooltip  effect="light" content="全屏" placement="bottom">
-                        <i class="icon iconfont icon-quanping" @click="fullScreen"> </i>
-                    </el-tooltip>
-                </span>
-                
-                <!-- <span class="layout-header-right-icon">
-                    <el-tooltip  effect="light" :content="isChinese?'中文':'英文'" placement="bottom">
-                        <i class="icon iconfont " :class="isChinese?'icon-zhongwen':'icon-yingwen'" @click="changeLanguage"> </i>
-                    </el-tooltip>
-                </span> -->
-
-                <span class="layout-header-right-icon">
-                    <i class="el-icon-setting" @click="changeSysType"> </i>
-                </span>
-            </div>
+            <rightHeader :bgColor="layoutType1Param.headerBgcolor" :username="username"  :avatar="avatar"  @changeSysType="changeSysType" @fullScreen="fullScreen" @exitSys="exitSys"></rightHeader>
         </div>
 
         <div class="layout-body">
@@ -52,7 +27,7 @@
             :textColor="layoutType1Param.menuFontcolor" :activeTextColor="layoutType1Param.menuActiveFontcolor"
             ></sidebar2>
 
-            <AppMain2 class="app-main"  :style="{'width': 'calc(100% - ' +layoutType1Param.menuWidth2+'px)'}">
+            <AppMain2 class="app-main"   :style="{'width': 'calc(100% - ' +layoutType1Param.menuWidth2+'px)'}">
                 <!-- 面包屑 -->
                 <slot>
                     <div class="mainTopDiv">
@@ -81,38 +56,10 @@
                     ></sidebar2>
             </div>
 
-            <div class="layout-header-right" id="layout-header-right" >
-                <span class="layout-header-right-icon">
-                    <el-tooltip  effect="light" content="退出" placement="bottom">
-                        <i class="icon iconfont icon-tuichu" @click="exitSys"> </i>
-                    </el-tooltip>
-                </span>
-
-                <span class="layout-header-right-icon">
-                    <userSetting :bgColor="layoutType2Param.headerBgcolor"  :username="username"  :avatar="avatar"></userSetting>
-                </span>
-
-                <span class="layout-header-right-icon">
-                    <el-tooltip  effect="light" content="全屏" placement="bottom">
-                        <i class="icon iconfont icon-quanping" @click="fullScreen"> </i>
-                    </el-tooltip>
-                </span>
-                
-                <!-- <span class="layout-header-right-icon">
-                    <el-tooltip  effect="light" :content="isChinese?'中文':'英文'" placement="bottom">
-                        <i class="icon iconfont " :class="isChinese?'icon-zhongwen':'icon-yingwen'" @click="changeLanguage"> </i>
-                    </el-tooltip>
-                </span> -->
-
-                <span class="layout-header-right-icon">
-                        <i class="el-icon-setting" @click="changeSysType"> </i>
-                </span>
-            </div>
+            <rightHeader :bgColor="layoutType2Param.headerBgcolor" :username="username"  :avatar="avatar"  @changeSysType="changeSysType" @fullScreen="fullScreen" @exitSys="exitSys"></rightHeader>
         </div>
 
         <div class="layout-body">
-
-
             <AppMain2 class="app-main" style="width:100%">
                 <!-- 面包屑 -->
                 <slot>
@@ -129,6 +76,7 @@
         title="我是标题"
         :visible.sync="drawer"
         :with-header="false"
+        @close="closeDrawer"
         size="320px">
         <div class="drawer-body">
             <div class="common-drawer-item">
@@ -196,7 +144,11 @@ export default {
             layoutType:'2',
             //风格
             indexStyle:'1',
-            houtaiName:"某某某后台",
+            //公司属性（名称，商标）
+            companyAtt:{
+                name:"某某某后台",
+                imgSrc:"../../assets/logo.png"
+            },
 
             //布局1参数
             layoutType1Param:{
@@ -219,8 +171,7 @@ export default {
                 //菜单字体颜色
                 menuFontcolor:"#ffffff",
                 //菜单当前字体颜色
-                menuActiveFontcolor:"#409EFF",
-                
+                menuActiveFontcolor:"#409EFF",  
             },
             //布局2参数
             layoutType2Param:{
@@ -293,6 +244,7 @@ export default {
     //动态检测路由变化
     watch: {
         $route(route) {
+            // this.$route.meta.keepAlive
             this.changeTabRouter()
         }
     },
@@ -303,14 +255,30 @@ export default {
         ])
     },
     methods:{
-
+        closeDrawer(){
+            debugger
+            //保存样式
+            var layoutStyle={
+                layoutType:this.layoutType,
+                layoutType1Param:this.layoutType1Param,
+                layoutType2Param:this.layoutType2Param
+            }
+            sessionStorage.setItem("layoutstyle",JSON.stringify(layoutStyle));
+            console.log(JSON.parse(sessionStorage.getItem("layoutstyle")))
+        },
         getdata(){
             // this.fuzhi();
             this.getLayoutType();
             this.showImg();
         },
         removeTab(tabPath){
-
+            
+            if(this.getOpenTab.length==1&&tabPath=="/page/Dashboard"){
+                  return this.$message({
+                        type: "error",
+                        message: "首页不能删除"
+                    });
+            }
             if(tabPath==this.getIndexTab){
                 //确定关闭当前页面？？
 
@@ -324,20 +292,16 @@ export default {
 
                         //更新当前选定的tab
                         if(this.getOpenTab.length==0){
+
                             this.$router.push("/page/Dashboard");
-                            
                         }else if(this.getOpenTab.length<=index){
                             this.$router.push(this.getOpenTab[this.getOpenTab.length-1].path);
                         }else{
                             this.$router.push(this.getOpenTab[index].path);
                         }
 
-
                     }).catch(() => {
-                    this.$message({
-                        type: "info",
-                        message: "已取消批量删除"
-                    });
+                        this.$message({type: "info", message: "已取消"});
                     });
 
 
@@ -357,8 +321,10 @@ export default {
                         break;
                     }
                 }
+
+
                 this.$store.dispatch('changeTabFun',tableTabsList);
-            return index;
+                return index;
            
         },
 
@@ -387,8 +353,7 @@ export default {
             let user = JSON.parse(sessionStorage.getItem('user')); 
             this.avatar=user.headPortrait;
             this.username=user.userName;
-
-            //此处不需要vuex的方式来传递变量，因为一刷新值就没了。按储在本地，然后在axios前检测有没有token，后台用返回特定的code来判断在后台中有没有失效
+            
             // this.avatar=this.getAvatar;
             // this.username=this.getUserName;
 
@@ -422,6 +387,22 @@ export default {
         changeTabRouter(){
             //获取要进入的路由
             let matched = this.$route.matched;
+            //判断该路由是否为close后的，是就不载入缓存，并且移除store中的该tab
+
+            // var closeTabs=this.$store.state.tabRouter.closeTab;
+            // this.iskeepRouter=true;
+            // if(closeTabs){
+            //         for(let i=0;i<closeTabs.length;i++){
+            //             if(closeTabs[i].path==matched[1].path){
+            //                 this.iskeepRouter=false;
+            //                 closeTabs.splice(i,1);
+            //                 break;
+            //             }
+            //         }
+            //         if(!this.iskeepRouter){
+            //             this.$store.dispatch('changeCloseTabFun',closeTabs);
+            //         }
+            // }
             
             //判断tab中是否存在该路由，存在不更新，不存在更新
             let nowRouterList=this.getOpenTab;
@@ -432,16 +413,18 @@ export default {
                 }
             });
             if(!isExist){
+                let componet=!matched[1].components.default.name?'':matched[1].components.default.name;
                 let newTab={
                     name: matched[1].name,
-                    path: matched[1].path
+                    path: matched[1].path,
+                    component:componet
                 }
                 nowRouterList.push(newTab);
                 this.$store.dispatch('changeTabFun',nowRouterList);
             }
             //更新当前路由
             this.$store.dispatch('changeIndexTabFun',matched[1].path);
-
+                
         },
         //国际化，改编语言
         changeLanguage(){
@@ -461,12 +444,12 @@ export default {
             sessionStorage.removeItem("menuData");
             sessionStorage.removeItem("menuList");
             sessionStorage.removeItem("buttonUrlList");
-            sessionStorage.removeItem("store");
             //将开启的tab关闭
             var openTab=[
                 {
                     name:"系统首页",
-                    path:"/page/Dashboard"
+                    path:"/page/Dashboard",
+                    component:"Dashboard"
                 }
             ]
             this.$store.dispatch('changeTabFun',openTab);
@@ -492,12 +475,15 @@ export default {
         },
         //初始化系统样式
         getLayoutType(type){
-            var layoutstyleSession=sessionStorage.getItem("layoutstyle");
-            if(!layoutstyleSession){
+            debugger
+            var layoutstyleSession=JSON.parse(sessionStorage.getItem("layoutstyle"));
+            if(!layoutstyleSession||layoutstyleSession==null){
                 this.layoutType="1";
                 this.type1Data();
             }else{
-                this.layoutType=layoutstyleSession;
+                this.layoutType=layoutstyleSession.layoutType;
+                this.layoutType1Param=layoutstyleSession.layoutType1Param;
+                this.layoutType2Param=layoutstyleSession.layoutType2Param;
             }
         },
 
@@ -600,7 +586,39 @@ export default {
             if(this.indexStyle=='1'){
 
             }
-        }
+        },
+
+    walk(){
+    //   window.clearInterval(this.timer);
+    //   this.time = 0;
+
+    //   this.timer = setInterval(() => {
+    //   this.time += 1;
+
+    //   if(this.time>1000){
+
+    //   if (!sessionStorage.getItem("Token")) {
+    //     window.clearInterval(this.timer);
+    //     return false;
+    //   } 
+    //   this.$alert("登录已超时，请重新登录", "操作提示", {
+    //     confirmButtonText: "确定",
+    //     callback: () => {
+    //       this.$http.post(this.api.logout).then(res => {});
+    //       this.$router.push("/login");
+    //     }
+    //   });
+      
+    //   sessionStorage.removeItem("Token");
+    //   sessionStorage.removeItem("userId");
+    //   sessionStorage.removeItem("menuData");
+    //   sessionStorage.removeItem("menuList");
+    //   sessionStorage.removeItem("buttonUrlList");
+
+    //   }
+
+    //   },30000);
+    }
 
 
 
@@ -674,24 +692,7 @@ export default {
         line-height: 50px;
         margin-left: 15px;
     }
-    .layout-header-right{
-        float: right;
-        height: 50px;
-        width: 300px;
-    }
-    .layout-header-right ,.layout-header-right-icon {
-        float: right;
-        height: 50px;
-    }
-    .layout-header-right-icon i{
-        font-size: 25px;
-        line-height: 50px;
-        margin-right: 15px;
-    }
 
-    .layout-header-right-icon .el-dropdown{
-        margin-right: 15px;
-    }
 
 
     .drawer-body{

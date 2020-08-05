@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.dhlg.module.test.sysTestDetail.entity.SysTestDetail;
+import com.dhlg.utils.common.BigDecimalSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -102,6 +104,7 @@ public class SysTest  implements Serializable {
     /**
      * 单价
      */
+    @JsonSerialize(using = BigDecimalSerialize.class)
     @TableField("test_unit")
     private BigDecimal testUnit;
 
@@ -109,6 +112,7 @@ public class SysTest  implements Serializable {
     /**
      * 总价
      */
+    @JsonSerialize(using = BigDecimalSerialize.class)
     @TableField("test_total")
     private BigDecimal testTotal;
     /**

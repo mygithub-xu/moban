@@ -1,35 +1,33 @@
 <template>
   <section>
     <slot></slot>
-    <transition name="fade-transform" mode="out-in">
-      
-      <router-view></router-view>
+    <transition name="fade-transform" mode="out-in" >
+        <keep-alive :include="components">
+            <router-view ></router-view>
+        </keep-alive>
     </transition>
+
+     
   </section>
 </template>
 
 <script>
 export default {
   name: 'AppMain2',
+
+  props:{
+
+  },
   computed: {
-    cachedViews() {
-    
+    components() {
+      return this.$store.state.tabRouter.keepTab
     },
-    key() {
-      
-    }
   },
   data(){
       return {
-        height:'',
+
       }
   },
-  mounted() {
-    // vm.$nextTick(function(){
-    //     this.height=this.$refs.MenuListSpan.clientHeight-36;
-    //     console.log(this.height);
-    // })
-  }
 
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="headTabsDivCom">
-        <el-tabs v-model="indexTabTrue" closable  type="card"  @tab-remove="removeTab" @tab-click="tabclick" @contextmenu.prevent.native="openpop($event)">
+        <el-tabs v-model="indexTabTrue" closable  type="border-card"  @tab-remove="removeTab" @tab-click="tabclick" @contextmenu.prevent.native="openpop($event)">
             <el-tab-pane
                 v-for="item in tableTabs"
                 :key="item.path"
@@ -111,7 +111,6 @@ export default {
             this.contextMenuVisible = false;
         },
         popClick(type){
-            console.log("type"+type+" 路径"+this.path);
             if(!this.path){
                 return this.$message({message: '请选择一个选项', type: 'warning'});
             }
@@ -179,11 +178,13 @@ export default {
         width: 100%;
         float: left;
     }
-
+    .el-tabs--border-card{
+        box-shadow:0 0px 0px 0 rgba(0,0,0,.12), 0 0 0px 0 rgba(0,0,0,.04)
+    }
 </style>
 <style >
 
-    .headTabsDivCom .el-tabs__header{
+    /* .headTabsDivCom .el-tabs__header{
         margin: 0;
         border-bottom: 0px solid #E4E7ED;
     }
@@ -192,5 +193,12 @@ export default {
     }
     .headTabsDivCom .el-tabs--card>.el-tabs__header .el-tabs__item{
         border: 0px solid #E4E7ED;
+    } */
+
+    .headTabsDivCom .el-tabs--border-card>.el-tabs__content{
+        padding: 0!important;
+    }
+    .headTabsDivCom .el-tabs--border-card>.el-tabs__header{
+        border-bottom: 0px solid #E4E7ED;
     }
 </style>

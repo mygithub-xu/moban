@@ -65,7 +65,7 @@
           <div class="container_btn2" >
             <span>
               <el-button type="primary"  size="small" icon="el-icon-plus"  @click="handleAdd">新增</el-button>
-              <el-button type="primary"  size="small" icon="el-icon-edit" >编辑</el-button>
+              <el-button type="primary"  size="small" icon="el-icon-edit" @click="handleEdit">编辑</el-button>
               <el-button type="danger" size="small" icon="el-icon-delete"  @click="handleDeleteBatch">删除</el-button>
               <el-button type="primary"  size="small" icon="el-icon-view" >预览</el-button>
               <el-button size="small"  @click="handleExport" icon="el-icon-download">导出</el-button>
@@ -79,38 +79,47 @@
 
 
           <div style="width: 100%;height: calc(100% - 85px);margin-top: 10px;}">
-            <el-table :data="pageData.list" border ref="multipleTable" align="center" @selection-change="handleSelectionChange" :row-style="{height:'50px'}" :cell-style="{height:'35px'}"  height="100%"  @row-click="handleEdit">
+            <el-table :data="pageData.list" border ref="multipleTable" align="center" @selection-change="handleSelectionChange" :row-style="{height:'50px'}" :cell-style="{height:'35px'}"  height="100%" >
                   <el-table-column fixed type="selection" width="50" align="center"> </el-table-column>
                   <el-table-column type="index" width="46" align="center" label="序号"></el-table-column>
                   <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
-                  <el-table-column prop="testName" min-width="140" label="测试名" align="center" show-overflow-tooltip></el-table-column>
+                  <el-table-column prop="testName" min-width="140" label="测试名"  show-overflow-tooltip></el-table-column>
                   <el-table-column prop="testStatus" min-width="140" label="测试状态" align="center" show-overflow-tooltip>
                     <template  slot-scope="scope">
-                      <el-tag v-if="scope.row.testStatus=='1'"  type="success">启用</el-tag>
-                      <el-tag v-if="scope.row.testStatus=='2'"  type="danger">禁用</el-tag>
+                      <span v-if="scope.row.testStatus=='1'"  >启用</span>
+                      <span v v-if="scope.row.testStatus=='2'"  >禁用</span>
                     </template>
                   </el-table-column>
 
-                  <el-table-column prop="testNum" min-width="140" label="数量" align="center" show-overflow-tooltip>
+                  <el-table-column prop="testNum" min-width="140" label="数量" align="right" show-overflow-tooltip>
+                     <template slot-scope="scope">
+                       <span>{{scope.row.testNum | 10}}</span>
+                     </template>
                   </el-table-column>
-                  <el-table-column prop="testUnit" min-width="140" label="单价" align="center" show-overflow-tooltip>
+                  <el-table-column prop="testUnit" min-width="140" label="单价" align="right" show-overflow-tooltip>
+                      <template slot-scope="scope">
+                       <span>{{scope.row.testUnit | 1000}}</span>
+                     </template>
                   </el-table-column>
-                  <el-table-column prop="testTotal" min-width="140" label="总额" align="center" show-overflow-tooltip>
+                  <el-table-column prop="testTotal" min-width="140" label="总额" align="right" show-overflow-tooltip>
+                      <template slot-scope="scope">
+                       <span>{{scope.row.testTotal | 1000}}</span>
+                     </template>
                   </el-table-column>
 
-                  <el-table-column  min-width="140" label="表格一" align="center" show-overflow-tooltip>
+                  <el-table-column  min-width="140" label="表格一" show-overflow-tooltip>
                     表格一
                   </el-table-column>
-                  <el-table-column  min-width="140" label="表格二" align="center" show-overflow-tooltip>
+                  <el-table-column  min-width="140" label="表格二"  show-overflow-tooltip>
                     表格二
                   </el-table-column>
-                  <el-table-column prop="testType" min-width="140" label="表格三" align="center" show-overflow-tooltip>
+                  <el-table-column prop="testType" min-width="140" label="表格三" show-overflow-tooltip>
                     表格三
                   </el-table-column>
-                  <el-table-column prop="testType" min-width="140" label="表格四" align="center" show-overflow-tooltip>
+                  <el-table-column prop="testType" min-width="140" label="表格四"  show-overflow-tooltip>
                     表格四
                   </el-table-column>
-                  <el-table-column prop="testType" min-width="140" label="表格五" align="center" show-overflow-tooltip>
+                  <el-table-column prop="testType" min-width="140" label="表格五" show-overflow-tooltip>
                     表格五
                   </el-table-column>
 
@@ -131,11 +140,11 @@
                   
               </div>
               <el-row class="dialogForm">
-                  <el-col :span="17">
+                  <el-col :span="20">
                     <div class="tableFrom">
                          <el-form  ref="form" :model="form" :rules="rules" label-width="100px" size="small" style="margin-top:10px">
                             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="height:45px">
-                                  <el-form-item label="创建时间" prop="createTime">
+                                  <el-form-item label="创建时间" prop="createTime" style="width:32.5rem;" >
                                           <el-date-picker
                                                   v-model="form.createTime"
                                                   type="datetime"
@@ -145,12 +154,12 @@
                                   </el-form-item>
                             </el-col>
                             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="height:45px">
-                                <el-form-item label="测试名" prop="testName" >
-                                    <el-input v-model="form.testName" ></el-input>
+                                <el-form-item label="测试名" prop="testName" style="width:32.5rem;">
+                                    <el-input v-model="form.testName"   ></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" >
-                                <el-form-item label="测试状态"  >
+                                <el-form-item label="测试状态"  style="width:32.5rem;">
                                   <!-- <el-select v-model="form.testStatus"  placeholder="请选择"  style="width:100%;" >
                                       <el-option
                                               v-for="item in statusList"
@@ -166,7 +175,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-                                <el-form-item label="测试类型"  >
+                                <el-form-item label="测试类型"  style="width:45rem;">
                                     <!-- <el-select v-model="fromTypeList"  placeholder="请选择" multiple style="width:100%;" @change="fromTypeChange">
                                       <el-option
                                         v-for="item in typeList"
@@ -224,13 +233,12 @@
                               <el-button icon="el-icon-minus" size="small" type="danger" @click="delList" ></el-button>
                       </div>
                       <div class="tableBody">
-                        <el-table @selection-change="handleSelectionChangeDetil" ref="tableData" :data="form.testSysTetailList" border align="center" 
-                        >
+                        <el-table @selection-change="handleSelectionChangeDetil" ref="tableData" :data="form.testSysTetailList" border align="center" >
                         
                                   <el-table-column type="selection"  fixed width="45"  align="center" show-overflow-tooltip></el-table-column>
                                     <el-table-column type="index" width="55" label="序号" align="center"  show-overflow-tooltip ></el-table-column>
 
-                                    <el-table-column prop="name" min-width="200" label="名称" align="center" show-overflow-tooltip>
+                                    <el-table-column prop="name" min-width="200" label="名称" show-overflow-tooltip>
                                         <template slot-scope="scope">
                                             <div>
                                                 <el-input size="small" v-model="scope.row.name" ></el-input>
@@ -279,8 +287,6 @@
                     表格五
                   </el-table-column>
 
-
-
                         </el-table>
                       </div>
 
@@ -295,6 +301,7 @@
 </template>
 <script>
 export default {
+  name:"queryAreaTable2",
   data(){
     return{
       // 区域一--start
@@ -492,32 +499,34 @@ export default {
       }
     },
     //编辑
-    handleEdit(row){
+    handleEdit(){
+
+      if(this.multipleSelection.length!=1){
+          return this.$message({ type: "warning", message: "请选择一条数据"});
+      }
+
       this.editVisible=true;
       // 不能使用this.form=row;数据会双向绑定
-      Object.assign(this.form,row);
+      Object.assign(this.form,this.multipleSelection[0]);
       if(!!this.form.testType){
         this.fromTypeList=this.form.testType.split(',');
       }
 
       this.$nextTick(() => {
 
-      this.$http.post(this.api.sysTestDetailQueryByCondition, {
+          this.$http.post(this.api.sysTestDetailQueryByCondition, {
                   condition: {
                       parentId:row.id
                   },
                   number: 1,
                   size: 9999
-              })
-              .then(res => {
-              if (res.data.code == "200") {
-                  this.form.testSysTetailList= res.data.body.records;
-                  this.$forceUpdate();
-              }
-          });
-
-
-      })
+                  }).then(res => {
+                  if (res.data.code == "200") {
+                      this.form.testSysTetailList= res.data.body.records;
+                      this.$forceUpdate();
+                  }
+              });
+          })
 
 
     },

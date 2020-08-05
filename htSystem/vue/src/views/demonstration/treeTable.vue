@@ -103,6 +103,7 @@
 </template>
 <script>
 export default {
+    name:"treeTable",
     data(){
         return{
             defaultProps:{

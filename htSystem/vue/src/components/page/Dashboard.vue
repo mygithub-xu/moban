@@ -95,6 +95,7 @@
 <script>
 // import bus from "../common/js/bus";
     export default {
+        name:"Dashboard",
         data(){
             return{
                 count:{

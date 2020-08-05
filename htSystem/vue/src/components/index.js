@@ -7,6 +7,8 @@ import breadcrumb2 from './layout/otherLayoutCom/breadcrumb2.vue';
 import headTabs from './layout/otherLayoutCom/headTabs.vue';
 import userSetting from './layout/otherLayoutCom/userSetting.vue';
 import customPopBox from './layout/otherLayoutCom/customPopBox.vue';
+import rightHeader from './layout/otherLayoutCom/rightHeader.vue';
+import leftHeader from './layout/otherLayoutCom/leftHeader.vue';
 
 
 import menuTree from './common/menuTree.vue';
@@ -37,6 +39,8 @@ const components = [
   headTabs,
   userSetting,
   customPopBox,
+  rightHeader,
+  leftHeader,
   
   uploadFile,
 

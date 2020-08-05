@@ -244,10 +244,6 @@
                                                 </el-form-item>
                                             </el-col>
 
-
-
-
-
                             </el-form>
 
                         </div>
@@ -434,13 +430,13 @@
                 this.editVisible=true;
                 this.preVisiable=true
                 this.form=row;
-
+                Object.assign(this.form,row);
             },
             //编辑
             handleEdit(row){
                 this.editVisible=true;
                 this.preVisiable=false
-                this.form=row;
+                Object.assign(this.form,row);
                 this.$nextTick(()=>{
                     this.$refs.form.resetFields();
                 })

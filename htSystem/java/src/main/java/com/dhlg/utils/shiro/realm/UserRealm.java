@@ -79,7 +79,6 @@ public class UserRealm extends AuthorizingRealm {
          *  ，每个接口都要@RequiresPermissions太过于麻烦，未来还会有其他的各种按钮，
          *  从而必须增加一个表来随时更新这些按钮的权限，这样根本无法做到真正的简约。
          *  本框架在直接在shiroConfig的拦截中，找到按钮的url，处理了这些后台接口。
-         *  所以此处为学习使用，此框架没有用到。
          */
 
         authorizationInfo.setStringPermissions(menuPermissionSet);

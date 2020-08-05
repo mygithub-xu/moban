@@ -4,9 +4,12 @@ const tabRouter = {
         openTab:[
             {
                 name:"系统首页",
-                path:"/page/Dashboard"
+                path:"/page/Dashboard",
+                component:"Dashboard"
             }
         ],
+        keepTab:[],
+        closeTab:[],
         //当前路由
         indexTab:"/page/Dashboard"
     },
@@ -17,10 +20,23 @@ const tabRouter = {
         getIndexTab:state=>{
             return state.indexTab
         },
+        getCloseTab:state=>{
+            return state.closeTab
+        },
+        getKeepTab:state=>{
+            return state.keepTab
+        },
     },
     mutations:{
 
         changeTab(state,data) {
+            let keep=[]
+            data.forEach(v => {
+                if(!!v.component){
+                    keep.push(v.component);
+                }
+            });
+            state.keepTab=keep;
             state.openTab=data;
         },
         addTab (state,data) {
@@ -28,6 +44,25 @@ const tabRouter = {
         },
         changeIndexTab(state,indexTab){
             state.indexTab=indexTab;
+        },
+
+        addCloseTab(state,tab){
+            let aaa=state.closeTab;
+            let flag=false;
+            for(let i=0;i<aaa.length;i++){
+                if(aaa[i].path==tab.path){
+                    flag=true;
+                    break;
+                }
+            }
+            if(!flag){
+                aaa.push(tab);
+                state.closeTab=aaa;
+            }
+        },
+
+        changeCloseTab(state,tabs){
+            state.closeTab=tabs;
         }
     },
     actions:{
@@ -39,7 +74,13 @@ const tabRouter = {
         },
         changeIndexTabFun(context,indexTab){
             context.commit("changeIndexTab",indexTab);
-        }
+        },
+        addCloseTabFun(context,tab){
+            context.commit("addCloseTab",tab);
+        },
+        changeCloseTabFun(context,tabs){
+            context.commit("changeCloseTab",tabs);
+        },
 
     }
     
