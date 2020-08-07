@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="app-container2">
         <div class="container">
             <div class="container_btn">
                 <el-button type="primary" size="small" buttonCode="TY020" @click="handleSave('form')">保 存</el-button>
@@ -87,7 +87,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import bus from "../../../../components/common/js/bus";
+import bus from "../../../../assets/js/bus";
 export default {
   name: "modifyInformation",
   data(){

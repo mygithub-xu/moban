@@ -10,15 +10,7 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      '/api': {
-        target: 'http://127.0.0.1:7001/web_war_exploded', // 这个是你要代理的地址(开发阶段接口地址)
-        changeOrigin: true, //跨域需要加上这个
-        pathRewrite: {
-          '^/api': '' //可以理解为用 / api代表target里的地址
-        }
-      }
-    },
+    proxyTable: {},
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

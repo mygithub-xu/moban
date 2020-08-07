@@ -127,7 +127,7 @@
 
 <script>
 
-import bus from "../../common/js/bus";
+import bus from "../../../assets/js/bus";
 export default {
     name:"navbar2",
   data(){
@@ -139,7 +139,6 @@ export default {
   },
   created(){
     bus.$on('changeHead',val=>{
-      console.log("jinruchangeHead")
       this.avatar = val;
     });
     this.showImg();

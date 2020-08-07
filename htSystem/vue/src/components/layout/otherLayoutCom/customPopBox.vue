@@ -41,7 +41,6 @@
         },
         methods:{
             popClick(type){
-                console.log(type)
                 this.$emit("popClick",type);
             }
         }

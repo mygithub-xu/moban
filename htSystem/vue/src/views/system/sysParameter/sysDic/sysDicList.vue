@@ -1,6 +1,6 @@
 <template>
 <!-- 系统配置---全局参数---字典管理 -->
-  <div class="app-container" style="padding-bottom:15px">
+  <div class="app-container2">
     <div class="container">
       <div class="container_btn">
         <div style=" height: 32px;float:left">

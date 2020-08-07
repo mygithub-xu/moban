@@ -1,6 +1,6 @@
 <!--菜单配置-->
 <template>
-    <div class="warpCont resource-register">
+    <div class="app-container2">
         <div class="resource-register" ref="MenuListSpan">
     <!---->
     <el-row :gutter="24" style="margin-left:0;width:100%;height:100%;padding-bottom: 5px;">
@@ -65,9 +65,6 @@
               </el-form-item>
             </el-col>
             <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
-              <!-- <el-form-item label="图标" prop="icon">
-                <el-input type="text" style="width:11rem" size="mini" v-model="currentRes.icon">
-                  <template slot="prepend"><i :class="currentRes.icon"></i></template> -->
 
                   <el-form-item label="图标："  prop="icon">
                      <el-popover
@@ -228,7 +225,7 @@
 <script>
   import axios from 'axios'
 
-  import myIcon from '../../../components/common/icons.vue'
+  import myIcon from '../../../components/layout/otherLayoutCom/icons.vue'
 
   function newButtonForm() {
     return {
@@ -400,7 +397,6 @@
             message: '已取消删除'
           })
         })
-        console.log(vm.keysid)
       },
       /**
        * 编辑节点

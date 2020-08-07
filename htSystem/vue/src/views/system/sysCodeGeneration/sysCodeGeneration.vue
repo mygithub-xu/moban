@@ -175,6 +175,7 @@
 </template>
 <script>
     export default {
+        name:"sysCodeGeneration",
         data(){
             return{
                 preVisiable:false,
@@ -581,7 +582,6 @@
                     maxDate.replace(/(\s.+)$/, " 23:59:59")
                 ];
                 this.queryVisible[filterName] = false;
-                console.log(this.queryVisible.unfreezeTime);
                 this.getTableData();
             },
             handleDateRangeListFilterCancel(filterName) {

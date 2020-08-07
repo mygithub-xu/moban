@@ -7,12 +7,12 @@
         </span>
 
         <span class="layout-header-right-icon">
-                <userSetting :bgColor="bgColor"  :username="username"  :avatar="avatar"></userSetting>
+                <userSetting :bgColor="bgColor"  :username="username"  :avatar="avatar" :fontColor="fontColor"></userSetting>
         </span>
 
         <span class="layout-header-right-icon">
             <el-tooltip  effect="light" content="全屏" placement="bottom">
-                <i class="icon iconfont icon-quanping" @click="fullScreen"> </i>
+                <i class="icon iconfont icon-quanping" @click="fullScreen"></i>
             </el-tooltip>
         </span>
         <span class="layout-header-right-icon">
@@ -40,6 +40,10 @@ export default {
             type:String,
             default:""
         },
+        fontColor:{
+            type:String,
+            default:"" 
+        }
 
     },
     methods:{
@@ -60,7 +64,7 @@ export default {
     .layout-header-right{
         float: right;
         height: 50px;
-        width: 300px;
+        min-width: 300px;
     }
     .layout-header-right ,.layout-header-right-icon {
         float: right;

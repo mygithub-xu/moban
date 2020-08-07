@@ -1,17 +1,6 @@
 <template>
-    <div class="app-container">
+    <div class="app-container2">
         <div class="dashboardContainer">
-            <!-- <div class="shouyeUser">
-                <div class="shouyeUserTouxiang">
-                    <img :src="avatar" style="width: 150px; height: 150px;border-radius: 100%;margin-left:20px;margin-top:20px;"/>
-                </div>
-                <div class="shouyeUserTouxiang">
-                    <div>
-                        <h2> </h2>
-                        <p>xxx管理员</p>
-                    </div>
-                </div>
-            </div> -->
             <div class="shouyeHeard">
                 <el-col :xs="12" :sm="12" :md="8" :lg="8" :xl="8" >
                     <div class="shouyeShowDiv" @click="userCountClick">
@@ -93,7 +82,7 @@
 </template>
 
 <script>
-// import bus from "../common/js/bus";
+// import bus from "../../assets/js/bus";
     export default {
         name:"Dashboard",
         data(){

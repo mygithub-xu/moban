@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="app-container2">
         <div class="container">
           <!-- 区域一 查询区域 -->
           <div class="container_btn" >
@@ -9,7 +9,7 @@
             </span>
             <span class="handle-box" style="float:right">
               <el-input
-                v-model="queryContent" placeholder="请输入查询内容" class="handle-input mr10" style="width: 200px;"clearable>
+                v-model="queryContent" placeholder="请输入查询内容" class="handle-input mr10" style="width: 200px;" clearable>
               </el-input>
                 <el-button type="primary" size="small" icon="search" buttonCode="TY001" @click="search">查询</el-button>
                 <el-button size="small" type="text"  @click="reset">重置</el-button>
@@ -199,6 +199,7 @@
 </template>
 <script>
 export default {
+  name:"sysUserList",
   data(){
     // 手机号验证
     var validateMobilePhone = (rule, value, callback) => {
@@ -461,7 +462,6 @@ export default {
         // this.$http.get(this.api.dicTypeGetType+"adType").then(res => {
         if (res.data.code == 200) {
           this.titleData = res.data.body;
-          console.log(JSON.stringify(this.titleData))
         }
       });
 

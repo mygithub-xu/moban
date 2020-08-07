@@ -89,7 +89,7 @@ export default {
         },
         methods:{
             onEditorChange2(content){
-                console.log(content);
+                // console.log(content);
             },
             getdata(){
 

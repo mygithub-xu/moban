@@ -1,6 +1,6 @@
 <template>
 <!-- 系统配置---全局参数---按钮配置 -->
-  <div class="app-container">
+  <div class="app-container2">
     <div class="container">
       <div class="container_btn" >
         <span>
@@ -21,7 +21,7 @@
             style="width: 200px;"
             clearable
           ></el-input>
-          <el-button type="primary" size="small"icon="search" buttonCode="TY001" @click="search">查询</el-button>
+          <el-button type="primary" size="small" icon="search" buttonCode="TY001" @click="search">查询</el-button>
           <el-button size="small" type="text" buttonCode="TY002" @click="reset">重置</el-button>
           <el-row class="tac">
             <el-col :span="24">
@@ -143,6 +143,7 @@
 </template>
 <script>
 export default {
+  name:"sysButList",
   data(){
     return{
       pageData: {

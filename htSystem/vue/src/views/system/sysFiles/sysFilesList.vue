@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="app-container2">
         <div class="container">
           <!-- 区域一 查询区域 -->
           <div class="container_btn" >
@@ -74,6 +74,7 @@
 </template>
 <script>
 export default {
+  name:"sysFilesList",
   data(){
     return{
       // 区域一--start
@@ -239,7 +240,6 @@ export default {
       });
     },
     openPhoto(url){
-      console.log("dianji");
       this.editVisible2=true;
       this.lineImgSrc=url;
     },

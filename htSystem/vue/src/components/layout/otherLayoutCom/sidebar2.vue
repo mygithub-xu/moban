@@ -28,7 +28,7 @@
     </template>
 
     <template v-if="layoutType == '2'">
-    <div class="horizontal-menu">
+    <div class="horizontal-menu" id="horizontal-menu">
             <el-menu
               :background-color="bgcolor"
               :text-color="textColor"
@@ -46,18 +46,22 @@
 
               <template v-for="item in menuData"  >
                 <template v-if="!item.children">
-                  
                   <el-menu-item  :index="item.url" :key="item.url">{{item.menuName}}</el-menu-item>
                 </template>
                 <template v-else>
 
                   <el-submenu :index="item.url" :key="item.url" style="height: 50px;line-height: 50px;">
-                  <template slot="title">{{item.menuName}}</template>
-                  <menuTree2Hor :menuData="item.children"></menuTree2Hor>
+                    <template slot="title">{{item.menuName}}</template>
+                    <menuTree2Hor :menuData="item.children"></menuTree2Hor>
                   </el-submenu>
 
                 </template>
               </template>
+
+              <el-submenu index="more" key="more"  v-if="isShowMore" style="height: 50px;line-height: 50px;width:70px">
+                <template slot="title">更多</template>
+                <menuTree2Hor :menuData="menuDataMore"></menuTree2Hor>
+              </el-submenu>
 
             </el-menu>
 
@@ -75,15 +79,19 @@ export default {
    data() {
       return {
         activeMenu:"",
-
         homePageData:[
-          {
+        {
           "icon": "el-icon-setting",
           "url": "/page/Dashboard",
           "menuName": "系统首页"
         },
         ],
         menuData:[],
+        menuDataMore:[],
+
+        //判断是否超出长度
+        isShowMore:false,
+        canUserWidth:200,
       };
     },
     props:{
@@ -114,19 +122,75 @@ export default {
         activeTextColor:{
           type: String,
           default: "#409EFF"
+        },
+        menuWidth:{
+          type:Number,
+          default:200,
         }
-    },
-  computed:{
-
+  },
+  watch:{
+    menuWidth(newValue, oldValue){
+      
+      this.showMore();
+    }
   },
   created(){
     this.getMenu();
-
+    if(this.layoutType=='2'){
+      this.showMore();
+    }    
   },
   methods: {
    getMenu(){
-      this.menuData = JSON.parse(sessionStorage.getItem("menuData"))
+      this.menuData = JSON.parse(sessionStorage.getItem("menuData"));
    },
+   showMore(){
+     
+     this.$nextTick(()=>{
+      
+      this.canUserWidth=this.menuWidth-70;
+      //menu总长度
+      let allMenu=document.getElementById("horizontal-menu");
+
+      //过滤出显示的每个菜单节点
+      let menuParents=allMenu.getElementsByTagName("ul");
+      let menuItemList=menuParents[0].children;
+
+      //如果超过menu总长度，那么记录时第几个。
+      let index=-1;
+      let allItemWidth=0;
+      
+      for(let i=0;i<menuItemList.length;i++){
+        allItemWidth=allItemWidth+menuItemList[i].clientWidth;
+        if(allItemWidth>this.canUserWidth){
+          index=i-1;
+          break;
+        }
+      }
+
+      this.isShowMore=false;
+      this.menuData=JSON.parse(sessionStorage.getItem("menuData"));
+      this.menuDataMore=[];
+      if(index>0){
+        this.isShowMore=true;
+        let allData= JSON.parse(sessionStorage.getItem("menuData"));
+        this.menuData=allData.slice(0,index);
+        console.log("menuData是："+this.menuData);
+        this.menuDataMore=allData.slice(index);
+        console.log("menuDataMore是"+this.menuDataMore);
+      }
+
+      if(index==0){
+        this.isShowMore=true;
+        this.menuDataMore=JSON.parse(sessionStorage.getItem("menuData"));
+        console.log("menuData2是："+this.menuData);
+        this.menuData=[]
+      }
+
+     })
+
+   }
+
   }
 }
 </script>

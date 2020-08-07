@@ -44,8 +44,10 @@
         flag:1,
       }
     },
+    created(){
+      
+    },
     methods: {
-
       ceshi(){
         const loading = this.$loading({
           lock: true,
@@ -57,6 +59,8 @@
           loading.close();
         }, 2000);
       },
+
+
       onSubmit(formName) {
         
         // 为表单绑定验证功能
@@ -71,7 +75,8 @@
           background: 'rgba(0, 0, 0, 0.7)'
         });
 
-            this.$http.post(this.api.login,this.form).then(res=>{
+            this.$http.post(this.api.login,this.form)
+            .then(res=>{
               if (res.data.code == '200') {
                 
                 sessionStorage.setItem("menuData",JSON.stringify(res.data.body.menuData));
@@ -116,10 +121,17 @@
             loading.close();
               // this.fullscreenLoading=false;
             })
+          .catch(() => {
+            this.$message.error({message: "服务器错误请联系管理员"});
+            loading.close();
+          });
+
+
           } 
 
         });
       }
+
     }
   }
 </script>

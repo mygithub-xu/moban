@@ -32,10 +32,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-// .el-submenu__title span{
-    
-// }
-// .el-menu-item{
-//     margin-left: 15px;
-// }
 </style>

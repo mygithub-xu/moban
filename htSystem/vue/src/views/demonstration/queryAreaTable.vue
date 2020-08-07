@@ -390,7 +390,6 @@ export default {
   },
   methods:{
     changebox(item){
-      console.log(item)
     },
       handleSelectionChangeDetil(val){
           this.delVal = val;

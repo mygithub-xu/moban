@@ -11,14 +11,7 @@ const router = new Router({
     {
       path: '/',
       redirect: '/login',
-      name: '首页'
-    },
-    
-      
-    {
-      path: '/otherLayout',
-      component: resolve => require(['../components/layout/otherLayout.vue'], resolve),
-      name: '改进layout'
+      name: '登录'
     },
     {
       path: '*',

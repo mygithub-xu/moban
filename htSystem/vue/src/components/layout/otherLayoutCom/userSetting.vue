@@ -4,8 +4,8 @@
             <el-submenu index="2"  popper-class="infoItem">
                 <template slot="title">
                     <el-avatar :src="avatar" class="avatarDiv" ></el-avatar>
-                    <div class="menuUserName">
-                        <span v-if="username">您好：{{username}}  </span>
+                    <div class="menuUserName" :style="{'color':fontColor}">
+                        <span v-if="username">您好: {{username}}</span>
                         <span v-else></span>
                     </div>
                 </template>
@@ -39,6 +39,10 @@ export default {
           type:String,
           default:""
       },
+      fontColor:{
+          type:String,
+          default:""  
+      }
   },
   methods:{
         //用户下拉功能菜单

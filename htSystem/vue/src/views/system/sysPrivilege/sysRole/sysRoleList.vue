@@ -1,6 +1,6 @@
 <template>
 <!-- 系统配置---权限管理---角色管理 -->
-<div class="app-container" style="padding-bottom:15px">
+<div class="app-container2" >
   <div class="container">
         <div class="container_btn ">
         <span style="float:left;padding-bottom: 10px;">
@@ -102,9 +102,9 @@
     <!-- 权限树提示框 start-->
     <div class="showDialog">
       <el-dialog
-        title="提示"
         fullscreen
         :visible.sync="treeVisible"
+        :modal="false"
         :modal-append-to-body="false"
         @close="cancelTreeVisible"
       >
@@ -196,7 +196,7 @@
 </template>
 <script>
 export default {
-
+  name:"sysRole",
   data(){
     return{
       show:true,

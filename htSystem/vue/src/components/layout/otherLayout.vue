@@ -17,7 +17,8 @@
                     </span>
             </div>
 
-            <rightHeader :bgColor="layoutType1Param.headerBgcolor" :username="username"  :avatar="avatar"  @changeSysType="changeSysType" @fullScreen="fullScreen" @exitSys="exitSys"></rightHeader>
+            <rightHeader :bgColor="layoutType1Param.headerBgcolor" :fontColor="layoutType1Param.rightHeadColor" :username="username"  :avatar="avatar"  
+            @changeSysType="changeSysType" @fullScreen="fullScreen" @exitSys="exitSys"></rightHeader>
         </div>
 
         <div class="layout-body">
@@ -46,13 +47,14 @@
             <div class="layout-header-title" :style="{'width':layoutType2Param.headWidth+'px'}">
                 <span  :style="{'width':layoutType2Param.headWidth+'px','color':layoutType2Param.menuFontcolor}">
                     <img src="../../assets/logo.png" class="layout-header-title-img"/>
-                    <template>{{houtaiName}}</template>
+                    <template>{{companyAtt.name}}</template>
                 </span>
             </div>
             <div class="layout-header-left" :style="{'width':layoutType2Param.menuWidth+'px'}" >
                     <!-- 菜单 -->
                     <sidebar2 class="menu_container2"  :bgcolor="layoutType2Param.headerBgcolor" 
                     :layoutType="layoutType" :textColor="layoutType2Param.menuFontcolor" :activeTextColor="layoutType2Param.menuActiveFontcolor"
+                    :menuWidth="layoutType2Param.menuWidth"
                     ></sidebar2>
             </div>
 
@@ -63,7 +65,11 @@
             <AppMain2 class="app-main" style="width:100%">
                 <!-- 面包屑 -->
                 <slot>
-                    <breadcrumb2 :levelList="levelList"></breadcrumb2>
+                    <div class="mainTopDiv">
+                        <!-- <breadcrumb2 :levelList="levelList"></breadcrumb2> -->
+                        <headTabs  :tableTabs="getOpenTab" :indexTab="getIndexTab" @removeTab="removeTab"></headTabs>
+                        <!-- <scrollViewOverDiv></scrollViewOverDiv> -->
+                    </div>
                 </slot>
 
             </AppMain2>
@@ -81,7 +87,7 @@
         <div class="drawer-body">
             <div class="common-drawer-item">
                 <h4>布局模式:</h4>
-                    <el-select v-model="layoutType" size="small" placeholder="请选择" @change="typeClick()">
+                    <!-- <el-select v-model="layoutType" size="small" placeholder="请选择" @change="typeClick()">
                         <el-option
                         v-for="item in options"
                         :key="item.value"
@@ -89,11 +95,16 @@
                         :value="item.value"
                         >
                         </el-option>
-                </el-select>
+                </el-select> -->
+                <el-radio-group v-model="layoutType" @change="typeClick()" style="margin-top:20px">
+                    <el-radio :label="'1'">左右布局</el-radio>
+                    <el-radio :label="'2'">上下布局</el-radio>
+                </el-radio-group>
+
 
             </div>
 
-            <div class="common-drawer-item">
+            <!-- <div class="common-drawer-item">
                 <h4>风格自选:</h4>
                     <el-select v-model="indexStyle" size="small" placeholder="请选择" @change="styleClick()">
                     <el-option
@@ -104,7 +115,7 @@
                     </el-option>
                 </el-select>
 
-            </div>
+            </div> -->
             <template v-if="layoutType=='1'">
             <div   class="common-drawer-item">
                 <h4>侧边菜单颜色:</h4>
@@ -122,22 +133,27 @@
                         <template v-if="layoutType=='1'">
                             <i v-if="layoutType1Param.headerBgcolor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
                         </template>
-
+                        <template v-if="layoutType=='2'">
+                            <i v-if="layoutType2Param.headerBgcolor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
+                        </template>
                     </div>
                 </div>
             </div>
 
         </div>
         </el-drawer>
+
     </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import screenfull from 'screenfull';
-import bus from "../common/js/bus";
+import bus from "../../assets/js/bus";
 export default {
     data(){
         return {
+            //窗口宽度
+            // screenWidth: "",
             //抽屉状态
             drawer: false,
             //布局类型
@@ -154,6 +170,8 @@ export default {
             layoutType1Param:{
                 //默认头部颜色
                 headerBgcolor:"#ffffff",
+                //right头部字体颜色
+                rightHeadColor:"#909399",
                 //头部默认宽度
                 headWidth:200,
                 //菜单默认宽度
@@ -177,6 +195,8 @@ export default {
             layoutType2Param:{
                 //默认头部颜色
                 headerBgcolor:"#ffffff",
+                //right头部字体颜色
+                rightHeadColor:"#909399",
                 //菜单默认宽度
                 menuWidth: 200,
                 //头部默认宽度
@@ -230,14 +250,12 @@ export default {
         // this.getBreadcrumb();
     },
     mounted(){
-        
         window.onresize = () => {
-            return (() => {
-                if(this.layoutType=='2'){
-                    this.getLayoutType();
-                }
-                
-            })
+            
+            if(this.layoutType=='2'){
+                this.type2Data();
+            }
+
         }
 
     },
@@ -246,7 +264,7 @@ export default {
         $route(route) {
             // this.$route.meta.keepAlive
             this.changeTabRouter()
-        }
+        },
     },
     computed: {
         ...mapGetters([
@@ -256,7 +274,6 @@ export default {
     },
     methods:{
         closeDrawer(){
-            debugger
             //保存样式
             var layoutStyle={
                 layoutType:this.layoutType,
@@ -264,7 +281,7 @@ export default {
                 layoutType2Param:this.layoutType2Param
             }
             sessionStorage.setItem("layoutstyle",JSON.stringify(layoutStyle));
-            console.log(JSON.parse(sessionStorage.getItem("layoutstyle")))
+            // console.log(JSON.parse(sessionStorage.getItem("layoutstyle")))
         },
         getdata(){
             // this.fuzhi();
@@ -353,9 +370,6 @@ export default {
             let user = JSON.parse(sessionStorage.getItem('user')); 
             this.avatar=user.headPortrait;
             this.username=user.userName;
-            
-            // this.avatar=this.getAvatar;
-            // this.username=this.getUserName;
 
         },
         //面包屑
@@ -387,22 +401,6 @@ export default {
         changeTabRouter(){
             //获取要进入的路由
             let matched = this.$route.matched;
-            //判断该路由是否为close后的，是就不载入缓存，并且移除store中的该tab
-
-            // var closeTabs=this.$store.state.tabRouter.closeTab;
-            // this.iskeepRouter=true;
-            // if(closeTabs){
-            //         for(let i=0;i<closeTabs.length;i++){
-            //             if(closeTabs[i].path==matched[1].path){
-            //                 this.iskeepRouter=false;
-            //                 closeTabs.splice(i,1);
-            //                 break;
-            //             }
-            //         }
-            //         if(!this.iskeepRouter){
-            //             this.$store.dispatch('changeCloseTabFun',closeTabs);
-            //         }
-            // }
             
             //判断tab中是否存在该路由，存在不更新，不存在更新
             let nowRouterList=this.getOpenTab;
@@ -475,7 +473,6 @@ export default {
         },
         //初始化系统样式
         getLayoutType(type){
-            debugger
             var layoutstyleSession=JSON.parse(sessionStorage.getItem("layoutstyle"));
             if(!layoutstyleSession||layoutstyleSession==null){
                 this.layoutType="1";
@@ -484,6 +481,7 @@ export default {
                 this.layoutType=layoutstyleSession.layoutType;
                 this.layoutType1Param=layoutstyleSession.layoutType1Param;
                 this.layoutType2Param=layoutstyleSession.layoutType2Param;
+                this.type2Data()
             }
         },
 
@@ -492,6 +490,8 @@ export default {
             this.layoutType1Param={
                 //默认头部颜色
                 headerBgcolor:"#ffffff",
+                 //right头部字体颜色
+                rightHeadColor:"#909399",
                 //头部默认宽度
                 headWidth:200,
                 //菜单默认宽度
@@ -515,15 +515,15 @@ export default {
 
         //type2时样式数据
         type2Data(){
-            // this.$nextTick(()=>{
+            this.$nextTick(()=>{
                 //动态获取宽度
                 this.layoutType2Param.headWidth=200;
-                var rightwidth= document.getElementById('layout-header-right').offsetWidth; //右边宽度 300   headWidth左边宽度   
-                var allwidth= document.getElementById('layout-header').offsetWidth;
+                var rightwidth= document.getElementById('layout-header-right').clientWidth; //右边宽度    headWidth左边宽度   
+                var allwidth= document.getElementById('layout-header').clientWidth;
                 var leftwidth = this.layoutType2Param.headWidth;
                 this.layoutType2Param.menuWidth =allwidth - rightwidth - leftwidth;
                 
-            // })
+            })
 
         },
 
@@ -561,6 +561,12 @@ export default {
         changeTopColor(color){
         
             if(this.layoutType=='1'){
+                if(color=="#ffffff"){
+      
+                    this.layoutType1Param.rightHeadColor="#909399"
+                }else{
+                    this.layoutType1Param.rightHeadColor="#ffffff"
+                }
 
                 if(this.layoutType1Param.headerBgcolor==color){
                     return;
@@ -575,8 +581,10 @@ export default {
                     this.layoutType2Param.headerBgcolor=color;
                     if(this.layoutType2Param.headerBgcolor=="#ffffff"){
                         this.layoutType2Param.menuFontcolor="#000000"
+                        this.layoutType2Param.rightHeadColor="#909399"
                     }else{
                         this.layoutType2Param.menuFontcolor="#ffffff"
+                        this.layoutType2Param.rightHeadColor="#000000"
                     }
                 }   
             }
@@ -693,8 +701,6 @@ export default {
         margin-left: 15px;
     }
 
-
-
     .drawer-body{
         width: 100%;
         height: 100%;
@@ -738,6 +744,7 @@ export default {
         border-top: 1px solid #f0f0f0;
         border-bottom: 1px solid #f0f0f0;
     }
+
 
 
 </style>

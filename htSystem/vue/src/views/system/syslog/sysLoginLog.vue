@@ -1,5 +1,5 @@
 <template>
-  <div class="container2">
+  <div class="app-container2">
     <div class="container2-search">
       <el-form :model="condition" ref="form" label-width="100px" size="small">
             <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
@@ -88,6 +88,7 @@
 </template>
 <script>
 export default {
+  name:"sysLoginLog",
   data(){
     return{
       condition:{
