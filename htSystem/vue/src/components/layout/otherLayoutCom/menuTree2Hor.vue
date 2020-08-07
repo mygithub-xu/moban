@@ -7,7 +7,7 @@
                 <el-menu-item  :index="item.url" :key="item.url">{{item.menuName}}</el-menu-item>
             </template>
             <template v-else>
-                <el-submenu :index="item.url" :key="item.url" style="height: 50px;line-height: 50px;">
+                <el-submenu :index="item.url" :key="item.url" >
                     <template slot="title">{{item.menuName}}</template>
                     <menuTree2Hor :menuData="item.children"></menuTree2Hor>
                 </el-submenu>

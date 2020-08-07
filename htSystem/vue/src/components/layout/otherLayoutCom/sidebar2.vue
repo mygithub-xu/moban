@@ -175,15 +175,13 @@ export default {
         this.isShowMore=true;
         let allData= JSON.parse(sessionStorage.getItem("menuData"));
         this.menuData=allData.slice(0,index);
-        console.log("menuData是："+this.menuData);
         this.menuDataMore=allData.slice(index);
-        console.log("menuDataMore是"+this.menuDataMore);
+
       }
 
       if(index==0){
         this.isShowMore=true;
         this.menuDataMore=JSON.parse(sessionStorage.getItem("menuData"));
-        console.log("menuData2是："+this.menuData);
         this.menuData=[]
       }
 
@@ -217,10 +215,6 @@ export default {
 .horizontal-menu .el-submenu__title{
         height: 50px;
     }
-.horizontal-menu .el-menu--horizontal>.el-submenu .el-submenu__title{
-    height: 50px!important;
-    line-height: 50px!important;
-}
 
     //设置鼠标悬停时el-menu-item的样式
 //  .horizontal-menu .el-menu-item:hover{
