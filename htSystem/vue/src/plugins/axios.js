@@ -2,11 +2,9 @@
 
 import Vue from 'vue';
 import axios from "axios";
-// import { get, post,del,patch} from '../static/js/http'//暴露https;
-// Vue.prototype.$post=post;
 
-axios.defaults.baseURL = 'http://120.25.197.11/moban/';//定义统一的请求url，，后面接接口名称即可
-// axios.defaults.baseURL = 'http://127.0.0.1:4040/moban';
+// Vue.prototype.$post=post; process.env.API_ROOT
+axios.defaults.baseURL = '/api'
 //等同于Vue.prototype.$axios = axios，命名习惯，全局使用$http
 Vue.prototype.$http = axios;
 
