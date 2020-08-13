@@ -79,9 +79,11 @@
             .then(res=>{
               if (res.data.code == '200') {
                 
+                //更新登录状态
+                this.$store.dispatch('changeLoginStatusFun',true);
+
                 sessionStorage.setItem("menuData",JSON.stringify(res.data.body.menuData));
                 sessionStorage.setItem("user", JSON.stringify(res.data.body.user));
-                sessionStorage.setItem("menuList",JSON.stringify(res.data.body.menuList));
                 sessionStorage.setItem("userId", res.data.body.userId);
                 sessionStorage.setItem("Token", res.data.body.token);
                 sessionStorage.setItem("buttonUrlList",JSON.stringify(res.data.body.buttonUrlList));
@@ -89,13 +91,12 @@
                 // this.$store.dispatch('changeUrlFun',res.data.body.user.headPortrait);
                 // this.$store.dispatch('changeUsernameFun',res.data.body.user.userName);
 
-                this.$router.push("/page/Dashboard");
+
+
+                this.$router.push("/page/Dashboard").catch(()=>{});
                 this.$message.success("登入成功");
                 
-              }
-
-              else{
-            // this.dialogVisible = true;
+              } else{
 
               if (res.data.code === "410") {
                   if(this.flag<3){
@@ -156,7 +157,7 @@
   .login-body{
     width: 100%;
     height: 100%;
-    background-image: url("../../assets/img/bjt1.jpg");
+    background-image: url("../../../assets/img/bjt1.jpg");
     position: relative;
     background-size:100% 100%;
   }

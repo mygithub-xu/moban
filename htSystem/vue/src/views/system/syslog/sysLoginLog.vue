@@ -46,16 +46,16 @@
               </el-form-item>
             </el-col>
             <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
-              <el-button style="margin: 0 0 0 18px;" type="success" icon="el-icon-search" @click="getdata" round size="small">搜索</el-button>
-              <el-button type="warning" size="small" @click="empty" icon="el-icon-refresh" round >重置</el-button>
+              <el-button style="margin: 0 0 0 18px;" type="primary" icon="el-icon-search" @click="getdata"  size="small">搜索</el-button>
+              <el-button size="small" @click="empty" icon="el-icon-refresh"  >重置</el-button>
             </el-col>
       </el-form>
     </div>
     <div class="container2-body">
       <div class="container2-button">
         <span>
-            <el-button style="margin: 0 0 0 18px;" type="danger" icon="el-icon-delete" @click="handleDeleteBatch" :disabled="dicDisabled" round size="small">删除</el-button>
-            <el-button type="warning" size="small" @click="handleExport" icon="icon-upload" round >导出</el-button>
+            <el-button style="margin: 0 0 0 18px;" type="danger" icon="el-icon-delete" @click="handleDeleteBatch" :disabled="dicDisabled"  size="small">删除</el-button>
+            <el-button  size="small" @click="handleExport" icon="icon-upload"  >导出</el-button>
         </span>
         <span class="handle-box" style="float:right">
             <el-row class="tac">

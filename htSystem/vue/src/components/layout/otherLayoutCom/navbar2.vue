@@ -127,7 +127,7 @@
 
 <script>
 
-import bus from "../../../assets/js/bus";
+import bus from "@utils/bus";
 export default {
     name:"navbar2",
   data(){

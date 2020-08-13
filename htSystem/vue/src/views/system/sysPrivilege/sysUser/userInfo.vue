@@ -87,9 +87,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import bus from "../../../../assets/js/bus";
+import bus from "@utils/bus";
 export default {
-  name: "modifyInformation",
+  name: "userInfo",
   data(){
     // 手机号验证
 		var checkPhone = (rule, value, callback) => {

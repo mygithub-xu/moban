@@ -4,10 +4,10 @@
             <!-- 区域一 查询区域 -->
             <div class="container_btn" >
             <span>
-                <el-button type="warning" size="small"   @click="handleAdd">新增</el-button>
+                <el-button type="primary" size="small"   @click="handleAdd">新增</el-button>
                 <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
-                <el-button type="primary" plain size="small"   @click="search">刷新</el-button>
-                <el-button type="info" plain size="small" @click="reset">重置搜索</el-button>
+                <el-button type="primary"  size="small"   @click="search">刷新</el-button>
+                <el-button  plain size="small" @click="reset">重置搜索</el-button>
             </span>
             </div>
             <!-- 区域二---表格+分页 -->

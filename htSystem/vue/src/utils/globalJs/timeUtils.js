@@ -21,6 +21,8 @@ export default {
 
     //自动补零
     prefixInteger(num) {
+
+      console.log("jinru")
    
         if(num>9){
             return num;

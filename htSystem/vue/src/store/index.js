@@ -6,12 +6,14 @@ Vue.use(Vuex)
 import menu from './modules/menu'
 import userInfo from './modules/userInfo'
 import tabRouter from './modules/tabRouter'
+import addRouter from './modules/addRouter'
 
 const store = new Vuex.Store({
     modules: {
         menu,
         userInfo,
-        tabRouter
+        tabRouter,
+        addRouter
     }
 });
 

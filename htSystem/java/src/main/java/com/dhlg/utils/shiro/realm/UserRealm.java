@@ -7,11 +7,13 @@ import com.dhlg.module.system.sysUser.entity.SysUser;
 import com.dhlg.module.system.sysUser.service.impl.SysUserServiceImpl;
 import com.dhlg.utils.common.StringUtils;
 import com.dhlg.utils.shiro.utils.LoggerUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -42,8 +44,6 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        LoggerUtils.debug(UserRealm.class,"加载权限--->doGetAuthorizationInfo()");
-
         //获取用户
         SysUser user = (SysUser) getAvailablePrincipal(principals);
 
@@ -75,12 +75,8 @@ public class UserRealm extends AuthorizingRealm {
         authorizationInfo.setRoles(roleList);
 
         /*
-         *  该权限必须给接口处添加@RequiresPermissions("xxx")，但是考虑到这样做只能做到增删改查等分批的接口，
-         *  ，每个接口都要@RequiresPermissions太过于麻烦，未来还会有其他的各种按钮，
-         *  从而必须增加一个表来随时更新这些按钮的权限，这样根本无法做到真正的简约。
-         *  本框架在直接在shiroConfig的拦截中，找到按钮的url，处理了这些后台接口。
+         *  该权限必须给接口处添加@RequiresPermissions("xxx")
          */
-
         authorizationInfo.setStringPermissions(menuPermissionSet);
 
         return authorizationInfo;
@@ -115,6 +111,8 @@ public class UserRealm extends AuthorizingRealm {
                 ByteSource.Util.bytes(sysUser.getCredentialsSalt()),
                 this.getName()  //realm name
         );
+
+
         return authenticationInfo;
     }
     @Override

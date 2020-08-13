@@ -10,13 +10,10 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    //开发环境，proxyTable在开发环境中使用，目的是解决本地环境跨域
     proxyTable: {
       '/api': {
-          target: 'http://120.25.197.11/api/', //测试环境
-          // target: 'http://127.0.0.1:4040/moban/', //本地环境
-          // target: 'http://120.25.197.11/moban/', //正式环境
-          
-          // secure: false,  // 如果是https接口，需要配置这个参数
+          target: 'http://120.25.197.11/api/', 
           changeOrigin: true, //改变源 
           pathRewrite: {
               '^/api': '' //路径重写 

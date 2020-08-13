@@ -22,11 +22,14 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisShardInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -93,6 +96,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         //String token = Tool.makeToken();
         dataMap.put("token",  subject.getSession().getId());
+        System.out.println("token:"+subject.getSession().getId());
         if (!StringUtils.isBlank(user)){
             dataMap.put("userId", user.getId());
             Set<String> buttonUrlList= new HashSet<>();
@@ -288,6 +292,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     Dictionaries.UPDATE_PASSWORD_FAILED);
         }
         return result;
+    }
+
+    @Override
+    public void logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
     }
 
 

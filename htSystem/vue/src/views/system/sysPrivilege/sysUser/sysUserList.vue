@@ -4,8 +4,8 @@
           <!-- 区域一 查询区域 -->
           <div class="container_btn" >
             <span>
-            <el-button type="warning" size="small" buttonCode="TY003"  @click="handleAdd">新增</el-button>
-            <el-button type="danger" size="small"  buttonCode="TY004" v-has="'sysUser:batchDelete'" @click="handleDeleteBatch">删除</el-button>
+            <el-button type="primary" size="small" @click="handleAdd">新增</el-button>
+            <el-button type="danger" size="small"   v-has="'sysUser:batchDelete'" @click="handleDeleteBatch">删除</el-button>
             </span>
             <span class="handle-box" style="float:right">
               <el-input
@@ -79,7 +79,7 @@
         <div class="showDialog">
             <el-dialog title="账号配置" :visible.sync="editVisible"  :show-close="false" :modal="false" fullscreen>
               <div class="dialogFix">
-                  <el-button type="primary" size="small" buttonCode="TY020" v-has="'sysUser:save'" @click="handleSave('form')">保 存</el-button>
+                  <el-button type="primary" size="small"  v-has="'sysUser:save'" @click="handleSave('form')">保 存</el-button>
                   <el-button size="small" @click="cancelSave">返 回</el-button>
               </div>
               <el-form  ref="AddForm" :model="AddForm" :rules="rules" label-width="150px" size="small" style="margin-top:10px">

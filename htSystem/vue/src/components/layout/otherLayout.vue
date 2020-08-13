@@ -148,7 +148,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import screenfull from 'screenfull';
-import bus from "../../assets/js/bus";
+import bus from "@utils/bus";
 export default {
     data(){
         return {
@@ -437,7 +437,13 @@ export default {
         //离开系统
         exitSys(){
 
-            sessionStorage.removeItem("Token");
+            this.$http.post(this.api.logout).then(res => {
+                if(res.code=="200"){
+                    sessionStorage.removeItem("Token");
+                }
+            });
+
+            
             sessionStorage.removeItem("userId");
             sessionStorage.removeItem("menuData");
             sessionStorage.removeItem("menuList");
@@ -451,9 +457,6 @@ export default {
                 }
             ]
             this.$store.dispatch('changeTabFun',openTab);
-
-            this.$http.post(this.api.logout).then(res => {});
-
             this.$router.push("/login");
         },
         //全屏

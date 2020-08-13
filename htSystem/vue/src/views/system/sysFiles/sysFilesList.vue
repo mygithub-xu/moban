@@ -4,7 +4,7 @@
           <!-- 区域一 查询区域 -->
           <div class="container_btn" >
             <span>
-            <el-button type="warning" size="small"   @click="handleAdd">上传图片</el-button>
+            <el-button type="primary" size="small"   @click="handleAdd">上传图片</el-button>
             <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
             </span>
             <span class="handle-box" style="float:right">

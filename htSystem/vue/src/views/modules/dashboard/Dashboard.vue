@@ -82,7 +82,7 @@
 </template>
 
 <script>
-// import bus from "../../assets/js/bus";
+// import bus from "@utils/bus";
     export default {
         name:"Dashboard",
         data(){
@@ -111,6 +111,9 @@
             // this.getdata();
         },
         methods:{
+            aaaaa(){
+                console.log("dianjile")
+            },
             getEchatbbb(){
                 let myChart = this.$echarts.init(document.getElementById("bbb"))
                 myChart.setOption({
@@ -237,6 +240,7 @@
             });
             },
             userCountClick(){
+                
                 // this.$router.push({path:'/views/app/appUser/appUserList'});
             },
             dynamicCountClick(){

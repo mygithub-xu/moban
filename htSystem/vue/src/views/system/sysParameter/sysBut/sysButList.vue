@@ -4,7 +4,7 @@
     <div class="container">
       <div class="container_btn" >
         <span>
-          <el-button type="warning" size="small"  @click="handleAdd">新增</el-button>
+          <el-button type="primary" size="small"  @click="handleAdd">新增</el-button>
           <el-button
             type="danger"
             size="small"

@@ -4,11 +4,11 @@
   <div class="container">
         <div class="container_btn ">
         <span style="float:left;padding-bottom: 10px;">
-          <el-button type="warning" size="small" buttonCode="JS001"   @click="handleAdd">创建角色</el-button>
+          <el-button type="primary" size="small"  @click="handleAdd">创建角色</el-button>
 
-          <el-button type="primary" size="small" buttonCode="TY008"v-has="'sysRole:updateStatus'" @click="saveEnable('Y')">启用</el-button>
+          <el-button type="primary" size="small"  v-has="'sysRole:updateStatus'" @click="saveEnable('Y')">启用</el-button>
 
-          <el-button type="info" size="small" buttonCode="TY009" v-has="'sysRole:updateStatus'" @click="saveEnable('N')">禁用</el-button>
+          <el-button type="danger" size="small" :disabled="dicDisabled"  v-has="'sysRole:updateStatus'" @click="saveEnable('N')">禁用</el-button>
 
           <el-button
             type="danger"

@@ -40,4 +40,6 @@ public interface ISysUserService extends IService<SysUser> {
     Result userUpdateUserInfo(SysUser sysUser);
 
     Result updatePassword(Parameter parameter);
+
+    void logout();
 }
