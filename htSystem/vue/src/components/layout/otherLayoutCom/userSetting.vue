@@ -1,6 +1,6 @@
 <template>
     <div class="userSettingDiv">
-        <el-menu class="el-menu-demo"  mode="horizontal" :background-color="bgColor">
+        <el-menu class="el-menu-demo"  mode="horizontal" :background-color="bgColor" :text-color="fontColor">
             <el-submenu index="2"  popper-class="infoItem">
                 <template slot="title">
                     <el-avatar :src="avatar" class="avatarDiv" ></el-avatar>
@@ -57,13 +57,7 @@ export default {
             }
             //清除缓存
             if(type=="clear"){
-                // var openTab=[
-                //     {
-                //         name:"系统首页",
-                //         path:"/page/Dashboard"
-                //     }
-                // ]
-                // this.$store.dispatch('changeTabFun',openTab);
+                
             }
         },
   }

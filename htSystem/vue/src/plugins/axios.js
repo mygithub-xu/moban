@@ -3,7 +3,7 @@ import Vue from 'vue';
 import axios from "axios";
 
 // Vue.prototype.$post=post; process.env.API_ROOT
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = process.env.API_ROOT
 //等同于Vue.prototype.$axios = axios，命名习惯，全局使用$http
 Vue.prototype.$http = axios;
 

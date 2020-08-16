@@ -3,76 +3,58 @@
         <!-- 头部 -->
 
         <template v-if="layoutType == '1'">
-        <div class="layout-header" id="layout-header" :style="{'background-color':layoutType1Param.headerBgcolor}">
-            <div class="layout-header-title" :style="{'width':layoutType1Param.headWidth+'px','background-color':layoutType1Param.menuBgcolor}">
-                <span  :style="{'width':layoutType1Param.headWidth+'px','color':layoutType1Param.menuFontcolor}">
-                    <img src="../../assets/logo.png" class="layout-header-title-img"/>
-                    <template v-if="!layoutType1Param.isCollapse">{{companyAtt.name}}</template>
-                </span>
-            </div>
-            <!-- <leftHeader :layoutType="layoutType1Param" :companyAtt="companyAtt"></leftHeader> -->
-            <div class="layout-header-left" >
-                    <span class="layout-header-left-icon">
-                        <i class="icon iconfont" :class="layoutType1Param.isCollapse?'icon-zhedie2':'icon-zhedie1'" @click="changeWidth"></i>
-                    </span>
-            </div>
+        <layoutHeader :layoutType="layoutType" :layoutTypeParam="layoutType1Param" :companyAtt="companyAtt" @changeWidth="changeWidth">
+            <slot slot="rightHeader">
+                <rightHeader :bgColor="layoutType1Param.headerBgcolor" :fontColor="layoutType1Param.rightHeadColor" :username="username"  
+                :avatar="avatar" @changeSysType="changeSysType" @fullScreen="fullScreen" @exitSys="exitSys">
+                </rightHeader>
+            </slot>
+        </layoutHeader>
 
-            <rightHeader :bgColor="layoutType1Param.headerBgcolor" :fontColor="layoutType1Param.rightHeadColor" :username="username"  :avatar="avatar"  
-            @changeSysType="changeSysType" @fullScreen="fullScreen" @exitSys="exitSys"></rightHeader>
-        </div>
 
         <div class="layout-body">
             <!-- 侧菜单 -->
-            <sidebar2 class="menu_container" :style="{'width':layoutType1Param.menuWidth+'px','background-color':layoutType1Param.menuBgcolor}" 
+            <sidebar class="menu_container" :style="{'width':layoutType1Param.menuWidth+'px','background-color':layoutType1Param.menuBgcolor}" 
             :bgcolor="layoutType1Param.menuBgcolor" :layoutType="layoutType" :isCollapse="layoutType1Param.isCollapse"
             :textColor="layoutType1Param.menuFontcolor" :activeTextColor="layoutType1Param.menuActiveFontcolor"
-            ></sidebar2>
+            ></sidebar>
 
-            <AppMain2 class="app-main"   :style="{'width': 'calc(100% - ' +layoutType1Param.menuWidth2+'px)'}">
+            <AppMain class="app-main"   :style="{'width': 'calc(100% - ' +layoutType1Param.menuWidth2+'px)'}">
                 <!-- 面包屑 -->
                 <slot>
                     <div class="mainTopDiv">
-                        <!-- <breadcrumb2 :levelList="levelList"></breadcrumb2> -->
+                        <!-- <breadcrumb :levelList="levelList"></breadcrumb> -->
                         <headTabs  :tableTabs="getOpenTab" :indexTab="getIndexTab" @removeTab="removeTab"></headTabs>
                     </div>
                 </slot>
 
-            </AppMain2>
+            </AppMain>
         </div>
         </template>
 
         <template v-if="layoutType == '2'">
+        <layoutHeader :layoutType="layoutType" :layoutTypeParam="layoutType2Param" :companyAtt="companyAtt" @changeWidth="changeWidth">
 
-        <div class="layout-header" id="layout-header" :style="{'background-color':layoutType2Param.headerBgcolor}">
-            <div class="layout-header-title" :style="{'width':layoutType2Param.headWidth+'px'}">
-                <span  :style="{'width':layoutType2Param.headWidth+'px','color':layoutType2Param.menuFontcolor}">
-                    <img src="../../assets/logo.png" class="layout-header-title-img"/>
-                    <template>{{companyAtt.name}}</template>
-                </span>
-            </div>
-            <div class="layout-header-left" :style="{'width':layoutType2Param.menuWidth+'px'}" >
-                    <!-- 菜单 -->
-                    <sidebar2 class="menu_container2"  :bgcolor="layoutType2Param.headerBgcolor" 
-                    :layoutType="layoutType" :textColor="layoutType2Param.menuFontcolor" :activeTextColor="layoutType2Param.menuActiveFontcolor"
-                    :menuWidth="layoutType2Param.menuWidth"
-                    ></sidebar2>
-            </div>
+            <slot slot="rightHeader">
+                <rightHeader :bgColor="layoutType2Param.headerBgcolor" :fontColor="layoutType2Param.menuFontcolor" :username="username"  
+                    :avatar="avatar"  @changeSysType="changeSysType" @fullScreen="fullScreen" @exitSys="exitSys">
+                </rightHeader>
+            </slot>
 
-            <rightHeader :bgColor="layoutType2Param.headerBgcolor" :username="username"  :avatar="avatar"  @changeSysType="changeSysType" @fullScreen="fullScreen" @exitSys="exitSys"></rightHeader>
-        </div>
+        </layoutHeader>
+
 
         <div class="layout-body">
-            <AppMain2 class="app-main" style="width:100%">
+            <AppMain class="app-main" style="width:100%">
                 <!-- 面包屑 -->
                 <slot>
                     <div class="mainTopDiv">
-                        <!-- <breadcrumb2 :levelList="levelList"></breadcrumb2> -->
+                        <!-- <breadcrumb :levelList="levelList"></breadcrumb> -->
                         <headTabs  :tableTabs="getOpenTab" :indexTab="getIndexTab" @removeTab="removeTab"></headTabs>
-                        <!-- <scrollViewOverDiv></scrollViewOverDiv> -->
                     </div>
                 </slot>
 
-            </AppMain2>
+            </AppMain>
         </div>
 
 
@@ -84,63 +66,10 @@
         :with-header="false"
         @close="closeDrawer"
         size="320px">
-        <div class="drawer-body">
-            <div class="common-drawer-item">
-                <h4>布局模式:</h4>
-                    <!-- <el-select v-model="layoutType" size="small" placeholder="请选择" @change="typeClick()">
-                        <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                        >
-                        </el-option>
-                </el-select> -->
-                <el-radio-group v-model="layoutType" @change="typeClick()" style="margin-top:20px">
-                    <el-radio :label="'1'">左右布局</el-radio>
-                    <el-radio :label="'2'">上下布局</el-radio>
-                </el-radio-group>
+               <layoutSetting 
+            :layoutType="layoutType" :siderMenuColorList="siderMenuColorList" :TopMenuColorList="TopMenuColorList" :layoutType1Param="layoutType1Param" 
+            :layoutType2Param="layoutType2Param" @typeClick="typeClick" @changeMenuColor="changeMenuColor" @changeTopColor="changeTopColor"></layoutSetting>
 
-
-            </div>
-
-            <!-- <div class="common-drawer-item">
-                <h4>风格自选:</h4>
-                    <el-select v-model="indexStyle" size="small" placeholder="请选择" @change="styleClick()">
-                    <el-option
-                    v-for="item in options2"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
-
-            </div> -->
-            <template v-if="layoutType=='1'">
-            <div   class="common-drawer-item">
-                <h4>侧边菜单颜色:</h4>
-                <div class="sider-menu-color">
-                    <div class="sider-menu-color-item" v-for="(item,index) in siderMenuColorList" :key="index" :style="{'background-color':item}" @click="changeMenuColor(item)">
-                            <i v-if="layoutType1Param.menuBgcolor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
-                    </div>
-                </div>
-            </div>
-            </template>
-            <div class="common-drawer-item">
-                <h4>顶部导航栏颜色:</h4>
-                <div class="sider-menu-color">
-                    <div class="sider-menu-color-item" v-for="(item,index) in TopMenuColorList" :key="index" :style="{'background-color':item}" @click="changeTopColor(item)">
-                        <template v-if="layoutType=='1'">
-                            <i v-if="layoutType1Param.headerBgcolor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
-                        </template>
-                        <template v-if="layoutType=='2'">
-                            <i v-if="layoutType2Param.headerBgcolor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
-                        </template>
-                    </div>
-                </div>
-            </div>
-
-        </div>
         </el-drawer>
 
     </div>
@@ -163,7 +92,7 @@ export default {
             //公司属性（名称，商标）
             companyAtt:{
                 name:"某某某后台",
-                imgSrc:"../../assets/logo.png"
+                imgSrc:require('../../assets/logo.png')
             },
 
             //布局1参数
@@ -281,7 +210,6 @@ export default {
                 layoutType2Param:this.layoutType2Param
             }
             sessionStorage.setItem("layoutstyle",JSON.stringify(layoutStyle));
-            // console.log(JSON.parse(sessionStorage.getItem("layoutstyle")))
         },
         getdata(){
             // this.fuzhi();
@@ -338,11 +266,8 @@ export default {
                         break;
                     }
                 }
-
-
                 this.$store.dispatch('changeTabFun',tableTabsList);
                 return index;
-           
         },
 
 
@@ -364,13 +289,10 @@ export default {
 
         // 从缓存获取头像和姓名
         showImg() {
-
-            //
             //获取头像
             let user = JSON.parse(sessionStorage.getItem('user')); 
             this.avatar=user.headPortrait;
             this.username=user.userName;
-
         },
         //面包屑
         getBreadcrumb() {
@@ -442,7 +364,6 @@ export default {
                     sessionStorage.removeItem("Token");
                 }
             });
-
             
             sessionStorage.removeItem("userId");
             sessionStorage.removeItem("menuData");
@@ -525,16 +446,13 @@ export default {
                 var allwidth= document.getElementById('layout-header').clientWidth;
                 var leftwidth = this.layoutType2Param.headWidth;
                 this.layoutType2Param.menuWidth =allwidth - rightwidth - leftwidth;
-                
             })
 
         },
 
         //布局选择
-        typeClick(){
-            if(this.layoutType=='1'){
-
-            }
+        typeClick(type){
+            this.layoutType=type;
             if(this.layoutType=='2'){
                 
                 if(this.layoutType2Param.headerBgcolor=='#ffffff'){
@@ -592,13 +510,6 @@ export default {
                 }   
             }
         },
-        //风格选择
-        styleClick(){
-            if(this.indexStyle=='1'){
-
-            }
-        },
-
     walk(){
     //   window.clearInterval(this.timer);
     //   this.time = 0;
@@ -631,9 +542,6 @@ export default {
     //   },30000);
     }
 
-
-
-
     }
 
 }
@@ -642,11 +550,6 @@ export default {
     .layoutDiv{
         height: 100%;
         width: 100%;
-    }
-
-    .layout-header{
-        height: 50px;
-        /* border-bottom: solid 1px #e6e6e6; */
     }
     .layout-body{
         height: calc(100% - 50px);
@@ -659,85 +562,12 @@ export default {
         overflow: hidden;
         transition: width 0.5s;
     }
-    .menu_container2{
-        float: left;
-        height: 50px;
-        text-align: center;
-        overflow: hidden;
-    }
     .app-main {
         height: 100%;
         overflow: hidden;
         float: left;
         background-color: #f0f0f0;
         transition: width 0.5s;
-    }
-    .layout-header-title{
-        height: 50px;
-        text-align: center;
-        float: left;
-        overflow: hidden;
-        transition: width 0.5s;
-    }
-    .layout-header-title span{
-        font-size: 23px;
-        color: #ffffff;
-        float: left;
-        line-height: 50px;
-    }
-    .layout-header-title-img{
-        width:32px;
-        height:32px;
-        float:left;
-        margin-top: 9px;
-        margin-left: 15px;
-    }
-
-
-    .layout-header-left{
-        height: 50px;
-        float: left;
-    }
-    .layout-header-left-icon i{
-        font-size: 25px;
-        line-height: 50px;
-        margin-left: 15px;
-    }
-
-    .drawer-body{
-        width: 100%;
-        height: 100%;
-        padding: 24px 10px;
-        font-size: 14px;
-        line-height: 1.5;
-        word-wrap: break-word;
-        /* background-color: blanchedalmond; */
-    }
-    .common-drawer-item{
-        margin: 20px 0;
-        width: 100%;
-        float: left;
-    }
-    .sider-menu-color{
-        width: 100%;
-        min-height: 50px;
-        float: left;
-    }
-    .sider-menu-color-item{
-        width: 24px;
-        height: 24px;
-        float: left;
-        margin-left: 10px;
-        margin-top: 5px;
-        border-radius: 50%;
-        border: 1px solid rgb(238, 238, 238);
-        text-align: center;
-        position: relative;
-    }
-    .sider-menu-color-item .icon-queding{
-        position:absolute;
-        top: 5px;
-        right: 4px;
     }
     .mainTopDiv{
         height: 48px;
@@ -747,11 +577,4 @@ export default {
         border-top: 1px solid #f0f0f0;
         border-bottom: 1px solid #f0f0f0;
     }
-
-
-
-</style>
-
-<style lang="less">
-
 </style>

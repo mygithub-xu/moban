@@ -8,6 +8,7 @@
 
         <span class="layout-header-right-icon">
                 <userSetting :bgColor="bgColor"  :username="username"  :avatar="avatar" :fontColor="fontColor"></userSetting>
+                
         </span>
 
         <span class="layout-header-right-icon">

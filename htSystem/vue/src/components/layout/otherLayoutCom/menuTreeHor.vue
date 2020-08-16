@@ -9,7 +9,7 @@
             <template v-else>
                 <el-submenu :index="item.url" :key="item.url" >
                     <template slot="title">{{item.menuName}}</template>
-                    <menuTree2Hor :menuData="item.children"></menuTree2Hor>
+                    <menuTreeHor :menuData="item.children"></menuTreeHor>
                 </el-submenu>
             </template>
             
@@ -20,7 +20,7 @@
 <script>
 export default {
   props:['menuData'],
-  name: 'menuTree2Hor',
+  name: 'menuTreeHor',
   data(){
     return{
 

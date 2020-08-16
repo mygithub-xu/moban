@@ -53,6 +53,14 @@ module.exports = {
   },
 
   build: {
+    // 添加test、prod环境变量配置
+    prodEnv: require('./prod.env'),
+    testEnv: require('./test.env'),
+
+    //如果需要通过打包不同的环境变量，打包到不同的文件夹可以这样写,注意用了此处代码需要注释点下面的index和assetsRoot这两个配置
+    // index: path.resolve(__dirname, '../' + process.env.EVN_CONFIG + '_dist/index.html'),
+    // assetsRoot: path.resolve(__dirname, '../' + process.env.EVN_CONFIG + '_dist'),
+
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
 

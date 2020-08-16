@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-    name: 'breadcrumb2',
+    name: 'breadcrumb',
     data(){
         return {
 

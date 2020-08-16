@@ -1,6 +1,5 @@
 <template>
  <div >
-   
    <template v-if="layoutType == '1'">
      <el-scrollbar class="menu-scrollbar">
       <el-menu
@@ -22,7 +21,7 @@
                 </template>
               </template>
             </div>
-                <menuTree2 :menuData="menuData"></menuTree2>
+                <menuTree :menuData="menuData"></menuTree>
         </el-menu>
       </el-scrollbar >
     </template>
@@ -52,7 +51,7 @@
 
                   <el-submenu :index="item.url" :key="item.url" style="height: 50px;line-height: 50px;">
                     <template slot="title">{{item.menuName}}</template>
-                    <menuTree2Hor :menuData="item.children"></menuTree2Hor>
+                    <menuTreeHor :menuData="item.children"></menuTreeHor>
                   </el-submenu>
 
                 </template>
@@ -60,7 +59,7 @@
 
               <el-submenu index="more" key="more"  v-if="isShowMore" style="height: 50px;line-height: 50px;width:70px">
                 <template slot="title">更多</template>
-                <menuTree2Hor :menuData="menuDataMore"></menuTree2Hor>
+                <menuTreeHor :menuData="menuDataMore"></menuTreeHor>
               </el-submenu>
 
             </el-menu>
@@ -75,7 +74,7 @@
 
 
 export default {
-  name:"sidebar2",
+  name:"sidebar",
    data() {
       return {
         activeMenu:"",

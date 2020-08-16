@@ -8,7 +8,7 @@
                     <span slot="title" style="font-size: 13px;margin-left: 12px;">{{item.menuName}}</span>
                 </template>
                 <div class="treeCss" style="background:blue}">
-                <menuTree2 :menuData="item.children"></menuTree2>
+                <menuTree :menuData="item.children"></menuTree>
                 </div>
             </el-submenu>
             <el-menu-item :index="item.url" :key="item.url" v-else>
@@ -22,7 +22,7 @@
 <script>
 export default {
   props:['menuData'],
-  name: 'menuTree2',
+  name: 'menuTree',
   data(){
     return{
 

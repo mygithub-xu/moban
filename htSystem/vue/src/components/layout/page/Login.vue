@@ -45,7 +45,7 @@
       }
     },
     created(){
-      
+      console.log("现在的环境是："+process.env.NODE_ENV)
     },
     methods: {
       ceshi(){
