@@ -1,19 +1,23 @@
 <template>
-    <div class="app-container2">
-        <div class="container">
+    <div class="app-container">
+        <div class="allTable-container">
             <!-- 区域一 查询区域 -->
-            <div class="container_btn" >
-            <span>
-                <el-button type="primary" size="small"   @click="handleAdd">新增</el-button>
-                <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
-                <el-button type="primary"  size="small"   @click="search">刷新</el-button>
-                <el-button  plain size="small" @click="reset">重置搜索</el-button>
-            </span>
+            <div class="container-btn">
+                <span class="container-btn-left">
+                    <el-button type="primary" size="small"   @click="handleAdd">新增</el-button>
+                    <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
+                    <el-button type="primary"  size="small"   @click="search">刷新</el-button>
+                    <el-button  plain size="small" @click="reset">重置搜索</el-button>
+                </span>
             </div>
+
             <!-- 区域二---表格+分页 -->
-            <el-table :data="pageData.list" style="width: 100%" height="100%" :row-style="{height:'50px'}" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange" >
-                <el-table-column type="selection"  fixed width="50"  align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column type="index" width="45" label="序号" align="center" v-if="xuhao" show-overflow-tooltip></el-table-column>
+            <div class="allTable-table-style">
+            <el-table :data="pageData.list" style="width: 100%" height="100%" :row-style="{height:'50px'}" border 
+                class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange">
+
+                <el-table-column type="selection"  fixed width="50"  align="center" ></el-table-column>
+                <el-table-column type="index" width="45" label="序号" align="center" ></el-table-column>
                 
                     <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip>
                             <template slot="header" slot-scope="scope">
@@ -44,7 +48,7 @@
                                             @click="handleDateRangeListFilterCancel('createTime')"
                                     >重置</el-button>
                                     </div>
-                                    <i slot="reference" class="icon-filter" @click.stop></i>
+                                    <i slot="reference" class="icon-filter"  @click.stop></i>
                                 </el-popover>
                                 </span>
                             </template>
@@ -93,11 +97,11 @@
                                             </ul>
                                             </div>
                                             <hr style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"/>
-                                            <div style="display: flex; justify-content: space-evenly;">
+                                            <div style="display: flex; justify-content: space-evenly;"  >
                                                 <el-button type="text" @click="handleCheckboxListFilterOk('testStatus')">确定</el-button>
                                                 <el-button type="text" @click="handleCheckboxListFilterCancel('testStatus')">重置</el-button>
                                             </div>
-                                            <i slot="reference" class="icon-filter"  @click.stop></i>
+                                            <i slot="reference" class="icon-filter" :style="{'background-image':'url('+filterBGUrl+')'}"  @click.stop></i>
                                         </el-popover>
                                         </span>
                                     </template>
@@ -158,8 +162,6 @@
                                         </div>
                                     </template>
 
-
-
                         </el-table-column>
 
                 <el-table-column label="操作" fixed="right" min-width="160" align="center" show-overflow-tooltip>
@@ -169,10 +171,14 @@
                         <el-button type="text" icon="el-icon-delete" class="red"  @click="handleDelete(scope.row.id)" >删除</el-button>
                     </template>
                 </el-table-column>
+
             </el-table>
+            </div>
+
             <div class="pagination">
                 <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
             </div>
+
         </div>
         <!-- 区域三---弹出框，覆盖全部 -->
         <div class="showDialog">
@@ -201,18 +207,11 @@
                                                 </el-form-item>
                                             </el-col>
 
-
-
-
                                             <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
                                                 <el-form-item label="测试名" prop="testName" style="width:35rem;height:32px">
                                                     <el-input v-model="form.testName" :disabled="preVisiable"></el-input>
                                                 </el-form-item>
                                             </el-col>
-
-
-
-
 
                                             <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
                                                 <el-form-item label="测试状态" prop="testStatus" >
@@ -226,10 +225,6 @@
                                                     </el-select>
                                                 </el-form-item>
                                             </el-col>
-
-
-
-
 
                                             <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
                                                 <el-form-item label="测试类型" prop="testType" >
@@ -258,6 +253,7 @@
     export default {
         data(){
             return{
+                filterBGUrl:require("@/assets/img/souSuo.png"),
                 preVisiable:false,
                 condition: {
                     id: "",
@@ -266,36 +262,35 @@
                         testName: "",
                         testStatus: [],
                         testType: [],
-        },
-            xuhao:true,
+                },
                     dicDisabled:true,
                     pageData: {
-                list: [],
+                        list: [],
                         pageNumber: 1,
                         pageSize: 10,
                         totalCount: 0,
                         totalPage: 0
-            },
-            multipleSelection:[],//选中的数据集合
-                    form :{
-                    createTime: "",
-                    createUser: "",
-                    id: "",
-                    testName: "",
-                    testStatus: "",
-                    testType: "",
-            },
-            editVisible:false,
-            rules: {
+                    },
+                    multipleSelection:[],//选中的数据集合
+                        form :{
+                        createTime: "",
+                        createUser: "",
+                        id: "",
+                        testName: "",
+                        testStatus: "",
+                        testType: "",
+                    },
+                    editVisible:false,
+                    rules: {
 
-            },
-            queryVisible:{
+                    },
+                    queryVisible:{
                         createTime:false,
                         createUser:false,
                         testName:false,
                         testStatus:false,
                         testType:false,
-            },
+                    },
             checkBoxList:{
                     testStatusList:[  {
                             value: '1',
@@ -692,9 +687,9 @@
         width: 24px;
         vertical-align: middle;
         cursor: pointer;
-        background-image: url("../../assets/img/souSuo.png");
         background-size:20px 20px;
         background-repeat: no-repeat;
         background-position: center;
     }
+
 </style>

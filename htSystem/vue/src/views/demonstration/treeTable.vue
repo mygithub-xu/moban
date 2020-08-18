@@ -1,19 +1,13 @@
 <template>
-    <div class="app-container2">
-        <div class="tree-table" >
-
+    <div class="app-container">
                     <div class="tree-area">
                         <div class="common-header">
                             <span class="common-header-title">
                                 我是标题
                             </span>
                         </div>
-                        <div class="common-treeTable-header">
-                            <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick">
-                                
-                            </el-tree>
-                        </div>
 
+                        <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"> </el-tree>
                     </div>
 
                     <div class="table-area">
@@ -22,19 +16,20 @@
                                 我是标题
                             </span>
                         </div>
-                        <div class="common-treeTable-header">
 
-                            <div class="treeTable-button" >
-                                <span v-if="editModel">
-                                    <el-button type="primary" size="small"   @click="handleAdd">新增</el-button>
-                                    <el-button type="danger" size="small" :disabled="delable"  @click="handleDelete">删除</el-button>
-                                    <el-button type="primary"  size="small"   @click="handleEdit">编辑</el-button>
-                                </span>
-                                <span v-else>
-                                    <el-button type="primary" size="small"   @click="handleSave">保存</el-button>
-                                    <el-button  plain size="small"   @click="handleCancel">取消</el-button>
-                                </span>
-                            </div>
+                        <div class="treeTable-button" >
+
+                            <span v-if="editModel">
+                                <el-button type="primary" size="small"   @click="handleAdd">新增</el-button>
+                                <el-button type="danger" size="small" :disabled="delable"  @click="handleDelete">删除</el-button>
+                                <el-button type="primary"  size="small"   @click="handleEdit">编辑</el-button>
+                            </span>
+                            <span v-else>
+                                <el-button type="primary" size="small"   @click="handleSave">保存</el-button>
+                                <el-button  plain size="small"   @click="handleCancel">取消</el-button>
+                            </span>
+
+                        </div>
 
                             <div style="margin-top: 42px;width:500px">
                                 <el-form  ref="form" :model="form" :rules="rules" label-width="150px" size="small" style="margin-top:10px">
@@ -83,23 +78,12 @@
                                             </el-option>
                                             </el-select>
                                         </el-form-item>
-
-                    
-                                        
-
-
-
                                 </el-form>
                             </div>
-
-                        </div>
 
                     </div>
 
         </div>
-
-
-    </div>
 </template>
 <script>
 export default {
@@ -300,60 +284,5 @@ export default {
 }
 </script>
 <style scoped>
-.tree-table{
-    height: 100%;
-    width: 100%;
-}
-.tree-area{
-    height: 99%;
-    width: 20%;
-    min-width: 200px;
-    margin-right: 10px;
-    float: left;
-    border: 1px solid rgb(209, 219, 229);
-    /* border-right: 1px solid rgb(209, 219, 229);
-    border-top: 1px solid rgb(209, 219, 229); */
-    background-color: #ffffff;
-}
-.table-area{
-    height: 99%;
-    width: calc(80% - 14px);
-    min-width: 600px;
-    float: left;
-    border: 1px solid rgb(209, 219, 229);
-
-    background-color: #ffffff;
-}
-.table-area-header{
-    height: 100%;
-    width: 100%;
-}
-.common-header{
-    width: 100%;
-    height: 30px;
-    border-bottom: 1px solid rgb(209, 219, 229);
-    background: linear-gradient(to bottom, #fff, #eeeff5);
-}
-.common-header-title{
-    font-size: 14px;
-    color: #333;
-    line-height: 29px;
-    font-size: #333;
-    margin-left: 10px;
-    font-weight: bold;
-}
-.common-treeTable-header{
-    width: 100%;
-    height: (100% - 30px)
-}
-.treeTable-button{
-    width: 100%;
-    height: 50px;
-}
-.treeTable-button span{
-    float: right;
-    margin-top: 10px;
-    margin-right: 20px;
-}
 
 </style>

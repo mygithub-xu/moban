@@ -1,147 +1,119 @@
 <!--菜单配置-->
 <template>
-    <div class="app-container2">
-        <div class="resource-register" ref="MenuListSpan">
-    <!---->
-    <el-row :gutter="24" style="margin-left:0;width:100%;height:100%;padding-bottom: 5px;">
-      <el-col :span="5" style="padding-left:0;padding-right:7px;">
-        <div style="background-color:#fff; box-shadow: rgba(102, 102, 102, 0.2) 1px 2px 1px 0px">
-          <div class="title-module" style="text-align:left;border-bottom:1px solid #d1dbe5;padding-left:10px">
-            菜单
+    <div class="app-container">
+
+        <div class="tree-area">
+            <div class="common-header">
+                <span class="common-header-title">
+                    菜单
+                </span>
+            </div>
+
+            <el-tree   ref="attrList" :data="treeData"  :props="props1"  accordion  default-expand-all
+                @node-click="handleNodeClick"  node-key="id" :default-expanded-keys="defaultExpandKeys" :highlight-current="isShowGaoliang">
+            </el-tree>
+
+        </div>
+
+        <div class="table-area">
+          <div class="common-header">
+              <span class="common-header-title">
+                  菜单配置
+              </span>
           </div>
-          <el-tree
-          :default-expand-all="true"
-          :style="{'height':height+'px'}" 
-          style="overflow:auto;width:100%;" 
-          ref="attrList" 
-          :data="treeData" 
-          :props="props1" 
-          accordion 
-          @node-click="handleNodeClick" 
-          node-key="id"
-          :default-expanded-keys="defaultExpandKeys"
-          :highlight-current="isShowGaoliang">
-          </el-tree>
-        </div>
-      </el-col>
-      <el-col class="MenuListSpan19" :span="19">
-        <div style="position:absolute;left:0;top:0;">
-          <div class="title-module"
-          style="text-align:left;border-bottom:1px solid #d1dbe5;padding-left:10px;margin:0px 0px 10px 0;">
-          菜单配置
-        </div>
-        <div class="buttons" style="margin-bottom:10px;text-align:right;padding-right:10px">
-          <el-button type="primary" size="mini" v-if="!editState"  @click="edit" >修改</el-button>
-          <el-button type="danger" size="mini"  v-has="'sysMenu:delete'" v-if="!editState" @click="remove">删除</el-button>
-          <el-button type="primary" size="mini" v-if="!editState"  @click="append" :disabled="!isChildren">新增</el-button>
-          <el-button type="primary" size="mini"  v-has="'sysMenu:save'" v-if="editState"  @click="save('currentRes')">保存</el-button>
-          <el-button type="primary" size="mini" v-if="editState" @click="cancel">取消</el-button>
-        </div>
-        <el-row :gutter="12">
-          <el-form :model="currentRes" ref="currentRes" class="form-search" size="mini" label-width="100px"
-            label-position="right" :disabled="!editState">
-            <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
-              <el-form-item label="是否含有下级" prop="isChildren">
-                <el-select v-model="currentRes.isChildren" style="width:11rem" @change="handleIsChildrenOption">
-                  <el-option v-for="item in isChildrenOptions" :key="item.value" :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
-              <el-form-item label="上级菜单" prop="parentId">
-                <treeSelect v-model="currentRes.parentId" :readonly="!editState" :disabled="!editState" :data="treeSelectdata" label="menuName"/>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
-              <el-form-item label="编码" prop="menuCode">
-                <el-input type="text" style="width:11rem" v-model="currentRes.menuCode" placeholder="编码"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
-              <el-form-item label="名称" prop="menuName">
-                <el-input type="text" style="width:11rem" v-model="currentRes.menuName" placeholder="名称"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
 
-                  <el-form-item label="图标："  prop="icon">
-                     <el-popover
-                      placement="right"
-                      width="200"
-                      trigger="click"
-                      @show="Show()"
-                      :disabled='!visible'
-                      popper-class="popper-class">
-                      <my-icon ref="icons" v-if="visible" v-on:selected="selectedIcon" />
-                      <el-input slot="reference" placeholder="请输入图标名称" v-model="currentRes.icon" style="cursor: pointer;width:11rem">
-                       <template slot="prepend"><i class="fas" :class="currentRes.icon"></i></template>
-                      </el-input>
-                     </el-popover>
-                    </el-form-item>
-
-
-                <!-- </el-input>
-              </el-form-item> -->
-            </el-col>
-            <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
-              <el-form-item label="路径" prop="url">
-                <el-input type="text" style="width:11rem" v-model="currentRes.url" placeholder="路径"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
-              <el-form-item label="启用状态" prop="status">
-                <el-select style="width:11rem" v-model="currentRes.status">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
-              <el-form-item label="创建人" prop="createUser">
-                <el-input style="width:11rem" type="text" v-model="currentRes.createUser" placeholder="创建人" readonly></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
-              <el-form-item label="创建时间" prop="createTime">
-                <el-input style="width:11rem" type="text" v-model="currentRes.createTime" placeholder="创建时间" readonly></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" style="height:36px;line-height:36px;">
-              <el-form-item label="备注" prop="description">
-                <el-input style="width:11rem" type="text" v-model="currentRes.description" placeholder="备注" maxlength="400"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-form>
-        </el-row>
-        <div class="buttons" style="margin-bottom: 10px;padding-right:20px;text-align: right;">
-          <el-button type="primary" size="mini" buttonCode="CD001" @click="getButtonList" :disabled="!currentRes.id||isChildren">新增按钮
-          </el-button>
-           <el-row class="tac" style="display:inline-block;top:5px;">
-          <el-col :span="24">
-            <el-dropdown trigger="click" :hide-on-click="false">
-              <div class="el-icon-menu"></div>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>
-                  <el-checkbox v-model="btnName">按钮名称</el-checkbox>
-                </el-dropdown-item>
-                <el-dropdown-item>
-                  <el-checkbox v-model="btnDes">备注</el-checkbox>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-col>
-        </el-row>
-        </div>
+          <div class="treeTable-button" >
+            <span>
+                <el-button type="primary" size="mini" v-if="!editState"  @click="edit" >修改</el-button>
+                <el-button type="danger" size="mini"  v-has="'sysMenu:delete'" v-if="!editState" @click="remove">删除</el-button>
+                <el-button type="primary" size="mini" v-if="!editState"  @click="append" :disabled="!isChildren">新增</el-button>
+                <el-button type="primary" size="mini"  v-has="'sysMenu:save'" v-if="editState"  @click="save('currentRes')">保存</el-button>
+                <el-button type="primary" size="mini" v-if="editState" @click="cancel">取消</el-button>
+            </span>
+          </div>
+          <div class="treeTable-from">
+            <el-form :model="currentRes" ref="currentRes" class="form-search" size="mini" label-width="100px"
+              label-position="right" :disabled="!editState">
+              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
+                <el-form-item label="是否含有下级" prop="isChildren">
+                  <el-select v-model="currentRes.isChildren" style="width:11rem" @change="handleIsChildrenOption">
+                    <el-option v-for="item in isChildrenOptions" :key="item.value" :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8">
+                <el-form-item label="上级菜单" prop="parentId" style="width:84.2%">
+                  <treeSelect v-model="currentRes.parentId" :readonly="!editState" :disabled="!editState" :data="treeSelectdata" label="menuName" />
+                </el-form-item>
+              </el-col>
+              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
+                <el-form-item label="编码" prop="menuCode">
+                  <el-input type="text" style="width:11rem" v-model="currentRes.menuCode" placeholder="编码"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
+                <el-form-item label="名称" prop="menuName">
+                  <el-input type="text" style="width:11rem" v-model="currentRes.menuName" placeholder="名称"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
+                    <el-form-item label="图标："  prop="icon" > 
+                      <el-popover
+                        placement="right"
+                        width="200"
+                        trigger="click"
+                        @show="Show()"
+                        :disabled='!visible'
+                        popper-class="popper-class">
+                        <my-icon ref="icons" v-if="visible" v-on:selected="selectedIcon" />
+                        <el-input slot="reference" placeholder="请输入图标名称" v-model="currentRes.icon" style="cursor: pointer;width:80%">
+                        <template slot="prepend"><i class="icon iconfont" :class="currentRes.icon"></i></template>
+                        </el-input>
+                      </el-popover>
+                      </el-form-item>
+              </el-col>
+              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
+                <el-form-item label="路径" prop="url">
+                  <el-input type="text" style="width:11rem" v-model="currentRes.url" placeholder="路径"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
+                <el-form-item label="启用状态" prop="status">
+                  <el-select style="width:11rem" v-model="currentRes.status">
+                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
+                <el-form-item label="创建人" prop="createUser">
+                  <el-input style="width:11rem" type="text" v-model="currentRes.createUser" placeholder="创建人" readonly></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
+                <el-form-item label="创建时间" prop="createTime">
+                  <el-input style="width:11rem" type="text" v-model="currentRes.createTime" placeholder="创建时间" readonly></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
+                <el-form-item label="备注" prop="description">
+                  <el-input style="width:11rem" type="text" v-model="currentRes.description" placeholder="备注" maxlength="400"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-form>
+          </div>
        
-        </div>
-        <div class="right-table">
+        <div class="button-table">
           <!--表格-->
-          <el-table :data="buttonList" ref="multipleTable" border style="width: 100%;"  align="center" height="100%">
+          <el-table :data="buttonList" ref="multipleTable" border  align="center" height="350" :row-style="{height:'50px'}">
             <el-table-column prop="buttonCode" label="按钮编码" min-width="120" align="center" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="buttonName" label="按钮名称" min-width="150" align="center" v-if="btnName" show-overflow-tooltip></el-table-column>
+
+            <el-table-column prop="buttonName" label="按钮名称" min-width="150" align="center" show-overflow-tooltip></el-table-column>
+
             <el-table-column prop="buttonUrl" label="按钮权限" width="120"  align="center" show-overflow-tooltip></el-table-column>
+
             <el-table-column prop="status" label="状态" width="120" align="center" show-overflow-tooltip>
               <template slot-scope="scope">
                 <div v-for="item in options" :key="item.value">
@@ -153,18 +125,17 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="description" label="备注 " align="center"  width="150" v-if="btnDes" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="description" label="备注 " align="center"  width="150"  show-overflow-tooltip></el-table-column>
+
             <el-table-column label="操作" align="center"  min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
-                <!--<el-button @click="handleEdit(scope.$index,scope.row)" type="text" size="small">编辑</el-button>-->
-                <el-button @click="handleDelete(scope.$index,scope.row)" class="red" v-has="'sysButton:delete'" type="text" size="small">删除
-                </el-button>
-                <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑
-                </el-button>
+                <el-button @click="handleDelete(scope.$index,scope.row)" class="red" v-has="'sysButton:delete'" type="text" size="small">删除</el-button>
+                <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>
               </template>
             </el-table-column>
+
           </el-table>
-          <!--新增dialog v-draggable="'.el-dialog'" v-draggable="{ defwidth:'600',defmargintop:'',defheight:'500',container:'.el-dialog' }" style="overflow-y:hidden;"-->
+
         <div class="sysMenyListWrap">
           <el-dialog
             :visible.sync="dialogFormVisible"
@@ -182,6 +153,7 @@
                 </template>
               </el-table-column>
             </el-table>
+
           </el-dialog>
 
           <el-dialog
@@ -209,16 +181,10 @@
                   <el-button @click="cancelButton">取消</el-button>
                 </el-form-item>
               </el-form>
-
             </el-dialog>
-
         </div>
         </div>
-      </el-col>
-    </el-row>
-    <div class="right">
-    </div>
-  </div>
+        </div>
     </div>
 </template>
 
@@ -266,7 +232,6 @@
         keysid:"",
         defaultExpandKeys: [],//默认展开节点列表
         isShowGaoliang:true,
-        height:'',
         visible:false,
         btnName: true,
         btnDes: true,
@@ -677,88 +642,41 @@
       vm.getType('enabled')
       vm.getType('isChildren');
       vm.queryTree();
-      // vm.$nextTick(function(){
-         this.height=this.$refs.MenuListSpan.clientHeight-76;
-
-      // })
     }
   }
 
 </script>
 
 <style lang="scss" scoped>
-.MenuListSpan19 /deep/ .el-input--mini{
- width:11rem;
-}
-.MenuListSpan19{
-position:relative;
-top:0;
-left:0;
-padding-left:10px;
-padding-right:10px;
-padding-bottom:5px;
-padding-top:260px;
-height:100%;
-background:#fff;
-box-shadow: rgba(102, 102, 102, 0.2) 1px 2px 1px 0px, rgba(102, 102, 102, 0.2) -1px -1px 1px 0px;
-}
-  /deep/ .el-tree--highlight-current /deep/ .el-tree-node.is-current>.el-tree-node__content {
-    background-color: #f0f7ff !important;
-  }
-  .title-module {
-    background: -webkit-linear-gradient(top, #fff, #eeeff5);
-    /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom, #fff, #eeeff5);
-    /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom, #fff, #eeeff5);
-    /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom, #fff, #eeeff5);
-    color: #333;
-    font-weight: bold;
-    font-size: 14px;
-    height: 30px;
-    line-height: 30px;
-  }
-/deep/ .el-dialog__wrapper {
-    position: absolute !important;
-}
 
-/deep/ .v-modal {
-    position: absolute !important;
+.el-form-item  .el-form-item__content>div{
+  width: 80%!important;
 }
+.button-table{
+  width: 100%;
+  height: 400px;
+}
+.treeTable-from{
+  width: 100%;
+  height: 250px;
+}
+// /deep/ .el-dialog__wrapper {
+//     position: absolute !important;
+// }
 
-/deep/ .content {
-    position: relative !important;
-}
-.sysMenyListWrap /deep/ .el-dialog{
-    height: 70%!important;
-    overflow: auto;
-}
+// /deep/ .v-modal {
+//     position: absolute !important;
+// }
+
+// /deep/ .content {
+//     position: relative !important;
+// }
+// .sysMenyListWrap /deep/ .el-dialog{
+//     height: 70%!important;
+//     overflow: auto;
+// }
 /*.sysMenyListWrap .el-dialog__header {*/
     /*display: none;*/
 /*}*/
 </style>
-<style lang="scss" scoped>
-.resource-register{
-  width: 100%;
-  height:100%;
-  box-sizing: border-box;
-}
-.right-table{
-  width: 100%;
-  height: 100%;
-}
-.warpCont{
-  width: 100%;
-  height: 100%;
-}
-// .el-tree{
-//   height: 550px;
-// }
-// .right-table{
-//   height: 350px;
-// }
-.red{
-  color: #ff0000; 
-}
-</style>
+

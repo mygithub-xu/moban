@@ -1,6 +1,6 @@
 <template>
 <!-- 系统配置---权限管理---角色管理 -->
-<div class="app-container2" >
+<div class="app-container" >
   <div class="container">
         <div class="container_btn ">
         <span style="float:left;padding-bottom: 10px;">

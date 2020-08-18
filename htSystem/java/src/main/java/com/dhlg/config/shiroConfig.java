@@ -1,7 +1,8 @@
 package com.dhlg.config;
 
-import com.dhlg.utils.shiro.realm.UserRealm;
-import com.dhlg.utils.shiro.session.ShiroSessionManager;
+import com.dhlg.filter.CheckUserStatusFilter;
+import com.dhlg.shiro.realm.UserRealm;
+import com.dhlg.shiro.session.ShiroSessionManager;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -20,9 +21,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.Filter;
 /**
@@ -57,7 +56,10 @@ public class shiroConfig {
         // 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 :这是一个坑呢，一不小心代码就不好使了;
         // ① authc:所有url都必须认证通过才可以访问; ② anon:所有url都都可以匿名访问
         //自定义拦截器
+
         Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
+        CheckUserStatusFilter checkUserStatusFilter = new CheckUserStatusFilter();
+        filtersMap.put("checkUserStatusFilter",checkUserStatusFilter);
         shiroFilterFactoryBean.setFilters(filtersMap);
 
         //配置拦截器
@@ -79,6 +81,7 @@ public class shiroConfig {
      */
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
+
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         hashedCredentialsMatcher.setHashAlgorithmName("md5");//散列算法:这里使用MD5算法;
         hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如散列2次，相当于 md5(md5(""));
@@ -90,6 +93,7 @@ public class shiroConfig {
      */
     @Bean
     public UserRealm userRealm() {
+
         UserRealm userRealm = new UserRealm();
         //启用身份验证缓存，数据就会进入redis
         userRealm.setCachingEnabled(true);//允许缓存

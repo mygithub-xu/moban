@@ -61,7 +61,6 @@
         </template>
 
         <el-drawer
-        title="我是标题"
         :visible.sync="drawer"
         :with-header="false"
         @close="closeDrawer"
@@ -92,7 +91,7 @@ export default {
             //公司属性（名称，商标）
             companyAtt:{
                 name:"某某某后台",
-                imgSrc:require('../../assets/logo.png')
+                imgSrc:require('@/assets/logo.png')
             },
 
             //布局1参数
@@ -162,7 +161,7 @@ export default {
             //顶部导航栏颜色
             TopMenuColorList:["#409EFF","#67C23A","#ffffff","#E6A23C","#F56C6C","#909399"],
             //头像
-            avatar:"",
+            avatar:require('@/assets/img/mao.jpg'),
             //昵称
             username:"",
             isChinese:true,
@@ -291,8 +290,11 @@ export default {
         showImg() {
             //获取头像
             let user = JSON.parse(sessionStorage.getItem('user')); 
-            this.avatar=user.headPortrait;
-            this.username=user.userName;
+            if(user){
+                this.avatar=user.headPortrait;
+                this.username=user.userName;
+            }
+
         },
         //面包屑
         getBreadcrumb() {

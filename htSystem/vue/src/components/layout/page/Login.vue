@@ -157,7 +157,7 @@
   .login-body{
     width: 100%;
     height: 100%;
-    background-image: url("../../../assets/img/bjt1.jpg");
+    background-image:url(require("../../../assets/img/bjt1.jpg") );
     position: relative;
     background-size:100% 100%;
   }

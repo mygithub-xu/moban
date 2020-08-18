@@ -1,4 +1,4 @@
-package com.dhlg.utils.shiro.utils;
+package com.dhlg.shiro.utils;
 
 import com.dhlg.utils.common.StringUtils;
 import org.slf4j.Logger;

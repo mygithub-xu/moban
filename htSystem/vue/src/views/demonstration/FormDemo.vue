@@ -1,8 +1,7 @@
 <template>
-  <el-scrollbar class="query-scrollbar">
+  <el-scrollbar style="width: 100%;height: 100%">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"
              class="demo-ruleForm">
-      <!--    <form-add :formItem="form_item"></form-add>-->
       <el-row>
         <el-col :span="12">
           <el-form-item label="用户名" prop="name">
@@ -59,7 +58,6 @@
         </el-col>
       </el-row>
 
-      <el-button type="primary" @click="addDetail">+</el-button>
       <h1 class="detail">表单明细</h1>
       <div class="detail-table">
         <el-row>
@@ -107,18 +105,22 @@
               <el-input class="detail-el" v-model="item.money" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4" :push="1">
-            <el-button class="detail-el" type="danger" @click.prevent="removeItem(item)">删除</el-button>
+
+          <el-col :span="4" :push="1" v-if="index === 0">
+            <el-button type="primary" @click="addDetail">+</el-button>
+          </el-col>
+
+          <el-col :span="4" :push="1" v-else>
+            <el-button class="detail-el" type="danger" @click.prevent="removeItem(item)">-</el-button>
           </el-col>
         </el-row>
-
       </div>
 
-      <el-form-item>
+      <el-form-item style="margin-top: 30px">
         <el-button type="primary" @click="addForm()">填充数据</el-button>
         <el-button type="primary" @click="submitForm('ruleForm')" v-preventReClick>立即创建</el-button>
-        <el-button @click="resetForm('ruleForm')"  >重置</el-button>
-        <el-button  @click="aaa()"   v-prevent-re-click="5">防止重复提交</el-button>
+        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button @click="aaa()" v-prevent-re-click="5">防止重复提交</el-button>
       </el-form-item>
     </el-form>
   </el-scrollbar>
@@ -409,7 +411,7 @@
           this.ruleForm.childList.splice(index, 1)
         }
       },
-      aaa(){
+      aaa() {
         console.log('1111')
       },
 
@@ -430,13 +432,11 @@
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
   }
 
-
   .detail {
     line-height: 50px;
   }
 
-  .query-scrollbar {
-    height: 100%;
-    padding: 5px 30px;
+  .demo-ruleForm{
+    margin-top: 40px;
   }
 </style>

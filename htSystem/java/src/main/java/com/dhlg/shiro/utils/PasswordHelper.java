@@ -1,4 +1,4 @@
-package com.dhlg.utils.shiro.utils;
+package com.dhlg.shiro.utils;
 
 import com.dhlg.module.system.sysUser.entity.SysUser;
 import org.apache.shiro.crypto.RandomNumberGenerator;

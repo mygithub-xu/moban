@@ -1,4 +1,4 @@
-package com.dhlg.utils.shiro.realm;
+package com.dhlg.shiro.realm;
 
 import com.dhlg.module.system.sysButton.entity.SysButton;
 import com.dhlg.module.system.sysButton.service.impl.SysButtonServiceImpl;
@@ -6,14 +6,11 @@ import com.dhlg.module.system.sysRole.service.impl.SysRoleServiceImpl;
 import com.dhlg.module.system.sysUser.entity.SysUser;
 import com.dhlg.module.system.sysUser.service.impl.SysUserServiceImpl;
 import com.dhlg.utils.common.StringUtils;
-import com.dhlg.utils.shiro.utils.LoggerUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

@@ -1,125 +1,156 @@
-/* 全局样式 start*/
-.app-container {
-  height: 100%;
-  padding: 10px;
-  background-color: #f0f0f0;
+/*带查询区域 全局样式*/
+.app-container{
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 61px;
+  height: calc(100% - 61px);
+  width: calc(100% - 20px);
+  position: relative;
 }
+
+/*查询编辑页面 start*/
 /* 搜索区域 start*/
-.CommSearch{
-  padding-top: 10px;
-  border-radius: 6px;
-  background: #fff;
-  padding: 0px 10px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  height: 60px;
-  transition: all 0.3s;
-  overflow:auto;
-}
-/* 搜索框高度 */
-.CommHeight {
-  height: 36px;
-  line-height: 36px;
-  text-align: center;
-}
-/* 左侧按钮 */
-.ComButtonLeft {
+.container-query{
   float: left;
-  padding-left: 10px;
-}
-/* 右侧按钮 */
-.ComButtonRight {
-  float: right;
-  padding-right: 10px;
-}
-.app-container .pagination {
-  position: absolute;
-  bottom: 15px;
-  right: 10px;
-}
-.pagination {
-  position: absolute;
-  bottom: 5px;
-  right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
+  background: #fff;
+  height: 100px;
   width: 100%;
-  text-align: right;
+  min-width: 1100px;
+}
+.query-scrollbar{
+  width: calc(100% - 40px);
+  height: 90px;
+  padding: 5px 30px;
+}
+.query-scrollbar .el-form-item{
+  width:50%;
+  height:40px;
+  float:left;
+  margin-bottom:2px;
+}
+.query-scrollbar .el-form-item__content{
+  width: 400px;
+}
+.query-scrollbar .el-form-item__content>div{
+  width: 100%;
 }
 /* 搜索区域 end*/
-.container {
+
+/* 表格样式 start*/
+.container-table{
+  float: left;
+  width: 100%;
+  height: calc(100% - 120px);
   border: 1px solid #ddd;
   border-radius: 5px;
-  height: 100%;
   box-sizing: border-box;
-  position: relative;
-  padding: 52px 10px 60px 10px;
   background-color: #ffffff;
+  padding: 10px 10px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
-/* 分页样式 */
+.common-table-style{
+  width: 100%;
+  height: calc(100% - 85px);
+  margin-top: 10px;
+}
+/* 表格样式 end*/
+
+/* 分页样式 start*/
 .pagination {
   position: absolute;
   bottom: 15px;
   right: 20px;
 }
-/* 改变表体间隔 */
-.el-table td, .el-table th{
-  padding: 4px 0 !important;
-}
-.container_btn{
-  width: calc(100% - 20px);
-  position:absolute;
-  top:10px;
-  left:10px;
-}
-/* 定位弹出框位置 */
+/* 分页样式 end*/
+
+/* 定位弹出框位置 start*/
 .showDialog .el-dialog__wrapper {
   position: absolute !important;
 }
-/* 修改饿了么表单样式 */
-/* .el-input__inner{
-  height: 35px !important;
-  width: 25rem !important;
-} */
+.showDialog .el-dialog__body{
+  padding: 15px 20px;
+}
+/* 定位弹出框位置 end*/
 
-.el-textarea{
-  margin-left: 0px !important;
+/*查询编辑页面 end*/
+.tree-area .common-header,.table-area .common-header{
+  width: 100%;
+  height: 30px;
+  border-bottom: 1px solid rgb(209, 219, 229);
+  background: linear-gradient(to bottom, #fff, #eeeff5);
 }
-.container_btn .tac{
+
+/*左树右表页面 start*/
+.common-header-title{
+  font-size: 14px;
+  color: #333;
+  line-height: 29px;
+  font-size: #333;
   margin-left: 10px;
-  float: right;
-  margin-top: 12px
+  font-weight: bold;
 }
-.common_blog{
-  padding-top: 80px;
-  width: 1000px;
-  margin: 0 auto;
-  position: relative;
-  min-height:  775px;
-  
-}
-.common_blog .el-dialog__wrapper {
-  top:61px;
-}
-.common_blog .is-fullscreen{
-  background-color: #f3f3f3;
-}
-.common_blog .el-dialog__header{
-  padding:0 !important;
-}
-.common_blog .dialog-blog{
-  width: 1000px;
-  margin: 0 auto;
-  position: relative;
-  min-height:  675px;
+/*左区域 start*/
+.tree-area{
+  height: 90%;
+  width: 20%;
+  margin-right: 10px;
+  float: left;
+  border: 1px solid rgb(209, 219, 229);
   background-color: #ffffff;
-  box-shadow:  0 2px 12px 0 rgba(0,0,0,.1);
-  padding: 50px 20px;
+  box-shadow: rgba(102, 102, 102, 0.2) 1px 2px 1px 0px;
+  overflow: hidden;
 }
-.common-font-style{
-  font-family: “Arial”,”Microsoft YaHei”,”黑体”,”宋体”,sans-serif;
-  font-size: 16px;
+/*左区域 end*/
+
+/*右区域 start*/
+.table-area{
+  height: 99%;
+  width: calc(80% - 16px);
+  float: left;
+  border: 1px solid rgb(209, 219, 229);
+  background-color: #ffffff;
+  overflow: hidden;
+}
+.table-area .treeTable-button{
+  width: 100%;
+  height: 50px;
+}
+.table-area .treeTable-button>span{
+  float: right;
   margin-top: 10px;
-  font-weight: 200;
+  margin-right: 20px;
 }
+/*右区域 end*/
+/*左树右表页面 end*/
+
+
+/*全表格页面 start*/
+.allTable-container{
+  width: calc(100% - 40px);
+  height: calc(100% - 15px);
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px 20px;
+}
+.container-btn{
+  width: 100%;
+  height: 35px;
+}
+.container-btn .container-btn-left{
+  float: left;
+}
+.container-btn .container-btn-right{
+  float: right;
+}
+.allTable-table-style{
+  width: 100%;
+  height: calc(100% - 95px);
+  margin-top: 10px;
+}
+/*全表格页面 end*/
 
 
 /* 富文本样式 */
@@ -133,15 +164,3 @@
   font-style: italic;
 }
 
-/* 全局样式 end*/
-
-/* 全局样式v2 start*/
-.app-container2{
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-top: 61px;
-  height: calc(100% - 61px);
-  width: calc(100% - 20px);
-  position: relative;
-}
-/* 全局样式v2 end*/

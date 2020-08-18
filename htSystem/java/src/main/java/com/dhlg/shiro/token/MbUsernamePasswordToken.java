@@ -1,4 +1,4 @@
-package com.dhlg.utils.shiro.token;
+package com.dhlg.shiro.token;
 
 import org.apache.shiro.authc.HostAuthenticationToken;
 import org.apache.shiro.authc.RememberMeAuthenticationToken;

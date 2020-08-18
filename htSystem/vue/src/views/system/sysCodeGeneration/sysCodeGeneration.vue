@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container2">
+    <div class="app-container">
         <div class="container">
             <!-- 区域一 查询区域 -->
             <div class="container_btn" >
@@ -617,7 +617,7 @@
         width: 24px;
         vertical-align: middle;
         cursor: pointer;
-        background-image: url("../../../assets/img/souSuo.png");
+        background-image: url(require("../../../assets/img/bjt1.jpg") );
         background-size:20px 20px;
         background-repeat: no-repeat;
         background-position: center;

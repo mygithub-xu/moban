@@ -23,12 +23,13 @@ import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
 
 //阿里图标
-import '@/assets/css/iconfont2.css'
 import '@/assets/css/iconfont.css'
 
-//默认样式
-import '@/assets/css/reset.css'//覆盖浏览器默认样式
-import '@/assets/css/style.css'//自定义全局样式
+//覆盖浏览器默认样式
+import '@/assets/css/reset.css'
+
+//自定义全局样式
+import '@/assets/css/style.css'
 
 //过滤器
 import filter from '@utils/filters/index'

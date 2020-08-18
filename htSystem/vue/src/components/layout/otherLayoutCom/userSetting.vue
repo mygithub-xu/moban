@@ -9,7 +9,7 @@
                         <span v-else></span>
                     </div>
                 </template>
-                <el-menu-item index="2-1" @click="setDialogInfo('info')">个人信息</el-menu-item>
+                <!-- <el-menu-item index="2-1" @click="setDialogInfo('info')">个人信息</el-menu-item> -->
                 <el-menu-item index="2-2" @click="setDialogInfo('xiugai')">修改信息</el-menu-item>
                 <el-menu-item index="2-3" @click="setDialogInfo('clear')">清除缓存</el-menu-item>
 
@@ -53,7 +53,7 @@ export default {
             }
             if(type=="xiugai"){
                 // 跳转到用户信息，传是否刷新的参数
-                this.$router.push({path:'/views/user/userinfo'});
+                this.$router.push({path:'/system/sysPrivilege/sysUser/userInfo'});
             }
             //清除缓存
             if(type=="clear"){

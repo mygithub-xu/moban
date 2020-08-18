@@ -1,15 +1,12 @@
 <template>
-    <div class="app-container2">
+    <div class="app-container">
       
         <div class="container-query">
           <el-scrollbar class="query-scrollbar">
 
-          <el-row >
-            <el-form  label-width="100px" size="small" class="query-from">
-
-               <el-col  :span="12" style="height:45px">
+            <el-form  label-width="100px">
                 <el-form-item label="测试状态：" >
-                  <el-select v-model="queryContion.status"  placeholder="请选择"   size="small" clearable style="width:25rem;">
+                  <el-select v-model="queryContion.status"  placeholder="请选择"   size="small" clearable>
                       <el-option
                               v-for="item in statusList"
                               :key="item.value"
@@ -19,13 +16,9 @@
                   </el-select>
                 </el-form-item>
 
-               
-              </el-col>
-
-              <el-col :span="12" style="height:45px" >
-                <el-form-item label="创建日期：">
+                <el-form-item label="创建日期：" >
                   <el-date-picker
-                  size="small" style="width:25rem;"
+                  size="small"
                           v-model="queryContion.createTimeList"
                           type="daterange"
                           align="right"
@@ -35,34 +28,22 @@
                           value-format="yyyy-MM-dd HH:mm:ss"
                   ></el-date-picker>
                 </el-form-item>
-              
-              </el-col>
-
-
-              <el-col :span="12" style="height:45px">
-                
                 <el-form-item label="测试名：" >
-                    <el-input size="small" v-model="queryContion.testName" style="width:25rem;" placeholder="请输入测试名"></el-input>
+                    <el-input size="small" v-model="queryContion.testName"  placeholder="请输入测试名"></el-input>
                 </el-form-item>
-                
-              </el-col>
-
-              <el-col :span="12" style="height:45px;">
-                <span style="margin-left:20px">
-                  <el-button type="primary"  size="small"   @click="search" icon="el-icon-search">搜索</el-button>
-                  <el-button  size="small" plain  @click="reset" icon="el-icon-refresh">重置</el-button>
-                </span>
-              </el-col>
-    
-
+                <el-form-item >
+                  <span >
+                    <el-button type="primary"  size="small"   @click="search" icon="el-icon-search">搜索</el-button>
+                    <el-button  size="small" plain  @click="reset" icon="el-icon-refresh">重置</el-button>
+                  </span>
+                </el-form-item>
             </el-form>
-            </el-row>
           </el-scrollbar>
 
         </div>
 
         <div class="container-table">
-          <div class="container_btn2" >
+          <div>
             <span>
               <el-button type="primary"  size="small" icon="el-icon-plus"  @click="handleAdd">新增</el-button>
               <el-button type="primary"  size="small" icon="el-icon-edit" @click="handleEdit">编辑</el-button>
@@ -73,13 +54,11 @@
               <el-button size="small"  icon="el-icon-coordinate">审批</el-button> <!-- el-icon-s-check -->
               <el-button size="small"  icon="el-icon-printer">打印</el-button>
               <el-button size="small" @click="cancelSave" icon="el-icon-close">取消</el-button>
-            
             </span>
           </div>
 
-
-          <div style="width: 100%;height: calc(100% - 85px);margin-top: 10px;}">
-            <el-table :data="pageData.list" border ref="multipleTable" align="center" @selection-change="handleSelectionChange" :row-style="{height:'50px'}" :cell-style="{height:'35px'}"  height="100%" >
+          <div class="common-table-style">
+            <el-table :data="pageData.list" border align="center" @selection-change="handleSelectionChange" :row-style="{height:'50px'}"  height="100%" >
                   <el-table-column fixed type="selection" width="50" align="center"> </el-table-column>
                   <el-table-column type="index" width="46" align="center" label="序号"></el-table-column>
                   <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
@@ -122,25 +101,23 @@
                   <el-table-column prop="testType" min-width="140" label="表格五" show-overflow-tooltip>
                     表格五
                   </el-table-column>
-
-
               </el-table>
             </div>
+
           <div class="pagination">
             <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
           </div>
+
         </div>
  
-
         <div class="showDialog">
             <el-dialog  :visible.sync="editVisible"  :show-close="false" :modal="false" fullscreen>
-              <div class="dialogFix">
+              <div >
                 <el-button size="small" @click="cancelSave" icon="el-icon-back">返回</el-button>
                 <el-button type="primary" size="small" icon="el-icon-check" @click="handleSave('form')">保存</el-button>
-                  
               </div>
+
               <el-row class="dialogForm">
-                  <el-col :span="20">
                     <div class="tableFrom">
                          <el-form  ref="form" :model="form" :rules="rules" label-width="100px" size="small" style="margin-top:10px">
                             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="height:45px">
@@ -216,11 +193,8 @@
                                     </el-upload>
                                 </el-form-item>
                             </el-col>
-
-
                           </el-form>
                     </div>
-                  </el-col>
               </el-row>
 
 
@@ -691,41 +665,12 @@ export default {
 }
 </script>
 <style lang="scss" scope>
-//表头高度调整
-.el-table__header th {
-  padding: 0;
-  height: 50px ;
-}
-// 弹出框样式
-.showDialog .el-dialog__body{
-  padding: 15px 20px;
-}
 
 .dialogForm{
     min-height: 250px;
     width: calc(100% - 20px);
     margin-top: 10px;
     margin-right: 20px;
-}
-
-.container-query{
-  float: left;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
-  background: #fff;
-  height: 100px;
-  width: 100%;
-  min-width: 1100px;
-}
-.query-scrollbar{
-  width: calc(100% - 20px);
-  height: 90px;
-  padding: 5px 30px;
-
-}
-.query-from{
-  margin-top: 5px;
 }
 .container-table{
   float: left;
@@ -743,7 +688,6 @@ export default {
   height: calc(100% - 120px);
   width: 100%;
 }
-
 .el-dialog__header{
   padding: 0;
 }

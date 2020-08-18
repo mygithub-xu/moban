@@ -1,70 +1,32 @@
 <template>
-    <div class="app-container2">
-        <div class="dashboardContainer">
-            <div class="shouyeHeard">
-                <el-col :xs="12" :sm="12" :md="8" :lg="8" :xl="8" >
-                    <div class="shouyeShowDiv" @click="userCountClick">
-                        <div class="shouyeShowDivBody icon iconfont icon-caiwuguanli-dianji"></div>
-                        <div class="shouyeShowDivBody">
+    <div class="app-container">
+        <div class="dashboardStatistic">
 
-                            <div class="shouyeShowDivBodyNum">
-                                <div class="userCountTitle">用户数量</div>
-                                </div>
-                            <div class="shouyeShowDivBodyNum">
-                                <div class="userCount">{{count.userCount}}</div>
-                            </div>
-
-                        </div>
+                <div class="dashboardStatisticItem" @click="userCountClick">
+                    <div class="icon iconfont icon-caiwuguanli-dianji"></div>
+                    <div class="statisticBody">
+                        <div class="statisticItemName">用户数量</div>
+                        <div class="statisticItemNum">{{count.userCount}}</div>
                     </div>
-                </el-col>
-                <el-col :xs="12" :sm="12" :md="8" :lg="8" :xl="8" >
-                    <div class="shouyeShowDiv" @click="dynamicCountClick">
-                        <div class="shouyeShowDivBody icon iconfont icon-yuangongguanli-moren"></div>
-                        <div class="shouyeShowDivBody">
+                </div>
 
-                            <div class="shouyeShowDivBodyNum">
-                                <div class="userCountTitle">动态数量</div>
-                                </div>
-                            <div class="shouyeShowDivBodyNum">
-                                <div class="userCount">{{count.dynamicCount}}</div>
-                            </div>
-
-                        </div>
-
+                <div class="dashboardStatisticItem" @click="userCountClick">
+                    <div class="icon iconfont icon-caiwuguanli-dianji"></div>
+                    <div class="statisticBody">
+                        <div class="statisticItemName">动态数量</div>
+                        <div class="statisticItemNum">{{count.dynamicCount}}</div>
                     </div>
-                </el-col>
-                <el-col :xs="12" :sm="12" :md="8" :lg="8" :xl="8" >
-                    <div class="shouyeShowDiv" @click="articleCountClick">
-                        <div class="shouyeShowDivBody icon iconfont icon-dangkouziliao-moren"></div>
-                        <div class="shouyeShowDivBody">
+                </div>
 
-                            <div class="shouyeShowDivBodyNum">
-                                <div class="userCountTitle">资讯数量</div>
-                                </div>
-                            <div class="shouyeShowDivBodyNum">
-                                <div class="userCount">{{count.articleCount}}</div>
-                            </div>
-
-                        </div>
-
+                <div class="dashboardStatisticItem" @click="userCountClick">
+                    <div class="icon iconfont icon-caiwuguanli-dianji"></div>
+                    <div class="statisticBody">
+                        <div class="statisticItemName">资讯数量</div>
+                        <div class="statisticItemNum">{{count.articleCount}}</div>
                     </div>
-                </el-col>
-                <!-- <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6" >
-                    <div class="shouyeShowDiv" @click="productAlertClick">
-                        <div class="shouyeShowDivBody icon iconfont icon-shishishuju-moren"></div>
-                        <div class="shouyeShowDivBody">
+                </div>
 
-                            <div class="shouyeShowDivBodyNum">
-                                <div class="userCountTitle">缺货提醒</div>
-                                </div>
-                            <div class="shouyeShowDivBodyNum">
-                                <div class="userCount">{{count.productAlertCount}}</div>
-                            </div>
 
-                        </div>
-
-                    </div>
-                </el-col> -->
             </div>
             <div class="echatsDiv">
                 <el-col :xs="24" :sm="24" :md="24" :lg="16" :xl="16" >
@@ -76,9 +38,6 @@
             </div>
 
         </div>
-
-
-    </div>
 </template>
 
 <script>
@@ -257,62 +216,47 @@
     }
 </script>
 <style scoped>
-    .shouyeUser{
-        width: 30%;
-        height: 200px;
-        background-color: #CCCC66;
-        /* box-shadow: 0 0 10px #909399; */
-        float: left;
-    }
-    .shouyeHeard{
-        width: 100%;
-        margin-top: 50px;
-        float: left;
-    }
-    .shouyeShowDiv{
-        background-color: #ffffff;
-        margin-right: 20px;
-        margin-left: 20px;
+
+.dashboardStatistic{
+    width: 100%;
+    height: 100%;
+}
+.dashboardStatisticItem{
+    width: 26%;
+    margin-left: 6%;
+    float: left;
+    box-shadow: 0 0 10px #909399;
+    height: 100px;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+.dashboardStatisticItem .iconfont{
+        width: 40%;
         height: 100px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px #909399;
-    }
-    .dashboardContainer{
-        height: 100%;
-        width: 100%;
-    }
-    .shouyeShowDivBody{
-        width: 50%;
-        height: 100%;
+        /* background-color: #CCCC66; */
         float: left;
-    }
-    .shouyeShowDivBodyNum{
-        height: 50%;
-        width: 100%;
-        float: left;
-        padding-top: 10px;
-    }
-    .shouyeShowDiv .iconfont{
-        font-size: 80px;
-        margin-top: 10px;
+        text-align: center;
+        font-size: 90px;
         color: #00a6ac;
-    }
-    .userCountTitle{
-        font-size: 18px;
-        color: #6b473c;
-    }
-    .userCount{
-        font-size: 16px;
-        color: #281f1d;
-    }
-    .shouyeUserTouxiang{
-        width: 50%;
-        height: 100%;
-        float: left;
-    }
-    .echatsDiv{
-        height: 500px;
-        width: 100%;
-        float: left;
-    }
+        line-height: 100px;
+}
+.dashboardDivBody{
+    float: left;
+    width: 60%;
+    height: 100px;
+}
+.statisticBody div{
+    font-size: 25px;
+    width: 60%;
+    height: 50px;
+    float: left;
+    text-align: center;
+    line-height: 50px;
+}
+.dashboardStatisticItemName{
+    font-size: 30px;
+}
+.dashboardStatisticItemNum{
+    font-size: 20px;
+}
 </style>

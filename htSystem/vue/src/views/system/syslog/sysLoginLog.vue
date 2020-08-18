@@ -1,18 +1,17 @@
 <template>
-  <div class="app-container2">
-    <div class="container2-search">
+  <div class="app-container">
+    <div class="container-query">
+      <el-scrollbar class="query-scrollbar">
       <el-form :model="condition" ref="form" label-width="100px" size="small">
-            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
+
               <el-form-item label="登录地址：" prop="loginAddress">
                 <el-input  v-model="condition.loginAddress" autocomplete="off"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
+
               <el-form-item label="登录名称：" prop="loginAddress">
                 <el-input  v-model="condition.loginAddress" autocomplete="off"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
+
              <el-form-item label="登录状态：">
                 <el-select v-model="condition.loginStatus"  placeholder="请选择">
                   <el-option
@@ -23,8 +22,7 @@
                   ></el-option>
                 </el-select>
              </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
+
               <el-form-item label="登录时间：">
                 <div>
                   <el-date-picker
@@ -44,26 +42,22 @@
                   ></el-date-picker>
                 </div>
               </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
+
               <el-button style="margin: 0 0 0 18px;" type="primary" icon="el-icon-search" @click="getdata"  size="small">搜索</el-button>
               <el-button size="small" @click="empty" icon="el-icon-refresh"  >重置</el-button>
-            </el-col>
       </el-form>
+      </el-scrollbar>
     </div>
-    <div class="container2-body">
-      <div class="container2-button">
+    <div class="container-table">
+      <div>
         <span>
             <el-button style="margin: 0 0 0 18px;" type="danger" icon="el-icon-delete" @click="handleDeleteBatch" :disabled="dicDisabled"  size="small">删除</el-button>
             <el-button  size="small" @click="handleExport" icon="icon-upload"  >导出</el-button>
         </span>
-        <span class="handle-box" style="float:right">
-            <el-row class="tac">
-            </el-row>
-        </span>
       </div>
-      <div class="container2-table">
-        <el-table :data="pageData.list" :row-style="{height:'50px'}" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange" height="100%">
+      <div class="common-table-style">
+        <el-table :data="pageData.list" :row-style="{height:'50px'}" border class="table" ref="multipleTable" 
+        align="center" @selection-change="handleSelectionChange" height="100%">
             <el-table-column type="selection"  fixed width="55"  align="center" show-overflow-tooltip></el-table-column>
             <el-table-column min-width="100" prop="userName" label="登录名称" align="center" show-overflow-tooltip></el-table-column>
             <el-table-column min-width="150" prop="loginIp" label="登录地址" align="center" show-overflow-tooltip></el-table-column>
@@ -81,7 +75,7 @@
         </el-table>
       </div>
     </div>
-    <div class="container2-page">
+    <div class="pagination">
         <pagination :page-list="pageData" @pagesearch="handlePostPage"></pagination>
     </div>
   </div>

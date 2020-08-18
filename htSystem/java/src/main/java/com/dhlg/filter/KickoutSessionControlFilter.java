@@ -1,4 +1,4 @@
-package com.dhlg.utils.shiro.filter;
+package com.dhlg.filter;
 
 import com.alibaba.fastjson.JSON;
 import net.sf.json.JSONObject;

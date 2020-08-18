@@ -1,6 +1,6 @@
 <template>
 <!-- 系统配置---全局参数---按钮配置 -->
-  <div class="app-container2">
+  <div class="app-container">
     <div class="container">
       <div class="container_btn" >
         <span>

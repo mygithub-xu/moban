@@ -1,4 +1,4 @@
-package com.dhlg.utils.shiro.session;
+package com.dhlg.shiro.session;
 
 
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
