@@ -150,6 +150,30 @@
   height: calc(100% - 95px);
   margin-top: 10px;
 }
+.cell .table-head-title{
+  font-size: 14px;
+  color: #909399;
+  text-overflow: ellipsis;
+  font-weight: bold;
+}
+.cell .el-icon-search{
+  font-size: 16px;
+  color: #909399;
+}
+.table-head-popover-hr{
+  background-color: lightgray;
+  height: 1px; 
+  border: none; 
+  margin-top: 1em;
+}
+.table-head-popver-button{
+  display: flex; 
+  justify-content: space-evenly;
+}
+.table-head-popover-checkBox{
+  max-height: 300px; 
+  overflow-y: auto;
+}
 /*全表格页面 end*/
 
 

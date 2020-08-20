@@ -19,46 +19,41 @@
                 <el-table-column type="selection"  fixed width="50"  align="center" ></el-table-column>
                 <el-table-column type="index" width="45" label="序号" align="center" ></el-table-column>
                 
-                    <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip>
-                            <template slot="header" slot-scope="scope">
-                                <span class="col-filter">
-                                {{scope.column.label}}
-                                <el-popover placement="bottom-end" width="400" trigger="click"  v-model="queryVisible.createTime">
-                                    <el-date-picker
-                                            v-model="condition.createTime"
-                                            type="daterange"
-                                            align="right"
-                                            unlink-panels
-                                            range-separator="至"
-                                            start-placeholder="开始日期"
-                                            end-placeholder="结束日期"
-                                            :picker-options="pickerOptions"
-                                            value-format="yyyy-MM-dd HH:mm:ss"
-                                    ></el-date-picker>
-                                    <hr
-                                            style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"
-                                    />
-                                    <div style="display: flex; justify-content: space-evenly;">
-                                    <el-button
-                                            type="text"
-                                            @click="handleDateRangeListFilterOk('createTime')"
-                                    >确定</el-button>
-                                    <el-button
-                                            type="text"
-                                            @click="handleDateRangeListFilterCancel('createTime')"
-                                    >重置</el-button>
-                                    </div>
-                                    <i slot="reference" class="icon-filter"  @click.stop></i>
-                                </el-popover>
-                                </span>
-                            </template>
+                        <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip>
+                                <template slot="header" slot-scope="scope">
+                                    <span class="table-head-title">{{scope.column.label}}</span>
+                                    <el-popover placement="bottom-end" width="400" trigger="click">
+                                        <el-date-picker
+                                                v-model="condition.createTime"
+                                                type="daterange"
+                                                align="right"
+                                                unlink-panels
+                                                range-separator="至"
+                                                start-placeholder="开始日期"
+                                                end-placeholder="结束日期"
+                                                :picker-options="pickerOptions"
+                                                value-format="yyyy-MM-dd HH:mm:ss"
+                                        ></el-date-picker>
+                                        <hr class="table-head-popover-hr"/>
+                                        <div class="table-head-popver-button">
+                                        <el-button
+                                                type="text"
+                                                @click="handleDateRangeListFilterOk('createTime')"
+                                        >确定</el-button>
+                                        <el-button
+                                                type="text"
+                                                @click="handleDateRangeListFilterCancel('createTime')"
+                                        >重置</el-button>
+                                        </div>
+                                        <i slot="reference"  class="el-icon-search"></i>
+                                    </el-popover>
+                                </template>
                         </el-table-column>
 
                         <el-table-column prop="testName" min-width="140" label="测试名" align="center" show-overflow-tooltip>
                                 <template slot="header" slot-scope="scope">
-                                    <span class="col-filter">
-                                    {{scope.column.label}}
-                                    <el-popover placement="bottom-end" width="200" trigger="click" v-model="queryVisible.testName">
+                                    <span class="table-head-title">{{scope.column.label}}</span>
+                                    <el-popover placement="bottom-end" width="200" trigger="click">
                                         <div>
                                         <el-input
                                                 type="text"
@@ -66,68 +61,61 @@
                                                 placeholder="请输入"
                                         ></el-input>
                                         </div>
-                                        <hr
-                                                style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"
-                                        />
-                                        <div style="display: flex; justify-content: space-evenly;">
+                                        <hr class="table-head-popover-hr" />
+                                        <div class="table-head-popver-button">
                                         <el-button type="text" @click="handleSimpleFilterOk('testName')">确定</el-button>
                                         <el-button type="text" @click="handleSimpleFilterCancel('testName')">重置</el-button>
                                         </div>
-                                        <i slot="reference" class="icon-filter"  @click.stop></i>
+                                        <i slot="reference"  class="el-icon-search"></i>
                                     </el-popover>
-                                    </span>
                                 </template>
 
 
                         </el-table-column>
                         <el-table-column prop="testStatus" min-width="140" label="测试状态" align="center" show-overflow-tooltip>
-                                    <template slot="header" slot-scope="scope">
-                                        <span class="col-filter">
-                                        {{scope.column.label}}
-                                        <el-popover placement="bottom-end" width="200" trigger="click" v-model="queryVisible.testStatus">
-                                            <div style="max-height: 300px; overflow-y: auto;">
-                                            <ul style="list-style: none;">
-                                                <li
-                                                        v-for="item in checkBoxList.testStatusList"
-                                                        :key="item.value"
-                                                        :label="item.label"
-                                                >
-                                                <el-checkbox :label="item.label" v-model="item.checked"></el-checkbox>
-                                                </li>
-                                            </ul>
-                                            </div>
-                                            <hr style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"/>
-                                            <div style="display: flex; justify-content: space-evenly;"  >
-                                                <el-button type="text" @click="handleCheckboxListFilterOk('testStatus')">确定</el-button>
-                                                <el-button type="text" @click="handleCheckboxListFilterCancel('testStatus')">重置</el-button>
-                                            </div>
-                                            <i slot="reference" class="icon-filter" :style="{'background-image':'url('+filterBGUrl+')'}"  @click.stop></i>
-                                        </el-popover>
-                                        </span>
-                                    </template>
 
-                                    <template slot-scope="scope">
-                                        <div >
-                                            
-                                            <div v-for="item in checkBoxList.testStatusList" :key="item.value">
-                                                <el-tag
-                                                        type="success"
-                                                        v-if="scope.row.testStatus==item.value"
-                                                >{{item.label}}</el-tag>
-                                            </div>
+                                <template slot="header" slot-scope="scope">
+                                    <span class="table-head-title">{{scope.column.label}}</span>
+                                    <el-popover placement="bottom-end" width="200" trigger="click">
+                                        <div class="table-head-popover-checkBox" >
+                                        <ul >
+                                            <li
+                                                    v-for="item in checkBoxList.testStatusList"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                            >
+                                            <el-checkbox :label="item.label" v-model="item.checked"></el-checkbox>
+                                            </li>
+                                        </ul>
                                         </div>
-                                    </template>
+                                        <hr class="table-head-popover-hr" />
+                                        <div class="table-head-popver-button">
+                                            <el-button type="text" @click="handleCheckboxListFilterOk('testStatus')">确定</el-button>
+                                            <el-button type="text" @click="handleCheckboxListFilterCancel('testStatus')">重置</el-button>
+                                        </div>
+                                        <i slot="reference"  class="el-icon-search"></i>
+                                    </el-popover>
+                                </template>
 
-
-
+                                <template slot-scope="scope">
+                                    <div >
+                                        <div v-for="item in checkBoxList.testStatusList" :key="item.value">
+                                            <el-tag
+                                                    type="success"
+                                                    v-if="scope.row.testStatus==item.value"
+                                            >{{item.label}}</el-tag>
+                                        </div>
+                                    </div>
+                                </template>
                         </el-table-column>
+
                         <el-table-column prop="testType" min-width="140" label="测试类型" align="center" show-overflow-tooltip>
                                     <template slot="header" slot-scope="scope">
-                                        <span class="col-filter">
-                                        {{scope.column.label}}
-                                        <el-popover placement="bottom-end" width="200" trigger="click" v-model="queryVisible.testType">
-                                            <div style="max-height: 300px; overflow-y: auto;">
-                                            <ul style="list-style: none;">
+                                        <span class="table-head-title"> {{scope.column.label}}</span>
+                                        
+                                        <el-popover placement="bottom-end" width="200" trigger="click">
+                                            <div class="table-head-popover-checkBox" >
+                                            <ul >
                                                 <li
                                                         v-for="item in checkBoxList.testTypeList"
                                                         :key="item.value"
@@ -137,28 +125,18 @@
                                                 </li>
                                             </ul>
                                             </div>
-                                            <hr style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"/>
-                                            <div style="display: flex; justify-content: space-evenly;">
-                                                <el-button type="text" @click="handleCheckboxListFilterOk('testType')">确定</el-button>
-                                                <el-button type="text" @click="handleCheckboxListFilterCancel('testType')">重置</el-button>
+                                            <hr class="table-head-popover-hr" />
+                                            <div class="table-head-popver-button">
+                                                <el-button type="text" @click="handleCheckboxListFilterOk('testStatus')">确定</el-button>
+                                                <el-button type="text" @click="handleCheckboxListFilterCancel('testStatus')">重置</el-button>
                                             </div>
-                                            <i slot="reference" class="icon-filter"  @click.stop></i>
+                                            <i slot="reference"  class="el-icon-search"></i>
                                         </el-popover>
-                                        </span>
                                     </template>
 
                                     <template slot-scope="scope">
                                         <div >
                                             {{scope.row.testType.split(',')}}
-                                            <!-- <div v-for="item in checkBoxList.testTypeList" :key="item.value">
-                                   
-                                                <div  v-for="item2 in scope.row.testType.split(',')" :key="item2">
-                                                    {{item2}} 
-                                                    <el-tag   type="success"  v-if="item2==item.value">
-                                                        
-                                                    </el-tag>
-                                                </div>
-                                            </div> -->
                                         </div>
                                     </template>
 
@@ -253,7 +231,7 @@
     export default {
         data(){
             return{
-                filterBGUrl:require("@/assets/img/souSuo.png"),
+
                 preVisiable:false,
                 condition: {
                     id: "",
@@ -665,31 +643,5 @@
     }
 </script>
 <style lang="scss" scope>
-    //表头高度调整
-    .el-table__header th {
-        padding: 0;
-        height: 50px ;
-    }
-    // 弹出框样式
-       .showDialog .el-dialog__body{
-           padding: 5px 20px;
-       }
-    .red{
-        color: rgb(243, 81, 94);
-    }
-    .table{
-        height:100%;
-        width: 100%;
-    }
-    .icon-filter {
-        display: inline-block;
-        height: 34px;
-        width: 24px;
-        vertical-align: middle;
-        cursor: pointer;
-        background-size:20px 20px;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
 
 </style>

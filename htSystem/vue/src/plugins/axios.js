@@ -1,6 +1,7 @@
 // "use strict";
 import Vue from 'vue';
 import axios from "axios";
+import { Message } from 'element-ui';
 
 // Vue.prototype.$post=post; process.env.API_ROOT
 axios.defaults.baseURL = process.env.API_ROOT
@@ -8,14 +9,11 @@ axios.defaults.baseURL = process.env.API_ROOT
 Vue.prototype.$http = axios;
 
 
-//改变请求的head内容
 axios.interceptors.request.use(
   config => {
     //这里取到token，可能你们不是这样取的。
     const token = sessionStorage.getItem("Token")
     if (token) {
-      // 这里将tokexn设置到headers中，header的key是authToken，这个key值根据你的需要进行修改即可
-      // config.headers.authToken = token
       config.headers['Authorization'] =token;
     }
     return config
@@ -23,3 +21,19 @@ axios.interceptors.request.use(
   error => {
     return Promise.reject(error)
   });
+
+  axios.interceptors.response.use(
+    response => {
+      return response
+    },
+    error => {
+      if(error.message=='Network Error'){
+        Message.error("请检查网络是否连接")
+        return;
+      }
+      if(error.response.status=='404'){
+        Message.error("请求地址失效")
+        return;
+      }
+      return Promise.reject(error.response.data)
+  })

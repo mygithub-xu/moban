@@ -13,12 +13,6 @@ var constantRouterMap=[
     redirect: '/page/404',
     name: '404'
   },
-
-  {
-    path: '/checkAuthority',
-    component: resolve => require(['@comp/layout/page/checkAuthority.vue'], resolve),
-    name: '权限确定页面'
-  },
   {
     path: '/login',
     component: resolve => require(['@comp/layout/page/Login.vue'], resolve),

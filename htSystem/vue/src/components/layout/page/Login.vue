@@ -26,9 +26,8 @@
         form: {
           userName: '',
           passWord: '',
-          fullscreenLoading:false
         },
-
+        imgUrl:require("@/assets/img/bjt1.jpg"),
         // 表单验证，需要在 el-form-item 元素中增加 prop 属性
         rules: {
           userName: [
@@ -45,20 +44,9 @@
       }
     },
     created(){
-      console.log("现在的环境是："+process.env.NODE_ENV)
+
     },
     methods: {
-      ceshi(){
-        const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
-        setTimeout(() => {
-          loading.close();
-        }, 2000);
-      },
 
 
       onSubmit(formName) {
@@ -87,12 +75,6 @@
                 sessionStorage.setItem("userId", res.data.body.userId);
                 sessionStorage.setItem("Token", res.data.body.token);
                 sessionStorage.setItem("buttonUrlList",JSON.stringify(res.data.body.buttonUrlList));
-                //更新头像
-                // this.$store.dispatch('changeUrlFun',res.data.body.user.headPortrait);
-                // this.$store.dispatch('changeUsernameFun',res.data.body.user.userName);
-
-
-
                 this.$router.push("/page/Dashboard").catch(()=>{});
                 this.$message.success("登入成功");
                 
@@ -120,7 +102,6 @@
               }
 
             loading.close();
-              // this.fullscreenLoading=false;
             })
           .catch(() => {
             this.$message.error({message: "服务器错误请联系管理员"});
@@ -157,7 +138,7 @@
   .login-body{
     width: 100%;
     height: 100%;
-    background-image:url(require("../../../assets/img/bjt1.jpg") );
+    
     position: relative;
     background-size:100% 100%;
   }
