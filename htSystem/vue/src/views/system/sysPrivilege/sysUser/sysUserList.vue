@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="app-container" style="flex-direction: column;">
         <div class="container">
           <!-- 区域一 查询区域 -->
           <div class="container_btn" >
@@ -76,14 +76,14 @@
           </div>
         </div>
           <!-- 区域三---弹出框，覆盖全部 -->
-        <div class="showDialog">
+        <div class="show-dialog">
             <el-dialog title="账号配置" :visible.sync="editVisible"  :show-close="false" :modal="false" fullscreen>
               <div class="dialogFix">
                   <el-button type="primary" size="small"  v-has="'sysUser:save'" @click="handleSave('form')">保 存</el-button>
                   <el-button size="small" @click="cancelSave">返 回</el-button>
               </div>
               <el-form  ref="AddForm" :model="AddForm" :rules="rules" label-width="150px" size="small" style="margin-top:10px">
-              <el-row class="dialogForm">
+              <el-row class="dialog-form">
 
                 <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
                   <el-form-item label="账号名" prop="loginUser">
@@ -527,7 +527,7 @@ export default {
   height: 50px ;
 }
 // 弹出框样式
-.showDialog .el-dialog__body{
+.show-dialog .el-dialog__body{
   padding: 15px 20px;
 }
 el-col el-form-item{

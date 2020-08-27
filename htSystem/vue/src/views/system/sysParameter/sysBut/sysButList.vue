@@ -1,6 +1,6 @@
 <template>
 <!-- 系统配置---全局参数---按钮配置 -->
-  <div class="app-container">
+  <div class="app-container" style="flex-direction: column;">
     <div class="container">
       <div class="container_btn" >
         <span>
@@ -80,7 +80,7 @@
         <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
       </div>
     </div>
-    <div class="showDialog">
+    <div class="show-dialog">
       <el-dialog
         title="按钮配置"
         :visible.sync="editVisible"

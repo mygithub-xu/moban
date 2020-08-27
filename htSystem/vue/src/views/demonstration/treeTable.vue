@@ -1,5 +1,6 @@
 <template>
     <div class="app-container">
+    
                     <div class="tree-area">
                         <div class="common-header">
                             <span class="common-header-title">
@@ -82,7 +83,6 @@
                             </div>
 
                     </div>
-
         </div>
 </template>
 <script>
@@ -237,7 +237,7 @@ export default {
             var aa=this.form.createTime;
             var flag=typeof aa=='string'
             if(!!aa&&!flag){
-                this.form.createTime=this.$timeUtils.dateUtils(this.form.createTime);
+                this.form.createTime=this.$dateUtils.dateUtils(this.form.createTime);
             }
 
             var flag2=typeof this.form.testType=='string';

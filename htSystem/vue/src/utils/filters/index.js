@@ -1,3 +1,5 @@
+import dateUtils from '@utils/globalJs/dateUtils'
+
 const filter = {
         // 自定义过滤器
 
@@ -22,8 +24,36 @@ const filter = {
         
                 }
         
-            }
-    
+        },
+
+        'getLongDate': function (val) {
+            if(!val){
+                return null;
+            }
+            return dateUtils.getLongDate(val)
+        },
+
+
+        'getLongDateTime': function (val) {
+            if(!val){
+                return null;
+            }
+            return dateUtils.getLongDateTime(val)
+        },
+
+        'getStandardDate': function (val) {
+            if(!val){
+                return null;
+            }
+            return dateUtils.getStandardDate(val)
+        },
+
+        'getStandardDateTime': function (val) {
+            if(!val){
+                return null;
+            }
+            return dateUtils.getStandardDateTime(val)
+        },
     }
     
     export default filter

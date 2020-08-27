@@ -1,6 +1,6 @@
 <template>
 <!-- 系统配置---权限管理---角色管理 -->
-<div class="app-container" >
+<div class="app-container" style="flex-direction: column;">
   <div class="container">
         <div class="container_btn ">
         <span style="float:left;padding-bottom: 10px;">
@@ -31,24 +31,6 @@
           <el-button type="primary" size="small" icon="search"  @click="handleSearch">查询</el-button>
           <el-button size="small" type="text"  @click="handlereset">重置</el-button>
           <!-- `checked` 为 true 或 false -->
-          <el-row class="tac">
-            <el-col :span="24">
-              <el-dropdown trigger="click" :hide-on-click="false">
-                <div class="el-icon-menu"></div>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
-                    <el-checkbox v-model="btnName">角色名</el-checkbox>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-checkbox v-model="btnDes">备注</el-checkbox>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-checkbox v-model="btnStatus">状态</el-checkbox>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </el-col>
-          </el-row>
         </span>
       </div>
 
@@ -100,7 +82,7 @@
 
 
     <!-- 权限树提示框 start-->
-    <div class="showDialog">
+    <div class="show-dialog">
       <el-dialog
         fullscreen
         :visible.sync="treeVisible"
@@ -134,7 +116,7 @@
     <!-- 权限树提示框 end -->
 
     <!-- 编辑弹出框 -->
-    <div class="maskB showDialog" v-if="editVisible">
+    <div class="maskB show-dialog" v-if="editVisible">
       <el-dialog
         title="角色登记"
         fullscreen
@@ -466,20 +448,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.container {
-  height: 100%;
-  box-sizing: border-box;
-  position: relative;
-  padding: 52px 10px 60px 10px;
-}
-// .handle-box {
-//   padding-right: 30px;
-// }
-.pagination {
-  position: absolute;
-  bottom: 15px;
-  right: 20px;
-}
 .roleListDialog el-form-item {
   width: 25rem;
 }

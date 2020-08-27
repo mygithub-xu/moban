@@ -1,66 +1,60 @@
 <template>
-    <div class="layout-header" id="layout-header" :style="{'background-color':layoutTypeParam.headerBgcolor}">
-        
-        <template v-if="layoutType=='1'">
-            <div class="layout-header-title" :style="{'width':layoutTypeParam.headWidth+'px','background-color':layoutTypeParam.menuBgcolor}">
-                <span  :style="{'width':layoutTypeParam.headWidth+'px','color':layoutTypeParam.menuFontcolor}">
-                    <img :src="companyAtt.imgSrc" class="layout-header-title-img"/>
-                    <template v-if="!layoutTypeParam.isCollapse">{{companyAtt.name}}</template>
-                </span>
-            </div>
-            <div class="layout-header-left" >
-                    <span class="layout-header-left-icon">
-                        <i class="icon iconfont" :class="layoutTypeParam.isCollapse?'icon-zhedie2':'icon-zhedie1'" @click="changeWidth"></i>
-                    </span>
-            </div>
-            <slot name="rightHeader"></slot>
-        </template>
-        
-        <template v-if="layoutType=='2'">
-            <div class="layout-header-title" :style="{'width':layoutTypeParam.headWidth+'px'}">
-                <span  :style="{'width':layoutTypeParam.headWidth+'px','color':layoutTypeParam.menuFontcolor}">
-                    <img :src="companyAtt.imgSrc" class="layout-header-title-img"/>
-                    <template>{{companyAtt.name}}</template>
-                </span>
-            </div>
+    <div class="layout-header" id="layout-header" :style="{'background-color':getLayoutParam.headerBGColor}">
 
-            <div class="layout-header-left" :style="{'width':layoutTypeParam.menuWidth+'px'}" >
-                    <!-- 菜单 -->
-                    <sidebar class="menu_container2"  :bgcolor="layoutTypeParam.headerBgcolor" 
-                    :layoutType="layoutType" :textColor="layoutTypeParam.menuFontcolor" :activeTextColor="layoutTypeParam.menuActiveFontcolor"
-                    :menuWidth="layoutTypeParam.menuWidth"
-                    ></sidebar>
-            </div>
-            <slot name="rightHeader"></slot>
-        </template>
+        <layoutHeaderLeft ></layoutHeaderLeft>
+        <layoutHeaderCenter :headerCenterWidth="headerCenterWidth"></layoutHeaderCenter>
+        <layoutHeaderRight @headRightClick="headRightClick"></layoutHeaderRight>
     </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 export default {
     name: 'layoutHeader',
     data(){
         return {
-
+            headerCenterWidth:200
         }
     },
-    props:{
-        layoutType:{
-            type:String,
-            default:"1"
-        },
-        layoutTypeParam:{
-            type:Object,
-            require:true
-        },
-        companyAtt:{
-            type:Object,
-            require:true
-        },
+    computed: {
+        ...mapGetters([
+            'getLayoutParam',
+            'getLayoutType'
+        ])
+    },
+    mounted(){
+        window.onresize = () =>{
+            this.getData()
+        }
+    },
+    watch:{
+        getLayoutType(newData, oldData){
+            this.getData()
+        }
+    },
+    created(){
+        this.getData()
     },
     methods:{
-        changeWidth(){
-            this.$emit("changeWidth")
-        }
+        getData(){
+            if(this.getLayoutType=='2'){
+                this.getCanUserWidth();
+            }
+        },
+        //type2时样式数据
+        getCanUserWidth(){
+            this.$nextTick(()=>{
+                //动态获取宽度
+                let leftwidth=200;
+                var rightwidth= document.getElementById('layout-header-right').clientWidth; //右边宽度    headWidth左边宽度   
+                var allwidth= document.getElementById('layout-header').clientWidth;
+                this.headerCenterWidth =allwidth - rightwidth - leftwidth;
+            })
+
+        },
+        headRightClick(data){
+            this.$emit("headRightClick",data)
+        },
+
     }
 }
 </script>
@@ -69,26 +63,7 @@ export default {
         height: 50px;
         /* border-bottom: solid 1px #e6e6e6; */
     }
-    .layout-header-title{
-        height: 50px;
-        text-align: center;
-        float: left;
-        overflow: hidden;
-        transition: width 0.5s;
-    }
-    .layout-header-title span{
-        font-size: 23px;
-        color: #ffffff;
-        float: left;
-        line-height: 50px;
-    }
-    .layout-header-title-img{
-        width:32px;
-        height:32px;
-        float:left;
-        margin-top: 9px;
-        margin-left: 15px;
-    }
+
     .layout-header-left{
         height: 50px;
         float: left;
@@ -97,6 +72,7 @@ export default {
         font-size: 25px;
         line-height: 50px;
         margin-left: 15px;
+        cursor: pointer;
     }
     .menu_container2{
         float: left;

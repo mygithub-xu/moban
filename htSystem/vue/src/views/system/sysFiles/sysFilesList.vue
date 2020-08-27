@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="app-container" style="flex-direction: column;">
         <div class="container">
           <!-- 区域一 查询区域 -->
           <div class="container_btn" >
@@ -258,7 +258,7 @@ export default {
   height: 50px ;
 }
 // 弹出框样式
-.showDialog .el-dialog__body{
+.show-dialog .el-dialog__body{
   padding: 15px 20px;
 }
 .red{

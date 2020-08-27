@@ -107,7 +107,7 @@
         border: 0px solid #ddd;
         max-width: 1000px;
     }
-    .showDialog .el-dialog__wrapper {
+    .show-dialog .el-dialog__wrapper {
         position: relative !important;
     }
 </style>

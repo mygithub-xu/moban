@@ -3,17 +3,17 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex) 
 
-import menu from './modules/menu'
 import userInfo from './modules/userInfo'
 import tabRouter from './modules/tabRouter'
 import addRouter from './modules/addRouter'
+import layoutParam from './modules/layoutParam'
 
 const store = new Vuex.Store({
     modules: {
-        menu,
         userInfo,
         tabRouter,
-        addRouter
+        addRouter,
+        layoutParam
     }
 });
 

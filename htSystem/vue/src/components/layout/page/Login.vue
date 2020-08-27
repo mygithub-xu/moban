@@ -26,8 +26,9 @@
         form: {
           userName: '',
           passWord: '',
+          fullscreenLoading:false
         },
-        imgUrl:require("@/assets/img/bjt1.jpg"),
+
         // 表单验证，需要在 el-form-item 元素中增加 prop 属性
         rules: {
           userName: [
@@ -38,16 +39,10 @@
           ]
         },
 
-        // 对话框显示和隐藏
-        dialogVisible: false,
         flag:1,
       }
     },
-    created(){
-
-    },
     methods: {
-
 
       onSubmit(formName) {
         
@@ -63,22 +58,22 @@
           background: 'rgba(0, 0, 0, 0.7)'
         });
 
-            this.$http.post(this.api.login,this.form)
-            .then(res=>{
+            this.$http.post(this.api.login,this.form).then(res=>{
               if (res.data.code == '200') {
-                
-                //更新登录状态
+                //更新登录状态,true为第一次登录。
                 this.$store.dispatch('changeLoginStatusFun',true);
-
                 sessionStorage.setItem("menuData",JSON.stringify(res.data.body.menuData));
-                sessionStorage.setItem("user", JSON.stringify(res.data.body.user));
+                sessionStorage.setItem("User", JSON.stringify(res.data.body.user));
+                sessionStorage.setItem("menuList",JSON.stringify(res.data.body.menuList));
                 sessionStorage.setItem("userId", res.data.body.userId);
                 sessionStorage.setItem("Token", res.data.body.token);
                 sessionStorage.setItem("buttonUrlList",JSON.stringify(res.data.body.buttonUrlList));
-                this.$router.push("/page/Dashboard").catch(()=>{});
+                //更新头像
                 this.$message.success("登入成功");
-                
-              } else{
+                this.$router.push("/page/Dashboard");
+              }
+
+              else{
 
               if (res.data.code === "410") {
                   if(this.flag<3){
@@ -102,18 +97,14 @@
               }
 
             loading.close();
-            })
-          .catch(() => {
-            this.$message.error({message: "服务器错误请联系管理员"});
-            loading.close();
-          });
-
-
+              // this.fullscreenLoading=false;
+            }).catch(() => {
+                loading.close();
+              });
           } 
 
         });
       }
-
     }
   }
 </script>
@@ -138,7 +129,6 @@
   .login-body{
     width: 100%;
     height: 100%;
-    
     position: relative;
     background-size:100% 100%;
   }

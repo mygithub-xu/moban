@@ -1,23 +1,30 @@
 <template>
     <div class="headTabsDivCom">
-        <el-tabs v-model="indexTabTrue" closable  type="border-card"  @tab-remove="removeTab" @tab-click="tabclick" @contextmenu.prevent.native="openpop($event)">
-            <el-tab-pane
-                v-for="item in tableTabs"
-                :key="item.path"
-                :label="item.name"
-                :name="item.path"
-            >
-            </el-tab-pane>
-        </el-tabs>
+        
+                <el-tabs v-model="indexTabTrue" closable  type="border-card"  @tab-remove="removeTab" @tab-click="tabclick" @contextmenu.prevent.native="openpop($event)">
+                    <!-- <draggable v-model='getOpenTab' > -->
+                        <el-tab-pane
+                            v-for="item in getOpenTab"
+                            :key="item.path"
+                            :label="item.name"
+                            :name="item.path">
+                        </el-tab-pane>
+                    <!-- </draggable> -->
+                </el-tabs>
+        
         <div v-show="contextMenuVisible">
             <customPopBox :left="left" :top="top" :isShowLeft="isShowLeft" :isShowRight="isShowRight" :isShowReflash="isShowReflash" @popClick="popClick"></customPopBox>
         </div>
     </div>
 </template>
 <script>
-
+import { mapGetters } from 'vuex'
+import draggable from 'vuedraggable'
 export default {
     name: 'headTabs',
+    components:{
+        draggable
+    },
     data(){
         return {
             indexTabTrue:"",
@@ -32,12 +39,20 @@ export default {
             indexTabTrueCount:0,
         }
     },
-
+    computed:{
+        ...mapGetters([
+            'getIndexTab',
+        ]),
+        getOpenTab: {
+            get() {
+                return this.$store.state.tabRouter.openTab
+            },
+            set(value) {
+                this.$store.dispatch('changeTabFun', value)
+            }
+        }
+    },
     props:{
-        tableTabs:{
-            type:Array,
-            default:[]
-        },
         indexTab:{
             type:String,
             default:""
@@ -45,14 +60,18 @@ export default {
     },
     created(){
         //解决刷新时当前tab未加载bug
-        if(this.$store.state.tabRouter.indexTab){
-            this.indexTabTrue=this.$store.state.tabRouter.indexTab;
+        if(this.getIndexTab){
+            this.indexTabTrue = this.getIndexTab;
         }
         
     },
     watch:{
+        //动态检测路由变化
+         $route(route) {
+            this.changeTabRouter()
+        },
         //解决点击tab时v-model双向绑定bug
-        indexTab(newName, oldName){
+        getIndexTab(newName, oldName){
             this.indexTabTrue=newName;
         },
         contextMenuVisible(value) {
@@ -64,12 +83,87 @@ export default {
         },
     },
     methods:{
-
+        //路由变化，相应的tab也要改变
+        changeTabRouter(){
+            //获取要进入的路由
+            let matched = this.$route.matched;
+            
+            //判断tab中是否存在该路由，存在不更新，不存在更新
+            let nowRouterList=this.getOpenTab;
+            let isExist=false;
+            nowRouterList.forEach(v => {
+                if(matched[1].path==v.path){
+                    isExist=true;
+                }
+            });
+            if(!isExist){
+                let componet=!matched[1].components.default.name?'':matched[1].components.default.name;
+                let newTab={
+                    name: matched[1].name,
+                    path: matched[1].path,
+                    component:componet
+                }
+                nowRouterList.push(newTab);
+                this.$store.dispatch('changeTabFun',nowRouterList);
+            }
+            //更新当前路由
+            this.$store.dispatch('changeIndexTabFun',matched[1].path);
+                
+        },
         tabclick(tab){
             this.$router.push(tab.name);
         },
-        removeTab(tabPath) {
-            this.$emit("removeTab",tabPath);
+        removeTab(tabPath){
+            if(this.getOpenTab.length==1&&tabPath=="/page/Dashboard"){
+                  return this.$message({
+                        type: "error",
+                        message: "首页不能删除"
+                    });
+            }
+            if(tabPath==this.indexTab){
+                //确定关闭当前页面？？
+
+                this.$confirm("是否关掉当前页面?", "提示", {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning"
+                }).then(() => {
+
+                        let index=this.tabPathChange(tabPath);
+
+                        //更新当前选定的tab
+                        if(this.getOpenTab.length==0){
+
+                            this.$router.push("/page/Dashboard");
+                        }else if(this.getOpenTab.length<=index){
+                            this.$router.push(this.getOpenTab[this.getOpenTab.length-1].path);
+                        }else{
+                            this.$router.push(this.getOpenTab[index].path);
+                        }
+
+                    }).catch(() => {
+                        this.$message({type: "info", message: "已取消"});
+                    });
+
+
+            }else{
+                let index=this.tabPathChange(tabPath);   
+            }
+
+        },
+        //删除选中tab，更新tab路由，返回删除的第几个
+        tabPathChange(tabPath){
+                let getOpenTabList=this.getOpenTab;
+                let index=0;
+                for(let i=0;i<getOpenTabList.length;i++){
+                    if(tabPath==getOpenTabList[i].path){
+                        getOpenTabList.splice(i, 1);
+                        index=i;
+                        break;
+                    }
+                }
+                this.$store.dispatch('changeTabFun',getOpenTabList);
+                return index;
         },
         openpop(e){
 
@@ -82,7 +176,7 @@ export default {
                 this.top = e.clientY + 10;
                 this.contextMenuVisible=true;
                 //查找该tab的位置
-                let tabs=this.tableTabs;
+                let tabs=this.getOpenTab;
                 for(let i=0;i<tabs.length;i++){
                     if(tabs[i].path==this.path){
                         this.openTabIndex=i;
@@ -127,7 +221,7 @@ export default {
             }
             if(type=='closeLeft'){
                 // 关闭左边
-                let tabs=this.tableTabs;
+                let tabs=this.getOpenTab;
                 tabs.splice(0,this.openTabIndex);
                 this.$store.dispatch('changeTabFun',tabs);
                 //判断当前页面是否在左，在左改变状态
@@ -137,7 +231,7 @@ export default {
             }
             if(type=='closeRight'){
                 // 关闭右边
-                let tabs=this.tableTabs;
+                let tabs=this.getOpenTab;
                 tabs.splice(this.openTabIndex+1);
                 this.$store.dispatch('changeTabFun',tabs);
                 //判断当前页面是否在右，在左改变状态
@@ -147,7 +241,7 @@ export default {
             }
             if(type=='closeOther'){
                 // 关闭其他
-                let tabs=this.tableTabs;
+                let tabs=this.getOpenTab;
                 let openTab=[
                     {
                         name:tabs[this.openTabIndex].name,
@@ -200,5 +294,9 @@ export default {
     }
     .headTabsDivCom .el-tabs--border-card>.el-tabs__header{
         border-bottom: 0px solid #E4E7ED;
+    }
+    .headTabsDivCom .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+        border-radius: 10px;
+        box-shadow: 0px 0px 2px rgb(219, 216, 216);
     }
 </style>

@@ -2,8 +2,8 @@ import Vue from 'vue'
 
 //管理全局js文件，可以在此统一管理引入，也可以在main.js中引入
 //时间工具类
-import timeUtils from '@utils/globalJs/timeUtils'//暴露https;
-Vue.prototype.$timeUtils=timeUtils;
+import dateUtils from '@utils/globalJs/dateUtils'//暴露https;
+Vue.prototype.$dateUtils=dateUtils;
 
 //跳转
 import geturlpara from '@utils/globalJs/geturlpara'//暴露https;
@@ -24,5 +24,6 @@ Vue.prototype.api = api;//全局使用api
 //引入动态路由js
 import '@utils/dynamicRouter'
 
-//引入数字精确计算js
-import '@utils/globalJs/precision'
+//获取用户信息js
+import User from "@utils/globalJs/UserContext"
+Vue.prototype.$User = User;

@@ -3,14 +3,15 @@ import sidebar from './layout/otherLayoutCom/sidebar.vue';
 import AppMain from './layout/otherLayoutCom/AppMain.vue';
 import menuTree from './layout/otherLayoutCom/menuTree.vue';
 import menuTreeHor from './layout/otherLayoutCom/menuTreeHor.vue';
-import breadcrumb from './layout/otherLayoutCom/breadcrumb.vue';
 import headTabs from './layout/otherLayoutCom/headTabs.vue';
-import userSetting from './layout/otherLayoutCom/userSetting.vue';
 import customPopBox from './layout/otherLayoutCom/customPopBox.vue';
-import rightHeader from './layout/otherLayoutCom/rightHeader.vue';
-import leftHeader from './layout/otherLayoutCom/leftHeader.vue';
-import layoutSetting from './layout/otherLayoutCom/layoutSetting.vue';
 import layoutHeader from './layout/otherLayoutCom/layoutHeader.vue';
+import layoutBody from './layout/otherLayoutCom/layoutBody.vue';
+import layoutHeaderLeft from './layout/otherLayoutCom/layoutHeaderLeft.vue';
+import layoutHeaderCenter from './layout/otherLayoutCom/layoutHeaderCenter.vue';
+import layoutHeaderRight from './layout/otherLayoutCom/layoutHeaderRight.vue';
+import layoutSetting from './layout/otherLayoutCom/layoutSetting.vue';
+
 
 import treeSelect from './common/treeSelect/treeSelect.vue';//树形
 import pagination from './common/pagination/index';//分页
@@ -24,6 +25,9 @@ import uploadFile from './common/upload/uploadFile';
 
 
 
+
+
+
 //全局注册icon-svg
 
 const components = [
@@ -31,14 +35,14 @@ const components = [
   AppMain,
   menuTree,
   menuTreeHor,
-  breadcrumb,
-  headTabs,
-  userSetting,
-  customPopBox,
-  rightHeader,
-  leftHeader,
   layoutSetting,
+  headTabs,
+  customPopBox,
   layoutHeader,
+  layoutBody,
+  layoutHeaderLeft,
+  layoutHeaderCenter,
+  layoutHeaderRight,
 
   treeSelect,
   treeMultiSelect,

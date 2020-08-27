@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="app-container" style="flex-direction: column;">
         <div class="container">
             <!-- 区域一 查询区域 -->
             <div class="container_btn" >
@@ -160,7 +160,7 @@
             </div>
         </div>
         <!-- 区域三---弹出框，覆盖全部 -->
-        <div class="showDialog">
+        <div class="show-dialog">
             <el-dialog  :visible.sync="editVisible"  :show-close="false" :modal="false" fullscreen>
                 <div class="dialogFix">
                     <i class="icon iconfont icon-changjiantou_zuo" @click="cancelSave"></i>

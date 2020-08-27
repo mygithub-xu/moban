@@ -214,6 +214,9 @@ export default {
                 let text = "zzzz"
                 let imgBase64 = jrQrcode.getQrBase64(text, options);  //options为配置对象，支持以下配置参数：
                 this.qrcodeImg=imgBase64
+            },
+            onSubmit(){
+              
             }
             
         }

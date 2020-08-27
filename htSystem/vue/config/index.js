@@ -13,7 +13,7 @@ module.exports = {
     //开发环境，proxyTable在开发环境中使用，目的是解决本地环境跨域
     proxyTable: {
       '/api': {
-          target: 'http://120.25.197.11/api/', 
+          target: 'http://localhost:8080/rsm/', 
           changeOrigin: true, //改变源 
           pathRewrite: {
               '^/api': '' //路径重写 

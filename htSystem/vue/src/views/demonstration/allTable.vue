@@ -159,7 +159,7 @@
 
         </div>
         <!-- 区域三---弹出框，覆盖全部 -->
-        <div class="showDialog">
+        <div class="show-dialog">
             <el-dialog  :visible.sync="editVisible"  :show-close="false" :modal="false" fullscreen>
                 <div class="dialogFix">
                     <template v-if="!preVisiable">
@@ -167,7 +167,7 @@
                     </template>
                     <el-button size="small" @click="cancelSave">返 回</el-button>
                 </div>
-                <el-row class="dialogForm">
+                <el-row class="dialog-form">
                     <el-col :span="24">
                         <div style="margin-top: 42px;">
 
@@ -635,9 +635,6 @@
                 this.queryVisible[filterName] = false;
                 this.getTableData();
             },
-
-
-
         },
 
     }

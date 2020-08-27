@@ -13,6 +13,7 @@ var constantRouterMap=[
     redirect: '/page/404',
     name: '404'
   },
+
   {
     path: '/login',
     component: resolve => require(['@comp/layout/page/Login.vue'], resolve),

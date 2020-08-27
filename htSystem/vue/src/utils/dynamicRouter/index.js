@@ -8,22 +8,20 @@ import Dashboard from '@views/modules/dashboard/Dashboard'
 var getRouter=null //暂存菜单数据
 
 router.beforeEach((to, from, next) => {
-
     //过滤静态路由
-    if(to.path=='/login'||to.path=='/page/404'||to.path=='/checkAuthority'){
+    if(to.path=='/login'||to.path=='/page/404'){
         return next();
     }
-     //登录状态
-    var loginStatus=store.state.addRouter.loginStatus;
+    //获取token,如果token为空，则返回登录页面
+    if(!getToken()){
+      return next('/login')
+    }
+    //登录状态
+    var loginStatus = getLoginStatus();
     //判断是否第一次登录，是，则更新路由，不是，则无需更新
     if (loginStatus) {
-        getRouter = getObjArr('menuData')
-        // if (getRouter){
+        getRouter = getObjArr()
         routerGo(to, next)
-        
-        // }else{
-        //   next('/login')
-        // }
     } else {
       try{
         next()
@@ -36,20 +34,31 @@ router.beforeEach((to, from, next) => {
 
 
 function routerGo(to, next) {
-  var loginStatus=store.state.addRouter.loginStatus;
+  var loginStatus = getLoginStatus();
   if(loginStatus){
-    getRouter = filterAsyncRouter(getRouter) //过滤路由
-    router.addRoutes(getRouter) //动态添加路由
-    store.state.addRouter.loginStatus=false
+    //过滤路由
+    getRouter = filterAsyncRouter(getRouter)
+    //动态添加路由
+    router.addRoutes(getRouter) 
+    //改变登录状态
+    changeLoginStatus()
   }
-    next(to.path)
+  
+  next(to.path)
 }
 
-function getObjArr(name) {
-  return JSON.parse(sessionStorage.getItem(name));
-
+//获取菜单数据
+function getObjArr() {
+  return JSON.parse(sessionStorage.getItem("menuData"))
 }
-
+//改变登录状态
+function changeLoginStatus() {
+  store.state.addRouter.loginStatus=false
+}
+// 获取登录状态
+function getLoginStatus() {
+  return store.state.addRouter.loginStatus
+}
 //过滤菜单，使其可以被路由添加
 function filterAsyncRouter(routers) {
   
@@ -78,10 +87,6 @@ function filterAsyncRouter(routers) {
     }
     fakeRouter[0].children=baseRouter;
   }
-  
-
-
-
   return fakeRouter
 }
 
@@ -122,4 +127,7 @@ function loadView(view){
 
   return ()=> import('@/views' + view + '.vue');
 
+}
+function getToken(){
+  return sessionStorage.getItem("Token")
 }

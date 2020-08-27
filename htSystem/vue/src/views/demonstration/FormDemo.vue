@@ -1,7 +1,7 @@
 <template>
   <el-scrollbar style="width: 100%;height: 100%">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"
-             class="demo-ruleForm">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+
       <el-row>
         <el-col :span="12">
           <el-form-item label="用户名" prop="name">
@@ -140,8 +140,10 @@
     validMoney
   } from "@utils/formValidationUtils";
 
+
+
   export default {
-    components: {CurrencyInput},
+    components: {Selection, CurrencyInput},
     data() {
 
       //用户名长度校验

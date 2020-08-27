@@ -1,6 +1,6 @@
 <template>
 <!-- 系统配置---全局参数---字典管理 -->
-  <div class="app-container">
+  <div class="app-container" style="flex-direction: column;">
     <div class="container">
       <div class="container_btn">
         <div style=" height: 32px;float:left">
@@ -114,7 +114,7 @@
       <div class="inner-mask">
         <el-button class="close" @click="typeEditVisible = false" type="danger">x</el-button>
         <div class="mask-children"> -->
-      <div class="showDialog">
+      <div class="show-dialog">
           <el-dialog title="添加/修改类型" :visible.sync="typeEditVisible" fullscreen width="45%" @close="cancelTypeSave" :modal="false" :modal-append-to-body="false">
         <div class="dialogFix">
             <el-button type="primary" size="small"  v-has="'sysdic:save'" @click="handleTypeSave('typeform')">保 存</el-button>

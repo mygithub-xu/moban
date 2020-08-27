@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="app-container" style="flex-direction: column;">
         <el-scrollbar class="commonScrollbar">
             
             
@@ -28,6 +28,20 @@
                 </div>
               </el-col>
 
+    <div style="height:400px;width:400px;float:left;margin-bottom:100px">
+
+        <draggable v-model='getOpenTab' >
+            <div
+            class="list-group-item"
+            v-for="element in getOpenTab"
+            :key="element.name"
+            >
+            {{ element.name }}
+            </div>
+        </draggable>
+
+    </div>
+
         </el-scrollbar>
 
         <el-dialog
@@ -40,7 +54,21 @@
     </div>
 </template>
 <script>
+import draggable from 'vuedraggable'
 export default {
+        components:{
+            draggable
+        },
+    computed:{
+        getOpenTab: {
+            get() {
+                return this.$store.state.tabRouter.openTab
+            },
+            set(value) {
+                this.$store.dispatch('changeTabFun', value)
+            }
+        }
+    },
         data(){
             return{
                 fuwenben:"我是富文本Quill",
@@ -82,6 +110,14 @@ export default {
                 }],
                 editVisible:false,
 
+                enabled: true,
+                list: [
+                    { name: "John0", id: 0 },
+                    { name: "Joao1", id: 1 },
+                    { name: "Jean2", id: 2 }
+                ],
+                dragging: false
+
             }
         },
         mounted(){
@@ -99,6 +135,10 @@ export default {
             },
             uploadpho(){
                 this.editVisible=true;
+            },
+            checkMove(e){
+                console.log(this.list)
+
             }
         }
     
@@ -138,5 +178,12 @@ export default {
     float: left;
     height: 200px;
     margin-top: 20px;
+}
+.buttons {
+  margin-top: 35px;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 </style>

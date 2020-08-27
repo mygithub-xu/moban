@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container" style="flex-direction: column;">
     <div class="container-query">
       <el-scrollbar class="query-scrollbar">
       <el-form :model="condition" ref="form" label-width="100px" size="small">
@@ -175,12 +175,12 @@ export default {
         
     },
     handleExport(){
-            //     this.$http.get(this.api.exceldaochu).then(res => {
+            //     this.$http.get(this.api.excelImport).then(res => {
             // });
 
       this.$axios({
           method: 'get',
-          url:this.api.exceldaochu,
+          url:this.api.excelImport,
           responseType: 'blob'
         })
       

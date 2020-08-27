@@ -25,11 +25,14 @@
                         <div class="statisticItemNum">{{count.articleCount}}</div>
                     </div>
                 </div>
-
+<!-- <el-button @click="getdata">点击</el-button> -->
 
             </div>
+
+            
             <div class="echatsDiv">
                 <el-col :xs="24" :sm="24" :md="24" :lg="16" :xl="16" >
+                    
                     <div style="height:500px" id="aaa"></div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8" >
@@ -41,7 +44,6 @@
 </template>
 
 <script>
-// import bus from "@utils/bus";
     export default {
         name:"Dashboard",
         data(){
@@ -62,17 +64,16 @@
                         proName:[],
                         proData:[]
                     }
-                }
+                },
+
             }
         },
-
+        created(){
+        },
         mounted(){
-            // this.getdata();
+            
         },
         methods:{
-            aaaaa(){
-                console.log("dianjile")
-            },
             getEchatbbb(){
                 let myChart = this.$echarts.init(document.getElementById("bbb"))
                 myChart.setOption({
@@ -156,47 +157,15 @@
             },
 
             getdata(){
-                this.echatData={
-                    orderPeopleList:{
-                        orderList:[],
-                        peopleList:[],
-                        dateList:[]
-                    },
-                    productTypeList:{
-                        proName:[],
-                        proData:[]
+
+                this.$http.post(this.api.applyQueryApply,{
+                    pageCondition: {
+                        pageNo: 0,
+                        pageSize: 0
                     }
-                }
+                }).then(res => {
 
-                this.$http.post(this.api.mbSysUserGetCount).then(res => {
-                if (res.data.code == "200") {
-                    this.count.userCount=res.data.body.userCount;
-                    this.count.dynamicCount=res.data.body.dynamicCount;
-                    this.count.articleCount=res.data.body.articleCount;
-
-                    //图数据
-                    var aa=res.data.body.userDynamic;
-                    aa.forEach(element => {
-                        element.commonInt2=!element.commonInt2?0:element.commonInt2;
-                        element.commonInt=!element.commonInt?0:element.commonInt;
-                        this.echatData.orderPeopleList.orderList.push(element.commonInt2);
-                        this.echatData.orderPeopleList.peopleList.push(element.commonInt);
-                        this.echatData.orderPeopleList.dateList.push(element.commonKeyString);
-                    });
-
-                    // var bb=res.data.body.productTypeList;
-                    // bb.forEach(element => {
-                    //     this.echatData.productTypeList.proName.push(element.commonKeyString);
-                    //     var proData={value: element.commonInt, name: element.commonKeyString};
-                    //     this.echatData.productTypeList.proData.push(proData);
-                    // });
-
-
-                }
-                this.getEchataaa();
-                this.getEchatbbb();
-
-            });
+                });
             },
             userCountClick(){
                 

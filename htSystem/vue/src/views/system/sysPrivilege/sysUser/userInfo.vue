@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="app-container" style="flex-direction: column;">
         <div class="container">
             <div class="container_btn">
                 <el-button type="primary" size="small" buttonCode="TY020" @click="handleSave('form')">保 存</el-button>

@@ -5,51 +5,55 @@
   margin-top: 61px;
   height: calc(100% - 61px);
   width: calc(100% - 20px);
+  display:flex;
   position: relative;
 }
 
 /*查询编辑页面 start*/
 /* 搜索区域 start*/
 .container-query{
-  float: left;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
   background: #fff;
-  height: 100px;
-  width: 100%;
-  min-width: 1100px;
-}
-.query-scrollbar{
-  width: calc(100% - 40px);
-  height: 90px;
+  width: calc(100% - 62px);
   padding: 5px 30px;
 }
-.query-scrollbar .el-form-item{
-  width:50%;
-  height:40px;
-  float:left;
-  margin-bottom:2px;
+.query-area .el-form-item{
+  float: left;
+  width: 31%;
+  margin-bottom:10px;
+  margin-left: 2%;
+  height: 40px;
 }
-.query-scrollbar .el-form-item__content{
-  width: 400px;
+.query-area .el-form-item__content{
+  min-width: 200px;
+  max-width: 350px;
+  margin-left: 100px;
+  
 }
-.query-scrollbar .el-form-item__content>div{
+.query-area .el-form-item__content>div{
   width: 100%;
+}
+.query-area .el-form-item__label{
+  text-align: right;
+  float: left;
+  width: 100px;
 }
 /* 搜索区域 end*/
 
 /* 表格样式 start*/
 .container-table{
   float: left;
-  width: 100%;
-  height: calc(100% - 120px);
+  width: calc(100% - 2px);
+  height: 100%;
   border: 1px solid #ddd;
   border-radius: 5px;
   box-sizing: border-box;
   background-color: #ffffff;
   padding: 10px 10px;
   box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  margin-bottom: 10px;
 }
 .common-table-style{
   width: 100%;
@@ -67,11 +71,48 @@
 /* 分页样式 end*/
 
 /* 定位弹出框位置 start*/
-.showDialog .el-dialog__wrapper {
-  position: absolute !important;
+.dialog-form{
+  float: left;
 }
-.showDialog .el-dialog__body{
+/* 解决tab与dialog连用卡死bug*/
+.dialog-tab{
+  float: left;
+  width: 100%;
+}
+.dialog-button{
+  margin-bottom: 10px;
+}
+.edit-area .el-form-item{
+  float: left;
+  width: 31%;
+  margin-bottom:10px;
+  margin-left: 2%;
+  height: 50px;
+}
+.edit-area .el-form-item__content{
+  min-width: 200px;
+  width: 70%;
+  margin-left: 100px;
+  
+}
+.edit-area .el-form-item__content>div{
+  width: 100%;
+}
+.edit-area .el-form-item__label{
+  text-align: right;
+  float: left;
+  width: 100px;
+}
+.show-dialog .el-dialog__wrapper {
+  position: absolute !important;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.show-dialog .el-dialog__body{
   padding: 15px 20px;
+}
+.show-dialog  .el-dialog__header{
+  padding: 0;
 }
 /* 定位弹出框位置 end*/
 
@@ -95,24 +136,25 @@
 /*左区域 start*/
 .tree-area{
   height: 90%;
-  width: 20%;
-  margin-right: 10px;
-  float: left;
   border: 1px solid rgb(209, 219, 229);
   background-color: #ffffff;
   box-shadow: rgba(102, 102, 102, 0.2) 1px 2px 1px 0px;
   overflow: hidden;
+  flex:2;
+  min-width: 150px;
 }
 /*左区域 end*/
 
 /*右区域 start*/
 .table-area{
   height: 99%;
-  width: calc(80% - 16px);
-  float: left;
+  /* width: calc(80% - 16px); */
+  flex:9;
   border: 1px solid rgb(209, 219, 229);
   background-color: #ffffff;
   overflow: hidden;
+  margin-left: 10px;
+
 }
 .table-area .treeTable-button{
   width: 100%;
@@ -188,3 +230,24 @@
   font-style: italic;
 }
 
+
+
+/* 当窗口小于1000px的时候，两行 */
+@media screen and (max-width: 1200px) {
+  .query-area .el-form-item{
+    width: 48%;
+  }
+  .edit-area .el-form-item{
+    width: 48%;
+  }
+}
+
+/* 当窗口小于00px的时候，一行 */
+@media screen and (max-width: 900px) {
+  .query-area .el-form-item{
+    width: 90%;
+  }
+  .edit-area .el-form-item{
+    width: 90%;
+  }
+}

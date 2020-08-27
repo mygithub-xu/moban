@@ -3,18 +3,49 @@
 
             <div class="common-drawer-item">
                 <h4>布局模式:</h4>
-                <el-radio-group v-model="typeClicktrue" @change="typeClick()" style="margin-top:20px">
+                <el-radio-group v-model="layoutType" @change="typeClick()" style="margin-top:20px">
                     <el-radio :label="'1'">左右布局</el-radio>
-                    <el-radio :label="'2'">上下布局</el-radio>
+                    <el-radio :label="'2'"  style="margin-left:20px">上下布局</el-radio>
                 </el-radio-group>
             </div>
 
-            <template v-if="typeClicktrue=='1'">
-            <div   class="common-drawer-item">
+            <!-- <div class="common-drawer-item">
+                <div style="width:100%">
+                    <h4>系统推荐风格:</h4>
+                </div>
+               <div style="width:100%;margin-top:10px">
+                    <el-select v-model="getSysType.modelType" placeholder="请选择" size="small">
+                        <el-option
+                        v-for="item in getSysType.modeTypeList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+            </div> -->
+            <!-- <div class="common-drawer-item">
+                <div style="width:100%">
+                    <el-switch v-model="value1" active-text="自定义风格"> </el-switch>
+                </div>
+
+            </div> -->
+
+            <div  class="common-drawer-item">
+                <h4>颜色:</h4>
+                <div class="sider-menu-color">
+                    <div class="sider-menu-color-item" v-for="(item,index) in getTopMenuColorList" :key="index" :style="{'background-color':item}" @click="changeSystemColor(item)">
+                            <i v-if="getLayoutParam.siderBGColor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <template v-if="getLayoutType=='1'">
+            <div  class="common-drawer-item">
                 <h4>侧边菜单颜色:</h4>
                 <div class="sider-menu-color">
-                    <div class="sider-menu-color-item" v-for="(item,index) in siderMenuColorList" :key="index" :style="{'background-color':item}" @click="changeMenuColor(item)">
-                            <i v-if="layoutType1Param.menuBgcolor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
+                    <div class="sider-menu-color-item" v-for="(item,index) in getSiderMenuColorList" :key="index" :style="{'background-color':item}" @click="changeMenuColor(item)">
+                            <i v-if="getLayoutParam.siderBGColor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
                     </div>
                 </div>
             </div>
@@ -22,16 +53,13 @@
             <div class="common-drawer-item">
                 <h4>顶部导航栏颜色:</h4>
                 <div class="sider-menu-color">
-                    <div class="sider-menu-color-item" v-for="(item,index) in TopMenuColorList" :key="index" :style="{'background-color':item}" @click="changeTopColor(item)">
-                        <template v-if="typeClicktrue=='1'">
-                            <i v-if="layoutType1Param.headerBgcolor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
-                        </template>
-                        <template v-if="layoutType=='2'">
-                            <i v-if="layoutType2Param.headerBgcolor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
-                        </template>
+                    <div class="sider-menu-color-item" v-for="(item,index) in getTopMenuColorList" :key="index" :style="{'background-color':item}" @click="changeTopColor(item)">
+
+                    <i v-if="getLayoutParam.headerBGColor==item" class="icon iconfont icon-queding" :style="{'color':item=='#ffffff'?'#000000':'#ffffff'}"></i>
+
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 
@@ -39,52 +67,59 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'layoutSetting',
   data(){
       return {
-          typeClicktrue:"1"
+          layoutType:"1",
+          value1:true
       }
+  },
+  computed: {
+        ...mapGetters([
+            'getLayoutType',
+            'getLayoutParam',
+            'getModelType',
+            'getSiderParam',
+            'getSiderMenuColorList',
+            'getTopMenuColorList',
+            'getSysType'
+        ])
   },
   props:{
-      layoutType:{
-          type:String,
-          default:"1"
-      },
-      siderMenuColorList:{
-          type:Array,
-          default:[]
-      },
-      TopMenuColorList:{
-          type:Array,
-          default:[]
-      },
-      layoutType1Param:{
-          type:Object,
-          require: true 
-      },
-      layoutType2Param:{
-          type:Object,
-          require: true
-      }
+
   },
   created(){
-      this.typeClicktrue=this.layoutType
-  },
-  watch:{
-    layoutType(newValue, oldValue){
-      this.typeClicktrue=newValue
-    }
+      this.layoutType=this.getLayoutType
   },
   methods:{
       typeClick(){
-          this.$emit("typeClick",this.typeClicktrue);
+          this.$store.dispatch('changeLayoutTypeFun',this.layoutType);
+      },
+      changeSystemColor(item){
+          if(item!=this.getLayoutParam.siderBGColor){
+
+              this.$store.dispatch('changeSystemBGColorFun',item);
+          }
       },
       changeMenuColor(item){
-          this.$emit("changeMenuColor",item);
+          if(item!=this.getLayoutParam.siderBGColor){
+              var siderBGColor={
+                  name:'siderBGColor',
+                  value:item
+              }
+              this.$store.dispatch('changeLayoutParamFun',siderBGColor);
+          }
       },
       changeTopColor(item){
-          this.$emit("changeTopColor",item);
+          if(item!=this.getLayoutParam.headerBGColor){
+                var headerBGColor={
+                  name:'headerBGColor',
+                  value:item
+                }
+              this.$store.dispatch('changeLayoutParamFun',headerBGColor);
+          }
       }
   }
 
