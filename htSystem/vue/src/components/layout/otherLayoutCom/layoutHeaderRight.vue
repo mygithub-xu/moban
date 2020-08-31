@@ -85,10 +85,8 @@ export default {
                     sessionStorage.removeItem("Token");
                 }
             });
-            sessionStorage.removeItem("userId");
-            sessionStorage.removeItem("menuData");
-            sessionStorage.removeItem("menuList");
-            sessionStorage.removeItem("buttonUrlList");
+            sessionStorage.removeItem("User");
+
             //将开启的tab关闭
             var openTab=[
                 {
@@ -98,6 +96,9 @@ export default {
                 }
             ]
             this.$store.dispatch('changeTabFun',openTab);
+            //初始化布局
+            this.$store.dispatch('initLayoutParamFun');
+            
             this.$router.push("/login");
         },
 

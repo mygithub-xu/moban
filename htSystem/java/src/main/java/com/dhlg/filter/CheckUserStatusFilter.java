@@ -10,6 +10,6 @@ import javax.servlet.ServletResponse;
 public class CheckUserStatusFilter extends UserFilter{
 
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response){
-
+        return true;
     }
 }

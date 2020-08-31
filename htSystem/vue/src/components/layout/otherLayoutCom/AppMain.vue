@@ -12,10 +12,6 @@
 <script>
 export default {
   name: 'AppMain',
-
-  props:{
-
-  },
   computed: {
     components() {
       return this.$store.state.tabRouter.keepTab

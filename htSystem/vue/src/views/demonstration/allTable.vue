@@ -1,7 +1,8 @@
 <template>
     <div class="app-container">
-        <div class="allTable-container">
+        <div class="container-table">
             <!-- 区域一 查询区域 -->
+
             <div class="container-btn">
                 <span class="container-btn-left">
                     <el-button type="primary" size="small"   @click="handleAdd">新增</el-button>
@@ -12,12 +13,10 @@
             </div>
 
             <!-- 区域二---表格+分页 -->
-            <div class="allTable-table-style">
-            <el-table :data="pageData.list" style="width: 100%" height="100%" :row-style="{height:'50px'}" border 
-                class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange">
-
-                <el-table-column type="selection"  fixed width="50"  align="center" ></el-table-column>
-                <el-table-column type="index" width="45" label="序号" align="center" ></el-table-column>
+            <div class="common-table-style">
+            <el-table :data="pageData.list"  height="100%"  border  ref="multipleTable" align="center" @selection-change="handleSelectionChange">
+                <el-table-column type="selection"  fixed  width="50" align="center" ></el-table-column>
+                <el-table-column type="index" width="50" label="序号" align="center" ></el-table-column>
                 
                         <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip>
                                 <template slot="header" slot-scope="scope">

@@ -1,105 +1,58 @@
 <template>
 <!-- 系统配置---权限管理---角色管理 -->
-<div class="app-container" style="flex-direction: column;">
-  <div class="container">
-        <div class="container_btn ">
-        <span style="float:left;padding-bottom: 10px;">
-          <el-button type="primary" size="small"  @click="handleAdd">创建角色</el-button>
-
-          <el-button type="primary" size="small"  v-has="'sysRole:updateStatus'" @click="saveEnable('Y')">启用</el-button>
-
-          <el-button type="danger" size="small" :disabled="dicDisabled"  v-has="'sysRole:updateStatus'" @click="saveEnable('N')">禁用</el-button>
-
-          <el-button
-            type="danger"
-            size="small"
-            :disabled="dicDisabled"
-            @click="handleDeleteBatch"
-            v-has="'sysRole:batchDelete'"
-            buttonCode="TY004"
-          >删除</el-button>
-        </span>
-        <span class="handle-box" style="float:right;padding-bottom: 10px;">
-          <span>角色名称:&nbsp;</span>
-          <el-input
-          size="small"
-            v-model="condition.name"
-            placeholder="筛选关键词"
-            class="handle-input mr10"
-            style="width: 200px;"
-          ></el-input>
-          <el-button type="primary" size="small" icon="search"  @click="handleSearch">查询</el-button>
-          <el-button size="small" type="text"  @click="handlereset">重置</el-button>
-          <!-- `checked` 为 true 或 false -->
-        </span>
+<div class="app-container">
+  <div class="container-table">
+      <div class="container-btn" >
+          <span class="container-btn-left">
+            <el-button type="primary"   @click="handleAdd">创建角色</el-button>
+            <el-button type="primary"   v-has="'sysRole:updateStatus'" @click="saveEnable('Y')">启用</el-button>
+            <el-button type="danger"  :disabled="dicDisabled"  v-has="'sysRole:updateStatus'" @click="saveEnable('N')">禁用</el-button>
+            <el-button  type="danger" :disabled="dicDisabled" @click="handleDeleteBatch" v-has="'sysRole:batchDelete'" >删除</el-button>
+          </span>
+          <span class="handle-box" style="float:right;padding-bottom: 10px;">
+            <span>角色名称：</span>
+            <el-input v-model="condition.name" placeholder="请输入角色名" style="width: 200px;"></el-input>
+            <el-button type="primary"  icon="search"  @click="handleSearch">查询</el-button>
+            <el-button  type="text"  @click="handlereset">重置</el-button>
+          </span>
       </div>
-
-          <el-table
-            :data="pageData.list"
-            border
-            class="table"
-            ref="multipleTable"
-            align="left"
-            height="100%"
-            @selection-change="handleSelectionChange"
-          >
-
-        <el-table-column type="selection" width="55" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column type="index" label="序号" sortable width="55" align="center" show-overflow-tooltip> </el-table-column>
-        <el-table-column prop="name" label="角色名" min-width="200" align="center" v-if="btnName" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="remark" label="备注" align="center" min-width="250" v-if="btnDes" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="status" label="状态" align="center" min-width="150" v-if="btnStatus" show-overflow-tooltip>
-          <template slot-scope="scope">
-            <div v-for="item in options" :key="item.value">
-              <el-tag
-                :type="item.label=='启用'?'success':'danger'"
-                v-if="scope.row.status==item.value"
-              >{{item.label}}</el-tag>
-            </div>
-          </template>
-        </el-table-column>
-            <el-table-column align="center" label="操作" min-width="350">
+      <div class="common-table-style">
+      <el-table :data="pageData.list" border ref="multipleTable" align="center" @selection-change="handleSelectionChange" height="100%">
+            <el-table-column type="selection" width="55" align="center" ></el-table-column>
+            <el-table-column type="index" label="序号" sortable width="55" align="center" > </el-table-column>
+            <el-table-column prop="name" label="角色名"  align="center"></el-table-column>
+            <el-table-column prop="remark" label="备注" align="center"  ></el-table-column>
+            <el-table-column prop="status" label="状态" align="center" >
               <template slot-scope="scope">
-                <span>
-                  <el-tooltip effect="dark" content="编辑" placement="top">
-                    <el-button icon="el-icon-edit" type="text" class="green"  @click="handleEdit(scope.row)"></el-button>
-                  </el-tooltip>
-                  <el-tooltip effect="dark" content="删除" placement="top">
-                    <el-button icon="el-icon-delete" v-has="'sysRole:delete'" type="text" class="red"@click="handleDelete(scope.row.id)"></el-button>
-                  </el-tooltip>
-                  <el-tooltip effect="dark" content="分配权限" placement="top">
-                    <el-button icon="el-icon-edit" type="text" class="green"  @click="handleRole(scope.row.id)">权限配置</el-button>
-                  </el-tooltip>
-                </span>
+                <div v-for="item in options" :key="item.value">
+                  <el-tag
+                    :type="item.label=='启用'?'success':'danger'"
+                    v-if="scope.row.status==item.value"
+                  >{{item.label}}</el-tag>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="操作" >
+              <template slot-scope="scope">
+                  <el-button icon="el-icon-edit" type="text" class="green"  @click="handleEdit(scope.row)"></el-button>
+                  <el-button icon="el-icon-delete" v-has="'sysRole:delete'" type="text" class="red"@click="handleDelete(scope.row.id)"></el-button>
+                  <el-button icon="el-icon-edit" type="text" class="green"  @click="handleRole(scope.row.id)">权限配置</el-button>
               </template>
             </el-table-column>
           </el-table>
-
-          <div class="pagination">
-            <pagination style="float:right" :page-list="pageData" @pagesearch="handlePage"></pagination>
           </div>
-</div>
+          <div class="pagination">
+            <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
+          </div>
+    </div>
 
-
-    <!-- 权限树提示框 start-->
     <div class="show-dialog">
-      <el-dialog
-        fullscreen
-        :visible.sync="treeVisible"
-        :modal="false"
-        :modal-append-to-body="false"
-        @close="cancelTreeVisible"
-      >
-        <el-scrollbar wrap-class="mscrollbar">
-          <div class="roleTree">
-            <div class="fixed-Dialog">
-              <div class="dialogFix" style="z-index: 101;top:130px;">
-                <el-button type="primary" buttonCode="JS003" size="small"  v-has="'rolePermission:save'" @click="saveCheckedNodes">保 存</el-button>
-                <el-button size="small" @click="cancelTreeVisible">返 回</el-button>
-              </div>
+      <el-dialog fullscreen :visible.sync="treeVisible" :modal="false" :show-close="false" :modal-append-to-body="false" @close="cancelTreeVisible">
+            <div class="dialog-button">
+                <el-button type="primary"   v-has="'rolePermission:save'" @click="saveCheckedNodes">保 存</el-button>
+                <el-button  @click="cancelTreeVisible">返 回</el-button>
             </div>
             <el-tree
-              
               :data="treeData"
               ref="menuTree"
               :visible.sync="treeVisible"
@@ -108,17 +61,13 @@
               :props="defaultProps"
               node-key="id"
             ></el-tree>
-          </div>
-        </el-scrollbar>
-        <span slot="footer" class="dialog-footer"></span>
       </el-dialog>
     </div>
     <!-- 权限树提示框 end -->
 
     <!-- 编辑弹出框 -->
-    <div class="maskB show-dialog" v-if="editVisible">
+    <div class="show-dialog" v-if="editVisible">
       <el-dialog
-        title="角色登记"
         fullscreen
         :show-close="false"
         :close-on-click-modal="false"
@@ -127,11 +76,11 @@
         :modal="false"
         :modal-append-to-body="false"
       >
-        <div class="dialogFix">
-          <el-button type="primary" size="small"  v-has="'sysRole:save'" @click="saveEdit('form')">保 存</el-button>
-          <el-button size="small" @click="editVisible = false">返 回</el-button>
+        <div class="dialog-button">
+          <el-button type="primary"   v-has="'sysRole:save'" @click="saveEdit('form')">保 存</el-button>
+          <el-button  @click="editVisible = false">返 回</el-button>
         </div>
-        <el-form class="padT" ref="form" size="small" :model="form" :rules="rules" label-width="80px">
+        <el-form class="padT" ref="form"  :model="form" :rules="rules" label-width="80px">
           <el-form-item label="角色名" prop="name" style="width:25rem">
             <el-input v-model="form.name" ></el-input>
           </el-form-item>
@@ -147,7 +96,6 @@
             </el-select>
           </el-form-item>
           <el-form-item label="备注">
-            <!--<el-input v-model="form.description"></el-input>-->
             <el-col :span="24">
               <el-input
                 maxlength="200"
@@ -164,12 +112,6 @@
             </el-col>
           </el-form-item>
         </el-form>
-        <span slot="footer" class="dialog-footer"></span>
-        <!-- </div>
-                            </el-col>
-                        </el-row>
-                    </el-col>
-        </el-row>-->
       </el-dialog>
     </div>
 
@@ -448,13 +390,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.roleListDialog el-form-item {
-  width: 25rem;
-}
-.padT{
-  padding-top: 30px;
-}
-.red {
-  color: #ff0000;
-}
+
 </style>

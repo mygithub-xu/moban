@@ -1,11 +1,11 @@
 <template>
-  <div class="app-container" style="flex-direction: column;">
+  <div class="app-container">
 
     <div class="container-query">
       <el-form>
         <div class="query-area">
-          <el-form-item label="测试状态：">
-            <el-select v-model="queryContion.status" placeholder="请选择" size="small" clearable>
+          <el-form-item label="测试状态：" style="width:45%">
+            <el-select v-model="queryContion.status" placeholder="请选择"  clearable>
               <el-option
                 v-for="item in statusList"
                 :key="item.value"
@@ -15,9 +15,9 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="创建日期：">
+          <el-form-item label="创建日期：" style="width:45%">
             <el-date-picker
-              size="small"
+              
               v-model="queryContion.createTimeList"
               type="daterange"
               align="right"
@@ -29,13 +29,29 @@
           </el-form-item>
 
           <el-form-item label="测试名：">
-            <el-input size="small" v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
+            <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
+          </el-form-item>
+
+          <el-form-item label="测试名：">
+            <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
+          </el-form-item>
+
+          <el-form-item label="测试名：">
+            <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
+          </el-form-item>
+
+          <el-form-item label="测试名：">
+            <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
+          </el-form-item>
+
+          <el-form-item label="测试名：">
+            <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
           </el-form-item>
 
           <el-form-item>
                   <span>
-                    <el-button type="primary" size="small" @click="search" icon="el-icon-search">搜索</el-button>
-                    <el-button size="small" plain @click="reset" icon="el-icon-refresh">重置</el-button>
+                    <el-button type="primary"  @click="search" icon="el-icon-search">搜索</el-button>
+                    <el-button  plain @click="reset" icon="el-icon-refresh">重置</el-button>
                   </span>
           </el-form-item>
         </div>
@@ -45,52 +61,53 @@
     </div>
 
     <div class="container-table">
-      <div>
-            <span>
-              <el-button type="primary" size="small" icon="el-icon-plus" @click="handleAdd">新增</el-button>
-              <el-button type="primary" size="small" icon="el-icon-edit" @click="handleEdit">编辑</el-button>
-              <el-button type="danger" size="small" icon="el-icon-delete" @click="handleDeleteBatch">删除</el-button>
-              <el-button type="primary" size="small" icon="el-icon-view">预览</el-button>
-              <el-button size="small" @click="handleExport" icon="el-icon-download">导出</el-button>
+      <div class="container-btn">
+            <span class="container-btn-left">
+              <el-button type="primary"  icon="el-icon-plus" @click="handleAdd">新增</el-button>
+              <el-button type="primary"  icon="el-icon-edit" @click="handleEdit">编辑</el-button>
+              <el-button type="danger"  icon="el-icon-delete" @click="handleDeleteBatch">删除</el-button>
+              <el-button type="primary"  icon="el-icon-view">预览</el-button>
+              <el-button  @click="handleExport" icon="el-icon-download">导出</el-button>
               <uploadFile @click="handleImport" :uploadUrl="uploadUrl" icon="el-icon-upload2"></uploadFile>
-              <el-button size="small" icon="el-icon-coordinate">审批</el-button> <!-- el-icon-s-check -->
-              <el-button size="small" icon="el-icon-printer">打印</el-button>
-              <el-button size="small" @click="cancelSave" icon="el-icon-close">取消</el-button>
+              <el-button  icon="el-icon-coordinate">审批</el-button>
+              <el-button  icon="el-icon-printer">打印</el-button>
+              <el-button  @click="cancelSave" icon="el-icon-close">取消</el-button>
+            </span>
+            <span class="container-btn-right">
+                <el-button  @click="cancelSave" icon="el-icon-close">取消</el-button>
             </span>
       </div>
 
       <div class="common-table-style">
-        <el-table :data="pageData.list" border align="center" @selection-change="handleSelectionChange"
-                  :row-style="{height:'50px'}" height="100%">
-          <el-table-column fixed type="selection" width="50" align="center"></el-table-column>
-          <el-table-column type="index" width="46" align="center" label="序号"></el-table-column>
-          <el-table-column prop="createTime" min-width="140" label="创建时间" align="center"
-                           show-overflow-tooltip></el-table-column>
-          <el-table-column prop="testName" min-width="140" label="测试名" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="testStatus" min-width="140" label="测试状态" align="center" show-overflow-tooltip>
+        <el-table :data="pageData.list" height="100%" border @selection-change="handleSelectionChange"  >
+          <el-table-column fixed type="selection"  ></el-table-column>
+          <el-table-column type="index" width="50" label="序号"></el-table-column>
+          <el-table-column prop="createTime"  label="创建时间" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="testName"  label="测试名" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="testStatus"  label="测试状态"  show-overflow-tooltip>
             <template slot-scope="scope">
               <span v-if="scope.row.testStatus=='1'">启用</span>
               <span v v-if="scope.row.testStatus=='2'">禁用</span>
             </template>
           </el-table-column>
 
-          <el-table-column prop="testNum" min-width="140" label="数量" align="right" show-overflow-tooltip>
+          <el-table-column prop="testNum" label="数量" show-overflow-tooltip>
             <template slot-scope="scope">
               <span>{{scope.row.testNum | 10}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="testUnit" min-width="140" label="单价" align="right" show-overflow-tooltip>
+          <el-table-column prop="testUnit"  label="单价" show-overflow-tooltip>
             <template slot-scope="scope">
               <span>{{scope.row.testUnit | 1000}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="testTotal" min-width="140" label="总额" align="right" show-overflow-tooltip>
+          <el-table-column prop="testTotal"  label="总额" show-overflow-tooltip>
             <template slot-scope="scope">
               <span>{{scope.row.testTotal | 1000}}</span>
             </template>
           </el-table-column>
 
-          <el-table-column min-width="140" label="表格一" show-overflow-tooltip>
+          <el-table-column label="表格一" show-overflow-tooltip>
             表格一
           </el-table-column>
           <el-table-column min-width="140" label="表格二" show-overflow-tooltip>
@@ -118,12 +135,12 @@
       <el-dialog :visible.sync="editVisible" :show-close="false" :modal="false" fullscreen>
         <!--按钮区域-->
         <div class="dialog-button">
-          <el-button size="small" @click="cancelSave" icon="el-icon-back">返回</el-button>
-          <el-button type="primary" size="small" icon="el-icon-check" @click="handleSave('form')">保存</el-button>
+            <el-button  @click="cancelSave" icon="el-icon-back">返回</el-button>
+            <el-button type="primary"  icon="el-icon-check" @click="handleSave('form')">保存</el-button>
         </div>
         <!--表单区域-->
-        <div class="dialog-form">
-          <el-form size="small">
+        <div >
+          <el-form >
             <div class="edit-area">
 
               <el-form-item label="创建时间" prop="createTime">
@@ -138,8 +155,20 @@
               <el-form-item label="测试名" prop="testName">
                 <el-input v-model="form.testName"></el-input>
               </el-form-item>
+                            <el-form-item label="测试名" prop="testName">
+                <el-input v-model="form.testName"></el-input>
+              </el-form-item>
+                            <el-form-item label="测试名" prop="testName">
+                <el-input v-model="form.testName"></el-input>
+              </el-form-item>
+                            <el-form-item label="测试名" prop="testName">
+                <el-input v-model="form.testName"></el-input>
+              </el-form-item>
+                            <el-form-item label="测试名" prop="testName">
+                <el-input v-model="form.testName"></el-input>
+              </el-form-item>
               <el-form-item>
-                <el-radio-group v-model="form.testStatus" size="small">
+                <el-radio-group v-model="form.testStatus" >
                   <el-radio v-for="item in statusList" :key="item.value" :label="item.value" border size="medium">
                     {{item.label}}
                   </el-radio>
@@ -157,12 +186,12 @@
         <div class="dialog-tab">
           <el-tabs v-model="activeName">
             <el-tab-pane label="明细表" name="first">
-
-              <div class="buttonSku">
-                <el-button icon="el-icon-plus" size="small" type="primary" @click="addList"></el-button>
-                <el-button icon="el-icon-minus" size="small" type="danger" @click="delList"></el-button>
+              <div class="container-btn">
+                
+                <el-button icon="el-icon-plus"  type="primary" @click="addList"></el-button>
+                <el-button icon="el-icon-minus"  type="danger" @click="delList"></el-button>
               </div>
-              <div class="tableBody">
+              <div class="tab-table">
                 <el-table @selection-change="handleSelectionChangeDetil" ref="tableData" :data="form.testSysTetailList"
                           border align="center">
 
@@ -174,7 +203,7 @@
                   <el-table-column prop="name" min-width="200" label="名称" show-overflow-tooltip>
                     <template slot-scope="scope">
                       <div>
-                        <el-input size="small" v-model="scope.row.name"></el-input>
+                        <el-input  v-model="scope.row.name"></el-input>
                       </div>
                     </template>
                   </el-table-column>
@@ -184,7 +213,7 @@
                     <template slot-scope="scope">
                       <div>
 
-                        <el-select v-model="scope.row.status" size="small" placeholder="请选择" style="width:100%;">
+                        <el-select v-model="scope.row.status"  placeholder="请选择" style="width:100%;">
                           <el-option
                             v-for="item in statusList"
                             :key="item.value"
@@ -494,20 +523,34 @@
       },
       //表格数据
       getdata() {
-        this.$http
-          .post(this.api.sysTestQueryByCondition, {
-            condition: this.queryContion,
-            number: this.pageData.pageNumber,
-            size: this.pageData.pageSize
-          })
-          .then(res => {
-            if (res.data.code == "200") {
-              this.pageData.list = res.data.body.records;
 
-              this.pageData.totalCount = res.data.body.total;
-              this.pageData.totalPage = res.data.body.pages;
-            }
-          });
+        // this.$http
+        //   .post(this.api.sysTestQueryByCondition, {
+        //     condition: this.queryContion,
+        //     number: this.pageData.pageNumber,
+        //     size: this.pageData.pageSize
+        //   })
+        //   .then(res => {
+        //     if (res.data.code == "200") {
+        //       this.pageData.list = res.data.body.records;
+
+        //       this.pageData.totalCount = res.data.body.total;
+        //       this.pageData.totalPage = res.data.body.pages;
+        //     }
+        //   });
+
+        this.$http
+        .post(this.api.LoginLogQuery, {
+          condition:this.condition,
+          number: this.pageData.pageNumber,
+          size: this.pageData.pageSize
+        })
+        .then(res => {
+          this.pageData.list = res.data.body.records;
+          this.pageData.totalCount = res.data.body.total;
+          this.pageData.totalPage = res.data.body.pages;
+        });
+
       },
       //保存/修改
       handleSave() {
@@ -622,4 +665,6 @@
   }
 </script>
 <style lang="scss" scope>
+
+
 </style>

@@ -73,6 +73,12 @@ export default {
   LoginLogQuery: `api/system/sysLoginLog/query`, // 条件查询
   LoginLogBatchdelete: `api/system/sysLoginLog/batchdelete`, // 条件查询
 
+
+  sysTestQueryByCondition: `/moban/api/system/sysTest/querybycondition`,//查询
+  sysTestDeletebyid: `/moban/api/system/sysTest/deleteById/`,//单个删除
+  sysTestBatchDelete: `/moban/api/system/sysTest/batchdelete`,//批量删除
+  sysTestSaveOrUpdate: `/moban/api/system/sysTest/saveOrUpdate`,//更新或新增
+  sysTestListFieldQuery: `/moban/api/system/sysTest/listFieldQuery`,//列表查询
   /********* 系统配置  end******/
 
 }

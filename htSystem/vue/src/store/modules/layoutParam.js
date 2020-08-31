@@ -8,7 +8,6 @@ const layoutParam = {
             headerFontColor:"#000000",// 头部字体颜色(右侧用户字体颜色)
             activeFontColor:"#3b9eff",// menu当前字体颜色
             activeHoverBGColor:"#000000"// menu悬停颜色
-            
         },
         
         sysType:{
@@ -87,6 +86,17 @@ const layoutParam = {
                 //头部背景为白色则为黑色，其他均为白色
                 state.layoutParam.headerFontColor=data.value=='#ffffff'?'#000000':'#ffffff'
             }
+        },
+        initLayoutParam(state){
+            state.layoutParam = {
+                siderBGColor:"#333744",// 侧边栏颜色
+                siderFontColor:"#ffffff",// 侧边栏字体颜色
+                headerBGColor:"#ffffff",// 头部颜色
+                headerFontColor:"#000000",// 头部字体颜色(右侧用户字体颜色)
+                activeFontColor:"#3b9eff",// menu当前字体颜色
+                activeHoverBGColor:"#000000"// menu悬停颜色
+            }
+            state.layoutType = '1'
         },
         changeModelType(state,data){
             if(data){
@@ -188,12 +198,22 @@ const layoutParam = {
 
     },
     actions:{
+        //改变布局类型
         changeLayoutTypeFun(context,data){
             context.commit("changeLayoutType",data);
         },
+        //改变布局参数
         changeLayoutParamFun(context,data){
             context.commit("changeLayoutParam",data);
         },
+        //初始化布局参数
+        initLayoutParamFun(context){
+            context.commit("initLayoutParam");
+        },
+        SystemBGColorFun(context,data){
+            context.commit("changeSystemBGColor",data);
+        },
+
         changeModelTypeFun(context,data){
             context.commit("changeModelType",data);
         },

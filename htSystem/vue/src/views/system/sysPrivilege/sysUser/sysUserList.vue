@@ -1,46 +1,26 @@
 <template>
-    <div class="app-container" style="flex-direction: column;">
-        <div class="container">
+    <div class="app-container">
+        <div class="container-table">
           <!-- 区域一 查询区域 -->
-          <div class="container_btn" >
-            <span>
-            <el-button type="primary" size="small" @click="handleAdd">新增</el-button>
-            <el-button type="danger" size="small"   v-has="'sysUser:batchDelete'" @click="handleDeleteBatch">删除</el-button>
+          <div class="container-btn" >
+            <span class="container-btn-left">
+              <el-button type="primary" size="small" @click="handleAdd">新增</el-button>
+              <el-button type="danger" size="small"   v-has="'sysUser:batchDelete'" @click="handleDeleteBatch">删除</el-button>
             </span>
-            <span class="handle-box" style="float:right">
-              <el-input
-                v-model="queryContent" placeholder="请输入查询内容" class="handle-input mr10" style="width: 200px;" clearable>
-              </el-input>
-                <el-button type="primary" size="small" icon="search" buttonCode="TY001" @click="search">查询</el-button>
-                <el-button size="small" type="text"  @click="reset">重置</el-button>
-                <el-row class="tac">
-                  <el-col :span="24">
-                    <el-dropdown trigger="click" :hide-on-click="false">
-                      <div class="el-icon-menu"></div>
-                      <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>
-                          <el-checkbox v-model="indexUserName">用户名</el-checkbox>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                          <el-checkbox v-model="indexloginUser">账号名</el-checkbox>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                          <el-checkbox v-model="IndexStatus">状态</el-checkbox>
-                        </el-dropdown-item>
-                      </el-dropdown-menu>
-                    </el-dropdown>
-                  </el-col>
-                </el-row>
+            <span class="container-btn-right">
+              <el-input v-model="queryContent" placeholder="请输入查询内容" style="width: 200px;" clearable></el-input>
+              <el-button type="primary" size="small" icon="search" @click="search">查询</el-button>
+              <el-button size="small" type="text"  @click="reset">重置</el-button>
             </span>
           </div>
           <!-- 区域二---表格+分页 -->
-          <el-table :data="pageData.list" :row-style="{height:'50px'}" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange" height="100%">
-            <el-table-column type="selection"  fixed width="55"  align="center" show-overflow-tooltip></el-table-column>
-            <!-- <el-table-column type="index" min-width="35" label="序号" align="center" v-if="xuhao" show-overflow-tooltip></el-table-column> -->
+          <div class="common-table-style">
+          <el-table :data="pageData.list" border ref="multipleTable" align="center" @selection-change="handleSelectionChange" height="100%">
+            <el-table-column type="selection"   width="55"  align="center" show-overflow-tooltip></el-table-column>
             <el-table-column type="index" width="55" label="序号" align="center" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="userName" min-width="150" label="用户名" align="center" v-if="indexUserName" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="loginUser" min-width="150" label="账号名" align="center" v-if="indexloginUser" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="status" label="状态" align="center" min-width="150" v-if="IndexStatus" show-overflow-tooltip>
+            <el-table-column prop="userName"  label="用户名" align="center" v-if="indexUserName" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="loginUser"  label="账号名" align="center" v-if="indexloginUser" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="status" label="状态" align="center" v-if="IndexStatus" show-overflow-tooltip>
               <template slot-scope="scope">
                 <div v-for="item in statusData" :key="item.value">
                   <el-tag
@@ -50,53 +30,45 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="roleIds" label="管理员类型" align="center" min-width="270"  show-overflow-tooltip>
+            <el-table-column prop="roleIds" label="管理员类型" align="center" show-overflow-tooltip>
               <template slot-scope="scope">
-                <div v-for="item in titleData" :key="item.id" style="display: inline-block;margin:0 5px;">
-                  <el-tag
-                    type="success"
-                    v-for="roleId in scope.row.roleIds"
-                    :key="roleId"
-                    v-if="roleId==item.id"
-                  >{{item.name}}</el-tag>
+                <div v-for="item in titleData" :key="item.id" >
+                  <el-tag type="success" v-for="roleId in scope.row.roleIds" :key="roleId" v-if="roleId == item.id">{{item.name}}</el-tag>
                 </div>
               </template>
             </el-table-column>
 
-            <el-table-column label="操作" min-width="250" align="center" show-overflow-tooltip>
+            <el-table-column label="操作"  align="center">
               <template slot-scope="scope">
                 <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
-                <el-button type="text" icon="el-icon-delete" class="red" v-has="'sysUser:deleteID'"  @click="handleDelete(scope.row.id)" >删除</el-button>
+                <el-button type="text" icon="el-icon-delete"  v-has="'sysUser:deleteID'" style="color:red"  @click="handleDelete(scope.row.id)" >删除</el-button>
                 <el-button type="text" icon="el-icon-unlock" v-has="'sysUser:resetPassword'" @click="resetPassword(scope.row)">重置密码</el-button>
               </template>
              </el-table-column>
           </el-table>
+          </div>
           <div class="pagination">
             <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
           </div>
         </div>
           <!-- 区域三---弹出框，覆盖全部 -->
         <div class="show-dialog">
-            <el-dialog title="账号配置" :visible.sync="editVisible"  :show-close="false" :modal="false" fullscreen>
-              <div class="dialogFix">
+            <el-dialog :visible.sync="editVisible"  :show-close="false" :modal="false" fullscreen>
+              <div class="dialog-button">
                   <el-button type="primary" size="small"  v-has="'sysUser:save'" @click="handleSave('form')">保 存</el-button>
                   <el-button size="small" @click="cancelSave">返 回</el-button>
               </div>
               <el-form  ref="AddForm" :model="AddForm" :rules="rules" label-width="150px" size="small" style="margin-top:10px">
-              <el-row class="dialog-form">
 
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
+                <div class="edit-area">
                   <el-form-item label="账号名" prop="loginUser">
                     <el-input v-model="AddForm.loginUser"></el-input>
                   </el-form-item>
-                </el-col>
 
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
                   <el-form-item label="用户名" prop="userName">
                     <el-input v-model="AddForm.userName"></el-input>
                   </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
+                
                   <el-form-item label="性别" prop="gender">
                     <el-select v-model="AddForm.gender" clearable placeholder="请选择" style="width: 100%">
                       <el-option
@@ -107,30 +79,9 @@
                       ></el-option>
                     </el-select>
                   </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
-                  <el-form-item label="QQ/微信" prop="qqWeixin">
-                    <el-input v-model="AddForm.qqWeixin"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
-                  <el-form-item label="手机号" prop="mobilePhone">
-                    <el-input v-model="AddForm.mobilePhone"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
-                  <el-form-item label="邮箱" prop="email">
-                    <el-input v-model="AddForm.email"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
+
+
                   <el-form-item label="管理员类型" prop="roleIds" >
-                      <!-- <treeMultiSelect
-                          ref="titleTree"
-                          :top="false"
-                          v-model="AddForm.roleIds"
-                          :data="titleData"
-                          label="name"/> -->
                           <el-select v-model="AddForm.roleIds" multiple placeholder="请选择" style="width: 100%">
                             <el-option
                                 v-for="item in titleData"
@@ -139,8 +90,7 @@
                                 :value="item.id"/>
                           </el-select>
                   </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
+
                   <el-form-item label="生日" prop="birthday">
                     <div class="block">
                       <el-date-picker
@@ -153,13 +103,7 @@
                       ></el-date-picker>
                     </div>
                   </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
-                  <el-form-item label="身份证" prop="identityCard">
-                    <el-input v-model="AddForm.identityCard"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="margin-top: 5px;">
+
                   <el-form-item label="状态">
                     <el-select v-model="AddForm.status" placeholder="请选择" style="width: 100%">
                       <el-option
@@ -171,25 +115,20 @@
                       ></el-option>
                     </el-select>
                   </el-form-item>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" style="margin-top: 5px;">
+                
                   <el-form-item label="备注" prop="description">
-                    <!--<el-input v-model="AddForm.description"></el-input>-->
-                    <el-col :span="24">
                       <el-input
                         maxlength="200"
                         :autosize="{ minRows: 6, maxRows: 10}"
                         :rows="8"
                         type="textarea"
-                        style="max-width: 34rem;marginLeft:-12px;"
                         @input="descInput_fou()"
                         v-model="AddForm.description"
                       ></el-input>
-                    </el-col>
                     <span>{{remnant_fou}}/200</span>
                   </el-form-item>
-                </el-col>
-              </el-row>
+                </div>
+
               </el-form>
             </el-dialog>
         </div>
@@ -215,7 +154,7 @@ export default {
             }
         };
     return{
-      // 区域一--start
+
       queryContent:"",//查询内容
       indexUserName:true,
       indexloginUser:true,
@@ -230,9 +169,6 @@ export default {
           totalPage: 0
         },
         multipleSelection:[],//选中的数据集合
-      //区域二--表格数据--end
-        
-        //区域三--start
         AddForm :{
           birthday:"", // 生日
           email: "", // 邮箱
@@ -261,13 +197,6 @@ export default {
             {
               required: true,
               message: "  ",
-              trigger: "blur"
-            }
-          ],
-          mobilePhone: [
-            {
-              required: true,
-              validator: validateMobilePhone,
               trigger: "blur"
             }
           ]
@@ -350,7 +279,6 @@ export default {
       if(!!this.AddForm.roleIds){
         //将String转数组
         this.AddForm.roleIds = this.AddForm.roleIds.split(',')
-       
       }
       this.$nextTick(()=>{
         this.$refs["AddForm"].clearValidate();
@@ -459,7 +387,6 @@ export default {
       });
 
       this.$http.post(this.api.roleGetList).then(res => {
-        // this.$http.get(this.api.dicTypeGetType+"adType").then(res => {
         if (res.data.code == 200) {
           this.titleData = res.data.body;
         }
@@ -521,19 +448,4 @@ export default {
 }
 </script>
 <style lang="scss" scope>
-//表头高度调整
-.el-table__header th {
-  padding: 0;
-  height: 50px ;
-}
-// 弹出框样式
-.show-dialog .el-dialog__body{
-  padding: 15px 20px;
-}
-el-col el-form-item{
-  width: 500px !important;
-}
-.red{
-  color: #ff0000; 
-}
 </style>

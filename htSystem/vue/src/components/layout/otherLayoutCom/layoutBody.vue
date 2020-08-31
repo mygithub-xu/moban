@@ -17,8 +17,16 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import AppMain from '@comp/layout/otherLayoutCom/AppMain.vue';
+import sidebar from '@comp/layout/otherLayoutCom/sidebar.vue';
+import headTabs from '@comp/layout/otherLayoutCom/headTabs.vue';
 export default {
     name: 'layoutBody',
+    components:{
+        sidebar,
+        headTabs,
+        AppMain
+    },
     data(){
         return {
 

@@ -18,9 +18,13 @@
     </div>
 </template>
 <script>
+import menuTreeHor from '@comp/layout/otherLayoutCom/menuTreeHor.vue';
 export default {
   props:['menuData'],
   name: 'menuTreeHor',
+    components:{
+        menuTreeHor
+    },
   data(){
     return{
 

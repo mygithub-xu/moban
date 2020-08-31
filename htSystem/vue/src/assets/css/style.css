@@ -7,6 +7,28 @@
   width: calc(100% - 20px);
   display:flex;
   position: relative;
+  flex-direction: column;
+}
+.app-container-tree{
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 61px;
+  height: calc(100% - 61px);
+  width: calc(100% - 20px);
+  display:flex;
+  position: relative;
+}
+
+.container-btn{
+  width: 100%;
+  height: 35px;
+  margin-bottom: 10px;
+}
+.container-btn .container-btn-left{
+  float: left;
+}
+.container-btn .container-btn-right{
+  float: right;
 }
 
 /*查询编辑页面 start*/
@@ -18,6 +40,9 @@
   background: #fff;
   width: calc(100% - 62px);
   padding: 5px 30px;
+}
+.query-area{
+  margin-top: 10px;
 }
 .query-area .el-form-item{
   float: left;
@@ -58,7 +83,18 @@
 .common-table-style{
   width: 100%;
   height: calc(100% - 85px);
-  margin-top: 10px;
+}
+.common-table-style .el-table{
+  height: 100%;
+}
+/* 修改原生table样式 */
+.common-table-style .el-table th, .common-table-style .el-table tr{
+  height: 45px;
+  font-size: 14px;
+}
+.tab-table .el-table th, .tab-table .el-table tr{
+  height: 45px;
+  font-size: 14px;
 }
 /* 表格样式 end*/
 
@@ -103,6 +139,7 @@
   float: left;
   width: 100px;
 }
+
 .show-dialog .el-dialog__wrapper {
   position: absolute !important;
   border-radius: 5px;
@@ -113,6 +150,9 @@
 }
 .show-dialog  .el-dialog__header{
   padding: 0;
+}
+.tab-table .el-form-item{
+  margin-bottom: 0;
 }
 /* 定位弹出框位置 end*/
 
@@ -177,16 +217,6 @@
   border-radius: 5px;
   padding: 5px 20px;
 }
-.container-btn{
-  width: 100%;
-  height: 35px;
-}
-.container-btn .container-btn-left{
-  float: left;
-}
-.container-btn .container-btn-right{
-  float: right;
-}
 .allTable-table-style{
   width: 100%;
   height: calc(100% - 95px);
@@ -230,7 +260,12 @@
   font-style: italic;
 }
 
+.editComp-body .el-form-item{
+  float: left;
+  width:25%;
+  height: 32px;
 
+}
 
 /* 当窗口小于1000px的时候，两行 */
 @media screen and (max-width: 1200px) {

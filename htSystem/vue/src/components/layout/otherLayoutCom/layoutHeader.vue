@@ -8,8 +8,16 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import layoutHeaderLeft from '@comp/layout/otherLayoutCom/layoutHeaderLeft.vue';
+import layoutHeaderCenter from '@comp/layout/otherLayoutCom/layoutHeaderCenter.vue';
+import layoutHeaderRight from '@comp/layout/otherLayoutCom/layoutHeaderRight.vue';
 export default {
     name: 'layoutHeader',
+    components:{
+        layoutHeaderLeft,
+        layoutHeaderCenter,
+        layoutHeaderRight
+    },
     data(){
         return {
             headerCenterWidth:200

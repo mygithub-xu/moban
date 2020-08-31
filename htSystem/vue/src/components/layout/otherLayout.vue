@@ -15,8 +15,16 @@
     </div>
 </template>
 <script>
+import layoutHeader from '@comp/layout/otherLayoutCom/layoutHeader.vue';
+import layoutBody from '@comp/layout/otherLayoutCom/layoutBody.vue';
+import layoutSetting from '@comp/layout/otherLayoutCom/layoutSetting.vue';
 import bus from "@utils/bus";
 export default {
+    components:{
+        layoutHeader,
+        layoutBody,
+        layoutSetting
+    },
     data(){
         return {
             //抽屉状态

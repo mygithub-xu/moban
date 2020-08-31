@@ -2,16 +2,17 @@
     <div class="headTabsDivCom">
         
                 <el-tabs v-model="indexTabTrue" closable  type="border-card"  @tab-remove="removeTab" @tab-click="tabclick" @contextmenu.prevent.native="openpop($event)">
-                    <!-- <draggable v-model='getOpenTab' > -->
                         <el-tab-pane
                             v-for="item in getOpenTab"
                             :key="item.path"
                             :label="item.name"
                             :name="item.path">
                         </el-tab-pane>
-                    <!-- </draggable> -->
                 </el-tabs>
-        
+
+                <!-- <draggable v-model='getOpenTab' >
+                    
+                </draggable> -->
         <div v-show="contextMenuVisible">
             <customPopBox :left="left" :top="top" :isShowLeft="isShowLeft" :isShowRight="isShowRight" :isShowReflash="isShowReflash" @popClick="popClick"></customPopBox>
         </div>
@@ -20,10 +21,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import draggable from 'vuedraggable'
+import customPopBox from '@comp/layout/otherLayoutCom/customPopBox.vue';
 export default {
     name: 'headTabs',
     components:{
-        draggable
+        draggable,
+        customPopBox
     },
     data(){
         return {

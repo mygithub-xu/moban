@@ -70,7 +70,7 @@
                 sessionStorage.setItem("buttonUrlList",JSON.stringify(res.data.body.buttonUrlList));
                 //更新头像
                 this.$message.success("登入成功");
-                this.$router.push("/page/Dashboard");
+                this.$router.push("/page/Dashboard").catch(()=>{});
               }
 
               else{

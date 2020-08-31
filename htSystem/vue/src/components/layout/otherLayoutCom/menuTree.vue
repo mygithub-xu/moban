@@ -20,14 +20,19 @@
     </div>
 </template>
 <script>
+import menuTree from '@comp/layout/otherLayoutCom/menuTree.vue';
 export default {
-  props:['menuData'],
-  name: 'menuTree',
-  data(){
-    return{
+    name: 'menuTree',
+    props:['menuData'],
+    components:{
+        menuTree,
+    },
 
+    data(){
+        return{
+
+        }
     }
-  }
   
 }
 </script>

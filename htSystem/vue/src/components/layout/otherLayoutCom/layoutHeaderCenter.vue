@@ -12,8 +12,12 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import sidebar from '@comp/layout/otherLayoutCom/sidebar.vue';
 export default {
     name:"layoutHeaderCenter",
+    components:{
+        sidebar
+    },
     data(){
         return {
 

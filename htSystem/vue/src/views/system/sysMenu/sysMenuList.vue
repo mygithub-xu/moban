@@ -1,6 +1,6 @@
 <!--菜单配置-->
 <template>
-    <div class="app-container">
+    <div class="app-container-tree">
 
         <div class="tree-area">
             <div class="common-header">
