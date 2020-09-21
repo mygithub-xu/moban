@@ -16,7 +16,7 @@ public class test {
         codeAutoGenerationUtil test = new codeAutoGenerationUtil();
         String tableName = "sys_test"; //表名称
         String packageName = "com.dhlg";//包名
-        String projectName = "system";//模块名
+        String projectName = "test";//模块名
         test.getTemplates(tableName,packageName,projectName);
 //        System.out.println(test.getsrc(packageName,projectName,"appUser"));
     }

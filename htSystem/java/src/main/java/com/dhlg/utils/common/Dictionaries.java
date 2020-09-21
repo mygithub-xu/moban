@@ -12,12 +12,12 @@ public interface Dictionaries {
 
     //图片上传网络位置
 //    String IMGSRC= "http://120.25.197.11:8082/resources/photo/";
-    String IMGSRC= "http://120.25.197.11/file/";
+//    String IMGSRC= "http://120.25.197.11/file/";
 
     //图片上传本地位置
 //    String LOCALIMGSRC= "/home/tomcat-8.5.39/webapps/dist/resources/photo/";
 //    String LOCALIMGSRC= "/usr/local/dist/file/";
-    String LOCALIMGSRC= "E:/resource/photo/";
+//    String LOCALIMGSRC= "D:/resource/";
 
     String FAILED_CODE= "400";
 

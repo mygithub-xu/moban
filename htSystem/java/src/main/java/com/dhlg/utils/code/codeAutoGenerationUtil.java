@@ -66,14 +66,14 @@ public class codeAutoGenerationUtil {
 
         //根据模板生成文件
         Map<String,Object> map = new HashMap();
-//        map.put("controller.java.vm","controller/" + DomainName + "Controller.java");
-//        map.put("service.java.vm","service/"+"I" + DomainName + "Service.java");
-//        map.put("serviceImpl.java.vm","service/impl/" + DomainName + "ServiceImpl.java");
-//        map.put("mapper.java.vm","dao/" + DomainName + "Mapper.java");
-//        map.put("entity.java.vm","entity/" + DomainName + ".java");
-//        map.put("mapper.xml.vm","dao/xml/" + DomainName + "Mapper.xml");
+        map.put("controller.java.vm","controller/" + DomainName + "Controller.java");
+        map.put("service.java.vm","service/"+"I" + DomainName + "Service.java");
+        map.put("serviceImpl.java.vm","service/impl/" + DomainName + "ServiceImpl.java");
+        map.put("mapper.java.vm","dao/" + DomainName + "Mapper.java");
+        map.put("entity.java.vm","entity/" + DomainName + ".java");
+        map.put("mapper.xml.vm","dao/xml/" + DomainName + "Mapper.xml");
         map.put("templates2.vue.vm",domainName +"/" + domainName + "List.vue");
-//        map.put("templates1.vue.vm",domainName +"/" + domainName + "List.vue");
+        map.put("templates1.vue.vm",domainName +"/" + domainName + "List.vue");
         for(String templateFile:map.keySet()){
             String targetFile = (String) map.get(templateFile);
             Properties pro = new Properties();

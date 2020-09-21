@@ -56,10 +56,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     VerificationProperty verificationProperty;
 
-    @Value("${sysuser.headPortraitSrc}")
-    private String headPortraitSrc;
+    @Value("${common.fileDownSrc}")
+    private static String fileDownSrc;
 
-    final static String PASSWORD = "123456";
+    @Value("${common.password}")
+    private String PASSWORD;
+
     @Override
     public Result login(String body, HttpServletRequest request) {
         Map<String, Object> dataMap = new HashMap<>();
@@ -238,7 +240,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public Result userUpdateUserInfo(SysUser sysUser) {
         if (StringUtils.isNotBlank(sysUser.getHeadPortraitSrc())) {
             //对base64进行转换
-            String url = uploadFileUtils.uploadImgByHead(sysUser.getHeadPortraitSrc());
+            String url = uploadFileUtils.uploadImgByHead(sysUser.getHeadPortraitSrc(),fileDownSrc);
             //通知更新了头像，将原有头像删除，保存现有头像-----交给mq
 
             if (url.equals("-1")){

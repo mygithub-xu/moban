@@ -9,6 +9,7 @@ import com.dhlg.utils.common.*;
 import com.dhlg.utils.common.Parameter.Parameter;
 import com.dhlg.utils.common.uploadDown.uploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,10 +29,18 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     @Autowired
     SysFileMapper doMapper;
 
+    @Value("${common.fileNetSrc}")
+    private  String fileNetSrc;
+
+    @Value("${common.fileDownSrc}")
+    private  String fileDownSrc;
+
     @Override
     public Result uploadFile(MultipartFile file) {
-        //获取上传图片的路径
-        String url = uploadFileUtils.uploadImg(file);
+
+
+        //上传文件，并返回上传图片的路径
+        String url = uploadFileUtils.uploadImg(file,fileNetSrc,fileDownSrc);
         SysFile sysFile = new SysFile();
         sysFile.setId(StringUtils.uuid());
         sysFile.setCreateTime(DateUtils.getCurrentDate());
@@ -67,7 +76,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
     private boolean deleteFile2(String id) {
         SysFile file = getById(id);
-        if (!uploadFileUtils.delete(file.getUrl())){
+        if (!uploadFileUtils.delete(file.getUrl(),fileNetSrc,fileDownSrc)){
             return false;
         }
 
@@ -86,8 +95,9 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
     @Override
     public Result uploadFileMore(MultipartFile file,String type) {
+
         //获取上传图片的路径
-        String name = uploadFileUtils.uploadImg(file);
+        String name = uploadFileUtils.uploadImg(file, fileNetSrc, fileDownSrc);
         SysFile sysFile = new SysFile();
         sysFile.setId(StringUtils.uuid());
         sysFile.setCreateTime(DateUtils.getCurrentDate());
