@@ -24,5 +24,6 @@ var constantRouterMap=[
 
 export default new Router({
   mode: 'history',
+  base:'/whfch/',
   routes: constantRouterMap
 })

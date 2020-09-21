@@ -15,7 +15,7 @@
           <el-upload
           ref="my-upload"
             class="upload-demo"
-            action="http://120.25.197.11/moban/api/system/sysFile/uploadFileMore"
+            :action="uploadUrl"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :before-remove="beforeRemove"
@@ -43,7 +43,8 @@
           type:''
         },
         dialogImageUrl: '',
-        dialogVisible: false
+        dialogVisible: false,
+        uploadUrl:"/api/system/sysFile/uploadFileMore"
       };
     },
     mounted(){

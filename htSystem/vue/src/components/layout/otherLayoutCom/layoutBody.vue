@@ -67,7 +67,7 @@ export default {
         transition: width 0.5s;
     }
     .mainTopDiv{
-        height: 48px;
+        height: 40px;
         width: 100%;
         float: left;
         background-color: #ffffff;

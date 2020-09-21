@@ -67,7 +67,7 @@
               <el-button type="primary"  icon="el-icon-edit" @click="handleEdit">编辑</el-button>
               <el-button type="danger"  icon="el-icon-delete" @click="handleDeleteBatch">删除</el-button>
               <el-button type="primary"  icon="el-icon-view">预览</el-button>
-              <el-button  @click="handleExport" icon="el-icon-download">导出</el-button>
+              <exportcom  v-model="exportUrl" fileName="测试222.txt">导出</exportcom>
               <uploadFile @click="handleImport" :uploadUrl="uploadUrl" icon="el-icon-upload2"></uploadFile>
               <el-button  icon="el-icon-coordinate">审批</el-button>
               <el-button  icon="el-icon-printer">打印</el-button>
@@ -268,6 +268,7 @@
       return {
         // 区域一--start
         uploadUrl: "http://127.0.0.1:4040/moban/api/test/sysTest/importExcel",
+        exportUrl: "test/sysTest/exportExcel",
         queryContent: "",//查询内容
         xuhao: true,
         dicDisabled: true,
@@ -620,39 +621,6 @@
           this.remnant_fou = 200 - txtVal;
         }
 
-      },
-
-      //导出
-      handleExport() {
-        this.$http.get(this.api.sysTestExportExcel, {
-          responseType: 'blob',
-        }).then(res => {
-
-          if (res) {
-            //eslint-disable-next-line
-            const blob = new Blob([res.data]);
-            //对于<a>标签，只有 Firefox 和 Chrome（内核） 支持 download 属性
-            //IE10以上支持blob但是依然不支持download
-            if ('download' in document.createElement('a')) {
-              //支持a标签download的浏览器
-              const link = document.createElement('a')//创建a标签
-              var fileName = "测试.xlsx";
-              link.download = fileName//a标签添加属性
-              link.style.display = 'none'
-              link.href = URL.createObjectURL(blob)
-              document.body.appendChild(link)
-              link.click()//执行下载
-              URL.revokeObjectURL(link.href) //释放url
-              document.body.removeChild(link)//释放标签
-
-            } else {
-              navigator.msSaveBlob(blob, fileName)
-            }
-          } else {
-            t.$message.warning('转化word文件失败，请检查文件并且重试！');
-          }
-
-        });
       },
 
       //导入

@@ -8,7 +8,8 @@ import uploadMore from '@comp/common/upload/uploadMore';//图片上传组件
 import photoShow from '@comp/common/upload/photoShow';
 import editor from '@comp/common/vueEditor/VueEditor';
 import currencyInput from '@comp/common/input/currencyInput';
-import uploadFile from '@comp/common/upload/uploadFile';
+import uploadFile from '@comp/common/upload/uploadFile';//导入组件
+import exportcom from '@comp/common/upload/exportcom';//导出组件
 
 
 //全局注册icon-svg
@@ -23,7 +24,8 @@ const components = [
   editor,
   currencyInput,
   uploadFile,
-  editComp
+  editComp,
+  exportcom
 ];
 
 export default function(Vue, opts = {}) {

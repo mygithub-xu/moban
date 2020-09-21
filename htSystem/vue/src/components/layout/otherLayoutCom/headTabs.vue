@@ -1,18 +1,22 @@
 <template>
     <div class="headTabsDivCom">
         
-                <el-tabs v-model="indexTabTrue" closable  type="border-card"  @tab-remove="removeTab" @tab-click="tabclick" @contextmenu.prevent.native="openpop($event)">
+                <!-- <el-tabs v-model="indexTabTrue" closable  type="border-card"  @tab-remove="removeTab" @tab-click="tabclick" @contextmenu.prevent.native="openpop($event)">
                         <el-tab-pane
-                            v-for="item in getOpenTab"
-                            :key="item.path"
+                            v-for="item in getOpenTab"s
                             :label="item.name"
                             :name="item.path">
                         </el-tab-pane>
-                </el-tabs>
+                </el-tabs> -->
 
-                <!-- <draggable v-model='getOpenTab' >
-                    
-                </draggable> -->
+                <draggable v-model='getOpenTab' >
+                    <transition-group type="transition" :name="'flip-list'">
+                    <div class="tabItems" v-for="item in getOpenTab" :key="item.path" @click="tabclick(item)">
+                        <span>{{item.name}}</span>
+                        <div class="el-icon-close tabItemsClose" @click="removeTab(item.path)"></div>
+                    </div>
+                    </transition-group>
+                </draggable>
         <div v-show="contextMenuVisible">
             <customPopBox :left="left" :top="top" :isShowLeft="isShowLeft" :isShowRight="isShowRight" :isShowReflash="isShowReflash" @popClick="popClick"></customPopBox>
         </div>
@@ -114,7 +118,7 @@ export default {
                 
         },
         tabclick(tab){
-            this.$router.push(tab.name);
+            this.$router.push(tab.path);
         },
         removeTab(tabPath){
             if(this.getOpenTab.length==1&&tabPath=="/page/Dashboard"){
@@ -271,7 +275,7 @@ export default {
 </script>
 <style scoped>
     .headTabsDivCom{
-        height: 48px;
+        height: 100%;
         width: 100%;
         float: left;
     }
@@ -301,5 +305,33 @@ export default {
     .headTabsDivCom .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
         border-radius: 10px;
         box-shadow: 0px 0px 2px rgb(219, 216, 216);
+    }
+    .tabItems{
+        background-color: #fff;
+        line-height: 34px;
+        margin-top:2px;
+        margin-left: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        float: left;
+        cursor:pointer;
+        transition:width 5s;
+    }
+    .tabItems span{
+        margin: 0 5px;
+        font-size: 13px;
+        cursor:pointer
+    }
+    .flip-list-move {
+        transition: transform 0.5s;
+    }
+    .tabItems .tabItemsClose{
+        float: right;
+        display: none;
+        
+    }
+    .tabItems:hover .tabItemsClose{
+        
+        display: block;
     }
 </style>

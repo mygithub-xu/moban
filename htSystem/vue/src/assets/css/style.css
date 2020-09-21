@@ -42,23 +42,24 @@
   padding: 5px 30px;
 }
 .query-area{
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .query-area .el-form-item{
   float: left;
   width: 31%;
-  margin-bottom:10px;
+  margin-bottom:5px;
   margin-left: 2%;
-  height: 40px;
+  height: 35px;
 }
 .query-area .el-form-item__content{
   min-width: 200px;
-  max-width: 350px;
+  max-width: 90%;
   margin-left: 100px;
   
 }
 .query-area .el-form-item__content>div{
   width: 100%;
+  max-width: 340px;
 }
 .query-area .el-form-item__label{
   text-align: right;
@@ -89,11 +90,10 @@
 }
 /* 修改原生table样式 */
 .common-table-style .el-table th, .common-table-style .el-table tr{
-  height: 45px;
+  height: 4px;
   font-size: 14px;
 }
 .tab-table .el-table th, .tab-table .el-table tr{
-  height: 45px;
   font-size: 14px;
 }
 /* 表格样式 end*/
@@ -108,6 +108,7 @@
 
 /* 定位弹出框位置 start*/
 .dialog-form{
+  width: 100%;
   float: left;
 }
 /* 解决tab与dialog连用卡死bug*/
@@ -121,9 +122,9 @@
 .edit-area .el-form-item{
   float: left;
   width: 31%;
-  margin-bottom:10px;
+  margin-bottom:0px;
   margin-left: 2%;
-  height: 50px;
+  min-height: 50px;
 }
 .edit-area .el-form-item__content{
   min-width: 200px;
@@ -152,7 +153,7 @@
   padding: 0;
 }
 .tab-table .el-form-item{
-  margin-bottom: 0;
+  margin-bottom: 15px;
 }
 /* 定位弹出框位置 end*/
 
@@ -264,7 +265,10 @@
   float: left;
   width:25%;
   height: 32px;
+}
 
+.editComp-body  .el-form-item--small.el-form-item{
+  margin-bottom: 5px;
 }
 
 /* 当窗口小于1000px的时候，两行 */
