@@ -1,9 +1,8 @@
 package com.dhlg.config;
 
-import com.dhlg.utils.code.CommonMap;
-import com.dhlg.utils.code.TableClass;
-import com.dhlg.utils.common.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
+import com.dhlg.common.code.CommonMap;
+import com.dhlg.common.code.TableClass;
+import com.dhlg.common.utils.StringUtils;
 import org.springframework.context.annotation.Configuration;
 
 import java.sql.Connection;

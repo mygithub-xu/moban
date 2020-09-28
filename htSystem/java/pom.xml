@@ -115,6 +115,15 @@
             <artifactId>spring-boot-starter-activemq</artifactId>
         </dependency>
         <!--redis  end-->
+
+        <!--jwt  start-->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        <!--jwt  end-->
+
         <!--导入导出EXCEL-->
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -169,11 +178,6 @@
             <version>1.4.0</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.apache.shiro</groupId>-->
-            <!--<artifactId>shiro-ehcache</artifactId>-->
-            <!--<version>1.3.2</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>net.sf.json-lib</groupId>

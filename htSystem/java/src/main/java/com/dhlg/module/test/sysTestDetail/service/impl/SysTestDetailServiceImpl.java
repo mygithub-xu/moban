@@ -6,10 +6,10 @@ import com.dhlg.module.test.sysTestDetail.entity.SysTestDetail;
 import com.dhlg.module.test.sysTestDetail.dao.SysTestDetailMapper;
 import com.dhlg.module.test.sysTestDetail.service.ISysTestDetailService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dhlg.utils.common.Dictionaries;
-import com.dhlg.utils.common.Parameter.Parameter;
-import com.dhlg.utils.common.Result;
-import com.dhlg.utils.common.StringUtils;
+import com.dhlg.common.utils.Dictionaries;
+import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.common.utils.Result;
+import com.dhlg.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

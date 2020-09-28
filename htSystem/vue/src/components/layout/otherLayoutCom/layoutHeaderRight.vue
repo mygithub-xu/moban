@@ -59,7 +59,7 @@ export default {
         ]),
         getUserName(){
             
-            return this.$User.getName()
+            return this.$User.getUserName()
         }
     },
     methods:{

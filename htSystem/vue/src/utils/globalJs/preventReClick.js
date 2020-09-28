@@ -1,3 +1,5 @@
+import User from "@utils/globalJs/UserContext"
+
 export default {
   install (Vue) {
     // 防重复点击(指令实现)
@@ -24,7 +26,7 @@ export default {
       }
   
       function permissionJudge(value) {
-        let list = JSON.parse(sessionStorage.getItem('buttonUrlList'));
+        let list = User.getButtonUrlList()
         if(!list){
           return false;
         }

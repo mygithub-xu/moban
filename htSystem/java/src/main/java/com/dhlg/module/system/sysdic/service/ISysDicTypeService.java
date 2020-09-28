@@ -3,8 +3,8 @@ package com.dhlg.module.system.sysdic.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlg.module.system.sysdic.entity.Option;
 import com.dhlg.module.system.sysdic.entity.SysDicType;
-import com.dhlg.utils.common.Parameter.Parameter;
-import com.dhlg.utils.common.Result;
+import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.common.utils.Result;
 
 import java.util.Collection;
 import java.util.List;

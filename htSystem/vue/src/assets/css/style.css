@@ -2,8 +2,8 @@
 .app-container{
   margin-left: 10px;
   margin-right: 10px;
-  margin-top: 61px;
-  height: calc(100% - 61px);
+  margin-top: 51px;
+  height: calc(100% - 51px);
   width: calc(100% - 20px);
   display:flex;
   position: relative;
@@ -12,8 +12,8 @@
 .app-container-tree{
   margin-left: 10px;
   margin-right: 10px;
-  margin-top: 61px;
-  height: calc(100% - 61px);
+  margin-top: 51px;
+  height: calc(100% - 51px);
   width: calc(100% - 20px);
   display:flex;
   position: relative;

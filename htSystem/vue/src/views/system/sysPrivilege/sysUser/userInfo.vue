@@ -258,8 +258,8 @@ export default {
           formPass.confirmPassword = "";
       }
       //取出当前登录用户id
-      var id = sessionStorage.getItem("userId");
-      var name = sessionStorage.getItem("loginUser");
+      var id = this.$User.getId()
+      var name = this.$User.getLoginUser();
       var parameter = {
         condition: {
           id: id,
@@ -314,7 +314,7 @@ export default {
       },
     getData(){
       //取出当前登录用户id
-      var id = sessionStorage.getItem("userId");
+      var id = this.$User.getId();
       this.$http.post(this.api.userQueryById + id).then(res => {
         if (res.data.code == "200") {
           this.form = res.data.body;
@@ -326,15 +326,7 @@ export default {
     },
     //显示头像
     showImg() {
-
-        // let user = JSON.parse(sessionStorage.getItem('user')); 
-        // this.form.headPortrait=user.headPortrait;
-        // this.$http.post(this.api.userQueryHeadPortraitById+id).then(res => {
-        //   if (res.data.code == "200") {
-        //     this.form.headPortrait = res.data.body;
-        //   }
-        // });
-        let user = JSON.parse(sessionStorage.getItem('user')); 
+        let user = this.$User.getUser(); 
         var avatar=user.headPortrait;
         this.form.headPortrait =avatar
       },

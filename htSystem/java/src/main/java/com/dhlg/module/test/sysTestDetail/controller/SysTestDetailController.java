@@ -2,15 +2,13 @@ package com.dhlg.module.test.sysTestDetail.controller;
 
 import com.dhlg.module.test.sysTestDetail.entity.SysTestDetail;
 import com.dhlg.module.test.sysTestDetail.service.ISysTestDetailService;
-import com.dhlg.utils.common.Parameter.Parameter;
-import com.dhlg.utils.common.Result;
-import com.dhlg.utils.common.StringUtils;
-import com.dhlg.utils.common.exception.ParamIsNullException;
-import com.dhlg.utils.common.uploadDown.ExcelUtil;
+import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.common.utils.Result;
+import com.dhlg.common.utils.StringUtils;
+import com.dhlg.common.utils.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;

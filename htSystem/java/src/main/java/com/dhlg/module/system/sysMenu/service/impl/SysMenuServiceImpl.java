@@ -1,5 +1,6 @@
 package com.dhlg.module.system.sysMenu.service.impl;
 
+import com.dhlg.common.utils.*;
 import com.dhlg.module.system.sysButton.entity.SysButton;
 import com.dhlg.module.system.sysButton.service.impl.SysButtonServiceImpl;
 import com.dhlg.module.system.sysMenu.entity.SysMenu;
@@ -8,8 +9,7 @@ import com.dhlg.module.system.sysMenu.service.ISysMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.module.system.sysUser.dao.SysUserMapper;
 import com.dhlg.module.system.sysUser.entity.SysUser;
-import com.dhlg.utils.common.*;
-import com.dhlg.utils.common.exception.UncheckedException;
+import com.dhlg.common.utils.exception.UncheckedException;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,23 +47,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     /**
      * 根据username获取不同的menu的list集合
      * */
-    public List<SysMenu> findMenu(String userName) {
+    public List<SysMenu> findMenu(SysUser sysUser) {
         List<SysMenu>sysMenuList=new ArrayList<SysMenu>();
-        if ("admin".equals(userName)){
+        if ("admin".equals(sysUser.getLoginUser())){
             sysMenuList=menuMapper.findMenu();
         }else {
-                //找出改条用户数据，然后
-                List<SysUser> sysUserList=sysUserMapper.getUserByName(userName);
-                if (sysUserList.size()==1){
-                    //将String如（a,b,c,d）转化数组:['a','b','c','d']  原：List<String> titleList= Arrays.asList(sysUser.getroleIds());
-                    String[] titleList=StringUtils.stb(sysUserList.get(0).getRoleIds());
-                    sysMenuList=menuMapper.findMenuByroleIds(titleList);
-                }else if (sysUserList.size()==0){
-                    logger.error("无该用户");
-                }else {
-                    logger.error("该用户名重复");
-                }
-
+            String[] titleList= StringUtils.stb(sysUser.getRoleIds());
+            sysMenuList=menuMapper.findMenuByroleIds(titleList);
         }
         return sysMenuList;
     }

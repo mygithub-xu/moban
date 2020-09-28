@@ -1,23 +1,29 @@
 package com.dhlg.config;
 
 import com.dhlg.filter.CheckUserStatusFilter;
+import com.dhlg.filter.JwtFilter;
 import com.dhlg.shiro.realm.UserRealm;
 import com.dhlg.shiro.session.ShiroSessionManager;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.crazycake.shiro.IRedisManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.hibernate.JDBCException;
 
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.mgt.SecurityManager;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 
@@ -45,22 +51,11 @@ public class shiroConfig {
     @Value("${spring.redis.password}")
     private String redis_password;
 
-    @Bean
+    @Bean("shiroFilter")
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager)throws JDBCException{
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setLoginUrl("/login.html");
-
-        // 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 :这是一个坑呢，一不小心代码就不好使了;
-        // ① authc:所有url都必须认证通过才可以访问; ② anon:所有url都都可以匿名访问
-        //自定义拦截器
-
-        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
-        CheckUserStatusFilter checkUserStatusFilter = new CheckUserStatusFilter();
-        filtersMap.put("checkUserStatusFilter",checkUserStatusFilter);
-        shiroFilterFactoryBean.setFilters(filtersMap);
 
         //配置拦截器
         Map<String, String> map = new LinkedHashMap<String, String>();
@@ -68,56 +63,44 @@ public class shiroConfig {
         //必须
         map.put("/static/**", "anon");
         //设置所有api的访问接口都不被拦截
-        map.put("/moban/**", "anon");
+        map.put("/api/system/sysUser/login", "anon");
+        map.put("/api/system/sysUser/logout", "anon");
         map.put("/druid/**","anon");
-        map.put("/api/**", "anon");
-//        map.put("/**", "authc,kickout");
+
+
+        //自定义拦截器
+        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
+        filtersMap.put("jwt", new JwtFilter());
+        shiroFilterFactoryBean.setFilters(filtersMap);
+        map.put("/**", "jwt");
+
+        shiroFilterFactoryBean.setLoginUrl("/login.html");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
     }
 
-    /**
-     * 凭证匹配器，与自定义的密码加密要保持一致
-     */
-    @Bean
-    public HashedCredentialsMatcher hashedCredentialsMatcher() {
-
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");//散列算法:这里使用MD5算法;
-        hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如散列2次，相当于 md5(md5(""));
-        return hashedCredentialsMatcher;
-    }
-    /**
-     * 身份认证realm,及用户权限数据的注入
-     * @return
-     */
-    @Bean
-    public UserRealm userRealm() {
-
-        UserRealm userRealm = new UserRealm();
-        //启用身份验证缓存，数据就会进入redis
-        userRealm.setCachingEnabled(true);//允许缓存
-        userRealm.setCredentialsMatcher(hashedCredentialsMatcher());//设置其加密方式
-        userRealm.setAuthorizationCachingEnabled(true);//允许授权缓存
-        return userRealm;
-    }
 
     /**
      * 安全管理器，管理所有Subject，可以配合内部安全组件，是shrio核心
      * http://shiro.apache.org/architecture.html其官网有详细的介绍
      * @return
      */
-    @Bean
-    public SecurityManager securityManager(UserRealm userRealm) {
+    @Bean("securityManager")
+    public DefaultWebSecurityManager securityManager(UserRealm userRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-
+        //配置realm
         securityManager.setRealm(userRealm);
-        //自定义缓存管理
+
+        //关闭shrio
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        securityManager.setSubjectDAO(subjectDAO);
+
+        //缓存权限等数据
         securityManager.setCacheManager(redisCacheManager());
-        //自定义session管理
-        securityManager.setSessionManager(sessionManager());
-        //注入记住我管理器;
-//        securityManager.setRememberMeManager(rememberMeManager());
+
         return securityManager;
     }
 
@@ -129,13 +112,14 @@ public class shiroConfig {
     public RedisCacheManager redisCacheManager() {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(redisManager());
-        //权限缓存，单位秒 测试后：当权限缓存过期，token没过期，会继续从数据库拿数据。所以这里时间需设置的比会话缓存大
-        redisCacheManager.setExpire(redis_timeout);
+        redisCacheManager.setPrincipalIdFieldName("id");
+        //单位秒：
+        redisCacheManager.setExpire(2*60*60);
         return redisCacheManager;
     }
 
     @Bean
-    public RedisManager redisManager(){
+    public IRedisManager redisManager(){
         RedisManager redisManager = new RedisManager();
         redisManager.setHost(redis_host);
         redisManager.setPort(redis_port);
@@ -143,38 +127,6 @@ public class shiroConfig {
         return redisManager;
     }
 
-    //添加bean
-    /**
-     * 自定义sessionManager
-     * @return
-     */
-    @Bean
-    public DefaultWebSessionManager sessionManager() {
-
-        //前后端分离而自定义sessionManager
-        ShiroSessionManager manager=new ShiroSessionManager();
-
-        //此处使用的是redis缓存
-        manager.setSessionDAO(redisSessionDAO());
-
-        //会话时间单位毫秒
-        manager.setGlobalSessionTimeout(redis_timeout*1000);
-
-        //删除无效session对象
-        manager.setDeleteInvalidSessions(true);
-        //是否开启定时调度器进行检测过期session 默认为true，定时检测时间为1秒
-        manager.setSessionValidationSchedulerEnabled(true);
-        manager.setSessionValidationInterval(1000);
-        return manager;
-    }
-    /**
-     * redisSessionDAO
-     */
-    public RedisSessionDAO redisSessionDAO() {
-        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
-        redisSessionDAO.setRedisManager(redisManager());
-        return redisSessionDAO;
-    }
     /*
      * 开启shiro 注解模式
      */
@@ -196,7 +148,6 @@ public class shiroConfig {
     public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
-
 
 
     /**

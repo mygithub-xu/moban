@@ -4,20 +4,18 @@ package com.dhlg.module.system.sysMenu.controller;
 import com.dhlg.module.system.sysMenu.entity.SysMenu;
 import com.dhlg.module.system.sysMenu.service.ISysMenuService;
 import com.dhlg.module.system.sysUser.entity.SysUser;
-import com.dhlg.utils.common.GetLoginUser;
-import com.dhlg.utils.common.Result;
-import com.dhlg.utils.common.StringUtils;
-import com.dhlg.utils.common.exception.ParamIsNullException;
+import com.dhlg.common.utils.GetLoginUser;
+import com.dhlg.common.utils.Result;
+import com.dhlg.common.utils.StringUtils;
+import com.dhlg.common.utils.exception.ParamIsNullException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,7 +40,6 @@ public class SysMenuController {
     @ApiOperation("获取所有菜单节点")
     @RequestMapping(value = "/getnodelist", method = RequestMethod.POST)
     public Result getNodeList() {
-
 
         SysUser user= GetLoginUser.getCurrentUser();
 

@@ -1,23 +1,14 @@
 package com.dhlg.redis;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSONObject;
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * 描述
@@ -25,132 +16,47 @@ import com.alibaba.fastjson.JSONObject;
  * Date:2020/4/19
  * Time:1:34
  */
-@SuppressWarnings("unchecked")
 @Component
 public class RedisUtil {
-    @SuppressWarnings("rawtypes")
-    @Autowired
-    private RedisTemplate redisTemplate;
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+
+    // 过期时间30分钟
+    public static final long EXPIRE_TIME = 30 * 60 * 1000;
 
     /**
-     * 批量删除对应的value
-     *
-     * @param keys
+     * 存放缓存
      */
-    public void remove(final String... keys) {
-        for (String key : keys) {
-            remove(key);
-        }
-    }
-
-    /**
-     * 批量删除key
-     *
-     * @param pattern
-     */
-    public void removePattern(final String pattern) {
-        Set<Serializable> keys = redisTemplate.keys(pattern);
-        if (keys.size() > 0)
-            redisTemplate.delete(keys);
-    }
-
-    /**
-     * 删除对应的value
-     *
-     * @param key
-     */
-    public void remove(final String key) {
-        if (exists(key)) {
-            redisTemplate.delete(key);
-        }
-    }
-
-    /**
-     * 判断缓存中是否有对应的value
-     *
-     * @param key
-     * @return
-     */
-    public boolean exists(final String key) {
-        return redisTemplate.hasKey(key);
-    }
-
-    /**
-     * 读取缓存
-     *
-     * @param key
-     * @return
-     */
-    public String get(final String key) {
-        Object result = null;
-        redisTemplate.setValueSerializer(new StringRedisSerializer());
-        ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-        result = operations.get(key);
-        if (result == null) {
-            return null;
-        }
-        return result.toString();
-    }
-
-    /**
-     * 写入缓存
-     *
-     * @param key
-     * @param value
-     * @return
-     */
-    public boolean set(final String key, Object value) {
-        boolean result = false;
+    public boolean set(String key, String value) {
         try {
-
-            ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value);
-            result = true;
+            redisTemplate.opsForValue().set(key, value);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return result;
     }
+
 
     /**
-     * 写入缓存
-     *
-     * @param key
-     * @param value
-     * @return
+     * 指定缓存失效时间
      */
-    public boolean set(final String key, Object value, Long expireTime) {
-        boolean result = false;
+    public boolean expire(String key, long time) {
         try {
-            ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value);
-            redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
-            result = true;
+            if (time > 0) {
+                redisTemplate.expire(key, time, TimeUnit.SECONDS);
+            }
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return result;
     }
-
-    public boolean hmset(String key, Map<String, String> value) {
-        boolean result = false;
-        try {
-            redisTemplate.opsForHash().putAll(key, value);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+    /**
+     * 获取缓存
+     */
+    public Object get(String key) {
+        return key == null ? null : redisTemplate.opsForValue().get(key);
     }
-
-    public Map<String, String> hmget(String key) {
-        Map<String, String> result = null;
-        try {
-            result = redisTemplate.opsForHash().entries(key);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
 }

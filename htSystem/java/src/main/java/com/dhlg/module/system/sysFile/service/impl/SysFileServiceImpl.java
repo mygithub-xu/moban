@@ -1,13 +1,13 @@
 package com.dhlg.module.system.sysFile.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.dhlg.common.utils.*;
 import com.dhlg.module.system.sysFile.entity.SysFile;
 import com.dhlg.module.system.sysFile.dao.SysFileMapper;
 import com.dhlg.module.system.sysFile.service.ISysFileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dhlg.utils.common.*;
-import com.dhlg.utils.common.Parameter.Parameter;
-import com.dhlg.utils.common.uploadDown.uploadFileUtils;
+import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.common.utils.uploadDown.uploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         sysFile.setUrl(url);
 
         if (!save(sysFile)){
-            return new Result("400","",Dictionaries.UPLOAD_ERROR);
+            return new Result("400","", Dictionaries.UPLOAD_ERROR);
         }
         return new Result("200",sysFile,Dictionaries.UPLOAD_SUCCESS);
     }

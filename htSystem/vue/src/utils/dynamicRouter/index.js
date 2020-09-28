@@ -4,6 +4,7 @@ import store from '@/store/index'
 import Layout from '@comp/layout/otherLayout'
 import page404 from '@comp/layout/page/404'
 import Dashboard from '@views/modules/dashboard/Dashboard'
+import User from "@utils/globalJs/UserContext"
 
 var getRouter=null //暂存菜单数据
 
@@ -49,7 +50,7 @@ function routerGo(to, next) {
 
 //获取菜单数据
 function getObjArr() {
-  return JSON.parse(sessionStorage.getItem("menuData"))
+  return User.getMenuData()
 }
 //改变登录状态
 function changeLoginStatus() {
@@ -129,5 +130,5 @@ function loadView(view){
 
 }
 function getToken(){
-  return sessionStorage.getItem("Token")
+  return User.getToken()
 }

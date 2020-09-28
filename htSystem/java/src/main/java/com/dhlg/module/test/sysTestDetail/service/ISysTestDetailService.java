@@ -2,8 +2,8 @@ package com.dhlg.module.test.sysTestDetail.service;
 
 import com.dhlg.module.test.sysTestDetail.entity.SysTestDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dhlg.utils.common.Parameter.Parameter;
-import com.dhlg.utils.common.Result;
+import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.common.utils.Result;
 
 import java.util.List;
 import java.util.Map;

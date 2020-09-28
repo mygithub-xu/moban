@@ -1,14 +1,14 @@
 package com.dhlg.module.system.sysRole.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.dhlg.common.utils.*;
 import com.dhlg.module.system.sysMenu.entity.SysMenu;
 import com.dhlg.module.system.sysRole.entity.SysRole;
 import com.dhlg.module.system.sysRole.dao.SysRoleMapper;
 import com.dhlg.module.system.sysRole.service.ISysRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dhlg.utils.common.*;
-import com.dhlg.utils.common.Parameter.Parameter;
-import com.dhlg.utils.common.exception.UncheckedException;
+import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.common.utils.exception.UncheckedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dhlg.module.test.sysTest.entity.ExportSysTest;
 import com.dhlg.module.test.sysTest.entity.SysTest;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dhlg.utils.common.Parameter.Parameter;
-import com.dhlg.utils.common.Parameter.Parameter2;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

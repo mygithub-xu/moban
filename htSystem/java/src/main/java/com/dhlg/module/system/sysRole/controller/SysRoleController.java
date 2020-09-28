@@ -5,14 +5,14 @@ import com.dhlg.module.system.sysMenu.entity.SysMenu;
 import com.dhlg.module.system.sysRole.entity.SysRole;
 import com.dhlg.module.system.sysRole.service.ISysRoleService;
 import com.dhlg.module.system.sysRole.service.impl.SysRolePermissionServiceImpl;
-import com.dhlg.utils.common.Result;
-import com.dhlg.utils.common.StringUtils;
-import com.dhlg.utils.common.exception.ParamIsNullException;
+import com.dhlg.common.utils.Result;
+import com.dhlg.common.utils.StringUtils;
+import com.dhlg.common.utils.exception.ParamIsNullException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.dhlg.utils.common.Parameter.Parameter;
+import com.dhlg.common.utils.Parameter.Parameter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -15,7 +15,7 @@
     <sql id="Base_Column_List">
                 id,                parent_id,                name,                status,                money    </sql>
 
-    <select id="queryByCondition" parameterType="com.dhlg.utils.common.Parameter.Parameter" resultType="com.dhlg.module.test.sysTestDetail.entity.SysTestDetail">
+    <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultType="com.dhlg.module.test.sysTestDetail.entity.SysTestDetail">
         select * from sys_test_detail
         <trim prefix="where" prefixOverrides="and">
             <if test="parameter.condition != null and parameter.condition.parentId !=null and parameter.condition.parentId !='' ">

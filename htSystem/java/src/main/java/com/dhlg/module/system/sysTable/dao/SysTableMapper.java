@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dhlg.module.system.sysTable.entity.SysTable;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dhlg.utils.common.Parameter.Parameter;
+import com.dhlg.common.utils.Parameter.Parameter;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;

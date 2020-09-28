@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dhlg.module.system.sysMenu.entity.SysMenu;
 import com.dhlg.module.system.sysRole.entity.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dhlg.utils.common.Parameter.Parameter;
+import com.dhlg.common.utils.Parameter.Parameter;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

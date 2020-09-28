@@ -21,7 +21,7 @@
     </sql>
 
 
-    <select id="queryByCondition" parameterType="com.dhlg.utils.common.Parameter.Parameter" resultMap="BaseResultMap">
+    <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultMap="BaseResultMap">
         select  login_log.*,user.user_name from sys_login_log login_log
         inner join sys_user user on user.id = login_log.user_id
         <trim prefix="where" prefixOverrides="and">

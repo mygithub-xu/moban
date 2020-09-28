@@ -5,8 +5,9 @@ import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class PasswordHelper {
 
     private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
@@ -45,6 +46,14 @@ public class PasswordHelper {
 
     }
 
+    public  String checkPass(String password,  String salt) {
 
+        return  new SimpleHash(
+                algorithmName,     //自定义的加密算法
+                password,//用户输入的密码
+                ByteSource.Util.bytes("whfch" + salt),//salt = username + salt
+                hashIterations     //hash次数
+        ).toHex();
+    }
 
 }

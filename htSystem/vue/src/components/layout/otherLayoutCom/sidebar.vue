@@ -178,7 +178,7 @@ export default {
    //获取菜单数据
    getMenuData(){
      
-     return JSON.parse(sessionStorage.getItem("menuData"))
+     return this.$User.getMenuData()
    }
 
   }

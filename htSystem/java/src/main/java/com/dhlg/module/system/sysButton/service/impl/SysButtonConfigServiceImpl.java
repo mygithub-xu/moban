@@ -3,12 +3,12 @@ package com.dhlg.module.system.sysButton.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.dhlg.common.utils.*;
 import com.dhlg.module.system.sysButton.entity.SysButtonConfig;
 import com.dhlg.module.system.sysButton.dao.SysButtonConfigMapper;
 import com.dhlg.module.system.sysButton.service.ISysButtonConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dhlg.utils.common.*;
-import com.dhlg.utils.common.Parameter.Parameter;
+import com.dhlg.common.utils.Parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dhlg.module.system.sysdic.entity.Option;
 import com.dhlg.module.system.sysdic.entity.SysDicType;
-import com.dhlg.utils.common.Parameter.Parameter;
+import com.dhlg.common.utils.Parameter.Parameter;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

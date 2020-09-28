@@ -2,6 +2,7 @@ package com.dhlg.module.test.sysTest.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.dhlg.common.utils.*;
 import com.dhlg.module.test.sysTest.entity.ExportSysTest;
 import com.dhlg.module.test.sysTest.entity.SysTest;
 import com.dhlg.module.test.sysTest.dao.SysTestMapper;
@@ -9,9 +10,7 @@ import com.dhlg.module.test.sysTest.service.ISysTestService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.module.test.sysTestDetail.entity.SysTestDetail;
 import com.dhlg.module.test.sysTestDetail.service.impl.SysTestDetailServiceImpl;
-import com.dhlg.utils.common.*;
-import com.dhlg.utils.common.Parameter.Parameter;
-import com.dhlg.utils.common.Parameter.Parameter2;
+import com.dhlg.common.utils.Parameter.Parameter2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

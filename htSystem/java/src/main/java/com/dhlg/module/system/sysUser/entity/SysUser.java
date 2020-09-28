@@ -7,8 +7,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.sql.Blob;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.dhlg.module.system.sysMenu.entity.SysMenu;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -111,12 +114,6 @@ public class SysUser implements Serializable {
     @TableField("description")
     private String description;
 
-    /**
-     * 头像
-     */
-//    @TableField("head_portrait")
-//    @Lob
-//    private byte[] headPortrait;
 
     @TableField("head_portrait")
     private String headPortrait;
@@ -148,6 +145,23 @@ public class SysUser implements Serializable {
     @TableField(exist=false)
     private String headPortraitSrc;
 
+    /**
+     * 按钮权限列表
+     */
+    @TableField(exist=false)
+    private Set<String> buttonUrlList;
+
+    /**
+     * 菜单数据
+     */
+    @TableField(exist=false)
+    private List<SysMenu> menuData;
+
+    //验证盐
+    @JSONField(serialize = false)
+    public String getCredentialsSalt() {
+        return "whfch" + salt;
+    }
 
     public static final String ID = "id";
 
@@ -187,9 +201,4 @@ public class SysUser implements Serializable {
 
     public static final String UPDATE_TIME = "update_time";
 
-    //验证盐
-    @JSONField(serialize = false)
-    public String getCredentialsSalt() {
-        return "whfch" + salt;
-    }
 }

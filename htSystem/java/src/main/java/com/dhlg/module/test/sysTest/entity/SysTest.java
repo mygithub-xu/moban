@@ -1,8 +1,5 @@
 package com.dhlg.module.test.sysTest.entity;
 
-import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.metadata.BaseRowModel;
-import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -11,14 +8,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.dhlg.module.test.sysTestDetail.entity.SysTestDetail;
-import com.dhlg.utils.common.BigDecimalSerialize;
+import com.dhlg.common.utils.BigDecimalSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.baomidou.mybatisplus.annotation.TableId;
 
 /**
  * <p>

@@ -33,7 +33,7 @@
         select *from sys_user where login_user=#{username}
     </select>
 
-    <select id="queryByCondition" parameterType="com.dhlg.utils.common.Parameter.Parameter" resultMap="BaseResultMap">
+    <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultMap="BaseResultMap">
         select  *from sys_user
         <trim prefix="where" prefixOverrides="and">
             <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">

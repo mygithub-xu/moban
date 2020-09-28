@@ -3,17 +3,17 @@
         
                 <!-- <el-tabs v-model="indexTabTrue" closable  type="border-card"  @tab-remove="removeTab" @tab-click="tabclick" @contextmenu.prevent.native="openpop($event)">
                         <el-tab-pane
-                            v-for="item in getOpenTab"s
+                            v-for="item in getOpenTab"
+                            :key="item.path"
                             :label="item.name"
                             :name="item.path">
                         </el-tab-pane>
                 </el-tabs> -->
-
                 <draggable v-model='getOpenTab' >
-                    <transition-group type="transition" :name="'flip-list'">
+                    <transition-group type="transition" name="flip-list">
                     <div class="tabItems" v-for="item in getOpenTab" :key="item.path" @click="tabclick(item)">
-                        <span>{{item.name}}</span>
-                        <div class="el-icon-close tabItemsClose" @click="removeTab(item.path)"></div>
+                        <span :class="{'active': item.path == indexTabTrue}">{{item.name}}</span>
+                        <div class="el-icon-close tabItemsClose" @click.stop.prevent="removeTab(item.path)"></div>
                     </div>
                     </transition-group>
                 </draggable>
@@ -122,14 +122,13 @@ export default {
         },
         removeTab(tabPath){
             if(this.getOpenTab.length==1&&tabPath=="/page/Dashboard"){
-                  return this.$message({
-                        type: "error",
-                        message: "首页不能删除"
-                    });
+                return this.$message({
+                    type: "error",
+                    message: "首页不能删除"
+                });
             }
             if(tabPath==this.indexTab){
                 //确定关闭当前页面？？
-
                 this.$confirm("是否关掉当前页面?", "提示", {
                     confirmButtonText: "确定",
                     cancelButtonText: "取消",
@@ -140,7 +139,6 @@ export default {
 
                         //更新当前选定的tab
                         if(this.getOpenTab.length==0){
-
                             this.$router.push("/page/Dashboard");
                         }else if(this.getOpenTab.length<=index){
                             this.$router.push(this.getOpenTab[this.getOpenTab.length-1].path);
@@ -151,26 +149,24 @@ export default {
                     }).catch(() => {
                         this.$message({type: "info", message: "已取消"});
                     });
-
-
             }else{
                 let index=this.tabPathChange(tabPath);   
             }
-
+             console.log("结束"+ (new Date()).getTime())
         },
         //删除选中tab，更新tab路由，返回删除的第几个
         tabPathChange(tabPath){
-                let getOpenTabList=this.getOpenTab;
-                let index=0;
-                for(let i=0;i<getOpenTabList.length;i++){
-                    if(tabPath==getOpenTabList[i].path){
-                        getOpenTabList.splice(i, 1);
-                        index=i;
-                        break;
-                    }
+            let getOpenTabList = this.getOpenTab;
+            let index=0;
+            let res = getOpenTabList.some((item,i) =>{
+                if(item.path == tabPath){
+                    index = i
+                    return true;
                 }
-                this.$store.dispatch('changeTabFun',getOpenTabList);
-                return index;
+            })
+            getOpenTabList.splice(index, 1);
+            this.$store.dispatch('changeTabFun',getOpenTabList);
+            return index;
         },
         openpop(e){
 
@@ -279,33 +275,7 @@ export default {
         width: 100%;
         float: left;
     }
-    .el-tabs--border-card{
-        box-shadow:0 0px 0px 0 rgba(0,0,0,.12), 0 0 0px 0 rgba(0,0,0,.04)
-    }
-</style>
-<style >
 
-    /* .headTabsDivCom .el-tabs__header{
-        margin: 0;
-        border-bottom: 0px solid #E4E7ED;
-    }
-    .headTabsDivCom .el-tabs--card>.el-tabs__header .el-tabs__nav{
-        border: 0px solid #E4E7ED;
-    }
-    .headTabsDivCom .el-tabs--card>.el-tabs__header .el-tabs__item{
-        border: 0px solid #E4E7ED;
-    } */
-
-    .headTabsDivCom .el-tabs--border-card>.el-tabs__content{
-        padding: 0!important;
-    }
-    .headTabsDivCom .el-tabs--border-card>.el-tabs__header{
-        border-bottom: 0px solid #E4E7ED;
-    }
-    .headTabsDivCom .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
-        border-radius: 10px;
-        box-shadow: 0px 0px 2px rgb(219, 216, 216);
-    }
     .tabItems{
         background-color: #fff;
         line-height: 34px;
@@ -323,15 +293,24 @@ export default {
         cursor:pointer
     }
     .flip-list-move {
-        transition: transform 0.5s;
+        transition: transform 0.3s;
+    }
+    .flip-list-enter-active, .flip-list-leave-active {
+        transition: all 0.3s ease;
+    }
+    .flip-list-enter, .flip-list-leave-to{
+        opacity: 0;
+        transform: translateX(40px);
     }
     .tabItems .tabItemsClose{
         float: right;
         display: none;
-        
     }
     .tabItems:hover .tabItemsClose{
         
         display: block;
+    }
+    .tabItems .active{
+        color: #409EFF;
     }
 </style>

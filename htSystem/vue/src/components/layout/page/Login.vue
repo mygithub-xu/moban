@@ -62,12 +62,8 @@
               if (res.data.code == '200') {
                 //更新登录状态,true为第一次登录。
                 this.$store.dispatch('changeLoginStatusFun',true);
-                sessionStorage.setItem("menuData",JSON.stringify(res.data.body.menuData));
-                sessionStorage.setItem("User", JSON.stringify(res.data.body.user));
-                sessionStorage.setItem("menuList",JSON.stringify(res.data.body.menuList));
-                sessionStorage.setItem("userId", res.data.body.userId);
                 sessionStorage.setItem("Token", res.data.body.token);
-                sessionStorage.setItem("buttonUrlList",JSON.stringify(res.data.body.buttonUrlList));
+                sessionStorage.setItem("User", JSON.stringify(res.data.body.user));
                 //更新头像
                 this.$message.success("登入成功");
                 this.$router.push("/page/Dashboard").catch(()=>{});
