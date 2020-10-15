@@ -80,18 +80,20 @@ export default {
         },
         //离开系统
         exitSys(){
-            // this.$http.post(this.api.logout).then(res => {});
+            this.$http.post(this.api.logout).then(res => {
+                    //初始化tab
+                    this.$store.dispatch('initTabFun');
+                    //初始化布局
+                    this.$store.dispatch('initLayoutParamFun');
+                    //去除user
+                    sessionStorage.removeItem("User");
+                    //去除token
+                    sessionStorage.removeItem("Token");
+                    
+                    this.$router.push("/login");
+            });
 
-            // //初始化tab
-            // this.$store.dispatch('initTabFun');
-            // //初始化布局
-            // this.$store.dispatch('initLayoutParamFun');
-            // //去除user
-            // sessionStorage.removeItem("User");
-            // //去除token
-            // sessionStorage.removeItem("Token");
-            
-            this.$router.push("/login");
+
         },
 
         //全屏

@@ -58,7 +58,7 @@ public class shiroConfig {
         // 配置不会被拦截的链接 顺序判断
         //必须
         map.put("/static/**", "anon");
-        //设置所有api的访问接口都不被拦截
+        //设置不被拦截的api
         map.put("/api/system/sysUser/login", "anon");
         map.put("/api/system/sysUser/logout", "anon");
         map.put("/druid/**","anon");

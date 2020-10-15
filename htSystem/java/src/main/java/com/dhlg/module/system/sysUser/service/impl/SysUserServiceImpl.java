@@ -299,7 +299,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public void logout() {
+    public void logout(HttpServletRequest request) {
+        //清除redis缓存
+        String token = request.getHeader(Dictionaries.ACCESS_TOKEN);
+        if (StringUtils.isBlank(token)){
+            return;
+        }
+        //删除用户信息
+        redisUtil.del(Dictionaries.PREFIX_USER_TOKEN + token);
+        redisUtil.del(Dictionaries.PREFIX_USER_ + token);
+
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
     }

@@ -41,5 +41,5 @@ public interface ISysUserService extends IService<SysUser> {
 
     Result updatePassword(Parameter parameter);
 
-    void logout();
+    void logout(HttpServletRequest request);
 }

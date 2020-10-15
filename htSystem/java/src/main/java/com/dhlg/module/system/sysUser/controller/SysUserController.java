@@ -44,7 +44,7 @@ public class SysUserController {
     @ApiOperation("退出系统")
     @PostMapping("/logout")
     public void logout(HttpServletRequest request){
-        doService.logout();
+        doService.logout(request);
 
     }
 
