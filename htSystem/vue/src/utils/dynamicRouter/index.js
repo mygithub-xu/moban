@@ -73,9 +73,19 @@ function filterAsyncRouter(routers) {
           path: "/page/Dashboard",
           name: "首页",
           component: Dashboard,
-        }
+        },
+        {
+          path: "/page/404",
+          name: "404",
+          component: page404,
+        },
+        
       ]
-    }
+    },
+    {
+      path: "*",
+      redirect: "/login"
+    },
   ]
 
   //迭代菜单，形成路由

@@ -80,24 +80,16 @@ export default {
         },
         //离开系统
         exitSys(){
-            this.$http.post(this.api.logout).then(res => {
-                if(res.code=="200"){
-                    sessionStorage.removeItem("Token");
-                }
-            });
-            sessionStorage.removeItem("User");
+            // this.$http.post(this.api.logout).then(res => {});
 
-            //将开启的tab关闭
-            var openTab=[
-                {
-                    name:"系统首页",
-                    path:"/page/Dashboard",
-                    component:"Dashboard"
-                }
-            ]
-            this.$store.dispatch('changeTabFun',openTab);
-            //初始化布局
-            this.$store.dispatch('initLayoutParamFun');
+            // //初始化tab
+            // this.$store.dispatch('initTabFun');
+            // //初始化布局
+            // this.$store.dispatch('initLayoutParamFun');
+            // //去除user
+            // sessionStorage.removeItem("User");
+            // //去除token
+            // sessionStorage.removeItem("Token");
             
             this.$router.push("/login");
         },

@@ -42,6 +42,7 @@
         flag:1,
       }
     },
+
     methods: {
 
       onSubmit(formName) {
@@ -60,6 +61,8 @@
 
             this.$http.post(this.api.login,this.form).then(res=>{
               if (res.data.code == '200') {
+
+                
                 //更新登录状态,true为第一次登录。
                 this.$store.dispatch('changeLoginStatusFun',true);
 
@@ -67,31 +70,36 @@
                 sessionStorage.setItem("morePOp", "1");
                 sessionStorage.setItem("Token", res.data.body.token);
                 sessionStorage.setItem("User", JSON.stringify(res.data.body.user));
+
                 //更新头像
                 this.$message.success("登入成功");
-                this.$router.push("/page/Dashboard").catch(()=>{});
-              }
 
-              else{
+                let indexPath = this.$store.state.tabRouter.indexTab;
+                console.log(indexPath);
+                if(indexPath != "/page/Dashboard"){
+                    this.$router.push(indexPath).catch(()=>{});
+                }else{
+                  this.$router.push("/page/Dashboard").catch(()=>{});
+                }
+                
+              }else{
+                if (res.data.code === "410") {
+                    if(this.flag<3){
+                      this.flag++;
+                    }
+                    this.$message({
+                      message: "登陆失败，账号或密码错误!!",
+                      type: "error"
+                    }); 
+                }
 
-              if (res.data.code === "410") {
-                  if(this.flag<3){
-                    this.flag++;
-                  }
+                if (res.data.code === "500") {
                   this.$message({
-                    message: "登陆失败，账号或密码错误!!",
+                    message: "登陆失败",
                     type: "error"
                   });
-                 
                   
                 }
-              if (res.data.code === "500") {
-                this.$message({
-                  message: "登陆失败",
-                  type: "error"
-                });
-                
-              }
 
               }
 

@@ -14,6 +14,7 @@ const tabRouter = {
         indexTab:"/page/Dashboard"
     },
     getters:{
+        
         getOpenTab:state=>{
             return state.openTab
         },
@@ -28,7 +29,22 @@ const tabRouter = {
         },
     },
     mutations:{
-
+        initTab(state){
+            state = {
+                //tab路由集合
+                openTab:[
+                    {
+                        name:"系统首页",
+                        path:"/page/Dashboard",
+                        component:"Dashboard"
+                    }
+                ],
+                keepTab:[],
+                closeTab:[],
+                //当前路由
+                indexTab:"/page/Dashboard"
+            }
+        },
         changeTab(state,data) {
             let keep=[]
             data.forEach(v => {
@@ -66,6 +82,9 @@ const tabRouter = {
         }
     },
     actions:{
+        initTabFun(context){
+            context.commit("initTab");
+        },
         addTabFun(context,data){
             context.commit("addTab",data);
         },
