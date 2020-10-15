@@ -1,11 +1,12 @@
 // "use strict";
 import Vue from 'vue';
 import axios from "axios";
+import router from '@/router'
 import { Message } from 'element-ui';
 
 axios.defaults.baseURL = process.env.API_ROOT
 Vue.prototype.$http = axios;
-
+let aaa = 0;
 
 //改变请求的head内容
 axios.interceptors.request.use(
@@ -40,8 +41,8 @@ axios.interceptors.request.use(
             break;
           case 403: message = '拒绝访问';
             break;
-          // case 404: message = '请求地址失效'; 
-          //   break;
+          case 404: message = '请求地址失效'; 
+            break;
           case 408: message = '请求超时'; 
             break;
           case 501: message = '服务未实现'; 
@@ -50,15 +51,27 @@ axios.interceptors.request.use(
             break;
           case 503: message = '服务不可用'; 
             break;
-          // case 504: message = '网络超时'; 
-          //   break;
+          case 504: message = '网络超时'; 
+            break;
           case 505: message = 'HTTP版本不受支持';
             break;
         }
       }
-
+      
       if(message){
         return Message.error(message)
+      }
+
+      if(error.response.data.message&&error.response.data.message == "Token失效请重新登录"){
+
+        //这里防止其多次弹出，
+        if(sessionStorage.getItem("morePOp") == "1"){
+          Message.error(error.response.data.message)
+          router.push("/login")
+          sessionStorage.setItem("morePOp", "2");
+          console.log("第aaaa：")
+        }
+
       }
 
       return Promise.reject(error.response.data)

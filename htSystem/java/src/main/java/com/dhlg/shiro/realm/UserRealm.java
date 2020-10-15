@@ -119,14 +119,17 @@ public class UserRealm extends AuthorizingRealm {
         }
 
         // 获取用户信息
-        SysUser loginUser = new SysUser();
-        SysUser sysUser = userService.findByName(login_user);
+        SysUser sysUser  = (SysUser)redisUtil.get(Dictionaries.PREFIX_USER_ + token);
+
+        if (sysUser == null) {
+            sysUser = userService.findByName(login_user);
+        }
+
         if (sysUser == null) {
             throw new AuthenticationException("用户不存在!");
         }
 
-        //检测token的时效
-        // 校验token是否超时失效 & 或者账号密码是否错误
+        // 刷新token
         if (!jwtTokenRefresh(token, login_user, sysUser.getPassword())) {
             throw new AuthenticationException("Token失效请重新登录!");
         }
@@ -134,13 +137,14 @@ public class UserRealm extends AuthorizingRealm {
             throw new LockedAccountException(); //帐号锁定
         }
 
-        BeanUtils.copyProperties(sysUser, loginUser);
-        return loginUser;
+        return sysUser;
     }
 
     private boolean jwtTokenRefresh(String token, String login_user, String password) {
+        //找到PREFIX_USER_TOKEN+token,当该其不存在，那就证明其完全失效。
         String cacheToken = String.valueOf(redisUtil.get(Dictionaries.PREFIX_USER_TOKEN + token));
         if(!StringUtils.isBlank(cacheToken)){
+            //验证
             if (!JwtUtil.verify(cacheToken, login_user, password)) {
                 String newAuthorization = JwtUtil.sign(login_user, password);
                 redisUtil.set(Dictionaries.PREFIX_USER_TOKEN + token, newAuthorization);

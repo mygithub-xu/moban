@@ -20,6 +20,7 @@ import com.dhlg.shiro.utils.PasswordHelper;
 import net.sf.json.JSONObject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -123,9 +124,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return "";
         }
         redisUtil.expire(Dictionaries.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME / 1000);
-
+        SysUser vo = new SysUser();
         //保存用户信息
-        redisUtil.set(Dictionaries.PREFIX_USER_ + token, token);
+        BeanUtils.copyProperties(sysUser,vo);
+        redisUtil.set(Dictionaries.PREFIX_USER_ + token, vo);
         redisUtil.expire(Dictionaries.PREFIX_USER_ + token, JwtUtil.EXPIRE_TIME / 1000);
 
         return token;

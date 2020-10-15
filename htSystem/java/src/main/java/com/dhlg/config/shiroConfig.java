@@ -1,29 +1,25 @@
 package com.dhlg.config;
 
-import com.dhlg.filter.CheckUserStatusFilter;
 import com.dhlg.filter.JwtFilter;
 import com.dhlg.shiro.realm.UserRealm;
-import com.dhlg.shiro.session.ShiroSessionManager;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+
 import org.crazycake.shiro.IRedisManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
-import org.crazycake.shiro.RedisSessionDAO;
 import org.hibernate.JDBCException;
 
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.mgt.SecurityManager;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 
@@ -113,7 +109,7 @@ public class shiroConfig {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(redisManager());
         redisCacheManager.setPrincipalIdFieldName("id");
-        //单位秒：
+        //单位秒：暂时定为2小时
         redisCacheManager.setExpire(2*60*60);
         return redisCacheManager;
     }
@@ -124,6 +120,7 @@ public class shiroConfig {
         redisManager.setHost(redis_host);
         redisManager.setPort(redis_port);
         redisManager.setPassword(redis_password);
+        redisManager.setTimeout(redis_timeout);
         return redisManager;
     }
 

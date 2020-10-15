@@ -1,22 +1,31 @@
 <template>
-    <div class="headTabsDivCom">
+    <div class="headTabsDivCom" id="headTabsDivCom">
         
-                <!-- <el-tabs v-model="indexTabTrue" closable  type="border-card"  @tab-remove="removeTab" @tab-click="tabclick" @contextmenu.prevent.native="openpop($event)">
-                        <el-tab-pane
-                            v-for="item in getOpenTab"
-                            :key="item.path"
-                            :label="item.name"
-                            :name="item.path">
-                        </el-tab-pane>
-                </el-tabs> -->
-                <draggable v-model='getOpenTab' >
-                    <transition-group type="transition" name="flip-list">
-                    <div class="tabItems" v-for="item in getOpenTab" :key="item.path" @click="tabclick(item)">
-                        <span :class="{'active': item.path == indexTabTrue}">{{item.name}}</span>
-                        <div class="el-icon-close tabItemsClose" @click.stop.prevent="removeTab(item.path)"></div>
+        <!-- <el-tabs v-model="indexTabTrue" closable  type="border-card"  @tab-remove="removeTab" @tab-click="tabclick" @contextmenu.prevent.native="openpop($event)">
+            <el-tab-pane
+                v-for="item in getOpenTab"
+                :key="item.path"
+                :label="item.name"
+                :name="item.path">
+            </el-tab-pane>
+        </el-tabs>-->
+        <div v-show="isShowSide" class="tab-left el-icon-arrow-left" @click="goLeft"></div> 
+        
+        <div id="tab-comp" class="tab-comp" :style="{'margin-left':tableft+'px'}">
+
+            <draggable v-model='getOpenTab' >
+                <transition-group type="transition" name="flip-list">
+                    <div class="tab-items" v-for="item in getOpenTab" :key="item.path" @click="tabclick(item)"  @contextmenu.prevent.stop="openpop1($event)">
+                        <span class="tab-item-span" :class="{'active': item.path == indexTabTrue}">{{item.name}}
+                            <span class="el-icon-close tabItemsClose" @click.stop.prevent="removeTab(item.path)"></span>
+                        </span>
                     </div>
-                    </transition-group>
-                </draggable>
+                </transition-group>
+            </draggable>
+
+        </div>
+       <div v-show="isShowSide" class="tab-right el-icon-arrow-right" @click="goRight"></div> 
+
         <div v-show="contextMenuVisible">
             <customPopBox :left="left" :top="top" :isShowLeft="isShowLeft" :isShowRight="isShowRight" :isShowReflash="isShowReflash" @popClick="popClick"></customPopBox>
         </div>
@@ -44,6 +53,13 @@ export default {
             path:"",
             openTabIndex:0,
             indexTabTrueCount:0,
+            tableft:0,
+            //固定左边距
+            fixedLeft:35,
+            //每次向左滑动距离
+            onceWidth:150,
+            tabItemWidth: 0,
+            isShowSide: false,
         }
     },
     computed:{
@@ -57,7 +73,15 @@ export default {
             set(value) {
                 this.$store.dispatch('changeTabFun', value)
             }
+        },
+
+    },
+    mounted(){
+        this.init()
+         window.onresize = () =>{
+            this.init()
         }
+        
     },
     props:{
         indexTab:{
@@ -70,18 +94,17 @@ export default {
         if(this.getIndexTab){
             this.indexTabTrue = this.getIndexTab;
         }
-        
     },
     watch:{
         //动态检测路由变化
          $route(route) {
             this.changeTabRouter()
         },
-        //解决点击tab时v-model双向绑定bug
         getIndexTab(newName, oldName){
             this.indexTabTrue=newName;
         },
         contextMenuVisible(value) {
+            
             if (this.contextMenuVisible) {
                 document.body.addEventListener("click", this.closeContextMenu);
             } else {
@@ -90,6 +113,50 @@ export default {
         },
     },
     methods:{
+        init(){
+            
+            this.isShowSide = false
+            let aa = 0;
+            let allwidthList= document.getElementsByClassName('tab-items');
+            let allWidth= document.getElementById('headTabsDivCom').clientWidth -2*this.fixedLeft;
+            for(var i=0;i<allwidthList.length;i++){
+                let once = allwidthList[i].offsetWidth + allwidthList[0].offsetLeft;
+                aa = aa + once
+                console.log("单个:" + once + " 合计："+aa)
+            }
+            this.tabItemWidth = aa + allwidthList[0].offsetLeft;
+            if(allWidth < aa){
+                this.tableft = this.fixedLeft;
+                this.isShowSide = true;
+            }
+            this.tableft = this.isShowSide?this.fixedLeft : 0;
+            
+        },
+        goRight(){
+            
+            let allWidth= document.getElementById('headTabsDivCom').clientWidth;
+
+            if(this.tabItemWidth-(allWidth - this.fixedLeft - this.tableft) > this.onceWidth){
+                this.tableft = this.tableft - this.onceWidth
+            }else{
+                this.tableft = this.tableft - (this.tabItemWidth-(allWidth - this.fixedLeft - this.tableft))
+            }
+        },
+        goLeft(){
+            //当在左距大于tableft和在一次左滑动距离时
+            // if(this.fixedLeft-this.onceWidth>=this.tableft>=this.fixedLeft){
+            //     this.tableft = this.fixedLeft;
+            //     return;
+            // }
+
+            //大于
+            if(this.tableft<this.fixedLeft-this.onceWidth){
+                this.tableft = this.tableft + this.onceWidth;
+            }else{
+                this.tableft = this.fixedLeft;
+            }
+            
+        },
         //路由变化，相应的tab也要改变
         changeTabRouter(){
             //获取要进入的路由
@@ -105,6 +172,7 @@ export default {
             });
             if(!isExist){
                 let componet=!matched[1].components.default.name?'':matched[1].components.default.name;
+                
                 let newTab={
                     name: matched[1].name,
                     path: matched[1].path,
@@ -168,8 +236,41 @@ export default {
             this.$store.dispatch('changeTabFun',getOpenTabList);
             return index;
         },
+        openpop1(e){
+            let obj = e.srcElement ? e.srcElement : e.target;
+            if(obj.innerText){
+                //弹出框的位置
+                this.left = e.clientX+ 10;
+                this.top = e.clientY + 10;
+                this.contextMenuVisible=true;
+                //查找该tab的位置
+                let tabs=this.getOpenTab;
+                for(let i=0;i<tabs.length;i++){
+                    if(tabs[i].name == obj.innerText){
+                        this.openTabIndex=i;
+                        this.path = tabs[i].path
+                    }
+                    //记录当前页面位置
+                    if(tabs[i].path==this.indexTabTrue){
+                        this.indexTabTrueCount=i;
+                    }
+                }
+                //初始化弹出框的显示
+                this.restorePopShow();
+                if(this.openTabIndex==0){
+                    this.isShowLeft=true
+                }
+                if(this.openTabIndex==tabs.length-1){
+                    this.isShowRight=true
+                }
+                if(this.path==this.indexTabTrue){
+                    this.isShowReflash=true
+                }
+            }
+            
+           
+        },
         openpop(e){
-
             let obj = e.srcElement ? e.srcElement : e.target;
             if(obj.id){
                 //弹出框的位置
@@ -201,8 +302,6 @@ export default {
                 }
 
             }
-            
-           
         },
         closeContextMenu() {
             this.contextMenuVisible = false;
@@ -273,24 +372,68 @@ export default {
     .headTabsDivCom{
         height: 100%;
         width: 100%;
-        float: left;
+        overflow: hidden;
+        position: relative;
     }
-
-    .tabItems{
+    .tab-comp{
+        width: 1600px;
+        height: 100%;
+        margin-right: 30px;
+        overflow-x:auto;
+    }
+    .tab-items{
         background-color: #fff;
         line-height: 34px;
         margin-top:2px;
         margin-left: 10px;
         border: 1px solid #ddd;
         border-radius: 4px;
-        float: left;
+        display: inline-block;
         cursor:pointer;
-        transition:width 5s;
+        text-align: center;
+        min-width: 65px;
+        transition: width 2s;
     }
-    .tabItems span{
-        margin: 0 5px;
+    .tab-item-span{
+        margin: 0 10px;
         font-size: 13px;
-        cursor:pointer
+        cursor:pointer;
+    }
+    .tab-items .tabItemsClose{
+        line-height: 35px;
+        float: right;
+        display: none;
+    }
+    .tab-items:hover .tabItemsClose{
+        display: block;
+        padding: 0;
+    }
+    .tab-items .active{
+        color: #409EFF;
+    }
+    .tab-left{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 25px;
+        height: 100%;
+        padding-left: 10px;
+        font-size: 25px;
+        line-height: 42px;
+        cursor:pointer;
+        background-color: white;
+    }
+    .tab-right{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 25px;
+        height: 100%;
+        padding-right: 10px;
+        font-size: 25px;
+        line-height: 42px;
+        cursor:pointer;
+        background-color: white;
     }
     .flip-list-move {
         transition: transform 0.3s;
@@ -301,16 +444,5 @@ export default {
     .flip-list-enter, .flip-list-leave-to{
         opacity: 0;
         transform: translateX(40px);
-    }
-    .tabItems .tabItemsClose{
-        float: right;
-        display: none;
-    }
-    .tabItems:hover .tabItemsClose{
-        
-        display: block;
-    }
-    .tabItems .active{
-        color: #409EFF;
     }
 </style>
