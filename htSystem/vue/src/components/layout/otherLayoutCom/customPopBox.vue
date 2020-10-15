@@ -48,12 +48,12 @@
 </script>
 <style scoped>
 
-    .contextmenu {
+.contextmenu {
  	width: 100px;
     margin: 0;
     border: 1px solid #ccc;
     background: #fff;
-    z-index: 3000;
+    z-index: 9999;
     position: absolute;
     list-style-type: none;
     padding: 5px 0;

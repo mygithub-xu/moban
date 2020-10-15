@@ -123,12 +123,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (!set){
             return "";
         }
-        redisUtil.expire(Dictionaries.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME / 1000);
+        //将其缓存时间设置为比jwt大的时间，，这里设置为两倍
+        redisUtil.expire(Dictionaries.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME * 2/ 1000);
         SysUser vo = new SysUser();
         //保存用户信息
         BeanUtils.copyProperties(sysUser,vo);
         redisUtil.set(Dictionaries.PREFIX_USER_ + token, vo);
-        redisUtil.expire(Dictionaries.PREFIX_USER_ + token, JwtUtil.EXPIRE_TIME / 1000);
+        redisUtil.expire(Dictionaries.PREFIX_USER_ + token, JwtUtil.EXPIRE_TIME * 2/ 1000);
 
         return token;
     }

@@ -140,16 +140,18 @@ public class UserRealm extends AuthorizingRealm {
         return sysUser;
     }
 
+    //设置redis保存token的时间为jwt失效时间的两倍，然后当token失效时重新赋值，这样就能保证token的刷新了。
     private boolean jwtTokenRefresh(String token, String login_user, String password) {
-        //找到PREFIX_USER_TOKEN+token,当该其不存在，那就证明其完全失效。
+        //找到PREFIX_USER_TOKEN+token的值,当其不存在，那就证明其完全失效。
         String cacheToken = String.valueOf(redisUtil.get(Dictionaries.PREFIX_USER_TOKEN + token));
         if(!StringUtils.isBlank(cacheToken)){
-            //验证
+            //检验token的值是否在有效缓存内，，没有则更新。
             if (!JwtUtil.verify(cacheToken, login_user, password)) {
+                //生成jwt的token。
                 String newAuthorization = JwtUtil.sign(login_user, password);
                 redisUtil.set(Dictionaries.PREFIX_USER_TOKEN + token, newAuthorization);
-                // 设置超时时间
-                redisUtil.expire(Dictionaries.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME / 1000);
+                // 设置超时时间为两倍jwt失效时间
+                redisUtil.expire(Dictionaries.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME * 2 / 1000);
             }
             return true;
         }

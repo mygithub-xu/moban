@@ -8,11 +8,11 @@
                 :label="item.name"
                 :name="item.path">
             </el-tab-pane>
-        </el-tabs>-->
+        </el-tabs> -->
+
         <div v-show="isShowSide" class="tab-left el-icon-arrow-left" @click="goLeft"></div> 
         
         <div id="tab-comp" class="tab-comp" :style="{'margin-left':tableft+'px'}">
-
             <draggable v-model='getOpenTab' >
                 <transition-group type="transition" name="flip-list">
                     <div class="tab-items" v-for="item in getOpenTab" :key="item.path" @click="tabclick(item)"  @contextmenu.prevent.stop="openpop1($event)">
@@ -22,13 +22,14 @@
                     </div>
                 </transition-group>
             </draggable>
-
         </div>
+
        <div v-show="isShowSide" class="tab-right el-icon-arrow-right" @click="goRight"></div> 
 
         <div v-show="contextMenuVisible">
             <customPopBox :left="left" :top="top" :isShowLeft="isShowLeft" :isShowRight="isShowRight" :isShowReflash="isShowReflash" @popClick="popClick"></customPopBox>
         </div>
+
     </div>
 </template>
 <script>
@@ -97,7 +98,7 @@ export default {
     },
     watch:{
         //动态检测路由变化
-         $route(route) {
+        $route(route) {
             this.changeTabRouter()
         },
         getIndexTab(newName, oldName){
@@ -122,7 +123,6 @@ export default {
             for(var i=0;i<allwidthList.length;i++){
                 let once = allwidthList[i].offsetWidth + allwidthList[0].offsetLeft;
                 aa = aa + once
-                console.log("单个:" + once + " 合计："+aa)
             }
             this.tabItemWidth = aa + allwidthList[0].offsetLeft;
             if(allWidth < aa){
@@ -240,9 +240,9 @@ export default {
             let obj = e.srcElement ? e.srcElement : e.target;
             if(obj.innerText){
                 //弹出框的位置
-                this.left = e.clientX+ 10;
-                this.top = e.clientY + 10;
-                this.contextMenuVisible=true;
+                this.left = e.layerX+ 10;
+                this.top = e.layerY + 10;
+                this.contextMenuVisible = true;
                 //查找该tab的位置
                 let tabs=this.getOpenTab;
                 for(let i=0;i<tabs.length;i++){
@@ -257,13 +257,13 @@ export default {
                 }
                 //初始化弹出框的显示
                 this.restorePopShow();
-                if(this.openTabIndex==0){
+                if(this.openTabIndex == 0){
                     this.isShowLeft=true
                 }
-                if(this.openTabIndex==tabs.length-1){
+                if(this.openTabIndex == tabs.length-1){
                     this.isShowRight=true
                 }
-                if(this.path==this.indexTabTrue){
+                if(this.path == this.indexTabTrue){
                     this.isShowReflash=true
                 }
             }
@@ -372,7 +372,7 @@ export default {
     .headTabsDivCom{
         height: 100%;
         width: 100%;
-        overflow: hidden;
+        /* overflow: hidden; */
         position: relative;
     }
     .tab-comp{
@@ -444,5 +444,12 @@ export default {
     .flip-list-enter, .flip-list-leave-to{
         opacity: 0;
         transform: translateX(40px);
+    }
+
+    .aaaaaaaa{
+        background-color: red;
+        width: 50px;
+        height: 50px;
+        z-index: 9999;
     }
 </style>

@@ -65,8 +65,6 @@
 
                 //防止多次弹出框，记录初始值
                 sessionStorage.setItem("morePOp", "1");
-
-
                 sessionStorage.setItem("Token", res.data.body.token);
                 sessionStorage.setItem("User", JSON.stringify(res.data.body.user));
                 //更新头像

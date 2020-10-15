@@ -22,9 +22,6 @@ public class RedisUtil {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    // 过期时间30分钟
-    public static final long EXPIRE_TIME = 30 * 60 * 1000;
-
     /**
      * 存放缓存
      */

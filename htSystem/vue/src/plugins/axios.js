@@ -69,7 +69,8 @@ axios.interceptors.request.use(
           Message.error(error.response.data.message)
           router.push("/login")
           sessionStorage.setItem("morePOp", "2");
-          console.log("第aaaa：")
+        }else{
+          return;
         }
 
       }
