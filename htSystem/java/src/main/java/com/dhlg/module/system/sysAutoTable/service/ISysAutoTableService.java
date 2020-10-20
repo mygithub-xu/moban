@@ -1,6 +1,6 @@
-package com.dhlg.module.system.sysCodeAuto.service;
+package com.dhlg.module.system.sysAutoTable.service;
 
-import com.dhlg.module.system.sysCodeAuto.entity.SysCodeAuto;
+import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlg.common.utils.Parameter.Parameter;
 import com.dhlg.common.utils.Result;
@@ -16,9 +16,9 @@ import java.util.Map;
  * @author xu
  * @since
  */
-public interface ISysCodeAutoService extends IService<SysCodeAuto> {
+public interface ISysAutoTableService extends IService<SysAutoTable> {
 
-    Result customSaveOrUpdate(SysCodeAuto sysCodeAuto);
+    Result customSaveOrUpdate(SysAutoTable sysAutoTable);
 
     Result delete(String id);
 
@@ -27,4 +27,6 @@ public interface ISysCodeAutoService extends IService<SysCodeAuto> {
     Result queryByCondition(Parameter parameter);
 
     Result listFieldQuery(Map<String, Object> params);
+
+    Result getNodeList();
 }

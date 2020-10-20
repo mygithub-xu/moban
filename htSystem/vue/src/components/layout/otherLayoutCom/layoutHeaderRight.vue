@@ -90,9 +90,10 @@ export default {
                     //去除token
                     sessionStorage.removeItem("Token");
                     
-                    this.$router.push("/login");
+                    
             });
 
+            this.$router.push("/login");
 
         },
 

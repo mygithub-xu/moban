@@ -10,6 +10,7 @@ import editor from '@comp/common/vueEditor/VueEditor';
 import currencyInput from '@comp/common/input/currencyInput';
 import uploadFile from '@comp/common/upload/uploadFile';//导入组件
 import exportcom from '@comp/common/upload/exportcom';//导出组件
+import NumberInput from '@comp/common/input/NumberInput';//导出组件
 
 
 //全局注册icon-svg
@@ -25,7 +26,8 @@ const components = [
   currencyInput,
   uploadFile,
   editComp,
-  exportcom
+  exportcom,
+  NumberInput
 ];
 
 export default function(Vue, opts = {}) {

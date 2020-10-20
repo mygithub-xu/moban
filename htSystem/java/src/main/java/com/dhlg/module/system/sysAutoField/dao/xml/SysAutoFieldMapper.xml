@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.system.sysAutoField.dao.SysAutoFieldMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
+        <id column="id" property="id" />
+        <result column="field_decimal" property="fieldDecimal" />
+        <result column="field_des" property="fieldDes" />
+        <result column="field_isNull" property="fieldIsNull" />
+        <result column="field_isquery" property="fieldIsquery" />
+        <result column="field_isShow_from" property="fieldIsShowFrom" />
+        <result column="field_isShow_table" property="fieldIsShowTable" />
+        <result column="field_length" property="fieldLength" />
+        <result column="field_name" property="fieldName" />
+        <result column="field_primary" property="fieldPrimary" />
+        <result column="field_show_type" property="fieldShowType" />
+        <result column="field_type" property="fieldType" />
+        <result column="table_id" property="tableId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+                field_decimal,                field_des,                field_isNull,                field_isquery,                field_isShow_from,                field_isShow_table,                field_length,                field_name,                field_primary,                field_show_type,                field_type,                id,                table_id    </sql>
+
+    <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
+        select * from sys_auto_field
+        <trim prefix="where" prefixOverrides="and">
+            <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">
+                CONCAT(
+                            ,field_des
+                            ,field_isNull
+                            ,field_isquery
+                            ,field_isShow_from
+                            ,field_isShow_table
+                            ,field_name
+                            ,field_primary
+                            ,field_show_type
+                            ,field_type
+                            ,table_id
+                ) like concat('%',#{parameter.condition.queryContent},'%')
+            </if>
+        </trim>
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select * from sys_auto_field
+        <trim prefix="where" prefixOverrides="and">
+
+                        <if test="parameter.fieldDecimal != null and parameter.fieldDecimal .size() == 2">
+                            and field_decimal between
+                            <foreach collection="parameter.fieldDecimal" index="index" item="item" open=" " separator=" and " close=" ">
+                                #{item}
+                            </foreach>
+                        </if>
+
+
+
+                    <if test=" parameter.fieldDes !=null and parameter.fieldDes !='' ">
+                        and field_des like concat('%',#{parameter.fieldDes},'%')
+                    </if>
+
+
+                    <if test=" parameter.fieldIsNull !=null and parameter.fieldIsNull !='' ">
+                        and field_isNull like concat('%',#{parameter.fieldIsNull},'%')
+                    </if>
+
+
+                    <if test=" parameter.fieldIsquery !=null and parameter.fieldIsquery !='' ">
+                        and field_isquery like concat('%',#{parameter.fieldIsquery},'%')
+                    </if>
+
+
+                    <if test=" parameter.fieldIsShowFrom !=null and parameter.fieldIsShowFrom !='' ">
+                        and field_isShow_from like concat('%',#{parameter.fieldIsShowFrom},'%')
+                    </if>
+
+
+                    <if test=" parameter.fieldIsShowTable !=null and parameter.fieldIsShowTable !='' ">
+                        and field_isShow_table like concat('%',#{parameter.fieldIsShowTable},'%')
+                    </if>
+
+
+                        <if test="parameter.fieldLength != null and parameter.fieldLength .size() == 2">
+                            and field_length between
+                            <foreach collection="parameter.fieldLength" index="index" item="item" open=" " separator=" and " close=" ">
+                                #{item}
+                            </foreach>
+                        </if>
+
+
+
+                    <if test="parameter.fieldName  != null and parameter.fieldName.size() > 0">
+                        and field_name  in
+                        <foreach collection="parameter.fieldName " index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+
+
+                    <if test=" parameter.fieldPrimary !=null and parameter.fieldPrimary !='' ">
+                        and field_primary like concat('%',#{parameter.fieldPrimary},'%')
+                    </if>
+
+
+                    <if test=" parameter.fieldShowType !=null and parameter.fieldShowType !='' ">
+                        and field_show_type like concat('%',#{parameter.fieldShowType},'%')
+                    </if>
+
+
+                    <if test=" parameter.fieldType !=null and parameter.fieldType !='' ">
+                        and field_type like concat('%',#{parameter.fieldType},'%')
+                    </if>
+
+
+
+                    <if test="parameter.tableId  != null and parameter.tableId.size() > 0">
+                        and table_id  in
+                        <foreach collection="parameter.tableId " index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+
+        </trim>
+        order by id desc
+    </select>
+
+</mapper>

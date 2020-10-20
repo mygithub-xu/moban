@@ -1,11 +1,11 @@
-package $!{packageName}.module.$!{projectName}.$!{domainName}.controller;
+package com.dhlg.module.system.sysAutoField.controller;
 
-import $!{packageName}.module.$!{projectName}.$!{domainName}.entity.$!{DomainName};
-import $!{packageName}.module.$!{projectName}.$!{domainName}.service.I$!{DomainName}Service;
-import $!{packageName}.common.utils.Parameter.Parameter;
-import $!{packageName}.common.utils.Result;
-import $!{packageName}.common.utils.StringUtils;
-import $!{packageName}.common.utils.exception.ParamIsNullException;
+import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
+import com.dhlg.module.system.sysAutoField.service.ISysAutoFieldService;
+import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.common.utils.Result;
+import com.dhlg.common.utils.StringUtils;
+import com.dhlg.common.utils.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,21 +22,21 @@ import java.util.Map;
  * @since
  */
 @RestController
-@RequestMapping("/api/$!{projectName}/$!{domainName}")
+@RequestMapping("/api/system/sysAutoField")
 @CrossOrigin
-public class $!{DomainName}Controller {
+public class SysAutoFieldController {
 
         @Autowired
-        I$!{DomainName}Service doService;
+        ISysAutoFieldService doService;
 
 
         @ApiOperation("保存或者更新")
         @PostMapping("/saveOrUpdate")
-        public Result saveOrUpdate(@RequestBody $!{DomainName} $!{domainName}) {
-                if(StringUtils.isBlank($!{domainName})){
+        public Result saveOrUpdate(@RequestBody SysAutoField sysAutoField) {
+                if(StringUtils.isBlank(sysAutoField)){
                         throw new ParamIsNullException();
                 }
-                return  doService.customSaveOrUpdate($!{domainName});
+                return  doService.customSaveOrUpdate(sysAutoField);
         }
 
 

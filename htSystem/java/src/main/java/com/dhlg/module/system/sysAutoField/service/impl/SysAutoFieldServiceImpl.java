@@ -1,15 +1,15 @@
-package $!{packageName}.module.$!{projectName}.$!{domainName}.service.impl;
+package com.dhlg.module.system.sysAutoField.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import $!{packageName}.module.$!{projectName}.$!{domainName}.entity.$!{DomainName};
-import $!{packageName}.module.$!{projectName}.$!{domainName}.dao.$!{DomainName}Mapper;
-import $!{packageName}.module.$!{projectName}.$!{domainName}.service.I$!{DomainName}Service;
+import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
+import com.dhlg.module.system.sysAutoField.dao.SysAutoFieldMapper;
+import com.dhlg.module.system.sysAutoField.service.ISysAutoFieldService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import $!{packageName}.common.utils.Dictionaries;
-import $!{packageName}.common.utils.Parameter.Parameter;
-import $!{packageName}.common.utils.Result;
-import $!{packageName}.common.utils.StringUtils;
+import com.dhlg.common.utils.Dictionaries;
+import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.common.utils.Result;
+import com.dhlg.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,23 +25,23 @@ import java.util.Map;
  * @since 2020-05-05
  */
 @Service
-public class $!{DomainName}ServiceImpl extends ServiceImpl<$!{DomainName}Mapper, $!{DomainName}> implements I$!{DomainName}Service {
+public class SysAutoFieldServiceImpl extends ServiceImpl<SysAutoFieldMapper, SysAutoField> implements ISysAutoFieldService {
 
     @Autowired
-    $!{DomainName}Mapper doMapper;
+    SysAutoFieldMapper doMapper;
 
     @Override
-    public Result customSaveOrUpdate($!{DomainName} $!{domainName}) {
+    public Result customSaveOrUpdate(SysAutoField sysAutoField) {
         //判断新增还是修改
-        if (!StringUtils.isBlank($!{domainName}.getId())) {
+        if (!StringUtils.isBlank(sysAutoField.getId())) {
             //新增
-            if(!updateById($!{domainName})){
+            if(!updateById(sysAutoField)){
                 return new Result("500","", Dictionaries.UPDATE_FAILED);
             }
             return new Result("200","",Dictionaries.UPDATE_SUCCESS);
         }
 
-        if (!save($!{domainName})){
+        if (!save(sysAutoField)){
             return new Result("500","", Dictionaries.SAVE_FAILED);
         }
         return new Result("200","",Dictionaries.SAVE_SUCCESS);
@@ -66,7 +66,7 @@ public class $!{DomainName}ServiceImpl extends ServiceImpl<$!{DomainName}Mapper,
     @Override
     public Result queryByCondition(Parameter parameter) {
         parameter.setDefault();
-        IPage<$!{DomainName}> dataList = doMapper.queryByCondition(parameter.getPage(), parameter);
+        IPage<SysAutoField> dataList = doMapper.queryByCondition(parameter.getPage(), parameter);
         return new Result(dataList);
     }
 
@@ -74,7 +74,7 @@ public class $!{DomainName}ServiceImpl extends ServiceImpl<$!{DomainName}Mapper,
     public Result listFieldQuery(Map<String, Object> params) {
         Long number = Long.valueOf(String.valueOf(params.getOrDefault("number", 1)));
         Long size = Long.valueOf(String.valueOf(params.getOrDefault("size", 10)));
-        IPage<$!{DomainName}> dataList = doMapper.listFieldQuery(new Page(number, size), params);
+        IPage<SysAutoField> dataList = doMapper.listFieldQuery(new Page(number, size), params);
         return new Result("200", dataList);
     }
 }

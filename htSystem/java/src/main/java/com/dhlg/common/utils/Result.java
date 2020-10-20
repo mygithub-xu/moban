@@ -68,4 +68,17 @@ public class Result extends ParamIsNullException {
     public static Result error(String message) {
         return new Result("500",message,message);
     }
+
+    public static Result success(String message) {
+        return new Result("200",message,message);
+    }
+
+    public static Result success(Object body) {
+        return new Result("200",body);
+    }
+
+    public static Result success(Object body,String message) {
+        return new Result("200",body,message);
+    }
+
 }

@@ -2,8 +2,8 @@ package $!{packageName}.module.$!{projectName}.$!{domainName}.service;
 
 import $!{packageName}.module.$!{projectName}.$!{domainName}.entity.$!{DomainName};
 import com.baomidou.mybatisplus.extension.service.IService;
-import $!{packageName}.utils.common.Parameter.Parameter;
-import $!{packageName}.utils.common.Result;
+import $!{packageName}.common.utils.Parameter.Parameter;
+import $!{packageName}.common.utils.Result;
 
 import java.util.List;
 import java.util.Map;

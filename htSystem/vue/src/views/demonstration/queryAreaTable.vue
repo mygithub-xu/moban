@@ -2,6 +2,7 @@
   <div class="app-container">
 
     <div class="container-query">
+      
       <el-form>
         <div class="query-area">
           <el-form-item label="测试状态：" style="width:45%">
@@ -55,12 +56,12 @@
                   </span>
           </el-form-item>
         </div>
-
       </el-form>
 
     </div>
 
     <div class="container-table">
+
       <div class="container-btn">
             <span class="container-btn-left">
               <el-button type="primary"  icon="el-icon-plus" @click="handleAdd">新增</el-button>

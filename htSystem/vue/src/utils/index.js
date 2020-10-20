@@ -27,3 +27,7 @@ import '@utils/dynamicRouter'
 //获取用户信息js
 import User from "@utils/globalJs/UserContext"
 Vue.prototype.$User = User;
+
+//操作数组，转化类型等等，，工具类
+import utils from "@utils/utils"
+Vue.prototype.$utils = utils;

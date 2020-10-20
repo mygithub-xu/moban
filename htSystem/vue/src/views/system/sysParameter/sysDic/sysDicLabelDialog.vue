@@ -1,13 +1,12 @@
 <template>
-  <div class="DicMask">
-    <!-- 列表 -->
-    <div style="height: 100%;">
-      <div class="dialogFix">
-        <el-button type="primary" size="small" @click="handleAdd" buttonCode="ZD002" >新增</el-button>
-        <el-button size="small" @click="handleClose()">返 回</el-button>
-        <el-button type="danger" size="small" v-has="'dicType:bacthDelete'" :disabled="dicDisabled" @click="handleDeleteBatch">删除</el-button>
-      </div>
-      <div class="DicTable">
+  <div class="show-dialog dialog-table">
+    <el-dialog :visible.sync="labelVisible" :show-close="false" :modal="false" fullscreen>
+    <div class="dialog-button">
+        <el-button type="primary" @click="handleAdd" >新增</el-button>
+        <el-button  @click="handleClose()">返 回</el-button>
+        <el-button type="danger"  v-has="'dicType:bacthDelete'" :disabled="dicDisabled" @click="handleDeleteBatch">删除</el-button>
+    </div>
+      <div class="common-table-style">
         <el-table
           :data="dataList"
           border
@@ -18,13 +17,9 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55" align="center"></el-table-column>
-
-          <el-table-column type="index" width="280" label="序号" align="center">
-          </el-table-column>
-          <el-table-column prop="dicLabel" label="字典标签" align="center">
-          </el-table-column>
-          <el-table-column prop="dicValue" label="字典键值" align="center">
-          </el-table-column>
+          <el-table-column type="index" width="280" label="序号" align="center"></el-table-column>
+          <el-table-column prop="dicLabel" label="字典标签" align="center"></el-table-column>
+          <el-table-column prop="dicValue" label="字典键值" sortable align="center"></el-table-column>
           <el-table-column prop="status" label="状态" align="center" width="100px">
             <template slot-scope="scope">
               <el-tag v-if="scope.row.status==='0'" type="danger"
@@ -39,7 +34,7 @@
           <el-table-column label="操作" width="250" align="center">
             <template slot-scope="scope">
               <el-tooltip effect="dark" content="编辑" placement="top">
-                <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)"  buttonCode="ZD005" >
+                <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)" >
                 </el-button>
               </el-tooltip>
               <el-tooltip effect="dark" content="删除" placement="top">
@@ -50,12 +45,12 @@
           </el-table-column>
         </el-table>
       </div>
-    </div>
+    </el-dialog>
     <!-- 弹窗 -->
-    <div class="maskC" v-if="editVisible">
+    <template v-if="editVisible">
       <el-dialog
         style="margin-top: 20px;"
-        :rules="rules" title="添加数据" :show-close="false" :close-on-click-modal="false" :append-to-body="false" :visible.sync="editVisible" width="45%"  @close="cancelSave"  :modal="false" >
+        :rules="rules"  :show-close="false" :close-on-click-modal="false" :append-to-body="false" :visible.sync="editVisible" width="45%"  @close="cancelSave"  :modal="false" >
         <el-form
           ref="form"
           :model="form"
@@ -95,14 +90,13 @@
         <span slot="footer" class="dialog-footer">
           <el-button
           type="primary"
-          buttonCode="ZD006"
           v-has="'dicType:save'"
           @click="handleSave">保 存
           </el-button>
           <el-button @click="cancelSave">返 回</el-button>
         </span>
       </el-dialog>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -110,22 +104,11 @@
 export default {
   name: "sysDicLabel",
   props: {
-    data: {
-      type: Object,
-      default: 1
-    }
   },
   data() {
     return {
       rules: {
-        // dicType: [
-        //   {
-        //     //validate: validateParentId,
-        //     required: true,
-        //     message: "  ",
-        //     trigger: "blur"
-        //   }
-        // ]
+
       },
       multipleSelection: [],
       dataList: [],
@@ -151,13 +134,27 @@ export default {
       ]
     };
   },
-  created() {
-    this.getData(this.data.id);
+  props:{
+    labelVisible:{
+      type:Boolean,
+      default:false
+    },
+    desId:{
+      type:String,
+      require: true
+    },
+    data:{
+      type:Object,
+      require: true
+    }
   },
   watch: {
-    data() {
-      this.getData(this.data.id);
+    labelVisible() {
+      if(this.labelVisible){
+        this.getData(this.desId);
+      }
     }
+
   },
   methods: {
     empty() {
@@ -178,6 +175,7 @@ export default {
       });
     },
     handleAdd() {
+      this.empty();
       this.editVisible = true;
     },
     handleClose() {
@@ -217,6 +215,7 @@ export default {
       });
     },
     handleSave() {
+      debugger
       this.form.dicTypeId = this.data.id;
       this.$http.post(this.api.dicSave, this.form).then(res => {
         if (res.data.code == "200") {
@@ -243,26 +242,9 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style >
+.dialog-table .el-dialog__body{
+  height: calc(100% - 30px);
+}
+</style>
 
-</style>
-<style lang="scss" scoped>
-.DicMask{
-  height: 100%;
-}
-.DicTable{
-  margin-top: 10px;
-  height: 100%;
-}
-.el-table__body-wrapper{
-  height: 100%;
-}
-.dicPost .el-dialog__body{
-  height: 100% !important;
-}
-//表头高度调整
-.el-table__header th {
-  padding: 0;
-  height: 50px !important;
-}
-</style>

@@ -1,10 +1,11 @@
 <template>
 <!-- 系统配置---全局参数---字典管理 -->
-  <div class="app-container" style="flex-direction: column;">
-    <div class="container">
-      <div class="container_btn">
-        <div style=" height: 32px;float:left">
-          <el-button type="primary" size="small" @click="handleTypeAdd" buttonCode="TY003">新增</el-button>
+  <div class="app-container">
+    <div class="container-table">
+
+      <div class="container-btn">
+        <span class="container-btn-left">
+          <el-button type="primary" size="small" @click="handleTypeAdd">新增</el-button>
           <!--<el-button type="warning" size="small" @click="typeEditVisible = true">弹框测试</el-button>-->
           <el-button
             type="danger"
@@ -13,38 +14,22 @@
             @click="handleTypeDeleteBatch"
             v-has="'sysdic:batchDelete'"
           >删除</el-button>
-        </div>
+        </span>
 
-        <div class="handle-box">
+        <span class="container-btn-right">
           <el-input
             v-model="selectWord"
             placeholder="字典名称/类型"
-            class="handle-input mr10"
-            style="width: 200px;"
+            style="width:200px"
             clearable
           ></el-input>
           <el-button type="primary" size="small" icon="search"  @click="search" >查询</el-button>
           <el-button size="small" type="text" @click="reset" >重置</el-button>
-          <el-row class="tac Change">
-            <el-col :span="12">
-              <el-dropdown trigger="click" :hide-on-click="false">
-                <div class="el-icon-menu"></div>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
-                    <el-checkbox v-model="btnType">字典类型</el-checkbox>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-checkbox v-model="btnStatus">状态</el-checkbox>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-checkbox v-model="btnDes">备注</el-checkbox>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </el-col>
-          </el-row>
-        </div>
+        </span>
       </div>
+
+
+      <div class="common-table-style">
       <el-table
         :data="pageData.list"
         border
@@ -105,15 +90,13 @@
           </template>
         </el-table-column>
       </el-table>
+      </div>
       <div class="pagination">
         <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
       </div>
 
     </div>
-    <!-- <div class="mask" v-if="typeEditVisible">
-      <div class="inner-mask">
-        <el-button class="close" @click="typeEditVisible = false" type="danger">x</el-button>
-        <div class="mask-children"> -->
+
       <div class="show-dialog">
           <el-dialog title="添加/修改类型" :visible.sync="typeEditVisible" fullscreen width="45%" @close="cancelTypeSave" :modal="false" :modal-append-to-body="false">
         <div class="dialogFix">
@@ -141,39 +124,9 @@
           </span>
           </el-dialog>
       </div>
-          <!-- </div>
-      </div>
-    </div> -->
-    <!-- <el-row class="maskTree" v-if="labelVisible">
-      <el-col :span="24" class="inner-mask">
-        <el-button class="close" @click="labelVisible=false" type="danger">x</el-button>
-        <el-row class="explain">
-          <el-col :span="24">
-            <div>
 
-              <sysDicLabel :data="currentType"></sysDicLabel>
-            </div>
-
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row> -->
-      <div class="dicPost" v-if="labelVisible">
-        <el-dialog 
-          title="字典数据"
-          :close-on-click-modal="false"
-          :modal="false"
-          :modal-append-to-body="false"
-          fullscreen
-          :visible.sync="labelVisible"
-          width="80%"
-          height="100%"
-          :show-close="false"
-          @close="cancelLabelVisible">
-          <sysDicLabel ref="edit" @cancelLabelVisible="cancelLabelVisible()" :data="currentType"></sysDicLabel>
-        </el-dialog>
-      </div>
-
+    
+<sysDicLabel ref="edit" :labelVisible="labelVisible" :desId="desId"  @cancelLabelVisible="cancelLabelVisible()" :data="currentType"></sysDicLabel>
   </div>
 </template>
 
@@ -229,7 +182,8 @@ export default {
         id: "",
         status: "1"
       },
-      currentType: {}
+      currentType: {},
+      desId:""
     };
   },
   created() {
@@ -275,6 +229,7 @@ export default {
       this.typeform = {
         description: "",
         dicType: "",
+
         id: "",
         status: "1"
       };
@@ -366,8 +321,11 @@ export default {
       }
     },
     handleLabelOpen(row) {
+      this.desId = row.id
+      Object.assign(this.currentType, row);
       this.labelVisible = true;
-      this.currentType = row;
+      
+
     },
     cancelLabelVisible(val) {
       this.labelVisible = false
@@ -377,56 +335,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .el-dialog__wrapper {
-  position: absolute !important;
-  overflow: hidden;
-  height: 100%;
-}
-.maskTree {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.3);
-  width: 100%;
-  height: 100%;
-  z-index: 99;
-}
-
-.handle-box {
-  float: right;
-  // padding-right: 30px;
-}
-
-/deep/ .handle-select {
-  width: 120px;
-}
-
-.handle-input {
-  width: 300px;
-  display: inline-block;
-}
-
-/deep/ .del-dialog-cnt {
-  font-size: 16px;
-  text-align: center;
-}
-
-/deep/ .RolePost {
-  width: 100%;
-  font-size: 14px;
-}
-
-.red {
-  color: #ff0000;
-}
-.mr10 {
-  margin-right: 10px;
-}
-/deep/.dicPost{
-  height: 100%;
-}
-/deep/.dicPost .el-dialog__body{
-  height: 100% ;
-}
-
 </style>

@@ -1,10 +1,11 @@
-package com.dhlg.module.system.sysCodeAuto.service.impl;
+package com.dhlg.module.system.sysAutoTable.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.dhlg.module.system.sysCodeAuto.entity.SysCodeAuto;
-import com.dhlg.module.system.sysCodeAuto.dao.SysCodeAutoMapper;
-import com.dhlg.module.system.sysCodeAuto.service.ISysCodeAutoService;
+import com.dhlg.common.utils.InitTree;
+import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
+import com.dhlg.module.system.sysAutoTable.dao.SysAutoTableMapper;
+import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.common.utils.Dictionaries;
 import com.dhlg.common.utils.Parameter.Parameter;
@@ -25,23 +26,23 @@ import java.util.Map;
  * @since 2020-05-05
  */
 @Service
-public class SysCodeAutoServiceImpl extends ServiceImpl<SysCodeAutoMapper, SysCodeAuto> implements ISysCodeAutoService {
+public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, SysAutoTable> implements ISysAutoTableService {
 
     @Autowired
-    SysCodeAutoMapper doMapper;
+    SysAutoTableMapper doMapper;
 
     @Override
-    public Result customSaveOrUpdate(SysCodeAuto sysCodeAuto) {
+    public Result customSaveOrUpdate(SysAutoTable sysAutoTable) {
         //判断新增还是修改
-        if (!StringUtils.isBlank(sysCodeAuto.getId())) {
+        if (!StringUtils.isBlank(sysAutoTable.getId())) {
             //新增
-            if(!updateById(sysCodeAuto)){
+            if(!updateById(sysAutoTable)){
                 return new Result("500","", Dictionaries.UPDATE_FAILED);
             }
             return new Result("200","",Dictionaries.UPDATE_SUCCESS);
         }
 
-        if (!save(sysCodeAuto)){
+        if (!save(sysAutoTable)){
             return new Result("500","", Dictionaries.SAVE_FAILED);
         }
         return new Result("200","",Dictionaries.SAVE_SUCCESS);
@@ -66,7 +67,7 @@ public class SysCodeAutoServiceImpl extends ServiceImpl<SysCodeAutoMapper, SysCo
     @Override
     public Result queryByCondition(Parameter parameter) {
         parameter.setDefault();
-        IPage<SysCodeAuto> dataList = doMapper.queryByCondition(parameter.getPage(), parameter);
+        IPage<SysAutoTable> dataList = doMapper.queryByCondition(parameter.getPage(), parameter);
         return new Result(dataList);
     }
 
@@ -74,7 +75,15 @@ public class SysCodeAutoServiceImpl extends ServiceImpl<SysCodeAutoMapper, SysCo
     public Result listFieldQuery(Map<String, Object> params) {
         Long number = Long.valueOf(String.valueOf(params.getOrDefault("number", 1)));
         Long size = Long.valueOf(String.valueOf(params.getOrDefault("size", 10)));
-        IPage<SysCodeAuto> dataList = doMapper.listFieldQuery(new Page(number, size), params);
+        IPage<SysAutoTable> dataList = doMapper.listFieldQuery(new Page(number, size), params);
         return new Result("200", dataList);
+    }
+
+    @Override
+    public Result getNodeList() {
+
+        List<SysAutoTable> list = list();
+        List<SysAutoTable> rootNodes = InitTree.getRootNodes(list);
+        return Result.success(rootNodes);
     }
 }
