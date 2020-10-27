@@ -498,23 +498,15 @@
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        })
-          .then(() => {
+        }).then(() => {
             this.$http.delete(this.api.sysTestDeletebyid + id).then(res => {
               if (res.data.code == "200") {
-                this.$message({
-                  message: "删除数据成功",
-                  type: "success"
-                });
+                this.$message.success("删除数据成功");
               }
               this.getdata();
             });
-          })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "已取消删除"
-            });
+          }) .catch(() => {
+            this.$message.info( "已取消删除");
           });
       },
       //页数

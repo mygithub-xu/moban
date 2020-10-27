@@ -2,7 +2,7 @@
   <div class="show-dialog">
     <el-dialog :visible.sync="editVisible" :show-close="false" :modal="false" fullscreen>
          <div class="dialog-button" >
-            <el-button   @click="handleSave">保存</el-button>
+            <el-button  @click="handleSave">保存</el-button>
             <el-button  icon="el-icon-back" @click="back">返回</el-button>
         </div>
         <div>
@@ -36,17 +36,6 @@
                     </el-form-item>
                   </template>
 
-                  <el-form-item label="生成模板" prop="type">
-                      <el-select v-model="form.type" placeholder="请选择"  clearable>
-                        <el-option
-                          v-for="item in xiala.templateList"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
-                        ></el-option>
-                      </el-select>
-                  </el-form-item>
-
                   <el-form-item label="备注" prop="remark">
                       <el-input
                         maxlength="200"
@@ -73,31 +62,31 @@
                 <el-button icon="el-icon-minus"  type="danger" @click="delList"></el-button>
               </div>
               <div class="tab-table">
-                <el-table @selection-change="handleSelectionChangeDetil" ref="tableData" :data="form.testSysTetailList"
+                <el-table @selection-change="handleSelectionChangeDetil" ref="tableData" :data="form.autoFieldList"
                           border align="center">
 
-                  <el-table-column type="selection" fixed width="45" align="center"
+                  <el-table-column :selectable="checkSelect" type="selection"  width="45" align="center"
                                    show-overflow-tooltip></el-table-column>
-                  <el-table-column type="index" width="55" label="#" align="center"
-                                   show-overflow-tooltip></el-table-column>
+                  <el-table-column type="index" width="45" label="#" align="center"
+                                   ></el-table-column>
 
-                  <el-table-column prop="fieldName" min-width="200"  align="center" label="字段名" show-overflow-tooltip>
+                  <el-table-column prop="fieldName" min-width="200"  align="center" label="字段名" >
                     <template slot-scope="scope">
                       <div>
-                        <el-input  v-model="scope.row.fieldName"></el-input>
+                        <el-input  v-model="scope.row.fieldName" :disabled="scope.row.fieldName == 'id'"></el-input>
                       </div>
                     </template>
                   </el-table-column>
 
-                  <el-table-column prop="fieldType" min-width="200" label="字段类型" align="center" show-overflow-tooltip>
+                  <el-table-column prop="fieldType" min-width="200" label="字段类型" align="center" >
                     <template slot-scope="scope">
                       <div>
-                        <el-select v-model="scope.row.fieldType"  placeholder="请选择" style="width:100%;">
+                        <el-select v-model="scope.row.fieldType" filterable  placeholder="请选择" :disabled="scope.row.fieldName == 'id'" style="width:100%;">
                           <el-option
-                            v-for="item in xiala.templateList"
-                            :key="item.value"
+                            v-for="item in xiala.fieldTypeList"
+                            :key="item.label"
                             :label="item.label"
-                            :value="item.value"
+                            :value="item.label"
                           ></el-option>
                         </el-select>
                       </div>
@@ -106,31 +95,31 @@
 
                   <el-table-column prop="fieldLength" min-width="200" label="字段长度" align="center">
                     <template slot-scope="scope">
-                      <el-input v-model="scope.row.fieldLength"></el-input>
+                      <NumberInput v-model="scope.row.fieldLength" :disabled="scope.row.fieldName == 'id'"></NumberInput>
                     </template>
                   </el-table-column>
 
                   <el-table-column prop="fieldDecimal" min-width="200" label="小数点" align="center">
                     <template slot-scope="scope">
-                      <NumberInput v-model="scope.row.fieldDecimal"></NumberInput>
+                      <NumberInput v-model="scope.row.fieldDecimal" :disabled="scope.row.fieldName == 'id'"></NumberInput>
                     </template>
                   </el-table-column>
 
-                  <el-table-column prop="fieldIsNull" min-width="200" label="不是null" align="center">
+                  <el-table-column prop="fieldIsNull" min-width="90" label="不是null" align="center">
                     <template slot-scope="scope">
-                      <el-checkbox v-model="scope.row.fieldIsNull"></el-checkbox>
+                      <el-checkbox v-model="scope.row.fieldIsNull" :disabled="scope.row.fieldName == 'id'"></el-checkbox>
                     </template>
                   </el-table-column>
 
-                  <el-table-column prop="fieldPrimary" min-width="200" label="键" align="center">
+                  <el-table-column prop="fieldPrimary" min-width="90" label="键" align="center">
                     <template slot-scope="scope">
-                      <el-checkbox v-model="scope.row.fieldPrimary"></el-checkbox>
+                      <el-checkbox v-model="scope.row.fieldPrimary" :disabled="scope.row.fieldName == 'id'"></el-checkbox>
                     </template>
                   </el-table-column>
 
                   <el-table-column prop="fieldDes" min-width="200" label="注释" align="center">
                     <template slot-scope="scope">
-                      <el-input v-model="scope.row.fieldDes"></el-input>
+                      <el-input v-model="scope.row.fieldDes" :disabled="scope.row.fieldName == 'id'"></el-input>
                     </template>
                   </el-table-column>
 
@@ -156,12 +145,10 @@
             tableType: "",
             type: "",
             remark: "",
-            testSysTetailList:[]
+            autoFieldList:[]
         },
         remnant_fou: 200,
         activeName: "first"
-        
-
       }
     },
     props:{
@@ -171,55 +158,164 @@
       }
     },
     methods:{
-        empty(){
+      //id无法选择
+      checkSelect(row,index){
+        if(row.fieldName == "id"){
+          return false;
+        }
+        return true;
+      },
+      //编辑时初始化数据
+      editInit(row){
+        Object.assign(this.form,row);
+        this.$http.get("system/sysAutoField/findByTableID/"+row.id).then(res => {
+          if (res.data.code == "200") {
+            this.form.autoFieldList = res.data.body
+          } else {
+            this.$message.warning("获取子数据失败");
+          }
           
-        },
-        //保存/修改
-        handleSave() {
-            this.$http.post("/user", this.form).then(res => {
-              if (res.data.code == "200") {
-                this.$message.success(res.data.message);
-                this.empty();
-                this.editVisible = false;
+        });
+        this.editVisible = true;
+      },
+      //
+      addInit(){
 
-              } else {
-                this.$message.success(res.data.message);
-              }
-
-            });
-        },
-        handleSelectionChangeDetil(val){
-            this.delVal = val;
-        },
-        delList(){
-            if (this.delVal.length == 0) {
-              return this.$message.warning("请选择一条数据");
+      },
+      //初始化数据
+      empty(){
+        this.editVisible = true
+        this.form = {
+          id: "",
+          tableName: "",
+          tableType: "",
+          type: "",
+          remark: "",
+          autoFieldList:[]
+        }
+        this.form.autoFieldList = [
+          {
+            fieldName: "id",
+            fieldType: "VARCHAR",
+            fieldLength: 36,
+            fieldDecimal: 0,
+            fieldIsNull: true,
+            fieldPrimary: true,
+            fieldDes: "主键",
+            fieldIndex: "0"
+          },
+          {
+            fieldName: "create_time",
+            fieldType: "DATETIME",
+            fieldLength: 0,
+            fieldDecimal: 0,
+            fieldIsNull: false,
+            fieldPrimary: false,
+            fieldDes: "创建时间",
+            fieldIndex: "1"
+          },
+          {
+            fieldName: "create_user",
+            fieldType: "VARCHAR",
+            fieldLength: 36,
+            fieldDecimal: 0,
+            fieldIsNull: false,
+            fieldPrimary: false,
+            fieldDes: "创建人",
+            fieldIndex: "2"
+          },
+          {
+            fieldName: "update_time",
+            fieldType: "DATETIME",
+            fieldLength: 0,
+            fieldDecimal: 0,
+            fieldIsNull: false,
+            fieldPrimary: false,
+            fieldDes: "更新时间",
+            fieldIndex: "3"
+          },
+          {
+            fieldName: "update_user",
+            fieldType: "VARCHAR",
+            fieldLength: 36,
+            fieldDecimal: 0,
+            fieldIsNull: false,
+            fieldPrimary: false,
+            fieldDes: "更新人",
+            fieldIndex: "4"
+          }
+        ]
+      },
+      //保存/修改
+      handleSave() {
+          this.$http.post("system/sysAutoTable/existable", this.form).then(res => {
+            if (res.data.code == "200") {
+              this.saveTableData()
+            } else {
+              this.$message.warning(res.data.message);
             }
-
-            this.form.testSysTetailList = this.$utils.minus(this.form.testSysTetailList, this.delVal);
-            //刷新dom
-            this.$forceUpdate();
-        },
-        addList(){
-          var aa = {
-            id: "",
-            name: "",
-            status: "",
-            money: 0,
+            
+          });
+      },
+      changeForm(data){
+        let formData = data
+        if(formData.autoFieldList.length&&formData.autoFieldList.length > 0){
+            formData.autoFieldList.forEach((element,index) => {
+              element.fieldIsNull = element.fieldIsNull?'1':'0';
+              element.fieldPrimary = element.fieldPrimary?'0':'1';
+              element.fieldIndex = index
+            });
+        }
+        return formData;
+      },
+      saveTableData(){
+          let formData = this.changeForm(this.form)
+          this.$http.post("system/sysAutoTable/saveOrUpdate", formData).then(res => {
+            if (res.data.code == "200") {
+              this.$message.success(res.data.message);
+              this.editVisible = false;
+              this.$parent.getdata();
+            } else {
+              this.$message.warning(res.data.message);
+            }
+            
+          });
+      },
+      handleSelectionChangeDetil(val){
+          this.delVal = val;
+      },
+      delList(){
+          if (this.delVal.length == 0) {
+            return this.$message.warning("请选择一条数据");
           }
-          if (!this.form.testSysTetailList) {
-            this.form.testSysTetailList = [];
-          }
-          this.form.testSysTetailList.push(aa);
+          this.form.autoFieldList = this.$utils.minus(this.form.autoFieldList, this.delVal);
+          //刷新dom
           this.$forceUpdate();
-        },
-        descInput_fou() {
-          var txtVal = this.form.remark.length;
-          this.remnant_fou = 200 - txtVal;
-        },
-        back(){
-            this.editVisible = false
-        },
+      },
+      addList(){
+        var aa = {
+          fieldName: "",
+          fieldType: "",
+          fieldLength: '',
+          fieldDecimal: 0,
+          fieldIsNull: false,
+          fieldPrimary: false,
+          fieldDes: "",
+          fieldIndex:""
+        }
+        if (!this.form.autoFieldList) {
+          this.form.autoFieldList = [];
+        }
+        this.form.autoFieldList.push(aa);
+        this.$forceUpdate();
+      },
+      descInput_fou() {
+        var txtVal = this.form.remark.length;
+        this.remnant_fou = 200 - txtVal;
+      },
+      back(){
+          this.editVisible = false
+      },
     }
   }
 </script>

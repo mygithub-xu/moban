@@ -215,7 +215,6 @@ export default {
       });
     },
     handleSave() {
-      debugger
       this.form.dicTypeId = this.data.id;
       this.$http.post(this.api.dicSave, this.form).then(res => {
         if (res.data.code == "200") {

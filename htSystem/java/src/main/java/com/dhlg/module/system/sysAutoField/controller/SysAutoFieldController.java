@@ -66,7 +66,13 @@ public class SysAutoFieldController {
         @ApiOperation("列表字段查询")
         @PostMapping("/listFieldQuery")
         public Result listFieldQuery(@RequestBody Map<String, Object> params) {
-        return  doService.listFieldQuery(params);
+                return  doService.listFieldQuery(params);
+        }
+
+        @ApiOperation("根据父id找到表字段")
+        @GetMapping("/findByTableID/{id}")
+        public Result findByTableID(@PathVariable String id) {
+                return  doService.findByTableID(id);
         }
 }
 

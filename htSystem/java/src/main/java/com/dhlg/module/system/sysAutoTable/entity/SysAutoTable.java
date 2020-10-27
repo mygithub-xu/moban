@@ -1,18 +1,18 @@
 package com.dhlg.module.system.sysAutoTable.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import java.util.List;
+
+import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.baomidou.mybatisplus.annotation.TableId;
 
 /**
  * <p>
@@ -77,6 +77,8 @@ public class SysAutoTable implements Serializable {
      */
     @TableField("type")
     private String type;
+
+
     /**
      * 更新时间
      */
@@ -91,5 +93,8 @@ public class SysAutoTable implements Serializable {
 
     @TableField(value = "children", exist = false) // 标记为非数据库字段
     private List<SysAutoTable> children;
+
+    @TableField(exist = false) // 标记为非数据库字段
+    private List<SysAutoField> autoFieldList;
 
 }

@@ -475,10 +475,12 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
             substring = str.substring(second, third + 1);
         return substring + "**";
     }
-    //将String如（a,b,c,d）转化数组:['a','b','c','d']
+
+    /**
+     * 将String如（a,b,c,d）转化数组:['a','b','c','d']
+    */
     public static String[] stb(String str) {
         String[] str2= str.split(",");
         return str2;
     }
-
 }

@@ -3,34 +3,48 @@
         <div class="container-table"> 
             <div class="container-btn">
                     <span class="container-btn-left">
-                    <el-button type="primary"  icon="el-icon-plus" @click="handleCreateTable">创建表</el-button>
-                    <el-button type="primary"  icon="el-icon-edit" @click="handleEdit">从数据库导入表</el-button>
-                    <el-button type="danger"  icon="el-icon-delete" @click="handleDeleteBatch">删除</el-button>
+                        <el-button type="primary"  icon="el-icon-plus" @click="handleCreateTable">创建表</el-button>
+                        <el-button type="primary"  icon="el-icon-edit" @click="handleEdit">从数据库导入表</el-button>
+                        <el-button type="danger"  icon="el-icon-delete" @click="handleDeleteBatch">删除</el-button>
                     </span>
                     <span class="container-btn-right">
-                        <!-- <el-button  icon="el-icon-close">取消</el-button> -->
+                        <el-button plain icon="el-icon-refresh" @click="getdata()"></el-button>
                     </span>
             </div>
             <div class="common-table-style">
                 <el-table :data="pageData.list" height="100%" border header-align="center" @selection-change="handleSelectionChange">
-                    <el-table-column fixed type="selection"  ></el-table-column>
+                    <el-table-column  type="selection"  ></el-table-column>
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
-                    <el-table-column prop="tableName"  label="表名" show-overflow-tooltip ></el-table-column>
-                    <el-table-column prop="parentId"  label="父表" show-overflow-tooltip></el-table-column>
+                    <el-table-column prop="tableName"  label="表名" show-overflow-tooltip >
+    
+                    </el-table-column>
+                    <el-table-column prop="parentId"  label="父表" show-overflow-tooltip>
+                        <template slot-scope="scope">
+                             <span v-if="scope.row.parentId">无</span>
+                             <span v-else>{{scope.row.parentId}}</span>
+                        </template>
+                    </el-table-column>
 
                     <el-table-column prop="status"  label="状态"  show-overflow-tooltip>
                         <template slot-scope="scope">
-                            <span v-if="scope.row.status=='1'">启用</span>
-                            <span v-if="scope.row.status=='2'">禁用</span>
+                            <span v-if="scope.row.status=='0'">启用</span>
+                            <span v-if="scope.row.status=='1'">禁用</span>
                         </template>
                     </el-table-column>
                     <el-table-column prop="type"  label="模板类型" show-overflow-tooltip>
-                            <template slot-scope="scope">
-                                <span v-if="scope.row.type=='1'">启用</span>
-                                <span v-if="scope.row.type=='2'">禁用</span>
-                            </template>
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.type=='0'">启用</span>
+                            <span v-if="scope.row.type=='1'">禁用</span>
+                        </template>
                     </el-table-column>
                     <el-table-column prop="remark" label="备注" show-overflow-tooltip>
+                    </el-table-column>
+
+                    <el-table-column label="操作">
+                        <template slot-scope="scope">
+                            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
+                            <el-button type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" style="color:red">删除</el-button>
+                        </template>
                     </el-table-column>
                 </el-table>
             </div>
@@ -62,7 +76,8 @@
                     tableTypeList:[],
                     templateList:[],
                     statusList:[],
-                    tableData:[]
+                    tableData:[],
+                    fieldTypeList:[]
                 }
 
             }
@@ -85,35 +100,81 @@
                 this.$http.get(this.api.dicTypeGetType + "autoTableTemplate").then(res => {
                     this.xiala.templateList = res.data.body
                 })
+                //字段类型
+                this.$http.get(this.api.dicTypeGetType + "fieldType").then(res => {
+                    this.xiala.fieldTypeList = res.data.body
+                })
                 
             },
-            //新增
-            handleAdd() {
-                this.editVisible = true;
-            },
-            handleEdit(){
 
+            handleEdit(row){
+                this.$refs['edit'].editInit(row);
+            },
+            handleDelete(row){
+                this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+                }).then(() => {
+                    this.$http.delete("system/sysAutoTable/deleteById/" + row.id).then(res => {
+                    if (res.data.code == "200") {
+                        this.$message.success( "删除数据成功");
+                    }
+                    this.getdata();
+                    });
+                }) .catch(() => {
+                    this.$message.info("已取消删除");
+                });
             },
             handleDeleteBatch(){
-
+                let deletebatch = [];
+                this.multipleSelection.forEach(i => {
+                deletebatch.push(i.id);
+                });
+                this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+                })
+                .then(() => {
+                    this.$http.post(this.api.sysTestBatchDelete, deletebatch).then(res => {
+                    if (res.data.code == "200") {
+                        this.$message({
+                        message: "批量删除数据成功",
+                        type: "success"
+                        });
+                    }
+                    this.getdata();
+                    });
+                })
+                .catch(() => {
+                    this.$message({
+                    type: "info",
+                    message: "已取消批量删除"
+                    });
+                });
             },
             handleSelectionChange(){
 
             },
             handleCreateTable(){
-                this.$refs['edit'].editVisible = true
+                this.$refs['edit'].empty();
             },
             handlePage(){
 
             },
             getdata(){
-                this.$http.get(this.api.dicTypeGetType + "autoTableTemplate").then(res => {
+                this.$http.post("system/sysAutoTable/querybycondition",{
+                    condition: {},
+                    number: this.pageData.pageNumber,
+                    size: this.pageData.pageSize
+                }).then(res => {
                     if (res.data.code == "200") {
                         this.pageData.list = res.data.body.records;
-                        this.xiala.tableData = res.data.body.records;
                     }
                     
                 })
+
             }
         }
 

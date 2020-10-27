@@ -1,5 +1,6 @@
 package com.dhlg.module.system.sysAutoTable.controller;
 
+import com.dhlg.common.utils.GetLoginUser;
 import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
 import com.dhlg.common.utils.Parameter.Parameter;
@@ -29,6 +30,16 @@ public class SysAutoTableController {
         @Autowired
         ISysAutoTableService doService;
 
+
+        @ApiOperation("查询是否存在该表")
+        @PostMapping("/existable")
+        public Result existable(@RequestBody SysAutoTable sysAutoTable) {
+
+                if(StringUtils.isBlank(sysAutoTable)){
+                        throw new ParamIsNullException();
+                }
+                return  doService.existable(sysAutoTable);
+        }
 
         @ApiOperation("保存或者更新")
         @PostMapping("/saveOrUpdate")
@@ -66,7 +77,7 @@ public class SysAutoTableController {
         @ApiOperation("列表字段查询")
         @PostMapping("/listFieldQuery")
         public Result listFieldQuery(@RequestBody Map<String, Object> params) {
-        return  doService.listFieldQuery(params);
+                return  doService.listFieldQuery(params);
         }
 
         @ApiOperation("获取树状数据")

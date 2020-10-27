@@ -96,4 +96,9 @@ public class SysAutoField implements Serializable {
     @TableField("table_id")
     private String tableId;
 
+    /**
+     * 排序
+     */
+    @TableField("field_index")
+    private String fieldIndex;
 }

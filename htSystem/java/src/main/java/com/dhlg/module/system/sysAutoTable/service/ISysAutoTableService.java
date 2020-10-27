@@ -29,4 +29,6 @@ public interface ISysAutoTableService extends IService<SysAutoTable> {
     Result listFieldQuery(Map<String, Object> params);
 
     Result getNodeList();
+
+    Result existable(SysAutoTable sysAutoTable);
 }

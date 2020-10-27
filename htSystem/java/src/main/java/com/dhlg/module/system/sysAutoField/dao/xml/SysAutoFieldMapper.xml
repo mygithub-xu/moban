@@ -17,6 +17,7 @@
         <result column="field_show_type" property="fieldShowType" />
         <result column="field_type" property="fieldType" />
         <result column="table_id" property="tableId" />
+        <result column="field_index" property="fieldIndex" />
     </resultMap>
 
     <!-- 通用查询结果列 -->

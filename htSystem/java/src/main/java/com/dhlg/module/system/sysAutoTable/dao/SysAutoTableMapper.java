@@ -22,5 +22,9 @@ public interface SysAutoTableMapper extends BaseMapper<SysAutoTable> {
     IPage<SysAutoTable> queryByCondition(Page page, @Param("parameter")Parameter parameter);
 
     IPage<SysAutoTable> listFieldQuery(Page page, @Param("parameter") Map<String, Object> params);
+
+    int existable(String tableName, String name);
+
+    String getDatabaseName();
 }
         

@@ -1,5 +1,6 @@
 package com.dhlg.module.system.sysAutoField.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
@@ -76,5 +77,12 @@ public class SysAutoFieldServiceImpl extends ServiceImpl<SysAutoFieldMapper, Sys
         Long size = Long.valueOf(String.valueOf(params.getOrDefault("size", 10)));
         IPage<SysAutoField> dataList = doMapper.listFieldQuery(new Page(number, size), params);
         return new Result("200", dataList);
+    }
+
+    @Override
+    public Result findByTableID(String id) {
+        QueryWrapper<SysAutoField> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("table_id",id).orderBy(true, true, "field_index");
+        return Result.success(list(queryWrapper),"获取成功");
     }
 }
