@@ -1,5 +1,6 @@
 package com.dhlg.module.system.sysAutoTable.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.Transient;
+import java.sql.*;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +39,14 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     @Autowired
     SysAutoFieldServiceImpl autoFieldService;
 
+    @Value("${spring.datasource.url}")
+    private String url;
+
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
 
     @Override
     @Transactional
@@ -65,6 +75,9 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
                 }
                 autoFieldService.saveBatch(sysAutoTable.getAutoFieldList());
             }
+            //创建表
+            SysAutoTable sysAutoTable1 = changeTableData(sysAutoTable);
+            creatTable(sysAutoTable1);
             return Result.success(Dictionaries.SAVE_SUCCESS);
         }
         sysAutoTable.setUpdateTime(DateUtils.getCurrentDate());
@@ -87,9 +100,86 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         return new Result("200","",Dictionaries.UPDATE_SUCCESS);
     }
 
+    /**
+     * 创建表语句
+     */
+    private void creatTable(SysAutoTable sysAutoTable1) {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        Connection conn = null;
+        Statement stmt = null;
+        try{
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(url,username,password);
+            stmt = conn.createStatement();
+            StringBuffer sql = new StringBuffer();
+            sql.append("CREATE TABLE ").append(sysAutoTable1.getTableName()).append(" (id varchar(36) NOT NULL COMMENT '主键'");
+            for (SysAutoField autoField : sysAutoTable1.getAutoFieldList()) {
+                if (!"id".equals(autoField.getFieldName())){
+                    sql.append(","+autoField.getFieldName()+" ");
+
+                    if ("0".equals(autoField.getFieldShowLength())){
+                        sql.append(autoField.getFieldType()+"("+autoField.getFieldLength()+","+autoField.getFieldDecimal()+") ");
+                    }else {
+                        sql.append(autoField.getFieldType()+"("+autoField.getFieldLength()+") ");
+                    }
+
+                    if ("1".equals(autoField.getFieldIsNull())){
+                        sql.append(" not ");
+                    }
+                    sql.append(" NULL COMMENT '"+autoField.getFieldDes()+"'");
+                    if ("0".equals(autoField.getFieldPrimary())){
+                        sql.append(",PRIMARY KEY (`"+autoField.getFieldName()+"`) USING BTREE");
+                    }
+                }
+
+            }
+            sql.append(",PRIMARY KEY (`id`) USING BTREE)");
+            stmt.execute(sql.toString());
+
+            stmt.close();
+            conn.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * 改变数据
+     */
+    private SysAutoTable changeTableData(SysAutoTable sysAutoTable) {
+        SysAutoTable object = (SysAutoTable)StringUtils.deepCloneObject(sysAutoTable);
+        //改变对象的值
+        if (StringUtils.isBlank(object)){
+            List<SysAutoField> autoFieldList = object.getAutoFieldList();
+            for (SysAutoField autoField : autoFieldList){
+                //如果是符合的类型，，显示小数点
+                if ("float".equals(autoField.getFieldType())||"decimal".equals(autoField.getFieldType())||"double".equals(autoField.getFieldType())){
+                    autoField.setFieldShowType("1");
+                }else {
+                    autoField.setFieldShowType("0");
+                }
+            }
+        }
+        return object;
+    }
+
     @Override
     @Transactional
     public Result delete(String id) {
+
+
         if (!removeById(id)){
             return new Result("500","", Dictionaries.DELETE_FAILED);
         }

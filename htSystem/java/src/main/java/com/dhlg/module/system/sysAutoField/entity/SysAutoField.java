@@ -101,4 +101,10 @@ public class SysAutoField implements Serializable {
      */
     @TableField("field_index")
     private String fieldIndex;
+
+    /**
+     * 排序
+     */
+    @TableField("field_show_length")
+    private String fieldShowLength;
 }

@@ -1,10 +1,12 @@
 <template>
   <div class="show-dialog">
     <el-dialog :visible.sync="editVisible" :show-close="false" :modal="false" fullscreen>
-         <div class="dialog-button" >
+
+        <div class="dialog-button" >
             <el-button  @click="handleSave">保存</el-button>
             <el-button  icon="el-icon-back" @click="back">返回</el-button>
         </div>
+        
         <div>
             <el-form >
                 <div class="edit-area">
@@ -171,6 +173,8 @@
         this.$http.get("system/sysAutoField/findByTableID/"+row.id).then(res => {
           if (res.data.code == "200") {
             this.form.autoFieldList = res.data.body
+            //修改选中的值
+            this.form = this.changeForm2(this.form)
           } else {
             this.$message.warning("获取子数据失败");
           }
@@ -263,6 +267,17 @@
             formData.autoFieldList.forEach((element,index) => {
               element.fieldIsNull = element.fieldIsNull?'1':'0';
               element.fieldPrimary = element.fieldPrimary?'0':'1';
+              element.fieldIndex = index
+            });
+        }
+        return formData;
+      },
+      changeForm2(data){
+        let formData = data
+        if(formData.autoFieldList.length&&formData.autoFieldList.length > 0){
+            formData.autoFieldList.forEach((element,index) => {
+              element.fieldIsNull = element.fieldIsNull == '1'?true:false;
+              element.fieldPrimary = element.fieldPrimary == '0'?true:false;
               element.fieldIndex = index
             });
         }

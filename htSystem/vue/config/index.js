@@ -68,7 +68,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../whfch'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/whfch/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

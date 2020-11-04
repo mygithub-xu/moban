@@ -1,6 +1,8 @@
 package com.dhlg.common.utils;
 
-import net.sf.json.JSONArray;
+import com.alibaba.fastjson.JSONArray;
+//import com.alibaba.fastjson.JSONObject;
+import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import net.sf.json.JSONObject;
 import sun.misc.BASE64Decoder;
 
@@ -16,6 +18,27 @@ import java.util.regex.Pattern;
 
 @SuppressWarnings("all")
 public class StringUtils extends org.apache.commons.lang.StringUtils {
+
+    /**
+     * 深拷贝 对象
+     */
+    public static Object  deepCloneObject( Object object) {
+        byte[] by = com.alibaba.fastjson.JSONObject.toJSONBytes(object);
+        Object object2 = com.alibaba.fastjson.JSONObject.parseObject(by,object.getClass());
+        return object2;
+    }
+    /**
+     * 深拷贝 数组
+     */
+    public static<T> List<T>  deepCloneList(List<T> list) {
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        Class<T> currentClass = (Class<T>) list.get(0).getClass();
+        String listStr = com.alibaba.fastjson.JSONObject.toJSONString(list);
+        List<T> list2 = com.alibaba.fastjson.JSONObject.parseArray(listStr,currentClass);
+        return list2;
+    }
 
     /**
      * 一次性判断多个或单个对象为空。

@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("sys_auto_table")
-public class SysAutoTable implements Serializable {
+public class SysAutoTable implements Serializable{
 
     private static final long serialVersionUID = 1L;
 

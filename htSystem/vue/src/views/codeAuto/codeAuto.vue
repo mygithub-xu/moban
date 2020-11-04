@@ -1,6 +1,7 @@
 <template>
     <div class="app-container">
-        <div class="container-table"> 
+        <template v-if="frameFontvisible">
+        <div class="container-table" > 
             <div class="container-btn">
                     <span class="container-btn-left">
                         <el-button type="primary"  icon="el-icon-plus" @click="handleCreateTable">创建表</el-button>
@@ -15,9 +16,7 @@
                 <el-table :data="pageData.list" height="100%" border header-align="center" @selection-change="handleSelectionChange">
                     <el-table-column  type="selection"  ></el-table-column>
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
-                    <el-table-column prop="tableName"  label="表名" show-overflow-tooltip >
-    
-                    </el-table-column>
+                    <el-table-column prop="tableName"  label="表名" show-overflow-tooltip ></el-table-column>
                     <el-table-column prop="parentId"  label="父表" show-overflow-tooltip>
                         <template slot-scope="scope">
                              <span v-if="scope.row.parentId">无</span>
@@ -31,38 +30,47 @@
                             <span v-if="scope.row.status=='1'">禁用</span>
                         </template>
                     </el-table-column>
+
                     <el-table-column prop="type"  label="模板类型" show-overflow-tooltip>
                         <template slot-scope="scope">
                             <span v-if="scope.row.type=='0'">启用</span>
                             <span v-if="scope.row.type=='1'">禁用</span>
                         </template>
                     </el-table-column>
+
                     <el-table-column prop="remark" label="备注" show-overflow-tooltip>
                     </el-table-column>
 
-                    <el-table-column label="操作">
+                    <el-table-column label="操作" width="250">
                         <template slot-scope="scope">
                             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
                             <el-button type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" style="color:red">删除</el-button>
+                            <el-button type="text" icon="el-icon-plus" @click="handleGenerateFront(scope.row)">生成前端</el-button>
                         </template>
                     </el-table-column>
+
                 </el-table>
             </div>
 
         </div>
+        </template>
 
-        <div class="pagination">
+        <template v-else>
+            <editLayout ref="editLayout" @backfont="backfont"></editLayout>
+        </template>
+        <div class="pagination" v-if="frameFontvisible">
             <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
         </div>
-
         <codeEdit ref="edit" :xiala="xiala"></codeEdit>
+
     </div>
 </template>
 <script>
     import codeEdit from "./edit";
+    import editLayout from "./editLayout";
     export default {
         name:"codeAuto",
-        components: {codeEdit},
+        components: {codeEdit,editLayout},
         data(){
             return{
                 pageData: {
@@ -78,7 +86,8 @@
                     statusList:[],
                     tableData:[],
                     fieldTypeList:[]
-                }
+                },
+                frameFontvisible: true
 
             }
         },
@@ -174,12 +183,22 @@
                     }
                     
                 })
+            },
 
+            handleGenerateFront(row){
+                this.frameFontvisible = false;
+                this.$nextTick(()=>{
+                    this.$refs['editLayout'].editInit(row);
+                })
+                
+            },
+            backfont(){
+                this.frameFontvisible = true;
             }
         }
 
     }
 </script>
-<style lang="scss" scope>
+<style  scope>
 
 </style>

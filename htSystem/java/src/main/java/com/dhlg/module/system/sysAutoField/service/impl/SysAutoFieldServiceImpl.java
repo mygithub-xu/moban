@@ -1,5 +1,6 @@
 package com.dhlg.module.system.sysAutoField.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -83,6 +84,19 @@ public class SysAutoFieldServiceImpl extends ServiceImpl<SysAutoFieldMapper, Sys
     public Result findByTableID(String id) {
         QueryWrapper<SysAutoField> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("table_id",id).orderBy(true, true, "field_index");
-        return Result.success(list(queryWrapper),"获取成功");
+
+        List<SysAutoField> list = list(queryWrapper);
+        gengai(list);
+
+        return Result.success(list,"获取成功");
+    }
+
+    private void gengai(List<SysAutoField> list) {
+        //自定义深拷贝方法
+//        List<SysAutoField> list2 = StringUtils.deepClone(list);
+//        for (SysAutoField sysAutoField:list2) {
+//            sysAutoField.setFieldName(sysAutoField.getFieldName()+"aaaaaaaaaaaa");
+//        }
+
     }
 }

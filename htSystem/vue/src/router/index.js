@@ -18,7 +18,7 @@ var constantRouterMap=[
     path: '/login',
     component: resolve => require(['@comp/layout/page/Login.vue'], resolve),
     name: '登录'
-  },
+  }
   
 ]
 

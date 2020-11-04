@@ -6,7 +6,6 @@ import { Message } from 'element-ui';
 
 axios.defaults.baseURL = process.env.API_ROOT
 Vue.prototype.$http = axios;
-let aaa = 0;
 
 //改变请求的head内容
 axios.interceptors.request.use(
