@@ -14,8 +14,8 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 public class WebSocketConfig{
 
     //打包时注释掉这个方法，以免tomcat发生错误
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
+//    @Bean
+//    public ServerEndpointExporter serverEndpointExporter() {
+//        return new ServerEndpointExporter();
+//    }
 }

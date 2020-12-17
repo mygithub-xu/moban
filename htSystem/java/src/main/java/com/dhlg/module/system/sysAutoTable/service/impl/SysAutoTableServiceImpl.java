@@ -1,6 +1,5 @@
 package com.dhlg.module.system.sysAutoTable.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -14,10 +13,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.common.utils.Parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import com.dhlg.common.utils.mailUtils;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.Transient;
+import javax.mail.MessagingException;
+
 import java.sql.*;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,9 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     @Autowired
     SysAutoFieldServiceImpl autoFieldService;
 
+    @Autowired
+    mailUtils mailUtils;
+
     @Value("${spring.datasource.url}")
     private String url;
 
@@ -47,6 +52,12 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
 
     @Value("${spring.datasource.password}")
     private String password;
+
+
+    private static final String TO = "1967368657@qq.com";
+    private static final String SUBJECT = "测试邮件";
+    private static final String CONTENT = "test content";
+
 
     @Override
     @Transactional
@@ -239,6 +250,83 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         String name = doMapper.getDatabaseName();
         int tablecoount = doMapper.existable(sysAutoTable.getTableName(),name);
         return 0 != tablecoount;
+    }
+
+
+
+
+    /**
+     * 普通文本邮件测试
+     *
+     * @throws Exception
+     */
+    public void test() throws Exception {
+        String to = TO;
+        String subject = SUBJECT;
+        String content = "内容";
+        try {
+            mailUtils.sendSimpleMail(to, subject, content);
+            System.out.println("成功了");
+
+        } catch (MailException e) {
+            System.out.println("失败了");
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * 带图片的邮件测试
+     */
+    public void test1() {
+        String to = TO;
+        String subject = SUBJECT;
+        String rscId = "img";
+        String content = "<html><body><img width='250px' src=\'cid:" + rscId + "\'></body></html>";
+        // 此处为电脑系统路径
+        String imgPath = "D:\\aaaa.PNG";
+        try {
+            mailUtils.sendInlineResourceMail(to, subject, content, imgPath, rscId);
+            System.out.println("成功了");
+        } catch (MessagingException e) {
+            System.out.println("失败了");
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 带HTML邮件测试
+     */
+    public void test2() {
+        String to = TO;
+        String subject = SUBJECT;
+        String content = "<html><head></head><body><h3>哈哈，什么都没有</h3></body></html>";
+        try {
+            mailUtils.sendHtmlMail(to, subject, content);
+            System.out.println("成功了");
+        } catch (MessagingException e) {
+            System.out.println("失败了");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 带附件的邮件测试
+     */
+    public void test3() {
+        String to = TO;
+        String subject = SUBJECT;
+        String content = "内容";
+        String imgPath = "D:\\简历--朱良.doc";
+        try {
+            mailUtils.sendAttachmentsMail(to, subject, content, imgPath);
+            System.out.println("成功了");
+        } catch (MessagingException e) {
+            System.out.println("失败了");
+            e.printStackTrace();
+        }
     }
 
 

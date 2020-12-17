@@ -6,18 +6,20 @@ import java.util.List;
 public class aaaa {
 
     public static void main(String[] args) {
-        List list1=new ArrayList();
-        list1.add("1");
-        list1.add("2");
-        list1.add("3");
-        System.out.println("list1:"+list1);
-
-        List list2=new ArrayList();
-
-        list2=list1;//简单的直接赋值
-        list2.set(1,"12");
-        System.out.println("list1:"+list1);
-        System.out.println("list2:"+list2);
+        String wsdl = "http://localhost:9000/HelloWorld?wsdl";
+        int timeout = 10000;
+        StringBuffer sb = new StringBuffer("");
+        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        sb.append("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:test=\"http://test.dhlg.com/\">\n" +
+                "   <soapenv:Header/>\n" +
+                "   <soapenv:Body>\n" +
+                "      <test:sayHello>\n" +
+                "         <!--Optional:-->\n" +
+                "         <arg0>oooooo</arg0>\n" +
+                "      </test:sayHello>\n" +
+                "   </soapenv:Body>\n" +
+                "</soapenv:Envelope>");
+        soapUtil.get(sb.toString(),wsdl);
 
     }
 }

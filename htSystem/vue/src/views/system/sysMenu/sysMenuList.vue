@@ -191,7 +191,7 @@
 <script>
   import axios from 'axios'
 
-  import myIcon from '../../../components/layout/otherLayoutCom/icons.vue'
+  import myIcon from '@comp/layout/otherLayoutCom/icons.vue'
 
   function newButtonForm() {
     return {

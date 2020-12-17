@@ -4,11 +4,44 @@
         <template v-if="needParam.layoutType == '1'">
             <template v-if="needParam.isShowQuery">
                 <div class="container-query2" >
-                    <div class="container-btn">
-                        <span class="container-btn-left">
+               
+            <el-form ref="fond-form" label-width="120px">
+                <div class="query-area">
+                    <el-form-item label="动支单号" >
+                        <el-input  clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="动支标题">
+                        <el-input  clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="状态" >
+                        <el-input  clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="申请人" >
+                        <el-input  clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="申请日期" style="width: 50%">
+                        <div style="display:flex; max-width: 500px;">
+                            <el-date-picker
 
-                        </span>
+                                type="date"
+                                placeholder="选择日期">
+                            </el-date-picker>
+                            <span style="margin:0 5px">至</span>
+                            <el-date-picker
+                            
+
+                                type="date"
+                                placeholder="选择日期">
+                            </el-date-picker>
+                        </div>
+                    </el-form-item>
+                    <div class="query-button" style="width:100%;padding-left:30px">
+                        <el-button type="primary" >搜索</el-button>
+                        <el-button type="warning" >重置</el-button>
+                        <el-button type="primary" >合并提交OA</el-button>
                     </div>
+                </div>
+            </el-form>
                 </div>
             </template>
             <template v-if="needParam.isShowTableData">
@@ -32,16 +65,17 @@
 
         <div class="line-div">
             <el-checkbox v-model="needParam.isShowQuery">查询区域</el-checkbox>
-            <el-checkbox v-model="needParam.isShowTableData">表格数据区域</el-checkbox>
+            <el-checkbox v-model="needParam.isShowTableData">列表区域</el-checkbox>
             <el-checkbox v-model="needParam.isShowPage">分页区域</el-checkbox>
+            <el-checkbox v-model="needParam.isShowButton">按钮区域</el-checkbox>
         </div>
 
 <el-collapse class="data-area" v-model="activeName" accordion>
   <el-collapse-item title="查询区域" name="1">
 
     <div class="data-area-item" v-for="item in tableFileds" :key="item.id">
-        <el-checkbox v-model="needParam.isShowQuery">id</el-checkbox>
-        <el-input placeholder="请输入名称"></el-input>
+        <el-checkbox class="data-area-checkbox" v-model="item.fieldIsquery">{{item.fieldName}}</el-checkbox>
+        <el-input placeholder="请输入查询标题" v-model="item.fieldIsShowTable"></el-input>
     </div>
 
   </el-collapse-item>
@@ -76,9 +110,13 @@ export default {
                 isShowTableData:true,//是否展示表格区域
                 isShowEdit:true,//是否展示编辑区域
                 isShowPage:true,//是否显示分页区域
+                isShowButton:true
             },
             activeName: '1',
-            tableFileds:[]
+            tableFileds:[],
+            query:{
+
+            }
             
         }
     },
@@ -90,13 +128,29 @@ export default {
             //通过id获取字段
             this.$http.get("system/sysAutoField/findByTableID/"+row.id).then(res => {
                 if (res.data.code == "200") {
-                    this.tableFileds = this.changeFiles(res.data.body);
+                    
+                    this.tableFileds = this.changeFields(res.data.body);
+                    console.log(res.data.body)
                 }
                 
             })
         },
-        changeFiles(){
-
+        changeFields(data){
+            data.forEach(e => {
+                //是否为查询区域
+                if(e.fieldIsquery == '1'){
+                    e.fieldIsquery = true
+                }
+                //是否为表格区域
+                if(e.fieldIsShowTable == '1'){
+                    e.fieldIsShowTable = true
+                }
+                //是否为表单区域
+                if(e.fieldIsShowTable == '1'){
+                    e.fieldIsShowFrom = true
+                }
+            });
+            return data
         },
         //根据
         back(){
@@ -129,7 +183,6 @@ export default {
     padding: 10px 10px;
 }
 .container-query2{
-    height: 100px;
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
@@ -155,7 +208,14 @@ export default {
     flex-direction: row;
     line-height: 32px;
 }
+.data-area-checkbox{
+    width: 100px;
+    height: 33px;
+    overflow:hidden; /*超出的部分隐藏起来。*/ 
+
+}
 .data-area-item .el-input{
     margin: 0 10px;
+    width: 100px;
 }
 </style>

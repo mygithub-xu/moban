@@ -71,6 +71,18 @@ spring:
     suffix: .html
     cache: false
 
+  mail:
+    host: smtp.qq.com
+    default-encoding: utf-8
+    username: 2740835057@qq.com
+    password: wioqltexuiezdejc
+#  mail:
+#    from: 2740835057@qq.com
+#    nickname: true
+#    password: wioqltexuiezdejc
+#    mailHost: smtp.qq.com
+#    port: 587
+
 shiro:
   # 加密算法
   algorithmName: "md5"
@@ -95,3 +107,4 @@ common:
   #云服务器路径
   fileDownSrc: /usr/local/resources/
 #  fileDownSrc: D:/resource/
+

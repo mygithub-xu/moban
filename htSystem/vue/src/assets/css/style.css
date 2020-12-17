@@ -66,6 +66,10 @@
   float: left;
   width: 100px;
 }
+.query-area  .query-button{
+  float: left;
+  margin-left: 20px;
+}
 /* 搜索区域 end*/
 
 /* 表格样式 start*/
@@ -100,9 +104,9 @@
 
 /* 分页样式 start*/
 .pagination {
-  position: absolute;
-  bottom: 15px;
-  right: 20px;
+  margin-top: 10px;
+  display: flex;
+  justify-content:flex-end
 }
 /* 分页样式 end*/
 

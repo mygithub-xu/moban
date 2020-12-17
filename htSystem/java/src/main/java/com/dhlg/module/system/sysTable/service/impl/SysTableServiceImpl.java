@@ -77,4 +77,7 @@ public class SysTableServiceImpl extends ServiceImpl<SysTableMapper, SysTable> i
         IPage<SysTable> dataList = doMapper.listFieldQuery(new Page(number, size), params);
         return new Result("200", dataList);
     }
+
+
+
 }
