@@ -9,7 +9,7 @@ const layoutParam = {
             activeFontColor:"#3b9eff",// menu当前字体颜色
             activeHoverBGColor:"#000000"// menu悬停颜色
         },
-        
+        drawerState: false,
         sysType:{
             sysTypeStatus:true, //默认true为系统风格
             modelType: "1", //默认系统风格
@@ -27,11 +27,13 @@ const layoutParam = {
             ]
         },
         siderParam:{
+            menuOpenWidth: 200,
+            menuCloseWidth: 50,
             menuWidth: 200,
             isCollapse: false
         },
         companyAtt:{
-            imgSrc:require("@/assets/logo.png"),
+            imgSrc:"",
             name:"后台管理系统"
         },
         //侧边栏颜色
@@ -65,7 +67,9 @@ const layoutParam = {
         getSysType:state=>{
             return state.sysType
         },
-
+        getDrawerState:state=>{
+            return state.drawerState
+        },
     },
     mutations:{
         changeLayoutType(state,data) {
@@ -128,15 +132,11 @@ const layoutParam = {
         changeSiderParam (state,data) {
             //true是收缩
             if(data){
-                state.siderParam={
-                    menuWidth: 50,
-                    isCollapse: true
-                }
+                state.siderParam.menuWidth = state.siderParam.menuCloseWidth
+                state.siderParam.isCollapse = true
             }else{
-                state.siderParam={
-                    menuWidth: 200,
-                    isCollapse: false
-                }
+                state.siderParam.menuWidth = state.siderParam.menuOpenWidth
+                state.siderParam.isCollapse = false
             }
         },
         changeSystemBGColor(state,data){
@@ -194,6 +194,10 @@ const layoutParam = {
                     activeHoverBGColor:"#ffffff"// menu悬停颜色
                 }
             }
+        },
+        changeDrawerState(state,data){
+            
+            state.drawerState = data
         }
 
     },
@@ -222,6 +226,9 @@ const layoutParam = {
         },
         changeSystemBGColorFun(context,data){
             context.commit("changeSystemBGColor",data);
+        },
+        changeDrawerStateFun(context,data){
+            context.commit("changeDrawerState",data);
         },
     }
     

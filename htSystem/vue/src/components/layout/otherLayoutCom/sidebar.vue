@@ -1,7 +1,11 @@
 <template>
  <div :class="[getLayoutType == '1'?'siderMenu':'horMenu']">
+    <div class="sys-name" :style="{'width':getSiderParam.menuCloseWidth+'px','background-color':getLayoutParam.headerBGColor}">
+      <span v-if="getSiderParam.isCollapse||getLayoutType == '2'" :style="{'color':getLayoutParam.headerFontColor}">x</span>
+      <span v-else>xxx系统 </span>
+    </div>
    <template v-if="getLayoutType == '1'">
-     <el-scrollbar class="menu-scrollbar" :style="{'width':getSiderParam.menuWidth+'px','background-color':getLayoutParam.siderBGColor}" >
+    <el-scrollbar class="menu-scrollbar" :style="{'width':getSiderParam.menuWidth+'px','background-color':getLayoutParam.siderBGColor}" >
       <el-menu
             :background-color="getLayoutParam.siderBGColor"
             :text-color="getLayoutParam.siderFontColor"
@@ -106,7 +110,7 @@ export default {
         ]),
     },
     props:{
-      headerCenterWidth:{
+        headerCenterWidth:{
             type:Number,
             default:600
         },
@@ -193,18 +197,22 @@ export default {
   transition: width 0.5s; 
 }
 .menu-scrollbar{
-    height: 100%;
-    transition: width 0.5s; 
+  height: 100%;
+  transition: width 0.5s; 
 }
 .horMenu{
   height: 50px;
-  float: left;
+  display: flex;
 }
 .el-menu{
   border-right: solid 0px #e6e6e6;
 }
 .el-menu--collapse{
   width: 100%;
+}
+.horizontal-menu{
+    flex: 1;
+    flex-direction: column;
 }
 .horizontal-menu .el-menu--horizontal{
   height: 50px;
@@ -221,7 +229,13 @@ export default {
 .horizontal-menu .el-submenu__title{
     height: 50px;
 }
-
+.sys-name{
+  width: 100%;
+  line-height: 50px;
+  font-size: 20px;
+  color: aliceblue;
+  text-align: center;
+}
 </style>
 <style>
 
@@ -232,4 +246,5 @@ export default {
 .siderMenu .el-scrollbar__wrap{
   overflow-x: hidden;
 }
+
 </style>

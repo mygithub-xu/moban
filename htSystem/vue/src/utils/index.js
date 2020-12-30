@@ -31,3 +31,7 @@ Vue.prototype.$User = User;
 //操作数组，转化类型等等，，工具类
 import utils from "@utils/utils"
 Vue.prototype.$utils = utils;
+
+//引入bus
+import bus from "@utils/bus"
+Vue.prototype.$bus = bus;

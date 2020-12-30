@@ -2,8 +2,8 @@
   <div class="app-container">
 
     <div class="container-query">
-      
-      <el-form>
+      cccc
+      <!-- <el-form>
         <div class="query-area">
           <el-form-item label="测试状态：" style="width:45%">
             <el-select v-model="queryContion.status" placeholder="请选择"  clearable>
@@ -56,7 +56,7 @@
                   </span>
           </el-form-item>
         </div>
-      </el-form>
+      </el-form> -->
 
     </div>
 

@@ -64,13 +64,19 @@ public class shiroConfig {
         map.put("/druid/**","anon");
 
 
-        //自定义拦截器
-        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
-        filtersMap.put("jwt", new JwtFilter());
-        shiroFilterFactoryBean.setFilters(filtersMap);
-        map.put("/**", "jwt");
+        map.put("/swagger-ui.html","anon");
+        map.put("/webjars/**","anon");
+        map.put("/swagger-resources/**","anon");
+        map.put("/v2/**","anon");
 
-        shiroFilterFactoryBean.setLoginUrl("/login.html");
+
+        //自定义拦截器
+//        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
+//        filtersMap.put("jwt", new JwtFilter());
+//        shiroFilterFactoryBean.setFilters(filtersMap);
+//        map.put("/**", "jwt");
+//
+//        shiroFilterFactoryBean.setLoginUrl("/login.html");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
     }

@@ -13,7 +13,6 @@ var constantRouterMap=[
     redirect: '/page/404',
     name: '404'
   },
-
   {
     path: '/login',
     component: resolve => require(['@comp/layout/page/Login.vue'], resolve),
@@ -21,14 +20,12 @@ var constantRouterMap=[
   },
   {
     path: '/text',
-    component: resolve => require(['@comp/layout/page/text.vue'], resolve),
+    component: resolve => require(['@comp/layout/text.vue'], resolve),
     name: 'text'
   },
   
 ]
 
 export default new Router({
-  mode: 'history',
-  base:'/whfch/',
   routes: constantRouterMap
 })

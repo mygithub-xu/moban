@@ -14,9 +14,16 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.Document;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
+import java.io.BufferedReader;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -149,7 +156,19 @@ public class SysTestController {
 
                 return new Result("500", "导入的数据不能为空","");
         }
+        @ApiOperation("aaaaaaaaaaaaaaaa")
+        @PostMapping("/aaaaa")
+        public void aaaaa(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
+                request.setCharacterEncoding("UTF-8");
+                response.setContentType("text/html;charset=UTF-8");
+                BufferedReader reader = request.getReader();
+                String input = null;
+                StringBuffer requstBody = new StringBuffer("");
+                while ((input = reader.readLine()) != null) {
+                        requstBody.append(input);
+                }
+                System.out.println(requstBody.toString());
         }
+ }
 

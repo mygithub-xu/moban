@@ -1,10 +1,10 @@
 <template>
     <div class="layout-header-right" id="layout-header-right" :style="{'color':getLayoutParam.headerFontColor}">
-        <span class="layout-header-right-icon">
+        <!-- <span class="layout-header-right-icon">
             <el-tooltip  effect="light" content="退出" placement="bottom">
                 <i class="icon iconfont icon-tuichu" @click="headRightClick('exit')"> </i>
             </el-tooltip>
-        </span>
+        </span> -->
 
         <span class="layout-header-right-icon">
             <div class="userSettingDiv">
@@ -14,7 +14,6 @@
                 >
                     <el-submenu index="2"  popper-class="infoItem">
                         <template slot="title">
-                            <!-- <el-avatar :src="getAvatar" class="avatarDiv" ></el-avatar> -->
                             <div class="menugetUserName" :style="{'color':getLayoutParam.headerFontColor}">
                                 <span v-if="getUserName">您好: {{getUserName}}</span>
                                 <span v-else>未登录</span>
@@ -22,22 +21,21 @@
                         </template>
                         <el-menu-item index="2-2" @click="headRightClick('changeUserInfo')">修改信息</el-menu-item>
                         <el-menu-item index="2-3" @click="headRightClick('clear')">清除缓存</el-menu-item>
+                        <el-menu-item index="2-4" @click="headRightClick('fullScreen')">全屏</el-menu-item>
+                        <el-menu-item index="2-5" @click="headRightClick('openDrawer')">样式设置</el-menu-item>
+                        <el-menu-item index="2-6" @click="headRightClick('exit')">退出</el-menu-item>
                     </el-submenu>
                 </el-menu>
             </div>
         </span>
 
-        <span class="layout-header-right-icon">
+        <!-- <span class="layout-header-right-icon">
             <el-tooltip  effect="light" content="全屏" placement="bottom">
                 <i class="icon iconfont icon-quanping" @click="headRightClick('fullScreen')"></i>
             </el-tooltip>
         </span>
         <span class="layout-header-right-icon">
             <i class="el-icon-setting" @click="headRightClick('openDrawer')"> </i>
-        </span>
-
-        <!-- <span class="layout-header-right-icon">
-            <i class="icon iconfont  icon-xiaoxitongzhi" > </i>
         </span> -->
     </div>
 </template>
@@ -74,9 +72,14 @@ export default {
                 break;
                 case 'clear': this.clear()
                 break;
-                case 'openDrawer': this.$emit("headRightClick",data)
+                case 'openDrawer': this.openDrawer(data) 
                 break;
             }
+        },
+        openDrawer(data){
+            
+            this.$store.dispatch('changeDrawerStateFun',true);
+            // this.$emit("headRightClick",data)
         },
         //离开系统
         exitSys(){
@@ -89,10 +92,7 @@ export default {
                     sessionStorage.removeItem("User");
                     //去除token
                     sessionStorage.removeItem("Token");
-                    
-                    
             });
-
             this.$router.push("/login");
 
         },
@@ -119,9 +119,7 @@ export default {
 </script>
 <style scoped>
     .layout-header-right{
-        float: right;
         height: 50px;
-        min-width: 300px;
     }
     .layout-header-right ,.layout-header-right-icon {
         float: right;

@@ -1,22 +1,22 @@
 <template>
-        <div class="layout-header-center" :style="{'width':getLayoutType=='1'?100:headerCenterWidth+'px'}">
+        <div class="layout-header-center">
             <template v-if="getLayoutType=='1'">
                 <span class="layout-header-center-icon" :style="{'color':getLayoutParam.headerFontColor}">
                     <i class="icon iconfont" :class="getSiderParam.isCollapse?'icon-zhedie2':'icon-zhedie1'" @click="changeWidth"></i>
                 </span>
             </template>
             <template v-if="getLayoutType=='2'">
-                <sidebar class="menu_container2"  :headerCenterWidth="headerCenterWidth"></sidebar>
+                <topSide></topSide>
             </template>
         </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import sidebar from '@comp/layout/otherLayoutCom/sidebar.vue';
+import topSide from '@comp/layout/otherLayoutCom/topSide.vue';
 export default {
     name:"layoutHeaderCenter",
     components:{
-        sidebar
+        topSide
     },
     data(){
         return {
@@ -31,7 +31,6 @@ export default {
         ]),
 
     },
-
     props:{
         headerCenterWidth:{
             type:Number,
@@ -49,8 +48,8 @@ export default {
 <style scoped>
     .layout-header-center{
         height: 50px;
-        float: left;
         overflow: hidden;
+        flex: 1;
     }
     .layout-header-center-icon i{
         font-size: 25px;
