@@ -129,7 +129,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
                     sql.append(","+autoField.getFieldName()+" ");
 
                     if ("0".equals(autoField.getFieldShowLength())){
-                        sql.append(autoField.getFieldType()+"("+autoField.getFieldLength()+","+autoField.getField_decimal()+") ");
+                        sql.append(autoField.getFieldType()+"("+autoField.getFieldLength()+","+autoField.getFieldDecimal()+") ");
                     }else {
                         sql.append(autoField.getFieldType()+"("+autoField.getFieldLength()+") ");
                     }
@@ -137,7 +137,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
                     if ("1".equals(autoField.getFieldIsNull())){
                         sql.append(" not ");
                     }
-                    sql.append(" NULL COMMENT '"+autoField.getField_des()+"'");
+                    sql.append(" NULL COMMENT '"+autoField.getFieldDes()+"'");
                     if ("0".equals(autoField.getFieldPrimary())){
                         sql.append(",PRIMARY KEY (`"+autoField.getFieldName()+"`) USING BTREE");
                     }

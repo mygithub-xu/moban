@@ -46,7 +46,7 @@ public class $!{DomainName} implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     #end
     @TableField("${table.fieldName}")
-    private ${table.attrType} ${table.fieldName};
+    private ${table.attrType} ${table.attrName};
     #end
 #end
 

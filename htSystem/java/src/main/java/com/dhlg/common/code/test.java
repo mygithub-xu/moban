@@ -18,7 +18,4 @@ public class test {
         test.getTemplates(tableName,packageName,projectName);
 //        System.out.println(test.getsrc(packageName,projectName,"appUser"));
     }
-
-
-
 }
