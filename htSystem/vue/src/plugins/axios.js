@@ -24,7 +24,10 @@ axios.interceptors.request.use(
 
   axios.interceptors.response.use(
     response => {
-      return response;
+      if(response.data.code == "200"){
+        return response;
+      }
+      return Message.error(response.data.message)
     },
     error => {
       let message="";

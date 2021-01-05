@@ -1,4 +1,4 @@
-import User from "@utils/globalJs/UserContext"
+import User from "@utils/common/UserContext"
 
 export default {
   install (Vue) {

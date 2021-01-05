@@ -129,7 +129,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
                     sql.append(","+autoField.getFieldName()+" ");
 
                     if ("0".equals(autoField.getFieldShowLength())){
-                        sql.append(autoField.getFieldType()+"("+autoField.getFieldLength()+","+autoField.getFieldDecimal()+") ");
+                        sql.append(autoField.getFieldType()+"("+autoField.getFieldLength()+","+autoField.getField_decimal()+") ");
                     }else {
                         sql.append(autoField.getFieldType()+"("+autoField.getFieldLength()+") ");
                     }
@@ -137,7 +137,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
                     if ("1".equals(autoField.getFieldIsNull())){
                         sql.append(" not ");
                     }
-                    sql.append(" NULL COMMENT '"+autoField.getFieldDes()+"'");
+                    sql.append(" NULL COMMENT '"+autoField.getField_des()+"'");
                     if ("0".equals(autoField.getFieldPrimary())){
                         sql.append(",PRIMARY KEY (`"+autoField.getFieldName()+"`) USING BTREE");
                     }
@@ -233,13 +233,15 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
 
     @Override
     public Result existable(SysAutoTable sysAutoTable) {
-
-        boolean isexis = existboolean(sysAutoTable);
-
-        if (!isexis){
-            return Result.success("0");
+        if (StringUtils.isBlank(sysAutoTable.getTableName())||StringUtils.isBlank(sysAutoTable.getTableType())){
+            return Result.error("表名不能为空");
         }
-        return Result.error("1");
+
+        if (existboolean(sysAutoTable)){
+            return Result.error("表已存在");
+
+        }
+        return Result.success("表名不能为空");
     }
 
     /*
@@ -251,83 +253,4 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         int tablecoount = doMapper.existable(sysAutoTable.getTableName(),name);
         return 0 != tablecoount;
     }
-
-
-
-
-    /**
-     * 普通文本邮件测试
-     *
-     * @throws Exception
-     */
-    public void test() throws Exception {
-        String to = TO;
-        String subject = SUBJECT;
-        String content = "内容";
-        try {
-            mailUtils.sendSimpleMail(to, subject, content);
-            System.out.println("成功了");
-
-        } catch (MailException e) {
-            System.out.println("失败了");
-            e.printStackTrace();
-        }
-
-    }
-
-
-    /**
-     * 带图片的邮件测试
-     */
-    public void test1() {
-        String to = TO;
-        String subject = SUBJECT;
-        String rscId = "img";
-        String content = "<html><body><img width='250px' src=\'cid:" + rscId + "\'></body></html>";
-        // 此处为电脑系统路径
-        String imgPath = "D:\\aaaa.PNG";
-        try {
-            mailUtils.sendInlineResourceMail(to, subject, content, imgPath, rscId);
-            System.out.println("成功了");
-        } catch (MessagingException e) {
-            System.out.println("失败了");
-            e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * 带HTML邮件测试
-     */
-    public void test2() {
-        String to = TO;
-        String subject = SUBJECT;
-        String content = "<html><head></head><body><h3>哈哈，什么都没有</h3></body></html>";
-        try {
-            mailUtils.sendHtmlMail(to, subject, content);
-            System.out.println("成功了");
-        } catch (MessagingException e) {
-            System.out.println("失败了");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 带附件的邮件测试
-     */
-    public void test3() {
-        String to = TO;
-        String subject = SUBJECT;
-        String content = "内容";
-        String imgPath = "D:\\简历--朱良.doc";
-        try {
-            mailUtils.sendAttachmentsMail(to, subject, content, imgPath);
-            System.out.println("成功了");
-        } catch (MessagingException e) {
-            System.out.println("失败了");
-            e.printStackTrace();
-        }
-    }
-
-
 }

@@ -1,6 +1,5 @@
 <template>
   <section>
-    <slot></slot>
     <transition name="fade-transform" mode="out-in" >
         <keep-alive :include="components">
             <router-view ></router-view>
@@ -25,12 +24,5 @@ export default {
 
 }
 </script>
-
-<style lang="scss" scoped>
-
-
-
-
-</style>
 
 

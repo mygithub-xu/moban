@@ -4,7 +4,7 @@ import store from '@/store/index'
 import Layout from '@comp/layout/text'
 import page404 from '@comp/layout/page/404'
 import Dashboard from '@views/modules/dashboard/Dashboard'
-import User from "@utils/globalJs/UserContext"
+import User from "@utils/common/UserContext"
 
 var getRouter=null //暂存菜单数据
 

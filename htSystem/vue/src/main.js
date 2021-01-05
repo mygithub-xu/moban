@@ -31,15 +31,6 @@ import '@/assets/css/reset.css'
 //自定义全局样式
 import '@/assets/css/style.css'
 
-//过滤器
-import filter from '@utils/filters/index'
-for (const key in filter) {
-    if (filter.hasOwnProperty(key)) {
-        const element = filter[key]
-        Vue.filter(key, element)
-    }
-}
-
 Vue.config.productionTip = false
 // 安装路由
 Vue.use(VueRouter);

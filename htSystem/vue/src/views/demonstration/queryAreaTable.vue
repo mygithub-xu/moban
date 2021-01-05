@@ -1,11 +1,7 @@
 <template>
   <div class="app-container">
-
-    <div class="container-query">
-      cccc
-      <!-- <el-form>
-        <div class="query-area">
-          <el-form-item label="测试状态：" style="width:45%">
+    <div class="container-query" >
+      <queryItem label="测试状态：" width="100%">
             <el-select v-model="queryContion.status" placeholder="请选择"  clearable>
               <el-option
                 v-for="item in statusList"
@@ -14,11 +10,19 @@
                 :value="item.value"
               ></el-option>
             </el-select>
-          </el-form-item>
-
-          <el-form-item label="创建日期：" style="width:45%">
-            <el-date-picker
-              
+      </queryItem>
+      <queryItem label="测试状态：" >
+            <el-select v-model="queryContion.status" placeholder="请选择"  clearable>
+              <el-option
+                v-for="item in statusList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+      </queryItem>
+      <queryItem label="测试状态：" >
+         <el-date-picker
               v-model="queryContion.createTimeList"
               type="daterange"
               align="right"
@@ -27,41 +31,20 @@
               end-placeholder="结束日期"
               value-format="yyyy-MM-dd HH:mm:ss"
             ></el-date-picker>
-          </el-form-item>
-
-          <el-form-item label="测试名：">
-            <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
-          </el-form-item>
-
-          <el-form-item label="测试名：">
-            <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
-          </el-form-item>
-
-          <el-form-item label="测试名：">
-            <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
-          </el-form-item>
-
-          <el-form-item label="测试名：">
-            <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
-          </el-form-item>
-
-          <el-form-item label="测试名：">
-            <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
-          </el-form-item>
-
-          <el-form-item>
-                  <span>
-                    <el-button type="primary"  @click="search" icon="el-icon-search">搜索</el-button>
-                    <el-button  plain @click="reset" icon="el-icon-refresh">重置</el-button>
-                  </span>
-          </el-form-item>
-        </div>
-      </el-form> -->
+      </queryItem>
+      <queryItem label="测试状态：" >
+          <el-input  v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
+      </queryItem>
+      <query-item isButton>
+          <span style="margin-left:30px">
+            <el-button type="primary"  @click="search" icon="el-icon-search">搜索</el-button>
+            <el-button  plain @click="reset" icon="el-icon-refresh">重置</el-button>
+          </span>
+      </query-item>
 
     </div>
 
     <div class="container-table">
-
       <div class="container-btn">
             <span class="container-btn-left">
               <el-button type="primary"  icon="el-icon-plus" @click="handleAdd">新增</el-button>
@@ -80,7 +63,7 @@
       </div>
 
       <div class="common-table-style">
-        <el-table :data="pageData.list" height="100%" border @selection-change="handleSelectionChange"  >
+        <el-table :data="pageData.list" border @selection-change="handleSelectionChange"  >
           <el-table-column fixed type="selection"  ></el-table-column>
           <el-table-column type="index" width="50" label="序号"></el-table-column>
           <el-table-column prop="createTime"  label="创建时间" show-overflow-tooltip></el-table-column>
@@ -139,12 +122,12 @@
             <el-button  @click="cancelSave" icon="el-icon-back">返回</el-button>
             <el-button type="primary"  icon="el-icon-check" @click="handleSave('form')">保存</el-button>
         </div>
+
         <!--表单区域-->
         <div >
-          <el-form >
+          <el-form label-width="120px">
             <div class="edit-area">
-
-              <el-form-item label="创建时间" prop="createTime">
+              <el-form-item label="创建时间" prop="createTime" >
                 <el-date-picker
                   v-model="form.createTime"
                   type="datetime"
@@ -168,14 +151,14 @@
                             <el-form-item label="测试名" prop="testName">
                 <el-input v-model="form.testName"></el-input>
               </el-form-item>
-              <el-form-item>
+              <el-form-item style="width:50%">
                 <el-radio-group v-model="form.testStatus" >
                   <el-radio v-for="item in statusList" :key="item.value" :label="item.value" border size="medium">
                     {{item.label}}
                   </el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="测试类型" style="width:1000px">
+              <el-form-item label="测试类型" style="width:100%">
                 <el-checkbox v-for="item in typeList" :key="item.value" :label="item.label" v-model="item.checked"
                              border @change="changebox"></el-checkbox>
               </el-form-item>
@@ -263,7 +246,9 @@
   </div>
 </template>
 <script>
+import queryItem from '@comp/common/UI/queryItem.vue';
   export default {
+  components: { queryItem },
     name: "queryAreaTable2",
     data() {
       return {

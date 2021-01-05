@@ -1,9 +1,8 @@
-import dateUtils from '@utils/globalJs/dateUtils'
+import dateUtils from '@utils/common/dateUtils'
+import Vue from 'vue'
 
 const filter = {
         // 自定义过滤器
-
-        
         '1000': function (val,unit) {
         if(!unit){
             unit=''
@@ -55,5 +54,9 @@ const filter = {
             return dateUtils.getStandardDateTime(val)
         },
     }
-    
-    export default filter
+for (const key in filter) {
+    if (filter.hasOwnProperty(key)) {
+        const element = filter[key]
+        Vue.filter(key, element)
+    }
+}

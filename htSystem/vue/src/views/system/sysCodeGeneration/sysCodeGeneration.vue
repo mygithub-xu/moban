@@ -11,7 +11,7 @@
             </span>
             </div>
             <!-- 区域二---表格+分页 -->
-            <el-table :data="pageData.list" style="width: 100%" height="100%" :row-style="{height:'50px'}" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange" >
+            <el-table :data="pageData.list"  border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange" >
                 <el-table-column type="selection"  fixed width="45"  align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column type="index" width="55" label="序号" align="center" v-if="xuhao" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip>
@@ -398,30 +398,27 @@
             },
             //保存/修改
             handleSave(){
-                this.$refs
-                        .form.validate(valid => {if (valid) {
-
-        if(!!this.form.createTime){
-            var d=this.form.createTime;
-            this.form.createTime=this.dateUtils(d);
-        }
-        if(!!this.form.updateTime){
-            var d=this.form.updateTime;
-            this.form.updateTime=this.dateUtils(d);
-        }
-                        this.$http
-                                .post(this.api.sysTableSaveOrUpdate, this.form).then(res=> {
-                            if (res.data.code == "200") {
-                            this.$message
-                                    .success(res.data.message);
-                            this.editVisible = false;
-                            this.empty();
-                            this.getdata();
-                        }else{
-                            this.$message
-                                    .error(res.data.message);
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                        if(!!this.form.createTime){
+                            var d=this.form.createTime;
+                            this.form.createTime=this.$utils.dateUtils(d);
                         }
-                    });
+                        if(!!this.form.updateTime){
+                            var d=this.form.updateTime;
+                            this.form.updateTime=this.$utils.dateUtils(d);
+                        }
+                        this.$http.post(this.api.sysTableSaveOrUpdate, this.form).then(res=> {
+                                if (res.data.code == "200") {
+                                    this.$message.success(res.data.message);
+                                    this.editVisible = false;
+                                    this.empty();
+                                    this.getdata();
+                                }else{
+                                    this.$message.error(res.data.message);
+                                }
+                        });
+
                     }
                 })
             },
@@ -442,14 +439,14 @@
             };
                 this.condition= {
                     id: "",
-                            createTime: [],
-                            createUser: [],
-                            parentId: [],
-                            tableName: [],
-                            tableRemark: "",
-                            tableType: [],
-                            updateTime: [],
-                            updateUser: [],
+                    createTime: [],
+                    createUser: [],
+                    parentId: [],
+                    tableName: [],
+                    tableRemark: "",
+                    tableType: [],
+                    updateTime: [],
+                    updateUser: [],
             }
             },
 
@@ -489,8 +486,7 @@
 
             //获取数据
             getTableData(){
-                this.$http
-                        .post(this.api.sysTableListFieldQuery, {
+                this.$http.post(this.api.sysTableListFieldQuery, {
                             ...this.condition,
                             number: this.pageData.pageNumber,
                             size: this.pageData.pageSize
@@ -503,26 +499,6 @@
                 }
             });
             },
-
-            //时间转换器---start
-            dateUtils(d){
-                var year=d.getFullYear();
-                var month=this.prefixInteger(d.getMonth());
-                var date=this.prefixInteger(d.getDate());
-                var hours=this.prefixInteger(d.getHours());
-                var minutes=this.prefixInteger(d.getMinutes());
-                var seconds=this.prefixInteger(d.getSeconds());
-                return year + '-' + month + '-'  + date + ' '  + hours + ':'  + minutes + ':'  + seconds;
-            },
-
-            //自动补零
-            prefixInteger(num) {
-                if(num>9){
-                    return num;
-                }
-                return (Array(2).join(0) + num).slice(-2);
-            },
-            //时间转换器---end
 
             //普通查询及取消
             handleSimpleFilterOk(filterName){
@@ -575,7 +551,6 @@
             },
             //日期查询
             handleDateRangeListFilterOk(filterName) {
-
                 const [minDate, maxDate] = this.condition[filterName];
                 this.condition[filterName] = [
                     minDate.replace(/(\s.+)$/, " 00:00:00"),
@@ -588,44 +563,8 @@
                 this.condition[filterName] = [];
                 this.queryVisible[filterName] = false;
                 this.getTableData();
-            },
-
-
-
+            }
         },
 
     }
 </script>
-<style lang="scss" scope>
-    //表头高度调整
-    .el-table__header th {
-        padding: 0;
-        height: 50px ;
-    }
-    // 弹出框样式
-
-    .red{
-        color: rgb(243, 81, 94);
-    }
-    .table{
-        height:100%;
-        width: 100%;
-    }
-    .icon-filter {
-        display: inline-block;
-        height: 34px;
-        width: 24px;
-        vertical-align: middle;
-        cursor: pointer;
-        background-image: url(require("../../../assets/img/bjt1.jpg") );
-        background-size:20px 20px;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-    .el-dialog__header{
-        padding: 0;
-    }
-    .dialogFix .icon-changjiantou_zuo{
-        font-size: 40px;
-    }
-</style>

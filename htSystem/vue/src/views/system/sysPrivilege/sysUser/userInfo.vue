@@ -87,7 +87,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import bus from "@utils/bus";
+import bus from "@utils/common/bus";
 export default {
   name: "userInfo",
   data(){

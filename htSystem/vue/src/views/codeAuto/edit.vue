@@ -8,7 +8,7 @@
         </div>
         
         <div>
-            <el-form >
+            <el-form :model="form" ref="tableForm" label-width="120px" :rules="rules">
                 <div class="edit-area">
                   <el-form-item label="表名" prop="tableName">
                       <el-input v-model="form.tableName"></el-input>
@@ -38,17 +38,17 @@
                     </el-form-item>
                   </template>
 
-                  <el-form-item label="备注" prop="remark">
+                  <el-form-item label="备注" prop="remark" style="width:50%">
                       <el-input
                         maxlength="200"
-                        :autosize="{ minRows: 3, maxRows: 6}"
+                        :autosize="{ minRows: 3, maxRows: 4}"
                         :rows="3"
                         type="textarea"
-                        style="max-width: 35rem;"
+                        style="max-width: 300px;"
                         @input="descInput_fou()"
                         v-model="form.remark"
+                        show-word-limit
                       ></el-input>
-                      <span>{{remnant_fou}}/200</span>
                   </el-form-item>
 
                 </div>
@@ -150,7 +150,15 @@
             autoFieldList:[]
         },
         remnant_fou: 200,
-        activeName: "first"
+        activeName: "first",
+        rules:{
+          tableName: [
+            { required: true, message: '表名不能为空', trigger: 'blur' }
+          ],
+          tableType:[
+            { required: true, message: '表类型不能为空', trigger: 'blur' }
+          ]
+        },
       }
     },
     props:{
@@ -252,14 +260,18 @@
       },
       //保存/修改
       handleSave() {
-          this.$http.post("system/sysAutoTable/existable", this.form).then(res => {
-            if (res.data.code == "200") {
-              this.saveTableData()
-            } else {
-              this.$message.warning(res.data.message);
-            }
-            
-          });
+
+        this.$refs.tableForm.validate((valid) => {
+          if(valid){
+            this.$http.post("system/sysAutoTable/existable", this.form).then(res => {
+              if (res.data.code == "200") {
+                this.saveTableData()
+              }
+              
+            });
+          }
+        })
+
       },
       changeForm(data){
         let formData = data
@@ -284,17 +296,16 @@
         return formData;
       },
       saveTableData(){
-          let formData = this.changeForm(this.form)
-          this.$http.post("system/sysAutoTable/saveOrUpdate", formData).then(res => {
-            if (res.data.code == "200") {
-              this.$message.success(res.data.message);
-              this.editVisible = false;
-              this.$parent.getdata();
-            } else {
-              this.$message.warning(res.data.message);
-            }
-            
-          });
+              let formData = this.changeForm(this.form)
+              this.$http.post("system/sysAutoTable/saveOrUpdate", formData).then(res => {
+                if (res.data.code == "200") {
+                  this.$message.success(res.data.message);
+                  this.editVisible = false;
+                  this.$parent.getdata();
+                } else {
+                  this.$message.warning(res.data.message);
+                } 
+              });
       },
       handleSelectionChangeDetil(val){
           this.delVal = val;

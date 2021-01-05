@@ -1,5 +1,5 @@
 <template>
-    <div class="app-main">
+    <div class="layout-body">
         <!-- 左侧菜单 -->
         <template v-if="getLayoutType == '1'">
         <div class="left-main" :style="{'width':getSiderParam.menuWidth+'px'}">
@@ -79,7 +79,7 @@ export default {
 }
 </script>
 <style scss scoped>
-.app-main{
+.layout-body{
     width: 100%;
     height: 100%;
     display: flex;
@@ -95,7 +95,6 @@ export default {
     height: 100%;
     background-color: #f3f3f3;
     flex: 1;
-    flex-direction: column;
     overflow: hidden;
 }
 .right-header{
@@ -113,13 +112,14 @@ export default {
 }
 .right-body{
     height: calc(100% - 95px);
+    flex: 1;
     width: 100%;
     margin-top: 5px;
-    /* background-color: royalblue; */
-    
+}
+.app-main{
+    height: 100%;
 }
 .right-body-scrollar{
     height: 100%;
 }
-
 </style>

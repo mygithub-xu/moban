@@ -39,12 +39,12 @@ public class SysAutoField implements Serializable {
      * 字段小数点
      */
     @TableField("field_decimal")
-    private Integer fieldDecimal;
+    private Integer field_decimal;
     /**
      * 字段描述
      */
     @TableField("field_des")
-    private String fieldDes;
+    private String field_des;
     /**
      * 字段是否为空
      */

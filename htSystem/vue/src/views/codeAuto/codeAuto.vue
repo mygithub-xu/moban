@@ -13,35 +13,36 @@
                     </span>
             </div>
             <div class="common-table-style">
-                <el-table :data="pageData.list" height="100%" border header-align="center" @selection-change="handleSelectionChange">
+                <el-table :data="pageData.list"  border @selection-change="handleSelectionChange">
                     <el-table-column  type="selection"  ></el-table-column>
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
-                    <el-table-column prop="tableName"  label="表名" show-overflow-tooltip ></el-table-column>
-                    <el-table-column prop="parentId"  label="父表" show-overflow-tooltip>
+                    <el-table-column prop="tableName" align="center"  label="表名" show-overflow-tooltip ></el-table-column>
+                    <el-table-column prop="parentId"  align="center" label="父表" show-overflow-tooltip>
                         <template slot-scope="scope">
                              <span v-if="scope.row.parentId">无</span>
                              <span v-else>{{scope.row.parentId}}</span>
                         </template>
+
                     </el-table-column>
 
-                    <el-table-column prop="status"  label="状态"  show-overflow-tooltip>
+                    <el-table-column prop="status" align="center" label="状态"  show-overflow-tooltip>
                         <template slot-scope="scope">
                             <span v-if="scope.row.status=='0'">启用</span>
                             <span v-if="scope.row.status=='1'">禁用</span>
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="type"  label="模板类型" show-overflow-tooltip>
+                    <el-table-column prop="type"  align="center" label="模板类型" show-overflow-tooltip>
                         <template slot-scope="scope">
                             <span v-if="scope.row.type=='0'">启用</span>
                             <span v-if="scope.row.type=='1'">禁用</span>
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="remark" label="备注" show-overflow-tooltip>
+                    <el-table-column prop="remark" align="center" label="备注" show-overflow-tooltip>
                     </el-table-column>
 
-                    <el-table-column label="操作" width="250">
+                    <el-table-column label="操作" width="250" align="center">
                         <template slot-scope="scope">
                             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
                             <el-button type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" style="color:red">删除</el-button>
@@ -51,16 +52,16 @@
 
                 </el-table>
             </div>
-
+            <div class="pagination" v-if="frameFontvisible">
+                <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
+            </div>
         </div>
         </template>
 
         <template v-else>
             <editLayout ref="editLayout" @backfont="backfont"></editLayout>
         </template>
-        <div class="pagination" v-if="frameFontvisible">
-            <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
-        </div>
+
         <codeEdit ref="edit" :xiala="xiala"></codeEdit>
 
     </div>
@@ -179,7 +180,9 @@
                     size: this.pageData.pageSize
                 }).then(res => {
                     if (res.data.code == "200") {
-                        this.pageData.list = res.data.body.records;
+                        this.pageData.list = res.data.body.records
+                        this.pageData.totalCount = res.data.body.total
+                        this.pageData.totalPage = res.data.body.pages
                     }
                     
                 })

@@ -1,19 +1,91 @@
-/*带查询区域 全局样式*/
+/*布局样式*/
+
+/*主布局--上下布局*/
 .app-container{
-  height: 100%;
-  width: 100%;
+  width: calc(100% - 20px);
+  margin: 0 10px;
   display:flex;
   flex-direction: column;
 }
-.app-container-tree{
-  height: 100%;
-  width: 100%;
-  display:flex;
-  flex-direction: row;
-}
-.container-query{
+/*查询*/
+.app-container .container-query{
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
   background: #fff;
   width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  display: flex;
+  padding-top: 10px;
+}
+.container-btn-left{
+  display: flex;
+  justify-content:flex-start;
+}
+.container-btn-right{
+  display: flex;
+  justify-content:flex-end;
+  flex: 1;
+}
+/*查询页表格*/
+.app-container .container-table{
+  margin:10px 0;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
+  background: #fff;
+}
+/*按钮*/
+.container-btn{
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+}
+/*表格*/
+.common-table-style{
+  margin: 10px;
+}
+.pagination{
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+/*主布局--左右布局*/
+.app-container-tree{
+  height: 100%;
+  width: calc(100% - 20px);
+  margin: 0 10px 10px 0;
+  display:flex;
+  flex-direction: row;
+}
+
+/*弹出框*/
+.show-dialog .el-dialog__wrapper {
+  position: absolute !important;
+  border-radius: 5px;
+}
+.show-dialog .el-dialog__header{
+  padding: 0;
+}
+.show-dialog .el-dialog{
+  background-color: #f3f3f3;
+}
+.show-dialog .el-dialog__body{
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
+  background: #fff;
+}
+.show-dialog .dialog-button{
+  margin-bottom: 10px;
+}
+.edit-area{
+  flex-direction: row;
+  flex-wrap: wrap;
+  display: flex;
+}
+.edit-area .el-form-item{
+  min-width: 300px;
+  width: 25%;
 }

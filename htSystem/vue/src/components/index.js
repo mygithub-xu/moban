@@ -11,7 +11,7 @@ import currencyInput from '@comp/common/input/currencyInput';
 import uploadFile from '@comp/common/upload/uploadFile';//导入组件
 import exportcom from '@comp/common/upload/exportcom';//导出组件
 import NumberInput from '@comp/common/input/NumberInput';//导出组件
-
+import queryItem from '@comp/common/UI/queryItem';//导出组件
 
 //全局注册icon-svg
 
@@ -27,7 +27,8 @@ const components = [
   uploadFile,
   editComp,
   exportcom,
-  NumberInput
+  NumberInput,
+  queryItem
 ];
 
 export default function(Vue, opts = {}) {
