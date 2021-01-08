@@ -79,6 +79,12 @@ export default {
   sysTestBatchDelete: `/moban/system/sysTest/batchdelete`,//批量删除
   sysTestSaveOrUpdate: `/moban/system/sysTest/saveOrUpdate`,//更新或新增
   sysTestListFieldQuery: `/moban/system/sysTest/listFieldQuery`,//列表查询
+
+  sysAutoFieldFindByTableID: `system/sysAutoField/findByTableID/`,//{id}获取表的字段数据
+
+  //sys_auto_param
+  sysAutoParamSaveOrUpdate: `system/sysAutoParam/saveOrUpdate`,//{id}获取表的字段数据
+  
   /********* 系统配置  end******/
 
 }

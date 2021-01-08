@@ -1,29 +1,24 @@
 <template>
-  <div class="app-container" style="flex-direction: column;">
+  <div class="app-container" >
     <div class="container-query">
-      <el-scrollbar class="query-scrollbar">
-      <el-form :model="condition" ref="form" label-width="100px" size="small">
 
-              <el-form-item label="登录地址：" prop="loginAddress">
-                <el-input  v-model="condition.loginAddress" autocomplete="off"></el-input>
-              </el-form-item>
-
-              <el-form-item label="登录名称：" prop="loginAddress">
-                <el-input  v-model="condition.loginAddress" autocomplete="off"></el-input>
-              </el-form-item>
-
-             <el-form-item label="登录状态：">
-                <el-select v-model="condition.loginStatus"  placeholder="请选择">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-             </el-form-item>
-
-              <el-form-item label="登录时间：">
+      <queryItem label="登录地址：" >
+        <el-input  v-model="condition.loginAddress" autocomplete="off"></el-input>
+      </queryItem>
+      <queryItem label="登录名称：" >
+        <el-input  v-model="condition.loginAddress" autocomplete="off"></el-input>
+      </queryItem>
+      <queryItem label="登录状态：" >
+        <el-select v-model="condition.loginStatus"  placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </queryItem>
+      <queryItem label="登录时间：" >
                 <div>
                   <el-date-picker
                     v-model="condition.startTime"
@@ -32,7 +27,7 @@
                     placeholder="开始时间"
                     style="width:47%;float: left;"
                   ></el-date-picker>
-                  <span class="span_align">-</span>
+                  <span class="span_align"> - </span>
                   <el-date-picker
                     type="date"
                     v-model="condition.endTime"
@@ -41,12 +36,12 @@
                     style="width:47%;float: right;"
                   ></el-date-picker>
                 </div>
-              </el-form-item>
+      </queryItem>
+      <query-item isButton>
+        <el-button style="margin: 0 0 0 18px;" type="primary" icon="el-icon-search" @click="getdata"  size="small">搜索</el-button>
+        <el-button size="small" @click="empty" icon="el-icon-refresh"  >重置</el-button>
+      </query-item>
 
-              <el-button style="margin: 0 0 0 18px;" type="primary" icon="el-icon-search" @click="getdata"  size="small">搜索</el-button>
-              <el-button size="small" @click="empty" icon="el-icon-refresh"  >重置</el-button>
-      </el-form>
-      </el-scrollbar>
     </div>
     <div class="container-table">
       <div>
@@ -56,8 +51,8 @@
         </span>
       </div>
       <div class="common-table-style">
-        <el-table :data="pageData.list" :row-style="{height:'50px'}" border class="table" ref="multipleTable" 
-        align="center" @selection-change="handleSelectionChange" height="100%">
+        <el-table :data="pageData.list" border class="table" ref="multipleTable" 
+        align="center" @selection-change="handleSelectionChange" >
             <el-table-column type="selection"  fixed width="55"  align="center" show-overflow-tooltip></el-table-column>
             <el-table-column min-width="100" prop="userName" label="登录名称" align="center" show-overflow-tooltip></el-table-column>
             <el-table-column min-width="150" prop="loginIp" label="登录地址" align="center" show-overflow-tooltip></el-table-column>

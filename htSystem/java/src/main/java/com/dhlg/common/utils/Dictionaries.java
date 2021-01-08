@@ -8,6 +8,11 @@ package com.dhlg.common.utils;
  **/
 
 public interface Dictionaries {
+
+    //代码生成--查询区域
+    String LAYOUTTYPEQUERY = "1";
+    //代码生成--编辑区域
+    String LAYOUTTYPETABLE= "2";
     /**
      * token的key
      */

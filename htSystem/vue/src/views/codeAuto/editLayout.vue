@@ -46,17 +46,19 @@
             <!--表格区域 -->
             <template v-if="needParam.isShowTableData">
                 <div class="container-table">
-                <div class="common-table-style">
-                    <el-table :data="tableData" style="width: 100%">
-                        <el-table-column
-                        v-for="(item,index) in tableList"
-                        :key="index"
-                        :prop="item.value"
-                        :label="item.label"
-                        width="180">
-                        </el-table-column>
-                    </el-table>
-                </div>
+                    <div class="common-table-style">
+                        <el-table :data="tableData" border style="width: 100%">
+                            <el-table-column
+                            v-for="(item,index) in tableList"
+                            :key="index"
+                            :prop="item.value"
+                            :label="item.title">
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                    <div class="pagination" v-if="needParam.isShowPage">
+                        <pagination :page-list="pageData"></pagination>
+                    </div>
                 </div>
             </template>
         </template>
@@ -67,7 +69,8 @@
     <el-scrollbar style="height:100%">
         <div class="line-div">
             <el-button @click="back">返回</el-button>
-            <el-button>返回xxxx</el-button>
+            <el-button @click="saveParm">保存</el-button>
+            <el-button  @click="greatCode">代码生成</el-button>
         </div>
 
         <div class="line-div">
@@ -79,7 +82,6 @@
             <el-checkbox v-model="needParam.isShowQuery">查询区域</el-checkbox>
             <el-checkbox v-model="needParam.isShowTableData">列表区域</el-checkbox>
             <el-checkbox v-model="needParam.isShowPage">分页区域</el-checkbox>
-            <el-checkbox v-model="needParam.isShowButton">按钮区域</el-checkbox>
         </div>
 
 
@@ -139,19 +141,24 @@
 
         </el-collapse-item>
         <el-collapse-item title="列表区域" name="2">
-            <div class="data-area-item" v-for="item in tableFileds" :key="item.id">
-                <el-checkbox class="data-area-checkbox" v-model="item.fieldIsquery">{{item.fieldName}}</el-checkbox>
-                <el-input class="data-area-input" placeholder="请输入查询标题" v-model="item.fieldIsShowTable"></el-input>
+            <div class="add-query">
+                <div class="add-query-button">
+                    <el-button @click="addTableItem">添加</el-button>
+                </div>
             </div>
-        </el-collapse-item>
-        <el-collapse-item title="xxxx" name="3">
-            <div>简化流程：设计简洁直观的操作流程；</div>
-            <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-            <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
-        </el-collapse-item>
-        <el-collapse-item title="可控 Controllability" name="4">
-            <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-            <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+            <div class="data-area-item" v-for="(item,index) in tableList" :key="index">
+                <i type="text" class="data-area-button el-icon-delete" @click="delTableItem(index)"></i>
+                <el-input class="data-area-input" placeholder="请输入查询标题" v-model="item.title"></el-input>
+                <el-select class="data-area-input" v-model="item.value" placeholder="请选择"  clearable>
+                <el-option
+                    v-for="item in tableFileds"
+                    :key="item.id"
+                    :label="item.fieldName"
+                    :value="item.id"
+                ></el-option>
+                </el-select>
+            </div>
+
         </el-collapse-item>
         </el-collapse>
     </el-scrollbar>
@@ -165,13 +172,13 @@ export default {
     name:"editLayout",
     data(){
         return{
+            saveFlag:false,
             needParam:{
+                fieldParamId:"",
                 layoutType:'1',//1.上查下表，2.左树右表
                 isShowQuery:true,//是否展示查询区域
                 isShowTableData:true,//是否展示表格区域
-                isShowEdit:true,//是否展示编辑区域
                 isShowPage:true,//是否显示分页区域
-                isShowButton:true
             },
             activeName: '1',
             tableFileds:[],
@@ -194,7 +201,14 @@ export default {
                 {value:'3',label:'自定义'}
             ],
             tableList: [],//表格元素
-            tableData: []
+            tableData: [],
+            pageData: {
+                list: [],
+                pageNumber: 1,
+                pageSize: 10,
+                totalCount: 0,
+                totalPage: 0
+            },
         }
     },
     computed:{
@@ -203,39 +217,96 @@ export default {
         }
     },
     methods:{
+        greatCode(){
+            //生成代码
+            this.$confirm("确定是否生成代码", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+            }).then(() => {
+                this.$http.post(this.api.sysAutoParamSaveOrUpdate,{
+                    ...this.needParam,
+                    tableList:this.tableList,
+                    queryList:this.queryList
+                }).then(res => {
+                    if (res.data.code == "200") {
+                        this.saveFlag = true
+                    }
+                })
+            }).catch(() => {
+                this.$message.info("已取消");
+            });
+        },
+        saveParm(){
+            if(!this.needParam.fieldParamId){
+                return this.$message.warning("错误")
+            }
+            this.$confirm("确定是否保存", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+            }).then(() => {
+                this.$http.post(this.api.sysAutoParamSaveOrUpdate,{
+                    ...this.needParam,
+                    tableList:this.tableList,
+                    queryList:this.queryList
+                }).then(res => {
+                    if (res.data.code == "200") {
+                        this.saveFlag = true
+                    }
+                })
+            }).catch(() => {
+                this.$message.info("已取消");
+            });
+
+        },
         empty(){
         },
         editInit(row){
             //置空
             this.empty()
+            this.needParam.fieldParamId = row.id
             //通过id获取字段
-            this.$http.get("system/sysAutoField/findByTableID/"+row.id).then(res => {
+            this.$http.get(this.api.sysAutoFieldFindByTableID + row.id).then(res => {
                 if (res.data.code == "200") {
                     this.tableFileds = this.changeFields(res.data.body);
                 }
-                
             })
         },
         changeFields(data){
             data.forEach(e => {
                 //是否为查询区域
-                if(e.fieldIsquery == '1'){
+                e.fieldIsquery = false
+                e.fieldIsShowTable = false
+                e.fieldIsShowFrom = false
+                if(e.isQueryId){
                     e.fieldIsquery = true
                 }
                 //是否为表格区域
-                if(e.fieldIsShowTable == '1'){
+                if(e.isTableId){
                     e.fieldIsShowTable = true
                 }
                 //是否为表单区域
-                if(e.fieldIsShowTable == '1'){
-                    e.fieldIsShowFrom = true
+                if(e.isFormId){
+                    e.fieldIsShowForm = true
                 }
+                
             });
             return data
         },
         //根据
         back(){
             this.$emit("backfont")
+        },
+        delTableItem(index){
+            this.tableList.splice(index,1)
+        },
+        addTableItem(){
+            var item = {
+                title:"",
+                value:""
+            }
+            this.tableList.push(item)
         },
         addQueryItem(){
             if(!this.addType){
@@ -330,8 +401,8 @@ export default {
 }
 .add-query-button{
     display: flex;
-    width: auto;
-    margin-right: 10px;
+    justify-content: flex-end;
+    margin-right: 20px;
 }
 .data-area-button{
     width: 32px;

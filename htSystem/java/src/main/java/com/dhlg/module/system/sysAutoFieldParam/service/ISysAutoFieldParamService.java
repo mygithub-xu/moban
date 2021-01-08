@@ -1,11 +1,10 @@
-package com.dhlg.module.system.sysAutoTable.service;
+package com.dhlg.module.system.sysAutoFieldParam.service;
 
-import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
+import com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlg.common.utils.Parameter.Parameter;
 import com.dhlg.common.utils.Result;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +16,9 @@ import java.util.Map;
  * @author xu
  * @since
  */
-public interface ISysAutoTableService extends IService<SysAutoTable> {
+public interface ISysAutoFieldParamService extends IService<SysAutoFieldParam> {
 
-    Result customSaveOrUpdate(SysAutoTable sysAutoTable) throws SQLException;
+    Result customSaveOrUpdate(SysAutoFieldParam sysAutoFieldParam);
 
     Result delete(String id);
 
@@ -28,10 +27,4 @@ public interface ISysAutoTableService extends IService<SysAutoTable> {
     Result queryByCondition(Parameter parameter);
 
     Result listFieldQuery(Map<String, Object> params);
-
-    Result getNodeList();
-
-    Result existable(SysAutoTable sysAutoTable);
-
-    Result aaaa() throws SQLException;
 }

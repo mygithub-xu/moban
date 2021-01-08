@@ -78,7 +78,6 @@ public class SysAutoTable implements Serializable{
     @TableField("type")
     private String type;
 
-
     /**
      * 更新时间
      */

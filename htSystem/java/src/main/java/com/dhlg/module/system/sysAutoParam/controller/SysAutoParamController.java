@@ -1,18 +1,15 @@
-package com.dhlg.module.system.sysAutoTable.controller;
+package com.dhlg.module.system.sysAutoParam.controller;
 
-import com.dhlg.common.utils.GetLoginUser;
-import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
-import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
+import com.dhlg.module.system.sysAutoParam.entity.SysAutoParam;
+import com.dhlg.module.system.sysAutoParam.service.ISysAutoParamService;
 import com.dhlg.common.utils.Parameter.Parameter;
 import com.dhlg.common.utils.Result;
 import com.dhlg.common.utils.StringUtils;
 import com.dhlg.common.utils.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,31 +22,21 @@ import java.util.Map;
  * @since
  */
 @RestController
-@RequestMapping("/api/system/sysAutoTable")
+@RequestMapping("/api/system/sysAutoParam")
 @CrossOrigin
-public class SysAutoTableController {
+public class SysAutoParamController {
 
         @Autowired
-        ISysAutoTableService doService;
+        ISysAutoParamService doService;
 
-
-        @ApiOperation("查询是否存在该表")
-        @PostMapping("/existable")
-        public Result existable(@RequestBody SysAutoTable sysAutoTable) {
-
-                if(StringUtils.isBlank(sysAutoTable)){
-                        throw new ParamIsNullException();
-                }
-                return  doService.existable(sysAutoTable);
-        }
 
         @ApiOperation("保存或者更新")
         @PostMapping("/saveOrUpdate")
-        public Result saveOrUpdate(@RequestBody SysAutoTable sysAutoTable) throws SQLException {
-                if(StringUtils.isBlank(sysAutoTable)){
+        public Result saveOrUpdate(@RequestBody SysAutoParam sysAutoParam) {
+                if(StringUtils.isBlank(sysAutoParam)){
                         throw new ParamIsNullException();
                 }
-                return  doService.customSaveOrUpdate(sysAutoTable);
+                return  doService.customSaveOrUpdate(sysAutoParam);
         }
 
 
@@ -79,19 +66,7 @@ public class SysAutoTableController {
         @ApiOperation("列表字段查询")
         @PostMapping("/listFieldQuery")
         public Result listFieldQuery(@RequestBody Map<String, Object> params) {
-                return  doService.listFieldQuery(params);
-        }
-
-        @ApiOperation("获取树状数据")
-        @PostMapping("/getNodeList")
-        public Result getNodeList() {
-                return  doService.getNodeList();
-        }
-
-        @ApiOperation("获取树状数据")
-        @PostMapping("/aaaa")
-        public Result aaaa() throws SQLException {
-                return  doService.aaaa();
+        return  doService.listFieldQuery(params);
         }
 }
 

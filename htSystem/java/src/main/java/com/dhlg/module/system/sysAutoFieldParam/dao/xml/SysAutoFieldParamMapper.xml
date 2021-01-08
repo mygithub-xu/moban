@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.system.sysAutoFieldParam.dao.SysAutoFieldParamMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam">
+        <id column="id" property="id" />
+        <result column="layout_type" property="layoutType" />
+        <result column="param_id" property="paramId" />
+        <result column="title" property="title" />
+        <result column="type" property="type" />
+        <result column="value" property="value" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+                id,                layout_type,                param_id,                title,                type,                value    </sql>
+
+    <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam">
+        select * from sys_auto_field_param
+        <trim prefix="where" prefixOverrides="and">
+            <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">
+                CONCAT(
+                            ,layout_type
+                            ,param_id
+                            ,title
+                            ,type
+                            ,value
+                ) like concat('%',#{parameter.condition.queryContent},'%')
+            </if>
+        </trim>
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select * from sys_auto_field_param
+        <trim prefix="where" prefixOverrides="and">
+
+
+                    <if test=" parameter.layoutType !=null and parameter.layoutType !='' ">
+                        and layout_type like concat('%',#{parameter.layoutType},'%')
+                    </if>
+
+
+                    <if test=" parameter.paramId !=null and parameter.paramId !='' ">
+                        and param_id like concat('%',#{parameter.paramId},'%')
+                    </if>
+
+
+                    <if test=" parameter.title !=null and parameter.title !='' ">
+                        and title like concat('%',#{parameter.title},'%')
+                    </if>
+
+
+                    <if test=" parameter.type !=null and parameter.type !='' ">
+                        and type like concat('%',#{parameter.type},'%')
+                    </if>
+
+
+                    <if test=" parameter.value !=null and parameter.value !='' ">
+                        and value like concat('%',#{parameter.value},'%')
+                    </if>
+
+        </trim>
+        order by id desc
+    </select>
+
+</mapper>

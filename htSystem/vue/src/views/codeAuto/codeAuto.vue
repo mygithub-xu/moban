@@ -46,7 +46,7 @@
                         <template slot-scope="scope">
                             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
                             <el-button type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" style="color:red">删除</el-button>
-                            <el-button type="text" icon="el-icon-plus" @click="handleGenerateFront(scope.row)">生成前端</el-button>
+                            <el-button type="text"  @click="handleGenerateFront(scope.row)">模板编制</el-button>
                         </template>
                     </el-table-column>
 
