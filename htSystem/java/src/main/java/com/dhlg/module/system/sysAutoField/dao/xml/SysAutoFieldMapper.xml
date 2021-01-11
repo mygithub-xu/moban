@@ -14,12 +14,11 @@
         <result column="field_isNull" property="fieldIsNull" />
         <result column="field_primary" property="fieldPrimary" />
         <result column="field_index" property="fieldIndex" />
-        <result column="field_show_length" property="fieldShowLength" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-                id,                table_id,                field_name,                field_des,                field_length,                field_type,                field_decimal,                field_isNull,                field_primary,                       field_index,                field_show_length    </sql>
+                id,                table_id,                field_name,                field_des,                field_length,                field_type,                field_decimal,                field_isNull,                field_primary,                       field_index           </sql>
 
     <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
         select * from sys_auto_field

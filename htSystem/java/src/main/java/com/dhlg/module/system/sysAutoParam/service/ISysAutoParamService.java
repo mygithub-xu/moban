@@ -27,4 +27,6 @@ public interface ISysAutoParamService extends IService<SysAutoParam> {
     Result queryByCondition(Parameter parameter);
 
     Result listFieldQuery(Map<String, Object> params);
+
+    Result findByTableID(String id);
 }

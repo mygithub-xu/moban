@@ -26,5 +26,7 @@ public interface SysAutoTableMapper extends BaseMapper<SysAutoTable> {
     int existable(String tableName, String name);
 
     String getDatabaseName();
+
+    void deleteTable(@Param("tableName")String tableName);
 }
         

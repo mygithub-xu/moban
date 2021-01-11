@@ -44,6 +44,7 @@ export default {
 .query-title{
     line-height: 33px;
     text-align: right;
+    font-size: 14px;
 }
 .query-input{
     flex: 1;

@@ -33,5 +33,5 @@ public interface ISysAutoTableService extends IService<SysAutoTable> {
 
     Result existable(SysAutoTable sysAutoTable);
 
-    Result aaaa() throws SQLException;
+    Result findByID(String id);
 }

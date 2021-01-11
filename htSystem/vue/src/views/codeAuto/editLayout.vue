@@ -6,7 +6,7 @@
             <template v-if="needParam.isShowQuery">
             <!--查询区域 -->
             <div class="container-query" >
-                <template v-for="(item,index) in queryList" >
+                <template v-for="(item,index) in needParam.queryList" >
                     <!--普通查询框 -->
                     <queryItem v-if="item.type == '1'" :label="item.title+'：'" :key="index">
                         <el-input  clearable></el-input>
@@ -37,19 +37,19 @@
                 </template>
                 <query-item isButton>
                      <!--按钮 -->
-                    <template v-for="(item,index) in queryList">
+                    <template v-for="(item,index) in needParam.queryList">
                        <el-button style="margin-left:10px" v-if="item.type == '4'" :key="index">{{item.title}}</el-button> 
                     </template>
                 </query-item>
             </div>
             </template>
             <!--表格区域 -->
-            <template v-if="needParam.isShowTableData">
+            <template v-if="needParam.isShowTable">
                 <div class="container-table">
                     <div class="common-table-style">
-                        <el-table :data="tableData" border style="width: 100%">
+                        <el-table  border style="width: 100%">
                             <el-table-column
-                            v-for="(item,index) in tableList"
+                            v-for="(item,index) in needParam.tableList"
                             :key="index"
                             :prop="item.value"
                             :label="item.title">
@@ -80,7 +80,7 @@
 
         <div class="line-div">
             <el-checkbox v-model="needParam.isShowQuery">查询区域</el-checkbox>
-            <el-checkbox v-model="needParam.isShowTableData">列表区域</el-checkbox>
+            <el-checkbox v-model="needParam.isShowTable">列表区域</el-checkbox>
             <el-checkbox v-model="needParam.isShowPage">分页区域</el-checkbox>
         </div>
 
@@ -102,7 +102,7 @@
                     <el-button @click="addQueryItem">添加</el-button>
                 </div>
             </div>
-            <div class="data-area-item" v-for="(item,index) in queryList" :key="index">
+            <div class="data-area-item" v-for="(item,index) in needParam.queryList" :key="index">
                 <i type="text" class="data-area-button el-icon-delete" @click="delItem(index)"></i>
                 <template v-if="item.type == '1' || item.type == '2'">
                     <el-input class="data-area-input" placeholder="请输入查询标题" v-model="item.title"></el-input>
@@ -146,7 +146,7 @@
                     <el-button @click="addTableItem">添加</el-button>
                 </div>
             </div>
-            <div class="data-area-item" v-for="(item,index) in tableList" :key="index">
+            <div class="data-area-item" v-for="(item,index) in needParam.tableList" :key="index">
                 <i type="text" class="data-area-button el-icon-delete" @click="delTableItem(index)"></i>
                 <el-input class="data-area-input" placeholder="请输入查询标题" v-model="item.title"></el-input>
                 <el-select class="data-area-input" v-model="item.value" placeholder="请选择"  clearable>
@@ -174,11 +174,13 @@ export default {
         return{
             saveFlag:false,
             needParam:{
-                fieldParamId:"",
+                tableId:"",
                 layoutType:'1',//1.上查下表，2.左树右表
                 isShowQuery:true,//是否展示查询区域
-                isShowTableData:true,//是否展示表格区域
+                isShowTable:true,//是否展示表格区域
                 isShowPage:true,//是否显示分页区域
+                queryList:[],//查询区域元素集合
+                tableList: []//表格元素
             },
             activeName: '1',
             tableFileds:[],
@@ -189,7 +191,6 @@ export default {
                 {value:'3',label:'日期下拉框'},
                 {value:'4',label:'按钮'}
             ],
-            queryList:[],//查询区域元素集合
             currencyList:[],//下拉框通用list
             currencyValue:'',//下拉框通用值
             dropDataSource:[
@@ -200,8 +201,6 @@ export default {
                 {value:'2',label:'重置'},
                 {value:'3',label:'自定义'}
             ],
-            tableList: [],//表格元素
-            tableData: [],
             pageData: {
                 list: [],
                 pageNumber: 1,
@@ -226,8 +225,8 @@ export default {
             }).then(() => {
                 this.$http.post(this.api.sysAutoParamSaveOrUpdate,{
                     ...this.needParam,
-                    tableList:this.tableList,
-                    queryList:this.queryList
+                    tableList:this.needParam.tableList,
+                    queryList:this.needParam.queryList
                 }).then(res => {
                     if (res.data.code == "200") {
                         this.saveFlag = true
@@ -238,7 +237,8 @@ export default {
             });
         },
         saveParm(){
-            if(!this.needParam.fieldParamId){
+            console.log(this.needParam.id)
+            if(!this.needParam.tableId){
                 return this.$message.warning("错误")
             }
             this.$confirm("确定是否保存", "提示", {
@@ -246,11 +246,7 @@ export default {
             cancelButtonText: "取消",
             type: "warning"
             }).then(() => {
-                this.$http.post(this.api.sysAutoParamSaveOrUpdate,{
-                    ...this.needParam,
-                    tableList:this.tableList,
-                    queryList:this.queryList
-                }).then(res => {
+                this.$http.post(this.api.sysAutoParamSaveOrUpdate,this.needParam).then(res => {
                     if (res.data.code == "200") {
                         this.saveFlag = true
                     }
@@ -265,48 +261,36 @@ export default {
         editInit(row){
             //置空
             this.empty()
-            this.needParam.fieldParamId = row.id
+            //获取下拉框数据
+            this.getdropData(row.id)
+
             //通过id获取字段
-            this.$http.get(this.api.sysAutoFieldFindByTableID + row.id).then(res => {
+            this.$http.get(this.api.sysAutoParamFindByTableID + row.id).then(res => {
                 if (res.data.code == "200") {
-                    this.tableFileds = this.changeFields(res.data.body);
+                    this.needParam = res.data.body
                 }
             })
         },
-        changeFields(data){
-            data.forEach(e => {
-                //是否为查询区域
-                e.fieldIsquery = false
-                e.fieldIsShowTable = false
-                e.fieldIsShowFrom = false
-                if(e.isQueryId){
-                    e.fieldIsquery = true
+        getdropData(id){
+            this.$http.get(this.api.sysAutoFieldFindByTableID + id).then(res => {
+                if (res.data.code == "200") {
+                    this.tableFileds = res.data.body
                 }
-                //是否为表格区域
-                if(e.isTableId){
-                    e.fieldIsShowTable = true
-                }
-                //是否为表单区域
-                if(e.isFormId){
-                    e.fieldIsShowForm = true
-                }
-                
-            });
-            return data
+            })
         },
         //根据
         back(){
             this.$emit("backfont")
         },
         delTableItem(index){
-            this.tableList.splice(index,1)
+            this.needParam.tableList.splice(index,1)
         },
         addTableItem(){
             var item = {
                 title:"",
                 value:""
             }
-            this.tableList.push(item)
+            this.needParam.tableList.push(item)
         },
         addQueryItem(){
             if(!this.addType){
@@ -317,17 +301,17 @@ export default {
                 title:"",
                 value:""
             }
-            this.queryList.push(item)
+            this.needParam.queryList.push(item)
         },
         empty(){
-            this.queryList = []
+            this.needParam.queryList = []
             let queryItem = [
                 {value:'1',label:'查询'},
                 {value:'2',label:'重置'}
             ]
         },
         delItem(index){
-            this.queryList.splice(index,1)
+            this.needParam.queryList.splice(index,1)
         }
     }
 }

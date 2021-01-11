@@ -70,17 +70,35 @@ public class SysAutoParam implements Serializable {
     /**
      * 表格区域（0：false，1：true）
      */
-    @TableField("show_table_data")
-    private String showTableData;
+    @TableField("show_table")
+    private String showTable;
+
+    @TableField("table_id")
+    private String tableId;
+
+    /**
+     * 更新时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @TableField("update_time")
+    private Date updateTime;
+    /**
+     * 更新人
+     */
+    @TableField("update_user")
+    private String updateUser;
 
     @TableField(exist = false)
     private Boolean isShowQuery;
 
     @TableField(exist = false)
-    private Boolean isShowTableData;
+    private Boolean isShowTable;
 
     @TableField(exist = false)
     private Boolean isShowPage;
+
+    @TableField(exist = false)
+    private Boolean isShowEdit;
 
     @TableField(exist = false)
     private List<SysAutoFieldParam> tableList;

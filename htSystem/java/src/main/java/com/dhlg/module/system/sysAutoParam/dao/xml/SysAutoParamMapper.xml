@@ -11,12 +11,16 @@
         <result column="show_edit" property="showEdit" />
         <result column="show_page" property="showPage" />
         <result column="show_query" property="showQuery" />
-        <result column="show_table_data" property="showTableData" />
+        <result column="show_table" property="showTable" />
+        <result column="table_id" property="tableId" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-                create_time,                create_user,                id,                layout_type,                show_edit,                show_page,                show_query,                show_table_data    </sql>
+                create_time, create_user,id,  layout_type, show_edit,show_page,show_query,show_table  ,tableId ,update_time,update_user</sql>
 
     <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoParam.entity.SysAutoParam">
         select * from sys_auto_param
@@ -28,7 +32,7 @@
                             ,show_edit
                             ,show_page
                             ,show_query
-                            ,show_table_data
+                            ,show_table
                 ) like concat('%',#{parameter.condition.queryContent},'%')
             </if>
         </trim>
@@ -74,12 +78,11 @@
                     </if>
 
 
-                    <if test=" parameter.showTableData !=null and parameter.showTableData !='' ">
-                        and show_table_data like concat('%',#{parameter.showTableData},'%')
+                    <if test=" parameter.showTable !=null and parameter.showTable !='' ">
+                        and show_table like concat('%',#{parameter.showTable},'%')
                     </if>
 
         </trim>
         order by id desc
     </select>
-
 </mapper>

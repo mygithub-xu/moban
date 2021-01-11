@@ -107,15 +107,15 @@
                     </template>
                   </el-table-column>
 
-                  <el-table-column prop="fieldIsNull" min-width="90" label="不是null" align="center">
+                  <el-table-column prop="fieldIsNullBoo" min-width="90" label="不是null" align="center">
                     <template slot-scope="scope">
-                      <el-checkbox v-model="scope.row.fieldIsNull" :disabled="scope.row.fieldName == 'id'"></el-checkbox>
+                      <el-checkbox v-model="scope.row.fieldIsNullBoo" :disabled="scope.row.fieldName == 'id'"></el-checkbox>
                     </template>
                   </el-table-column>
 
-                  <el-table-column prop="fieldPrimary" min-width="90" label="键" align="center">
+                  <el-table-column prop="fieldPrimaryBoo" min-width="90" label="键" align="center">
                     <template slot-scope="scope">
-                      <el-checkbox v-model="scope.row.fieldPrimary" :disabled="scope.row.fieldName == 'id'"></el-checkbox>
+                      <el-checkbox v-model="scope.row.fieldPrimaryBoo" :disabled="scope.row.fieldName == 'id'"></el-checkbox>
                     </template>
                   </el-table-column>
 
@@ -178,11 +178,9 @@
       //编辑时初始化数据
       editInit(row){
         Object.assign(this.form,row);
-        this.$http.get("system/sysAutoField/findByTableID/"+row.id).then(res => {
+        this.$http.get(this.api.sysAutoTableFindByID + row.id).then(res => {
           if (res.data.code == "200") {
-            this.form.autoFieldList = res.data.body
-            //修改选中的值
-            this.form = this.changeForm2(this.form)
+            this.form = res.data.body
           } else {
             this.$message.warning("获取子数据失败");
           }
@@ -211,8 +209,8 @@
             fieldType: "VARCHAR",
             fieldLength: 36,
             fieldDecimal: 0,
-            fieldIsNull: true,
-            fieldPrimary: true,
+            fieldIsNullBoo: true,
+            fieldPrimaryBoo: true,
             fieldDes: "主键",
             fieldIndex: "0"
           },
@@ -221,8 +219,8 @@
             fieldType: "DATETIME",
             fieldLength: 0,
             fieldDecimal: 0,
-            fieldIsNull: false,
-            fieldPrimary: false,
+            fieldIsNullBoo: false,
+            fieldPrimaryBoo: false,
             fieldDes: "创建时间",
             fieldIndex: "1"
           },
@@ -231,8 +229,8 @@
             fieldType: "VARCHAR",
             fieldLength: 36,
             fieldDecimal: 0,
-            fieldIsNull: false,
-            fieldPrimary: false,
+            fieldIsNullBoo: false,
+            fieldPrimaryBoo: false,
             fieldDes: "创建人",
             fieldIndex: "2"
           },
@@ -241,8 +239,8 @@
             fieldType: "DATETIME",
             fieldLength: 0,
             fieldDecimal: 0,
-            fieldIsNull: false,
-            fieldPrimary: false,
+            fieldIsNullBoo: false,
+            fieldPrimaryBoo: false,
             fieldDes: "更新时间",
             fieldIndex: "3"
           },
@@ -251,8 +249,8 @@
             fieldType: "VARCHAR",
             fieldLength: 36,
             fieldDecimal: 0,
-            fieldIsNull: false,
-            fieldPrimary: false,
+            fieldIsNullBoo: false,
+            fieldPrimaryBoo: false,
             fieldDes: "更新人",
             fieldIndex: "4"
           }
@@ -273,31 +271,8 @@
         })
 
       },
-      changeForm(data){
-        let formData = data
-        if(formData.autoFieldList.length&&formData.autoFieldList.length > 0){
-            formData.autoFieldList.forEach((element,index) => {
-              element.fieldIsNull = element.fieldIsNull?'1':'0';
-              element.fieldPrimary = element.fieldPrimary?'0':'1';
-              element.fieldIndex = index
-            });
-        }
-        return formData;
-      },
-      changeForm2(data){
-        let formData = data
-        if(formData.autoFieldList.length&&formData.autoFieldList.length > 0){
-            formData.autoFieldList.forEach((element,index) => {
-              element.fieldIsNull = element.fieldIsNull == '1'?true:false;
-              element.fieldPrimary = element.fieldPrimary == '0'?true:false;
-              element.fieldIndex = index
-            });
-        }
-        return formData;
-      },
       saveTableData(){
-              let formData = this.changeForm(this.form)
-              this.$http.post("system/sysAutoTable/saveOrUpdate", formData).then(res => {
+              this.$http.post("system/sysAutoTable/saveOrUpdate", this.form).then(res => {
                 if (res.data.code == "200") {
                   this.$message.success(res.data.message);
                   this.editVisible = false;
@@ -324,8 +299,8 @@
           fieldType: "",
           fieldLength: '',
           fieldDecimal: 0,
-          fieldIsNull: false,
-          fieldPrimary: false,
+          fieldIsNullBoo: false,
+          fieldPrimaryBoo: false,
           fieldDes: "",
           fieldIndex:""
         }

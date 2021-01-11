@@ -81,11 +81,6 @@ public class SysAutoField implements Serializable {
      */
     @TableField("field_index")
     private String fieldIndex;
-    /**
-     * 是否显示小数点 0显示，1不显示
-     */
-    @TableField("field_show_length")
-    private String fieldShowLength;
 
     /**
      * 是否显示小数点 0显示，1不显示
@@ -93,5 +88,16 @@ public class SysAutoField implements Serializable {
     @TableField(exist = false)
     private String fieldShowType;
 
+    /**
+     * 是否为空
+     */
+    @TableField(exist = false)
+    private Boolean fieldIsNullBoo;
+
+    /**
+     * 是否为主键
+     */
+    @TableField(exist = false)
+    private Boolean fieldPrimaryBoo;
 
 }

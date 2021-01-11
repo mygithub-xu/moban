@@ -1,8 +1,10 @@
 package com.dhlg.module.system.sysAutoParam.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dhlg.common.utils.*;
+import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
 import com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam;
 import com.dhlg.module.system.sysAutoFieldParam.service.impl.SysAutoFieldParamServiceImpl;
 import com.dhlg.module.system.sysAutoParam.entity.SysAutoParam;
@@ -39,10 +41,30 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
     @Override
     @Transactional
     public Result customSaveOrUpdate(SysAutoParam sysAutoParam) {
+
+        //是否展示查询区域
+        if (sysAutoParam.getIsShowQuery()){
+            sysAutoParam.setShowQuery("1");
+        }
+        //是否展示表格区域
+        if (sysAutoParam.getIsShowTable()){
+            sysAutoParam.setShowTable("1");
+        }
+        //是否显示分页区域
+        if (sysAutoParam.getIsShowPage()){
+            sysAutoParam.setShowPage("1");
+        }
+
         //判断新增还是修改
         if (!StringUtils.isBlank(sysAutoParam.getId())) {
-            //修改
-            updateById(sysAutoParam);
+            sysAutoParam.setUpdateTime(DateUtils.getCurrentDate());
+            sysAutoParam.setUpdateUser(GetLoginUser.getCurrentUserId());
+            //删除明细
+            QueryWrapper<SysAutoFieldParam> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("param_id",sysAutoParam.getId());
+            fieldParamService.remove(queryWrapper);
+            //保存明细
+            saveDetail(sysAutoParam);
             if(!updateById(sysAutoParam)){
                 return new Result("500","", Dictionaries.UPDATE_FAILED);
             }
@@ -53,22 +75,17 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
         sysAutoParam.setId(StringUtils.uuid());
         sysAutoParam.setCreateUser(GetLoginUser.getCurrentUserId());
         sysAutoParam.setCreateTime(DateUtils.getCurrentDate());
-        //是否展示查询区域
-        if (sysAutoParam.getIsShowQuery()){
-            sysAutoParam.setShowQuery("1");
-        }
-        //是否展示表格区域
-        if (sysAutoParam.getIsShowTableData()){
-            sysAutoParam.setShowTableData("1");
-        }
-        //是否显示分页区域
-        if (sysAutoParam.getIsShowPage()){
-            sysAutoParam.setShowPage("1");
-        }
+
         if (!save(sysAutoParam)){
             return new Result("500","", Dictionaries.SAVE_FAILED);
         }
+        //保存明细
+        saveDetail(sysAutoParam);
+        return new Result("200","",Dictionaries.SAVE_SUCCESS);
+    }
 
+    //批量保存明细
+    public void saveDetail(SysAutoParam sysAutoParam) {
         //新增明细
         List<SysAutoFieldParam> sysAutoFieldParam = new ArrayList<>();
         //添加查询区域元素
@@ -81,7 +98,7 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
             }
         }
         //添加表格区域元素
-        if (sysAutoParam.getIsShowTableData()){
+        if (sysAutoParam.getIsShowTable()){
             for (SysAutoFieldParam item : sysAutoParam.getTableList()){
                 item.setId(StringUtils.uuid());
                 item.setParamId(sysAutoParam.getId());
@@ -91,7 +108,6 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
         }
         fieldParamService.saveBatch(sysAutoFieldParam);
 
-        return new Result("200","",Dictionaries.SAVE_SUCCESS);
     }
 
     @Override
@@ -123,5 +139,27 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
         Long size = Long.valueOf(String.valueOf(params.getOrDefault("size", 10)));
         IPage<SysAutoParam> dataList = doMapper.listFieldQuery(new Page(number, size), params);
         return new Result("200", dataList);
+    }
+
+    @Override
+    public Result findByTableID(String id) {
+        //通过id找到一条数据
+        SysAutoParam one = getOne(new QueryWrapper<SysAutoParam>().eq("table_id",id));
+        //构造查询区域
+        one.setIsShowQuery(Dictionaries.ISSHOWQUERY.equals(one.getShowQuery()));
+        //构造查询区域
+        one.setIsShowTable(Dictionaries.ISSHOWTABLE.equals(one.getShowTable()));
+        //构造区域
+        one.setIsShowEdit(Dictionaries.ISSHOWQUERY.equals(one.getShowQuery()));
+        //构造查询区域
+        one.setIsShowPage(Dictionaries.ISSHOWPAGE.equals(one.getShowPage()));
+
+        //通过id找到queryList
+        List<SysAutoFieldParam> queryList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPEQUERY));
+        one.setQueryList(queryList);
+        //通过id找到queryList
+        List<SysAutoFieldParam> tableList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPETABLE));
+        one.setTableList(tableList);
+        return Result.success(one,"获取成功");
     }
 }

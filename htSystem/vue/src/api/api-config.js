@@ -54,7 +54,7 @@ export default {
   updateButton: `system/sysbutton/updatebyid`,
   insertButton: `system/sysbutton/insert`,
   
-  // 账号管理 sys_user
+  //账号管理 sys_user
   login: `system/sysUser/login`, // 登陆
   logout: `system/sysUser/logout`, // 登出
   userGetList: `system/sysUser/getList`,//获得全部账号
@@ -73,17 +73,18 @@ export default {
   LoginLogQuery: `system/sysLoginLog/query`, // 条件查询
   LoginLogBatchdelete: `system/sysLoginLog/batchdelete`, // 条件查询
 
-
-  sysTestQueryByCondition: `/moban/system/sysTest/querybycondition`,//查询
-  sysTestDeletebyid: `/moban/system/sysTest/deleteById/`,//单个删除
-  sysTestBatchDelete: `/moban/system/sysTest/batchdelete`,//批量删除
-  sysTestSaveOrUpdate: `/moban/system/sysTest/saveOrUpdate`,//更新或新增
-  sysTestListFieldQuery: `/moban/system/sysTest/listFieldQuery`,//列表查询
-
+  //代码生成 sys_auto_table
+  sysAutoTableQuerybycondition: 'system/sysAutoTable/querybycondition',
+  sysAutoTabledeleteById: `/system/sysAutoTable/deleteById/`,//单个删除
+  sysAutoTableBatchDelete: `/system/sysAutoTable/batchdelete`,//批量删除
+  sysAutoTableFindByID: `/system/sysAutoTable/findByID/`,//编辑
+  
+  //代码生成子类 sys_auto_field
   sysAutoFieldFindByTableID: `system/sysAutoField/findByTableID/`,//{id}获取表的字段数据
 
-  //sys_auto_param
-  sysAutoParamSaveOrUpdate: `system/sysAutoParam/saveOrUpdate`,//{id}获取表的字段数据
+  //代码生成子类 sys_auto_param
+  sysAutoParamSaveOrUpdate: `system/sysAutoParam/saveOrUpdate`,
+  sysAutoParamFindByTableID: `system/sysAutoParam/findByTableID/`,//{id}获取表的字段数据
   
   /********* 系统配置  end******/
 

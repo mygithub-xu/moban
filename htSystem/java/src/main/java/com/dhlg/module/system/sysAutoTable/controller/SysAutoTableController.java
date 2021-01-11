@@ -33,6 +33,7 @@ public class SysAutoTableController {
         ISysAutoTableService doService;
 
 
+
         @ApiOperation("查询是否存在该表")
         @PostMapping("/existable")
         public Result existable(@RequestBody SysAutoTable sysAutoTable) {
@@ -88,10 +89,10 @@ public class SysAutoTableController {
                 return  doService.getNodeList();
         }
 
-        @ApiOperation("获取树状数据")
-        @PostMapping("/aaaa")
-        public Result aaaa() throws SQLException {
-                return  doService.aaaa();
+        @ApiOperation("根据父id找到表字段")
+        @GetMapping("/findByID/{id}")
+        public Result findByID(@PathVariable String id) {
+                return  doService.findByID(id);
         }
 }
 

@@ -8,11 +8,37 @@ package com.dhlg.common.utils;
  **/
 
 public interface Dictionaries {
-
-    //代码生成--查询区域
+    //代码生成--start
+    //查询区域
     String LAYOUTTYPEQUERY = "1";
-    //代码生成--编辑区域
+    //编辑区域
     String LAYOUTTYPETABLE= "2";
+    //展示查询区域
+    String ISSHOWQUERY = "1";
+    //不展示查询区域
+    String ISNOTSHOWQUERY = "0";
+    //展示表格区域
+    String ISSHOWTABLE = "1";
+    //不展示表格区域
+    String ISNOTSHOWTABLE = "0";
+    //展示分页区域
+    String ISSHOWPAGE = "1";
+    //不展示分页区域
+    String ISNOTSHOWPAGE = "0";
+    //展示编辑区域
+    String ISSHOWEDIT = "1";
+    //不展示编辑区域
+    String ISNOTSHOWEDIT = "0";
+
+    //字段可以为空
+    String FIELDISNULLBOO = "0";
+    //字段不可以为空
+    String FIELDISNOTNULLBOO = "1";
+    //字段可以为空
+    String FIELDPRIMARYBOO = "0";
+    //字段不可以为空
+    String FIELDNOTPRIMARYBOO = "1";
+    //代码生成--end
     /**
      * token的key
      */

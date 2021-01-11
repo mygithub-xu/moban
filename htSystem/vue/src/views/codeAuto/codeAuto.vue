@@ -126,7 +126,7 @@
                 cancelButtonText: "取消",
                 type: "warning"
                 }).then(() => {
-                    this.$http.delete("system/sysAutoTable/deleteById/" + row.id).then(res => {
+                    this.$http.delete(this.api.sysAutoTabledeleteById + row.id).then(res => {
                     if (res.data.code == "200") {
                         this.$message.success( "删除数据成功");
                     }
@@ -147,7 +147,7 @@
                 type: "warning"
                 })
                 .then(() => {
-                    this.$http.post(this.api.sysTestBatchDelete, deletebatch).then(res => {
+                    this.$http.post(this.api.sysAutoTableBatchDelete, deletebatch).then(res => {
                     if (res.data.code == "200") {
                         this.$message({
                         message: "批量删除数据成功",
@@ -174,7 +174,7 @@
 
             },
             getdata(){
-                this.$http.post("system/sysAutoTable/querybycondition",{
+                this.$http.post(this.api.sysAutoTableQuerybycondition,{
                     condition: {},
                     number: this.pageData.pageNumber,
                     size: this.pageData.pageSize

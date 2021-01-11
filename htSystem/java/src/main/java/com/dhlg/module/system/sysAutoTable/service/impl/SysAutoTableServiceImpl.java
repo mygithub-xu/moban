@@ -6,6 +6,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dhlg.common.utils.*;
 import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
 import com.dhlg.module.system.sysAutoField.service.impl.SysAutoFieldServiceImpl;
+import com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam;
+import com.dhlg.module.system.sysAutoFieldParam.service.impl.SysAutoFieldParamServiceImpl;
+import com.dhlg.module.system.sysAutoParam.entity.SysAutoParam;
+import com.dhlg.module.system.sysAutoParam.service.impl.SysAutoParamServiceImpl;
 import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.dhlg.module.system.sysAutoTable.dao.SysAutoTableMapper;
 import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
@@ -41,6 +45,12 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     SysAutoFieldServiceImpl autoFieldService;
 
     @Autowired
+    SysAutoFieldParamServiceImpl fieldParamService;
+
+    @Autowired
+    SysAutoParamServiceImpl paramService;
+
+    @Autowired
     mailUtils mailUtils;
 
     @Value("${spring.datasource.url}")
@@ -70,24 +80,6 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         if (isexis){
             return Result.error("表已经存在，请更改表名称重试");
         }
-        //创建表
-        SysAutoTable sysAutoTable1 = changeTableData(sysAutoTable);
-        try {
-            creatTable(sysAutoTable1);
-        } catch (Exception e) {
-            try {
-                if (null!=stmt){
-                    stmt.close();
-                }
-                if (null!=conn){
-                    conn.close();
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            return new Result("500","","sql执行异常");
-        }
-
         //判断新增还是修改
         if (StringUtils.isBlank(sysAutoTable.getId())) {
             //新增
@@ -96,19 +88,26 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             sysAutoTable.setCreateUser(GetLoginUser.getCurrentUserId());
             sysAutoTable.setStatus("0");
 
-            if(!save(sysAutoTable)){
-                return Result.error(Dictionaries.SAVE_FAILED);
-            }
             if (!StringUtils.isBlank(sysAutoTable.getAutoFieldList())){
                 for (SysAutoField autoField : sysAutoTable.getAutoFieldList()) {
                     autoField.setId(StringUtils.uuid());
                     autoField.setTableId(sysAutoTable.getId());
+                    autoField.setFieldIsNull(autoField.getFieldIsNullBoo()?Dictionaries.FIELDISNOTNULLBOO:Dictionaries.FIELDISNULLBOO);
+                    autoField.setFieldPrimary(autoField.getFieldPrimaryBoo()?Dictionaries.FIELDNOTPRIMARYBOO:Dictionaries.FIELDPRIMARYBOO);
                 }
                 autoFieldService.saveBatch(sysAutoTable.getAutoFieldList());
             }
 
+            //创建表
+            SysAutoTable sysAutoTable1 = changeTableData(sysAutoTable);
+            creatTable(sysAutoTable1);
+            if(!save(sysAutoTable)){
+                return Result.error(Dictionaries.SAVE_FAILED);
+            }
             return Result.success(Dictionaries.SAVE_SUCCESS);
         }
+
+        //更新
         sysAutoTable.setUpdateTime(DateUtils.getCurrentDate());
         sysAutoTable.setUpdateUser(GetLoginUser.getCurrentUserId());
         sysAutoTable.setStatus("0");
@@ -119,40 +118,49 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             for (SysAutoField autoField : sysAutoTable.getAutoFieldList()) {
                 autoField.setId(StringUtils.uuid());
                 autoField.setTableId(sysAutoTable.getId());
+                autoField.setFieldIsNull(autoField.getFieldIsNullBoo()?Dictionaries.FIELDISNOTNULLBOO:Dictionaries.FIELDISNULLBOO);
+                autoField.setFieldPrimary(autoField.getFieldPrimaryBoo()?Dictionaries.FIELDNOTPRIMARYBOO:Dictionaries.FIELDPRIMARYBOO);
             }
             QueryWrapper<SysAutoField> queryWrapper = new QueryWrapper<>();
             autoFieldService.remove(queryWrapper.eq("table_id", sysAutoTable.getId()));
             autoFieldService.saveBatch(sysAutoTable.getAutoFieldList());
         }
+
+        //删除表
+        doMapper.deleteTable(sysAutoTable.getTableName());
+        //创建表
+        SysAutoTable sysAutoTable1 = changeTableData(sysAutoTable);
+        creatTable(sysAutoTable1);
+
         return new Result("200","",Dictionaries.UPDATE_SUCCESS);
     }
 
     /**
      * 创建表语句
      */
-    public void creatTable(SysAutoTable sysAutoTable1) throws Exception {
-
-        Class.forName(JDBC_DRIVER);
-        conn = DriverManager.getConnection(url,username,password);
+    public void creatTable(SysAutoTable sysAutoTable1){
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(url, username, password);
             stmt = conn.createStatement();
             StringBuffer sql = new StringBuffer();
             sql.append("CREATE TABLE ").append(sysAutoTable1.getTableName()).append(" (id varchar(36) NOT NULL COMMENT '主键'");
             for (SysAutoField autoField : sysAutoTable1.getAutoFieldList()) {
-                if (!"id".equals(autoField.getFieldName())){
-                    sql.append(","+autoField.getFieldName()+" ");
+                if (!"id".equals(autoField.getFieldName())) {
+                    sql.append("," + autoField.getFieldName() + " ");
 
-                    if (!StringUtils.isBlank(autoField.getFieldDecimal())&&autoField.getFieldDecimal()!=0){
-                        sql.append(autoField.getFieldType()+"("+autoField.getFieldLength()+","+autoField.getFieldDecimal()+") ");
-                    }else {
-                        sql.append(autoField.getFieldType()+"("+autoField.getFieldLength()+") ");
+                    if (!StringUtils.isBlank(autoField.getFieldDecimal()) && autoField.getFieldDecimal() != 0) {
+                        sql.append(autoField.getFieldType() + "(" + autoField.getFieldLength() + "," + autoField.getFieldDecimal() + ") ");
+                    } else {
+                        sql.append(autoField.getFieldType() + "(" + autoField.getFieldLength() + ") ");
                     }
 
-                    if ("1".equals(autoField.getFieldIsNull())){
+                    if ("1".equals(autoField.getFieldIsNull())) {
                         sql.append(" not ");
                     }
-                    sql.append(" NULL COMMENT '"+autoField.getFieldDes()+"'");
-                    if ("1".equals(autoField.getFieldPrimary())){
-                        sql.append(",PRIMARY KEY (`"+autoField.getFieldName()+"`) USING BTREE");
+                    sql.append(" NULL COMMENT '" + autoField.getFieldDes() + "'");
+                    if ("1".equals(autoField.getFieldPrimary())) {
+                        sql.append(",PRIMARY KEY (`" + autoField.getFieldName() + "`) USING BTREE");
                     }
                 }
 
@@ -161,6 +169,20 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             stmt.execute(sql.toString());
             stmt.close();
             conn.close();
+        }catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+            try {
+                if (null != stmt) {
+                    stmt.close();
+                }
+                if (null != conn) {
+                    conn.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -186,12 +208,23 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     @Override
     @Transactional
     public Result delete(String id) {
+
+        //删除子表 sys_auto_field
+        autoFieldService.remove(new QueryWrapper<SysAutoField>().eq("table_id", id));
+        //删除子表的子表 sys_auto_field_param
+        SysAutoParam autoParam = paramService.getOne(new QueryWrapper<SysAutoParam>().eq("table_id", id));
+        if (!StringUtils.isBlank(autoParam)){
+            fieldParamService.remove(new QueryWrapper<SysAutoFieldParam>().eq("param_id", autoParam.getId()));
+            //删除子表 sys_auto_param
+            paramService.remove(new QueryWrapper<SysAutoParam>().eq("table_id", id));
+        }
+        //最后删除表，因为删除表无法回退
+        SysAutoTable autoTable = getById(id);
+        doMapper.deleteTable(autoTable.getTableName());
+        //删除这条数据
         if (!removeById(id)){
             return new Result("500","", Dictionaries.DELETE_FAILED);
         }
-
-        QueryWrapper<SysAutoField> queryWrapper = new QueryWrapper<>();
-        autoFieldService.remove(queryWrapper.eq("table_id", id));
         return new Result("200","",Dictionaries.DELETE_SUCCESS);
     }
 
@@ -236,26 +269,20 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             return Result.error("表已存在");
 
         }
-        return Result.success("表名不能为空");
+        return Result.success("通过");
     }
 
     @Override
-    @Transactional
-    public Result aaaa() throws SQLException {
-        SysAutoTable sysAutoTable = new SysAutoTable();
-        //新增
-        sysAutoTable.setId(StringUtils.uuid());
-        sysAutoTable.setCreateTime(DateUtils.getCurrentDate());
-        sysAutoTable.setCreateUser(GetLoginUser.getCurrentUserId());
-        sysAutoTable.setStatus("0");
-        sysAutoTable.setTableName("bbbbbaaaaa");
-
-        if(!save(sysAutoTable)){
-            return Result.error(Dictionaries.SAVE_FAILED);
+    public Result findByID(String id) {
+        SysAutoTable autoTable = getById(id);
+        List<SysAutoField> fields = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", id));
+        for (SysAutoField field : fields){
+            field.setFieldIsNullBoo(Dictionaries.FIELDISNOTNULLBOO.equals(field.getFieldIsNull()));
+            field.setFieldPrimaryBoo(Dictionaries.FIELDPRIMARYBOO.equals(field.getFieldPrimary()));
         }
-        int aa = 1/0;
+        autoTable.setAutoFieldList(fields);
 
-        return null;
+        return Result.success(autoTable,"获取成功");
     }
 
     /*

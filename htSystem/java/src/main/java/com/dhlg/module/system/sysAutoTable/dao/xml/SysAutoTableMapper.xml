@@ -101,28 +101,7 @@
        select database()
     </select>
 
-    <update  id="creatTable" parameterType="com.dhlg.module.system.sysAutoTable.entity.SysAutoTable">
-        CREATE TABLE #{SysAutoTable.tableName} (
-        `id` varchar(36) NOT NULL COMMENT '主键'
-        <if test="SysAutoTable.autoFieldList != null and SysAutoTable.autoFieldList.size() > 0">
-            <foreach collection="SysAutoTable.autoFieldList " index="index" item="item" open="(" separator=","
-                     close=")">
-                <if test="item.fieldName  != 'id'">
-                    ,#{item.fieldName}
-                    <if test="item.fieldShowLength =='0'">
-                        #{item.fieldType}(#{item.fieldLength},#{item.fieldDecimal})
-                    </if>
-                    <if test="item.fieldShowLength =='1'">
-                        #{item.fieldType}(#{item.fieldLength})
-                    </if>
-                    <if test="item.fieldIsNull =='0'">
-                        NOT
-                    </if>
-                    NULL COMMENT #{item.fieldDes}
-                </if>
-            </foreach>
-            ,PRIMARY KEY (`id`) USING BTREE
-        </if>)
+    <update  id="deleteTable">
+        DROP TABLE ${tableName}
     </update >
-
 </mapper>
