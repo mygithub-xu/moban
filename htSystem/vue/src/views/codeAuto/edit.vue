@@ -294,6 +294,10 @@
           this.$forceUpdate();
       },
       addList(){
+
+        if (!this.form.autoFieldList) {
+          this.form.autoFieldList = [];
+        }
         var aa = {
           fieldName: "",
           fieldType: "",
@@ -302,10 +306,7 @@
           fieldIsNullBoo: false,
           fieldPrimaryBoo: false,
           fieldDes: "",
-          fieldIndex:""
-        }
-        if (!this.form.autoFieldList) {
-          this.form.autoFieldList = [];
+          fieldIndex:this.form.autoFieldList.length+1
         }
         this.form.autoFieldList.push(aa);
         this.$forceUpdate();

@@ -6,7 +6,7 @@
                     <span class="container-btn-left">
                         <el-button type="primary"  icon="el-icon-plus" @click="handleCreateTable">创建表</el-button>
                         <el-button type="primary"  icon="el-icon-edit" @click="handleEdit">从数据库导入表</el-button>
-                        <el-button type="danger"  icon="el-icon-delete" @click="handleDeleteBatch">删除</el-button>
+                        <!-- <el-button type="danger"  icon="el-icon-delete" @click="handleDeleteBatch">删除</el-button> -->
                     </span>
                     <span class="container-btn-right">
                         <el-button plain icon="el-icon-refresh" @click="getdata()"></el-button>

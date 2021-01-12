@@ -1,6 +1,7 @@
 package com.dhlg.module.system.sysAutoTable.controller;
 
 import com.dhlg.common.utils.GetLoginUser;
+import com.dhlg.module.system.sysAutoTable.entity.ProjModel;
 import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
 import com.dhlg.common.utils.Parameter.Parameter;
@@ -93,6 +94,15 @@ public class SysAutoTableController {
         @GetMapping("/findByID/{id}")
         public Result findByID(@PathVariable String id) {
                 return  doService.findByID(id);
+        }
+
+        @ApiOperation("代码生成")
+        @PostMapping("/codeGeneration")
+        public Result codeGeneration(@RequestBody ProjModel projModel) {
+                if(StringUtils.isBlank(projModel)){
+                        throw new ParamIsNullException();
+                }
+                return  doService.codeGeneration(projModel);
         }
 }
 

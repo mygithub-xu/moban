@@ -70,7 +70,7 @@
         <div class="line-div">
             <el-button @click="back">返回</el-button>
             <el-button @click="saveParm">保存</el-button>
-            <el-button  @click="greatCode">代码生成</el-button>
+            <el-button  @click="openDigCode">代码生成</el-button>
         </div>
 
         <div class="line-div">
@@ -163,6 +163,28 @@
         </el-collapse>
     </el-scrollbar>
     </div>
+
+        <el-dialog
+        title="提示"
+        :visible.sync="dialogVisible"
+        width="30%"
+        >
+        <div>
+            <el-form :inline="true" :model="formInline">
+                <el-form-item label="包路径">
+                    <el-input v-model="projModel.packageName"></el-input>
+                </el-form-item>
+                <el-form-item label="项目分类路径">
+                    <el-input v-model="projModel.projectName"></el-input>
+                </el-form-item>
+            </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="greatCode">确 定</el-button>
+        </span>
+        </el-dialog>
+    
 </div>
 
 </template>
@@ -172,6 +194,11 @@ export default {
     name:"editLayout",
     data(){
         return{
+            projModel:{
+                tableId:"",
+                packageName:"/com/dhlg",
+                projectName:"/system"
+            },
             saveFlag:false,
             needParam:{
                 tableId:"",
@@ -208,6 +235,8 @@ export default {
                 totalCount: 0,
                 totalPage: 0
             },
+            editTableId:"",
+            dialogVisible:false
         }
     },
     computed:{
@@ -216,6 +245,12 @@ export default {
         }
     },
     methods:{
+        openDigCode(){
+            if(!this.editTableId){
+                return this.$message.error("错误");
+            }
+            this.dialogVisible = true
+        },
         greatCode(){
             //生成代码
             this.$confirm("确定是否生成代码", "提示", {
@@ -223,13 +258,10 @@ export default {
             cancelButtonText: "取消",
             type: "warning"
             }).then(() => {
-                this.$http.post(this.api.sysAutoParamSaveOrUpdate,{
-                    ...this.needParam,
-                    tableList:this.needParam.tableList,
-                    queryList:this.needParam.queryList
-                }).then(res => {
+                this.projModel.tableId = this.editTableId
+                this.$http.post(this.api.sysAutoTableCodeGeneration,this.projModel).then(res => {
                     if (res.data.code == "200") {
-                        this.saveFlag = true
+
                     }
                 })
             }).catch(() => {
@@ -249,6 +281,7 @@ export default {
                 this.$http.post(this.api.sysAutoParamSaveOrUpdate,this.needParam).then(res => {
                     if (res.data.code == "200") {
                         this.saveFlag = true
+                        this.$message.success("保存成功");
                     }
                 })
             }).catch(() => {
@@ -256,18 +289,20 @@ export default {
             });
 
         },
-        empty(){
-        },
         editInit(row){
-            //置空
-            this.empty()
             //获取下拉框数据
             this.getdropData(row.id)
-
+            this.editTableId = row.id
             //通过id获取字段
             this.$http.get(this.api.sysAutoParamFindByTableID + row.id).then(res => {
                 if (res.data.code == "200") {
-                    this.needParam = res.data.body
+                    let data = res.data.body
+                    if(!data){
+                        this.empty()
+                    }else{
+                        this.needParam = data
+                    }
+                    
                 }
             })
         },
@@ -304,11 +339,15 @@ export default {
             this.needParam.queryList.push(item)
         },
         empty(){
-            this.needParam.queryList = []
-            let queryItem = [
-                {value:'1',label:'查询'},
-                {value:'2',label:'重置'}
-            ]
+            this.needParam = {
+                tableId:this.editTableId,
+                layoutType:'1',//1.上查下表，2.左树右表
+                isShowQuery:true,//是否展示查询区域
+                isShowTable:true,//是否展示表格区域
+                isShowPage:true,//是否显示分页区域
+                queryList:[],//查询区域元素集合
+                tableList: []//表格元素
+            }
         },
         delItem(index){
             this.needParam.queryList.splice(index,1)

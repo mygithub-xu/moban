@@ -10,6 +10,7 @@ import com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam;
 import com.dhlg.module.system.sysAutoFieldParam.service.impl.SysAutoFieldParamServiceImpl;
 import com.dhlg.module.system.sysAutoParam.entity.SysAutoParam;
 import com.dhlg.module.system.sysAutoParam.service.impl.SysAutoParamServiceImpl;
+import com.dhlg.module.system.sysAutoTable.entity.ProjModel;
 import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.dhlg.module.system.sysAutoTable.dao.SysAutoTableMapper;
 import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.io.File;
 import java.sql.*;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +63,6 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
 
     @Value("${spring.datasource.password}")
     private String password;
-
 
     private static final String TO = "1967368657@qq.com";
     private static final String SUBJECT = "测试邮件";
@@ -111,9 +112,8 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         sysAutoTable.setUpdateTime(DateUtils.getCurrentDate());
         sysAutoTable.setUpdateUser(GetLoginUser.getCurrentUserId());
         sysAutoTable.setStatus("0");
-        if (!updateById(sysAutoTable)){
-            return new Result("500","", Dictionaries.UPDATE_FAILED);
-        }
+
+        //保存明细
         if (!StringUtils.isBlank(sysAutoTable.getAutoFieldList())){
             for (SysAutoField autoField : sysAutoTable.getAutoFieldList()) {
                 autoField.setId(StringUtils.uuid());
@@ -125,13 +125,15 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             autoFieldService.remove(queryWrapper.eq("table_id", sysAutoTable.getId()));
             autoFieldService.saveBatch(sysAutoTable.getAutoFieldList());
         }
-
         //删除表
-        doMapper.deleteTable(sysAutoTable.getTableName());
+        SysAutoTable oldTable = getById(sysAutoTable.getId());
+        doMapper.deleteTable(oldTable.getTableName());
         //创建表
         SysAutoTable sysAutoTable1 = changeTableData(sysAutoTable);
         creatTable(sysAutoTable1);
-
+        if (!updateById(sysAutoTable)){
+            return new Result("500","", Dictionaries.UPDATE_FAILED);
+        }
         return new Result("200","",Dictionaries.UPDATE_SUCCESS);
     }
 
@@ -275,14 +277,22 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     @Override
     public Result findByID(String id) {
         SysAutoTable autoTable = getById(id);
-        List<SysAutoField> fields = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", id));
+        List<SysAutoField> fields = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", id).orderByAsc("field_index"));
         for (SysAutoField field : fields){
             field.setFieldIsNullBoo(Dictionaries.FIELDISNOTNULLBOO.equals(field.getFieldIsNull()));
-            field.setFieldPrimaryBoo(Dictionaries.FIELDPRIMARYBOO.equals(field.getFieldPrimary()));
+            field.setFieldPrimaryBoo(Dictionaries.FIELDNOTPRIMARYBOO.equals(field.getFieldPrimary()));
         }
         autoTable.setAutoFieldList(fields);
 
         return Result.success(autoTable,"获取成功");
+    }
+
+    @Override
+    public Result codeGeneration(ProjModel projModel) {
+        SysAutoTable autoTable= getById(projModel.getTableId());
+        //检测文件是否存在
+        File file = new File(System.getProperty("user.dir")+projModel.getPackageName()+"\\module"+);
+        return null;
     }
 
     /*

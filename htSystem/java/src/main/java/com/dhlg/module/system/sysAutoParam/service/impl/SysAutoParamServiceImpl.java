@@ -145,6 +145,9 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
     public Result findByTableID(String id) {
         //通过id找到一条数据
         SysAutoParam one = getOne(new QueryWrapper<SysAutoParam>().eq("table_id",id));
+        if(StringUtils.isBlank(one)){
+            return Result.success(one,"获取成功");
+        }
         //构造查询区域
         one.setIsShowQuery(Dictionaries.ISSHOWQUERY.equals(one.getShowQuery()));
         //构造查询区域

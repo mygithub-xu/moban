@@ -78,6 +78,7 @@ export default {
   sysAutoTabledeleteById: `/system/sysAutoTable/deleteById/`,//单个删除
   sysAutoTableBatchDelete: `/system/sysAutoTable/batchdelete`,//批量删除
   sysAutoTableFindByID: `/system/sysAutoTable/findByID/`,//编辑
+  sysAutoTableCodeGeneration: `/system/sysAutoTable/codeGeneration/`,//代码生成
   
   //代码生成子类 sys_auto_field
   sysAutoFieldFindByTableID: `system/sysAutoField/findByTableID/`,//{id}获取表的字段数据

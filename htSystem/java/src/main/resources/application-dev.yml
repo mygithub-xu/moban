@@ -101,7 +101,6 @@ common:
   password: 123456 #默认密码
   #默认头像
   headPortraitSrc: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1600421306465&di=ceb5e70c7a4d5a7b55f7bcb1d1a9c8e3&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg"
-
   #网络访问路径
   fileNetSrc: http://120.25.197.11/resources/
   #云服务器路径
