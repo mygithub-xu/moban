@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
+import com.dhlg.module.system.sysAutoParam.entity.SysAutoParam;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -96,4 +97,6 @@ public class SysAutoTable implements Serializable{
     @TableField(exist = false) // 标记为非数据库字段
     private List<SysAutoField> autoFieldList;
 
+    @TableField(exist = false) // 标记为非数据库字段
+    private SysAutoParam autoParam;
 }

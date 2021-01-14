@@ -22,8 +22,7 @@ var constantRouterMap=[
     path: '/text',
     component: resolve => require(['@comp/layout/text.vue'], resolve),
     name: 'text'
-  },
-  
+  }
 ]
 
 export default new Router({

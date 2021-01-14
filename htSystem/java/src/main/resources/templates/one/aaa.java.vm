@@ -1,0 +1,1 @@
+package $!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.controller;

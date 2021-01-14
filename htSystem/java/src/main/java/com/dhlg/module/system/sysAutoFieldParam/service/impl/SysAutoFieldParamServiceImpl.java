@@ -77,4 +77,8 @@ public class SysAutoFieldParamServiceImpl extends ServiceImpl<SysAutoFieldParamM
         IPage<SysAutoFieldParam> dataList = doMapper.listFieldQuery(new Page(number, size), params);
         return new Result("200", dataList);
     }
+
+    public List<SysAutoFieldParam> findParamList(String id, String layoutType) {
+        return doMapper.findParamList(id,layoutType);
+    }
 }

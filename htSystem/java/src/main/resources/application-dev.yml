@@ -105,5 +105,6 @@ common:
   fileNetSrc: http://120.25.197.11/resources/
   #云服务器路径
   fileDownSrc: /usr/local/resources/
+  templateUrl: \src\main\resources\templates\
 #  fileDownSrc: D:/resource/
 

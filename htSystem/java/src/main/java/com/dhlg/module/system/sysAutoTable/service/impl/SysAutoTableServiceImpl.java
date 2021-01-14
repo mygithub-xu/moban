@@ -16,7 +16,10 @@ import com.dhlg.module.system.sysAutoTable.dao.SysAutoTableMapper;
 import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.common.utils.Parameter.Parameter;
-import org.apache.tomcat.jni.Thread;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import com.dhlg.common.utils.mailUtils;
@@ -24,10 +27,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * <p>
@@ -63,6 +71,8 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
 
     @Value("${spring.datasource.password}")
     private String password;
+    @Value("${common.templateUrl}")
+    private String templateUrl;
 
     private static final String TO = "1967368657@qq.com";
     private static final String SUBJECT = "测试邮件";
@@ -173,6 +183,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             conn.close();
         }catch (Exception e) {
                 e.printStackTrace();
+                throw new RuntimeException("表生成错误");
             }finally {
             try {
                 if (null != stmt) {
@@ -183,6 +194,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
+
             }
         }
     }
@@ -289,10 +301,81 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
 
     @Override
     public Result codeGeneration(ProjModel projModel) {
+        //主备数据---主数据
         SysAutoTable autoTable= getById(projModel.getTableId());
+        //其他数据
+        projModel.setPackage_name(projModel.getPackageName().replace(".", "\\"));
+        projModel.setTable_name(autoTable.getTableName());
+        projModel.setTableName(StringUtils.underscoreToCamelCase(autoTable.getTableName()));
+        projModel.set_TableName(StringUtils.upperFirstCase(projModel.getTableName()));
         //检测文件是否存在
-        File file = new File(System.getProperty("user.dir")+projModel.getPackageName()+"\\module"+);
-        return null;
+        String targetPath = System.getProperty("user.dir")+"\\src\\main\\java\\"+projModel.getPackage_name()+"\\module\\"+projModel.getProjectName()+ "\\"+projModel.getTableName();
+        File file = new File(targetPath);
+        if (file.exists()){
+            return Result.error("文件已存在，不能生成");
+        }
+        //主备数据---子数据一
+        SysAutoParam autoParam = paramService.getOne(new QueryWrapper<SysAutoParam>().eq("table_id", projModel.getTableId()));
+        //查询区域数据queryList
+        List<SysAutoFieldParam> queryList = fieldParamService.findParamList(autoParam.getId(),Dictionaries.LAYOUTTYPEQUERY);
+        autoParam.setQueryList(queryList);
+        //表格区域数据queryList
+        List<SysAutoFieldParam> tableList = fieldParamService.findParamList(autoParam.getId(),Dictionaries.LAYOUTTYPETABLE);
+        autoParam.setTableList(tableList);
+        autoTable.setAutoParam(autoParam);
+        //主备数据---子数据二
+        List<SysAutoField> autoFieldList = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", projModel.getTableId()));
+        autoTable.setAutoFieldList(autoFieldList);
+
+        greatFile(autoTable,projModel,targetPath);
+        return Result.success("生成成功");
+    }
+
+    private void greatFile(SysAutoTable autoTable,ProjModel projModel,String targetPath) {
+        Map<String,Object> map = new HashMap();
+        map.put("aaa.java.vm","controller/" + projModel.get_TableName() + "Controller.java");
+//        map.put("service.java.vm","service/"+"I" + projModel.get_TableName() + "Service.java");
+//        map.put("serviceImpl.java.vm","service/impl/" + projModel.get_TableName() + "ServiceImpl.java");
+//        map.put("mapper.java.vm","dao/" + projModel.get_TableName() + "Mapper.java");
+//        map.put("entity.java.vm","entity/" + projModel.get_TableName() + ".java");
+//        map.put("mapper.xml.vm","dao/xml/" + projModel.get_TableName() + "Mapper.xml");
+        for(String templateFile:map.keySet()){
+            String targetFile = (String) map.get(templateFile);
+            Properties pro = new Properties();
+            //设置文本传入编码类型
+            pro.setProperty(Velocity.INPUT_ENCODING, "UTF-8");
+            pro.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, System.getProperty("user.dir")+templateUrl+"one\\");
+            VelocityEngine ve = new VelocityEngine(pro);
+            VelocityContext context = new VelocityContext();
+
+            context.put("projModel",projModel);
+            context.put("SysAutoTable",autoTable);
+
+            Template t = ve.getTemplate(templateFile, "UTF-8");
+            try {
+                File file = new File(targetPath, targetFile);
+                if (!file.getParentFile().exists())
+                    file.getParentFile().mkdirs();
+                if (!file.exists())
+                    file.createNewFile();
+
+                FileOutputStream outStream = null;
+
+                outStream = new FileOutputStream(file);
+
+                OutputStreamWriter writer = new OutputStreamWriter(outStream,
+                        "UTF-8");
+                BufferedWriter sw = new BufferedWriter(writer);
+                t.merge(context, sw);
+                sw.flush();
+                sw.close();
+                outStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("成功生成Java文件:"
+                    + (targetPath + targetFile).replaceAll("/", "\\\\"));
+        }
     }
 
     /*

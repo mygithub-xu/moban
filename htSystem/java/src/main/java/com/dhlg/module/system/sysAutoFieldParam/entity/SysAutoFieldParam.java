@@ -56,5 +56,13 @@ public class SysAutoFieldParam implements Serializable {
      */
     @TableField("value")
     private String value;
+    /**
+     * 排序
+     */
+    @TableField("param_index")
+    private String paramIndex;
+
+    @TableField(value = "field_name",exist = false)
+    private String fieldName;
 
 }

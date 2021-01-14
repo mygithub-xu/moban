@@ -158,11 +158,13 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
         one.setIsShowPage(Dictionaries.ISSHOWPAGE.equals(one.getShowPage()));
 
         //通过id找到queryList
-        List<SysAutoFieldParam> queryList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPEQUERY));
+        List<SysAutoFieldParam> queryList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPEQUERY).orderByAsc("param_index"));
         one.setQueryList(queryList);
-        //通过id找到queryList
-        List<SysAutoFieldParam> tableList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPETABLE));
+        //通过id找到tableList
+        List<SysAutoFieldParam> tableList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPETABLE).orderByAsc("param_index"));
         one.setTableList(tableList);
+
+
         return Result.success(one,"获取成功");
     }
 }

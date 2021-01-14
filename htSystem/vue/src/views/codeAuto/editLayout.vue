@@ -170,7 +170,7 @@
         width="30%"
         >
         <div>
-            <el-form :inline="true" :model="formInline">
+            <el-form :inline="true" :model="projModel">
                 <el-form-item label="包路径">
                     <el-input v-model="projModel.packageName"></el-input>
                 </el-form-item>
@@ -196,8 +196,8 @@ export default {
         return{
             projModel:{
                 tableId:"",
-                packageName:"/com/dhlg",
-                projectName:"/system"
+                packageName:"",
+                projectName:""
             },
             saveFlag:false,
             needParam:{
@@ -246,6 +246,11 @@ export default {
     },
     methods:{
         openDigCode(){
+            this.projModel = {
+                tableId:"",
+                packageName:"com.dhlg",
+                projectName:"system"
+            }
             if(!this.editTableId){
                 return this.$message.error("错误");
             }
@@ -261,7 +266,7 @@ export default {
                 this.projModel.tableId = this.editTableId
                 this.$http.post(this.api.sysAutoTableCodeGeneration,this.projModel).then(res => {
                     if (res.data.code == "200") {
-
+                        this.$message.success(res.data.message);
                     }
                 })
             }).catch(() => {
@@ -321,9 +326,13 @@ export default {
             this.needParam.tableList.splice(index,1)
         },
         addTableItem(){
+            if(!this.needParam.tableList){
+                this.needParam.tableList = []
+            }
             var item = {
                 title:"",
-                value:""
+                value:"",
+                paramIndex: this.needParam.tableList.length
             }
             this.needParam.tableList.push(item)
         },
@@ -331,10 +340,14 @@ export default {
             if(!this.addType){
                 return this.$message.warning("请选择添加类型");
             }
+            if(!this.needParam.queryList){
+                this.needParam.queryList = []
+            }
             var item = {
                 type:this.addType,
                 title:"",
-                value:""
+                value:"",
+                paramIndex:this.needParam.queryList.length
             }
             this.needParam.queryList.push(item)
         },

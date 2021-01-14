@@ -74,11 +74,8 @@ public class codeAutoGenerationUtil {
             Properties pro = new Properties();
             //设置文本传入编码类型
             pro.setProperty(Velocity.INPUT_ENCODING, "UTF-8");
-
             pro.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, sourcePath);
-
             VelocityEngine ve = new VelocityEngine(pro);
-
             VelocityContext context = new VelocityContext();
 
             context.put("DomainName",DomainName);

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dhlg.common.utils.Parameter.Parameter;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,5 +23,7 @@ public interface SysAutoFieldParamMapper extends BaseMapper<SysAutoFieldParam> {
     IPage<SysAutoFieldParam> queryByCondition(Page page, @Param("parameter")Parameter parameter);
 
     IPage<SysAutoFieldParam> listFieldQuery(Page page, @Param("parameter") Map<String, Object> params);
+
+    List<SysAutoFieldParam> findParamList(String id, String layoutType);
 }
         
