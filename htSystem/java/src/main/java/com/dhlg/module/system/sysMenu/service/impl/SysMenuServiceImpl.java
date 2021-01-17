@@ -1,6 +1,6 @@
 package com.dhlg.module.system.sysMenu.service.impl;
 
-import com.dhlg.common.utils.*;
+import com.dhlg.utils.*;
 import com.dhlg.module.system.sysButton.entity.SysButton;
 import com.dhlg.module.system.sysButton.service.impl.SysButtonServiceImpl;
 import com.dhlg.module.system.sysMenu.entity.SysMenu;
@@ -9,7 +9,7 @@ import com.dhlg.module.system.sysMenu.service.ISysMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.module.system.sysUser.dao.SysUserMapper;
 import com.dhlg.module.system.sysUser.entity.SysUser;
-import com.dhlg.common.utils.exception.UncheckedException;
+import com.dhlg.exception.UncheckedException;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

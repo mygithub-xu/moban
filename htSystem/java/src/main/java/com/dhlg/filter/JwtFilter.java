@@ -1,7 +1,7 @@
 package com.dhlg.filter;
 
-import com.dhlg.common.entity.JwtToken;
-import com.dhlg.common.utils.Dictionaries;
+import com.dhlg.shiro.token.JwtToken;
+import com.dhlg.utils.Dictionaries;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 

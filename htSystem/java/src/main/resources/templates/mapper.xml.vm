@@ -19,7 +19,7 @@
         #end
     </sql>
 
-    <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultType="$!{packageName}.module.$!{projectName}.$!{domainName}.entity.$!{DomainName}">
+    <select id="queryByCondition" parameterType="com.dhlg.utils.Parameter.Parameter" resultType="$!{packageName}.module.$!{projectName}.$!{domainName}.entity.$!{DomainName}">
         select * from $!{tableName}
         <trim prefix="where" prefixOverrides="and">
             <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">

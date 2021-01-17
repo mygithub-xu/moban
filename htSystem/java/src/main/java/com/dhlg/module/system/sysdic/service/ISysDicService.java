@@ -3,9 +3,9 @@ package com.dhlg.module.system.sysdic.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dhlg.module.system.sysdic.entity.SysDic;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dhlg.common.utils.Parameter.Parameter;
-import com.dhlg.common.utils.Result;
-import com.dhlg.common.utils.exception.OperatorException;
+import com.dhlg.utils.Parameter.Parameter;
+import com.dhlg.utils.Result;
+import com.dhlg.exception.OperatorException;
 
 import java.io.IOException;
 import java.util.Collection;

@@ -3,8 +3,8 @@ package com.dhlg.module.system.sysdic.controller;
 
 import com.dhlg.module.system.sysdic.entity.SysDic;
 import com.dhlg.module.system.sysdic.service.impl.SysDicServiceImpl;
-import com.dhlg.common.utils.Result;
-import com.dhlg.common.utils.exception.OperatorException;
+import com.dhlg.utils.Result;
+import com.dhlg.exception.OperatorException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

@@ -1,7 +1,6 @@
 // 默认导出整个接口配置
 export default {
   // 账号管理
-  
   menu: `system/sysMenu/getnodelist`, // 菜单 // 账号管理 // 登陆
   excelImport: `system/sysLoginLog/excel`,//列表查询
   sysTestExportExcel: 'test/sysTest/exportExcel',
@@ -72,6 +71,14 @@ export default {
   //登入日志 sys_login_log
   LoginLogQuery: `system/sysLoginLog/query`, // 条件查询
   LoginLogBatchdelete: `system/sysLoginLog/batchdelete`, // 条件查询
+
+  //测试代码 sys_test
+  sysTestsaveOrUpdate: 'system/sysTest/saveOrUpdate',//post
+  sysTestdeleteById: 'system/sysTest/deleteById/',//delete
+  sysTestbatchdelete: 'system/sysTest/batchdelete',//post
+  sysTestquery: 'system/sysTest/query',//post
+  sysTestqueryById: 'system/sysTest/queryById/',//get
+
 
   //代码生成 sys_auto_table
   sysAutoTableQuerybycondition: 'system/sysAutoTable/querybycondition',

@@ -2,8 +2,8 @@ package com.dhlg.module.system.sysFile.service;
 
 import com.dhlg.module.system.sysFile.entity.SysFile;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dhlg.common.utils.Parameter.Parameter;
-import com.dhlg.common.utils.Result;
+import com.dhlg.utils.Parameter.Parameter;
+import com.dhlg.utils.Result;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

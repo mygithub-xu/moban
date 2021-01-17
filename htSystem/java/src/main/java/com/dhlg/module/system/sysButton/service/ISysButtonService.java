@@ -2,7 +2,7 @@ package com.dhlg.module.system.sysButton.service;
 
 import com.dhlg.module.system.sysButton.entity.SysButton;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dhlg.common.utils.Result;
+import com.dhlg.utils.Result;
 
 /**
  * <p>

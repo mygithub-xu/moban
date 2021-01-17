@@ -2,10 +2,10 @@ package com.dhlg.module.system.sysAutoField.controller;
 
 import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
 import com.dhlg.module.system.sysAutoField.service.ISysAutoFieldService;
-import com.dhlg.common.utils.Parameter.Parameter;
-import com.dhlg.common.utils.Result;
-import com.dhlg.common.utils.StringUtils;
-import com.dhlg.common.utils.exception.ParamIsNullException;
+import com.dhlg.utils.Parameter.Parameter;
+import com.dhlg.utils.Result;
+import com.dhlg.utils.StringUtils;
+import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,6 @@ public class SysAutoFieldController {
         @Autowired
         ISysAutoFieldService doService;
 
-
         @ApiOperation("保存或者更新")
         @PostMapping("/saveOrUpdate")
         public Result saveOrUpdate(@RequestBody SysAutoField sysAutoField) {
@@ -38,7 +37,6 @@ public class SysAutoFieldController {
                 }
                 return  doService.customSaveOrUpdate(sysAutoField);
         }
-
 
         @ApiOperation("删除")
         @DeleteMapping("/deleteById/{id}")
@@ -66,7 +64,7 @@ public class SysAutoFieldController {
         @ApiOperation("列表字段查询")
         @PostMapping("/listFieldQuery")
         public Result listFieldQuery(@RequestBody Map<String, Object> params) {
-        return  doService.listFieldQuery(params);
+                return  doService.listFieldQuery(params);
         }
 
         @ApiOperation("根据父id找到表字段")

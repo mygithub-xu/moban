@@ -2,8 +2,8 @@ package com.dhlg.module.system.sysUser.service;
 
 import com.dhlg.module.system.sysUser.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dhlg.common.utils.Parameter.Parameter;
-import com.dhlg.common.utils.Result;
+import com.dhlg.utils.Parameter.Parameter;
+import com.dhlg.utils.Result;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

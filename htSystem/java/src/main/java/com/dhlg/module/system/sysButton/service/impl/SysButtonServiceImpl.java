@@ -1,6 +1,6 @@
 package com.dhlg.module.system.sysButton.service.impl;
 
-import com.dhlg.common.utils.*;
+import com.dhlg.utils.*;
 import com.dhlg.module.system.sysButton.entity.SysButton;
 import com.dhlg.module.system.sysButton.dao.SysButtonMapper;
 import com.dhlg.module.system.sysButton.service.ISysButtonService;

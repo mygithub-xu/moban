@@ -2,7 +2,7 @@ package com.dhlg.module.system.sysMenu.service;
 
 import com.dhlg.module.system.sysMenu.entity.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dhlg.common.utils.Result;
+import com.dhlg.utils.Result;
 
 import java.util.List;
 import java.util.Map;

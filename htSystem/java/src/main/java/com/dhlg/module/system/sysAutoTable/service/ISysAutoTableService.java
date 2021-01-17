@@ -3,8 +3,8 @@ package com.dhlg.module.system.sysAutoTable.service;
 import com.dhlg.module.system.sysAutoTable.entity.ProjModel;
 import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dhlg.common.utils.Parameter.Parameter;
-import com.dhlg.common.utils.Result;
+import com.dhlg.utils.Parameter.Parameter;
+import com.dhlg.utils.Result;
 
 import java.sql.SQLException;
 import java.util.List;

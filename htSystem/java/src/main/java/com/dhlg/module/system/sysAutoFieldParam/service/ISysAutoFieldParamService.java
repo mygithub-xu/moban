@@ -2,8 +2,8 @@ package com.dhlg.module.system.sysAutoFieldParam.service;
 
 import com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dhlg.common.utils.Parameter.Parameter;
-import com.dhlg.common.utils.Result;
+import com.dhlg.utils.Parameter.Parameter;
+import com.dhlg.utils.Result;
 
 import java.util.List;
 import java.util.Map;

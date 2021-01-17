@@ -3,7 +3,7 @@ package com.dhlg.module.system.sysButton.controller;
 
 import com.dhlg.module.system.sysButton.entity.SysButton;
 import com.dhlg.module.system.sysButton.service.ISysButtonService;
-import com.dhlg.common.utils.Result;
+import com.dhlg.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

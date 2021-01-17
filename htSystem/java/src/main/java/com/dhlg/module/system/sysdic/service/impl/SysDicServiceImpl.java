@@ -2,12 +2,12 @@ package com.dhlg.module.system.sysdic.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dhlg.common.utils.*;
+import com.dhlg.utils.*;
 import com.dhlg.module.system.sysdic.dao.SysDicMapper;
 import com.dhlg.module.system.sysdic.entity.Option;
 import com.dhlg.module.system.sysdic.entity.SysDic;
 import com.dhlg.module.system.sysdic.service.ISysDicService;
-import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.utils.Parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

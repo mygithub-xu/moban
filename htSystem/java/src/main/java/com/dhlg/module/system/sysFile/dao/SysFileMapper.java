@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dhlg.module.system.sysFile.entity.SysFile;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.utils.Parameter.Parameter;
 
 /**
  * <p>

@@ -3,15 +3,14 @@ package com.dhlg.module.system.sysAutoParam.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.dhlg.common.utils.*;
-import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
+import com.dhlg.utils.*;
 import com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam;
 import com.dhlg.module.system.sysAutoFieldParam.service.impl.SysAutoFieldParamServiceImpl;
 import com.dhlg.module.system.sysAutoParam.entity.SysAutoParam;
 import com.dhlg.module.system.sysAutoParam.dao.SysAutoParamMapper;
 import com.dhlg.module.system.sysAutoParam.service.ISysAutoParamService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.utils.Parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

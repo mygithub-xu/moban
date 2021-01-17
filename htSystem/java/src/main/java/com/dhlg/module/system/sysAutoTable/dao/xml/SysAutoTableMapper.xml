@@ -21,7 +21,7 @@
     <sql id="Base_Column_List">
                 create_time,                create_user, field_index,               id,                parent_id,                remark,                status,                table_name,                table_type,                type,                update_time,                update_user    </sql>
 
-    <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoTable.entity.SysAutoTable">
+    <select id="queryByCondition" parameterType="com.dhlg.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoTable.entity.SysAutoTable">
         select * from sys_auto_table
         <trim prefix="where" prefixOverrides="and">
             <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">

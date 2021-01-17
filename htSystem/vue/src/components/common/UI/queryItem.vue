@@ -15,7 +15,7 @@ export default {
         label:String,
         labelWidth:{
             type:String,
-            default:'120px'
+            default:'150px'
         },
         width:{
             type:String,
@@ -49,9 +49,17 @@ export default {
 .query-input{
     flex: 1;
 }
+.query-input >.is_data{
+    min-width: 200px;
+    max-width: 500px!important;
+    width: 90%;
+    display: flex;
+}
 .query-input >div:first-child{
     min-width: 100px;
     max-width: 300px;
     width: 90%;
+    display: flex;
 }
+
 </style>

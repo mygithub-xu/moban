@@ -19,7 +19,7 @@
     <sql id="Base_Column_List">
                 create_time,                create_user,                id,                parent_id,                table_name,                table_remark,                table_type,                update_time,                update_user    </sql>
 
-    <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysTable.entity.SysTable">
+    <select id="queryByCondition" parameterType="com.dhlg.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysTable.entity.SysTable">
         select * from sys_table
         <trim prefix="where" prefixOverrides="and">
             <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">

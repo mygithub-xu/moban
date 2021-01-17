@@ -20,7 +20,7 @@
     <sql id="Base_Column_List">
                 id,                table_id,                field_name,                field_des,                field_length,                field_type,                field_decimal,                field_isNull,                field_primary,                       field_index           </sql>
 
-    <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
+    <select id="queryByCondition" parameterType="com.dhlg.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
         select * from sys_auto_field
         <trim prefix="where" prefixOverrides="and">
             <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">

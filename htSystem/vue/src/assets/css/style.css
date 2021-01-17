@@ -80,12 +80,15 @@
 .show-dialog .dialog-button{
   margin-bottom: 10px;
 }
-.edit-area{
+.show-dialog .el-form{
   flex-direction: row;
   flex-wrap: wrap;
   display: flex;
 }
-.edit-area .el-form-item{
+.dialog-form .el-form-item{
   min-width: 300px;
   width: 25%;
+}
+.dialog-form .el-form-item__content > .el-date-editor{
+  width: 100%;
 }

@@ -124,9 +124,9 @@
         </div>
 
         <!--表单区域-->
-        <div >
+        <div class="dialog-form">
           <el-form label-width="120px">
-            <div class="edit-area">
+           
               <el-form-item label="创建时间" prop="createTime" >
                 <el-date-picker
                   v-model="form.createTime"
@@ -163,7 +163,7 @@
                              border @change="changebox"></el-checkbox>
               </el-form-item>
 
-            </div>
+            
           </el-form>
         </div>
         <!--附表格区域-->
@@ -171,7 +171,6 @@
           <el-tabs v-model="activeName">
             <el-tab-pane label="明细表" name="first">
               <div class="container-btn">
-                
                 <el-button icon="el-icon-plus"  type="primary" @click="addList"></el-button>
                 <el-button icon="el-icon-minus"  type="danger" @click="delList"></el-button>
               </div>

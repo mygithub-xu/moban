@@ -3,7 +3,7 @@ package com.dhlg.module.system.sysRole.controller;
 
 import com.dhlg.module.system.sysRole.entity.SysRolePermission;
 import com.dhlg.module.system.sysRole.service.ISysRolePermissionService;
-import com.dhlg.common.utils.Result;
+import com.dhlg.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

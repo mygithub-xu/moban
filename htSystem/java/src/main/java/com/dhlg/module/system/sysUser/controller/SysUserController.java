@@ -3,10 +3,10 @@ package com.dhlg.module.system.sysUser.controller;
 
 import com.dhlg.module.system.sysUser.entity.SysUser;
 import com.dhlg.module.system.sysUser.service.ISysUserService;
-import com.dhlg.common.utils.Parameter.Parameter;
-import com.dhlg.common.utils.Result;
-import com.dhlg.common.utils.StringUtils;
-import com.dhlg.common.utils.exception.ParamIsNullException;
+import com.dhlg.utils.Parameter.Parameter;
+import com.dhlg.utils.Result;
+import com.dhlg.utils.StringUtils;
+import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;

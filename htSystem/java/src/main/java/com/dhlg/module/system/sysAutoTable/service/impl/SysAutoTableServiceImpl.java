@@ -3,7 +3,7 @@ package com.dhlg.module.system.sysAutoTable.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.dhlg.common.utils.*;
+import com.dhlg.utils.*;
 import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
 import com.dhlg.module.system.sysAutoField.service.impl.SysAutoFieldServiceImpl;
 import com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam;
@@ -15,14 +15,14 @@ import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.dhlg.module.system.sysAutoTable.dao.SysAutoTableMapper;
 import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dhlg.common.utils.Parameter.Parameter;
+import com.dhlg.utils.Parameter.Parameter;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import com.dhlg.common.utils.mailUtils;
+import com.dhlg.utils.mailUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -333,7 +333,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
 
     private void greatFile(SysAutoTable autoTable,ProjModel projModel,String targetPath) {
         Map<String,Object> map = new HashMap();
-        map.put("aaa.java.vm","controller/" + projModel.get_TableName() + "Controller.java");
+        map.put("controller.java.vm","controller/" + projModel.get_TableName() + "Controller.java");
 //        map.put("service.java.vm","service/"+"I" + projModel.get_TableName() + "Service.java");
 //        map.put("serviceImpl.java.vm","service/impl/" + projModel.get_TableName() + "ServiceImpl.java");
 //        map.put("mapper.java.vm","dao/" + projModel.get_TableName() + "Mapper.java");
@@ -356,15 +356,12 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
                 File file = new File(targetPath, targetFile);
                 if (!file.getParentFile().exists())
                     file.getParentFile().mkdirs();
-                if (!file.exists())
+                if (!file.exists()){
                     file.createNewFile();
-
+                }
                 FileOutputStream outStream = null;
-
                 outStream = new FileOutputStream(file);
-
-                OutputStreamWriter writer = new OutputStreamWriter(outStream,
-                        "UTF-8");
+                OutputStreamWriter writer = new OutputStreamWriter(outStream,"UTF-8");
                 BufferedWriter sw = new BufferedWriter(writer);
                 t.merge(context, sw);
                 sw.flush();
@@ -373,8 +370,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println("成功生成Java文件:"
-                    + (targetPath + targetFile).replaceAll("/", "\\\\"));
+            System.out.println("成功生成Java文件:" + (targetPath + targetFile).replaceAll("/", "\\\\"));
         }
     }
 

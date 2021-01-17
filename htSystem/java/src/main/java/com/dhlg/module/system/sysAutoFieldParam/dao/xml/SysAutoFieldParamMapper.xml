@@ -17,7 +17,7 @@
     <sql id="Base_Column_List">
                 id,                layout_type,                param_id,                title,                type,                value    ,index</sql>
 
-    <select id="queryByCondition" parameterType="com.dhlg.common.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam">
+    <select id="queryByCondition" parameterType="com.dhlg.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam">
         select * from sys_auto_field_param
         <trim prefix="where" prefixOverrides="and">
             <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">

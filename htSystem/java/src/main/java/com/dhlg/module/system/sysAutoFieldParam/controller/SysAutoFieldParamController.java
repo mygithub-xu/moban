@@ -2,10 +2,10 @@ package com.dhlg.module.system.sysAutoFieldParam.controller;
 
 import com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam;
 import com.dhlg.module.system.sysAutoFieldParam.service.ISysAutoFieldParamService;
-import com.dhlg.common.utils.Parameter.Parameter;
-import com.dhlg.common.utils.Result;
-import com.dhlg.common.utils.StringUtils;
-import com.dhlg.common.utils.exception.ParamIsNullException;
+import com.dhlg.utils.Parameter.Parameter;
+import com.dhlg.utils.Result;
+import com.dhlg.utils.StringUtils;
+import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

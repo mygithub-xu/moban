@@ -1,14 +1,14 @@
 package com.dhlg.shiro.realm;
 
-import com.dhlg.common.entity.JwtToken;
-import com.dhlg.common.utils.Dictionaries;
-import com.dhlg.common.utils.JwtUtil;
+import com.dhlg.shiro.token.JwtToken;
+import com.dhlg.utils.Dictionaries;
+import com.dhlg.utils.JwtUtil;
 import com.dhlg.module.system.sysButton.entity.SysButton;
 import com.dhlg.module.system.sysButton.service.impl.SysButtonServiceImpl;
 import com.dhlg.module.system.sysRole.service.impl.SysRoleServiceImpl;
 import com.dhlg.module.system.sysUser.entity.SysUser;
 import com.dhlg.module.system.sysUser.service.impl.SysUserServiceImpl;
-import com.dhlg.common.utils.StringUtils;
+import com.dhlg.utils.StringUtils;
 import com.dhlg.redis.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
@@ -16,7 +16,6 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
