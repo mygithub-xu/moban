@@ -47,12 +47,18 @@
             <template v-if="needParam.isShowTable">
                 <div class="container-table">
                     <div class="common-table-style">
-                        <el-table  border style="width: 100%">
+                        <el-table :data="pageData.list" border style="width: 100%">
+                            <el-table-column type="selection" width="55" v-if="needParam.isShowCheckTable"></el-table-column>
+                            <el-table-column type="index" width="50" label="#"></el-table-column>
                             <el-table-column
                             v-for="(item,index) in needParam.tableList"
                             :key="index"
                             :prop="item.value"
                             :label="item.title">
+                            aaaaa
+                            </el-table-column>
+                            <el-table-column v-if="needParam.isShowOperaTable" width="200px" label="操作">
+                                
                             </el-table-column>
                         </el-table>
                     </div>
@@ -138,12 +144,13 @@
                     </el-select>
                 </template>
             </div>
-
         </el-collapse-item>
         <el-collapse-item title="列表区域" name="2">
             <div class="add-query">
                 <div class="add-query-button">
                     <el-button @click="addTableItem">添加</el-button>
+                    <el-checkbox style="margin-left:10px" v-model="needParam.isShowCheckTable">多选</el-checkbox>
+                    <el-checkbox v-model="needParam.isShowOperaTable" @change="addOperaTable">操作</el-checkbox>
                 </div>
             </div>
             <div class="data-area-item" v-for="(item,index) in needParam.tableList" :key="index">
@@ -158,17 +165,27 @@
                 ></el-option>
                 </el-select>
             </div>
-
+            <div>
+                <el-button @click="addOperaTable"></el-button>
+            </div>
+            <div class="data-area-item" v-for="(item,index) in needParam.tableButtonList" :key="index">
+                <i type="text" class="data-area-button el-icon-delete" @click="delOperaTableItem(index)"></i>
+                <el-input class="data-area-input" placeholder="请输入查询标题" v-model="item.title"></el-input>
+                <el-select class="data-area-input" v-model="item.value" placeholder="请选择"  clearable>
+                <el-option
+                    v-for="item in tableFileds"
+                    :key="item.id"
+                    :label="item.fieldName"
+                    :value="item.id"
+                ></el-option>
+                </el-select>
+            </div>
         </el-collapse-item>
         </el-collapse>
     </el-scrollbar>
     </div>
 
-        <el-dialog
-        title="提示"
-        :visible.sync="dialogVisible"
-        width="30%"
-        >
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
         <div>
             <el-form :inline="true" :model="projModel">
                 <el-form-item label="包路径">
@@ -183,7 +200,7 @@
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button type="primary" @click="greatCode">确 定</el-button>
         </span>
-        </el-dialog>
+    </el-dialog>
     
 </div>
 
@@ -207,7 +224,8 @@ export default {
                 isShowTable:true,//是否展示表格区域
                 isShowPage:true,//是否显示分页区域
                 queryList:[],//查询区域元素集合
-                tableList: []//表格元素
+                tableList: [],//表格元素
+                tableButtonList:[]
             },
             activeName: '1',
             tableFileds:[],
@@ -223,17 +241,17 @@ export default {
             dropDataSource:[
                 {value:'1',label:'状态'}
             ],
-             buttonDataSource:[
+            buttonDataSource:[
                 {value:'1',label:'查询'},
                 {value:'2',label:'重置'},
                 {value:'3',label:'自定义'}
             ],
             pageData: {
-                list: [],
+                list: [{}],
                 pageNumber: 1,
                 pageSize: 10,
-                totalCount: 0,
-                totalPage: 0
+                totalCount: 1,
+                totalPage: 1
             },
             editTableId:"",
             dialogVisible:false
@@ -245,12 +263,18 @@ export default {
         }
     },
     methods:{
+        //操作
+        addOperaTable(){
+
+        },
+        //打开
         openDigCode(){
             this.projModel = {
                 tableId:"",
                 packageName:"com.dhlg",
                 projectName:"system"
             }
+
             if(!this.editTableId){
                 return this.$message.error("错误");
             }

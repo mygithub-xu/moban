@@ -2,16 +2,45 @@
     <div class="app-container">
         <!-- 查询区域 -->
         <div class="container-query">
+        #foreach ($item in $queryList)
+        #if($!item.type ==  '1')
+            <queryItem label="$!{item.title}：">
+                <el-input v-model="queryContion.$!{item.fieldNameHump}" placeholder="请输入$!{item.title}"></el-input>
+            </queryItem>
+        #end
+        #if($!item.type ==  '3')
+            <queryItem  label="$!{item.title}：" style="width:50%">
+                <div class="is_data">
+                  <el-date-picker
+                    v-model="queryContion.$!{item.fieldNameHump}From"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
+                  <span style="margin: 0 10px;line-height: 36px;"> 至 </span>
+                  <el-date-picker
+                    v-model="queryContion.$!{item.fieldNameHump}To"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
+                </div>
+            </queryItem>
+        #end
+
+        <query-item isButton style="width:100%;padding-left:30px">
+        #if($!item.type ==  '4')
+        #if($!item.type ==  '4')
+            <el-button type="primary"  @click="search" >搜索</el-button>
+            <el-button  plain @click="reset" >重置</el-button>
+            <el-button  plain @click="handleAdd" >新增</el-button>
+        #end
+        </query-item>
+
+        #end
             <queryItem label="测试名：">
                 <el-input v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
             </queryItem>
             <queryItem  label="测试状态：" style="width:50%">
                 <div class="is_data">
-                  <el-date-picker
-                    v-model="queryContion.createTimeFrom"
-                    type="date"
-                    placeholder="选择日期">
-                  </el-date-picker>
                   <el-date-picker
                     v-model="queryContion.createTimeFrom"
                     type="date"
@@ -25,13 +54,14 @@
                   </el-date-picker>
                 </div>
             </queryItem>
-            <query-item isButton style="width:100%;padding-left:30px">
+            <query-item isButton style="width:100%">
+                <span style="margin-left:30px">
                     <el-button type="primary"  @click="search" >搜索</el-button>
                     <el-button  plain @click="reset" >重置</el-button>
                     <el-button  plain @click="handleAdd" >新增</el-button>
-
+                </span>
             </query-item>
-           
+
         </div>
         <!-- 数据表格 -->
         <div class="container-table">
@@ -40,7 +70,12 @@
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
                     <el-table-column prop="createTime"  label="创建时间" ></el-table-column>
                     <el-table-column prop="testName"  label="测试名" ></el-table-column>
-                    <el-table-column prop="testStatusDesc"  label="测试状态"  ></el-table-column>
+                    <el-table-column prop="testStatus"  label="测试状态"  >
+                      <template slot-scope="scope">
+                        <span v-if="scope.row.testStatus=='1'">启用</span>
+                        <span v-if="scope.row.testStatus=='2'">禁用</span>
+                      </template>
+                    </el-table-column>
                     <el-table-column prop="testNum" label="数量" >
                       <template slot-scope="scope">
                         <span>{{scope.row.testNum | 10}}</span>
@@ -94,16 +129,6 @@ export default {
         },
         //下拉框数据
         selectData: {
-          testStatusList:[
-            {
-              value:'1',
-              label:'启用'
-            },
-            {
-              value:'2',
-              label:'禁用'
-            }
-          ]
         },
 
       }
@@ -117,7 +142,7 @@ export default {
     methods:{
         //获取表格数据
         getDropData(){
-          
+
         },
         // 清空
         empty(){

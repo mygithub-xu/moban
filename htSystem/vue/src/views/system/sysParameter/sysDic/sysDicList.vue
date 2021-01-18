@@ -33,9 +33,7 @@
       <el-table
         :data="pageData.list"
         border
-        class="table"
         ref="multipleTable"
-        align="center"
         @selection-change="handleTypeSelectionChange"
         height="100%"
       >
