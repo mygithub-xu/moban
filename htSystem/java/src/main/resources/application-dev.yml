@@ -20,8 +20,8 @@ spring:
     username: root
 #    password: zmy1022a.
     password: 123456
-    url: jdbc:mysql://127.0.0.1:3306/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
-#    url: jdbc:mysql://120.25.197.11:3306/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+#    url: jdbc:mysql://127.0.0.1:3306/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://47.94.8.32:3306/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     minIdle: 500
     maxActive: 1000 #最大连接池数量
