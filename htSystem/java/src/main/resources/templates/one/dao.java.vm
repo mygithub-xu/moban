@@ -1,0 +1,17 @@
+package $!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.dao;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import $!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.entity.$!{projModel._TableName};
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
+
+public interface $!{projModel._TableName}Mapper extends BaseMapper<$!{projModel._TableName}> {
+
+    IPage<$!{projModel._TableName}> queryByCondition(Page page, @Param("params") $!{projModel._TableName} parameter);
+
+    IPage<$!{projModel._TableName}> listFieldQuery(Page page, @Param("parameter") Map<String, Object> params);
+}
+        

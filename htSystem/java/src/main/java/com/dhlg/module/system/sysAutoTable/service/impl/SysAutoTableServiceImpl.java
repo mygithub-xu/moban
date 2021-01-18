@@ -3,6 +3,7 @@ package com.dhlg.module.system.sysAutoTable.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.dhlg.module.system.sysAutoTable.entity.CommonMap;
 import com.dhlg.utils.*;
 import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
 import com.dhlg.module.system.sysAutoField.service.impl.SysAutoFieldServiceImpl;
@@ -318,13 +319,28 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         SysAutoParam autoParam = paramService.getOne(new QueryWrapper<SysAutoParam>().eq("table_id", projModel.getTableId()));
         //查询区域数据queryList
         List<SysAutoFieldParam> queryList = fieldParamService.findParamList(autoParam.getId(),Dictionaries.LAYOUTTYPEQUERY);
+        for (SysAutoFieldParam param : queryList){
+            if (!StringUtils.isBlank(param.getFieldName())){
+                param.setFieldNameHump(StringUtils.underscoreToCamelCase(param.getFieldName()));
+            }
+
+        }
         autoParam.setQueryList(queryList);
         //表格区域数据queryList
         List<SysAutoFieldParam> tableList = fieldParamService.findParamList(autoParam.getId(),Dictionaries.LAYOUTTYPETABLE);
+        for (SysAutoFieldParam param : tableList){
+            if (!StringUtils.isBlank(param.getFieldName())){
+                param.setFieldNameHump(StringUtils.underscoreToCamelCase(param.getFieldName()));
+            }
+        }
         autoParam.setTableList(tableList);
         autoTable.setAutoParam(autoParam);
         //主备数据---子数据二
         List<SysAutoField> autoFieldList = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", projModel.getTableId()));
+        for (SysAutoField param : autoFieldList){
+            param.setFieldNameHump(StringUtils.underscoreToCamelCase(param.getFieldName()));
+            param.setFieldTypeToJava(CommonMap.javaTypeMap.get(param.getFieldType()));
+        }
         autoTable.setAutoFieldList(autoFieldList);
 
         greatFile(autoTable,projModel,targetPath);
@@ -334,11 +350,11 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     private void greatFile(SysAutoTable autoTable,ProjModel projModel,String targetPath) {
         Map<String,Object> map = new HashMap();
         map.put("controller.java.vm","controller/" + projModel.get_TableName() + "Controller.java");
-//        map.put("service.java.vm","service/"+"I" + projModel.get_TableName() + "Service.java");
-//        map.put("serviceImpl.java.vm","service/impl/" + projModel.get_TableName() + "ServiceImpl.java");
-//        map.put("mapper.java.vm","dao/" + projModel.get_TableName() + "Mapper.java");
-//        map.put("entity.java.vm","entity/" + projModel.get_TableName() + ".java");
-//        map.put("mapper.xml.vm","dao/xml/" + projModel.get_TableName() + "Mapper.xml");
+        map.put("service.java.vm","service/"+"I" + projModel.get_TableName() + "Service.java");
+        map.put("serviceImpl.java.vm","service/impl/" + projModel.get_TableName() + "ServiceImpl.java");
+        map.put("dao.java.vm","dao/" + projModel.get_TableName() + "Mapper.java");
+        map.put("entity.java.vm","entity/" + projModel.get_TableName() + ".java");
+        map.put("dao.xml.vm","dao/xml/" + projModel.get_TableName() + "Mapper.xml");
         for(String templateFile:map.keySet()){
             String targetFile = (String) map.get(templateFile);
             Properties pro = new Properties();
@@ -349,7 +365,11 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             VelocityContext context = new VelocityContext();
 
             context.put("projModel",projModel);
-            context.put("SysAutoTable",autoTable);
+            context.put("autoTable",autoTable);
+            context.put("autoFieldList",autoTable.getAutoFieldList());
+            context.put("autoParam",autoTable.getAutoParam());
+            context.put("queryList",autoTable.getAutoParam().getQueryList());
+            context.put("tableList",autoTable.getAutoParam().getTableList());
 
             Template t = ve.getTemplate(templateFile, "UTF-8");
             try {

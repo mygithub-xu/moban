@@ -62,7 +62,16 @@ public class SysAutoFieldParam implements Serializable {
     @TableField("param_index")
     private String paramIndex;
 
-    @TableField(value = "field_name",exist = false)
+    /**
+     * 对应value的字段名称：如xxx_yyy
+     */
+    @TableField(exist = false)
     private String fieldName;
+
+    /**
+     * 对应value的字段名称驼峰xxxYyy
+     */
+    @TableField(exist = false)
+    private String fieldNameHump;
 
 }

@@ -44,7 +44,7 @@
                         :autosize="{ minRows: 3, maxRows: 4}"
                         :rows="3"
                         type="textarea"
-                        style="max-width: 300px;"
+                        style="min-width: 300px;"
                         @input="descInput_fou()"
                         v-model="form.remark"
                         show-word-limit

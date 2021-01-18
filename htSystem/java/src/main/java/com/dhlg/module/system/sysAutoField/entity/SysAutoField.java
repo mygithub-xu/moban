@@ -45,6 +45,13 @@ public class SysAutoField implements Serializable {
      */
     @TableField("field_name")
     private String fieldName;
+
+    /**
+     * 字段名称驼峰式
+     */
+    @TableField(exist = false)
+    private String fieldNameHump;
+
     /**
      * 字段描述
      */
@@ -60,6 +67,13 @@ public class SysAutoField implements Serializable {
      */
     @TableField("field_type")
     private String fieldType;
+
+    /**
+     * 字段类型转java
+     */
+    @TableField(exist = false)
+    private String fieldTypeToJava;
+
     /**
      * 字段小数点
      */

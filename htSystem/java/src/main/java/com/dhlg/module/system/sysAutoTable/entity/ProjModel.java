@@ -17,7 +17,7 @@ public class ProjModel {
     private String package_name;
     //表名驼峰式 如sysTest
     private String tableName;
-    //表名首字母大写驼峰式 如sysTest
+    //表名首字母大写驼峰式 如SysTest
     private String _TableName;
 
 }

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.test.sysTest.dao.SysTestMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.test.sysTest.entity.SysTest">
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="parent_id" property="parentId" />
+        <result column="test_area" property="testArea" />
+        <result column="test_name" property="testName" />
+        <result column="test_num" property="testNum" />
+        <result column="test_status" property="testStatus" />
+        <result column="test_total" property="testTotal" />
+        <result column="test_type" property="testType" />
+        <result column="test_unit" property="testUnit" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+                create_time, create_user, id, parent_id, test_area, test_name, test_num,test_status, test_total, test_type, test_unit    </sql>
+
+    <select id="queryByCondition" parameterType="com.dhlg.module.test.sysTest.entity.SysTest" resultType="com.dhlg.module.test.sysTest.entity.SysTest">
+        select * from sys_test
+        <trim prefix="where" prefixOverrides="and">
+            <if test="params.createUser != null and params.createUser !=''">
+                and create_user = #{params.createUser}
+            </if>
+            <if test="params.testArea != null and params.testArea !=''">
+                and test_area like concat('%',#{params.testArea},'%')
+            </if>
+            <if test="params.testName != null and params.testName !=''">
+                and test_name like concat('%',#{params.testName},'%')
+            </if>
+            <if test="params.testStatus != null and params.testStatus !=''">
+                and test_status = #{params.testStatus}
+            </if>
+<!--            <if test="params.createTimeFrom != null and params.createTimeFrom !='' and params.createTimeTo != null and params.createTimeTo !=''">-->
+<!--                and create_time between #{params.createTimeFrom} and #{params.createTimeTo}-->
+<!--            </if>-->
+
+            <if test="params.createTimeFrom != null ">
+                and create_time &gt;= #{params.createTimeFrom}
+            </if>
+            <if test="params.createTimeTo != null ">
+                and create_time &lt; DATE_ADD(#{params.createTimeTo}, INTERVAL 1 DAY)
+            </if>
+
+        </trim>
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select * from sys_test
+        <trim prefix="where" prefixOverrides="and">
+
+                    <if test="parameter.createTime != null and parameter.createTime .size() == 2">
+                        and create_time between
+                        <foreach collection="parameter.createTime" index="index" item="item" open=" " separator=" and " close=" ">
+                            #{item}
+                        </foreach>
+                    </if>
+                    <if test="parameter.createUser  != null and parameter.createUser.size() > 0">
+                        and create_user  in
+                        <foreach collection="parameter.createUser " index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                    <if test="parameter.parentId  != null and parameter.parentId.size() > 0">
+                        and parent_id  in
+                        <foreach collection="parameter.parentId " index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                    <if test=" parameter.testArea !=null and parameter.testArea !='' ">
+                        and test_area like concat('%',#{parameter.testArea},'%')
+                    </if>
+                    <if test=" parameter.testName !=null and parameter.testName !='' ">
+                        and test_name like concat('%',#{parameter.testName},'%')
+                    </if>
+                    <if test="parameter.testStatus  != null and parameter.testStatus.size() > 0">
+                        and test_status  in
+                        <foreach collection="parameter.testStatus " index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                    <if test="parameter.testType  != null and parameter.testType.size() > 0">
+                        and test_type  in
+                        <foreach collection="parameter.testType " index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+        </trim>
+        order by id desc
+    </select>
+
+</mapper>

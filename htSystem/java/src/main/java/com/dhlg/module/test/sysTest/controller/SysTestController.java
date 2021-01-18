@@ -1,11 +1,11 @@
-package $!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.controller;
+package com.dhlg.module.test.sysTest.controller;
 
-import $!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.entity.$!{projModel._TableName};
-import $!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.service.I$!{projModel._TableName}Service;
-import $!{projModel.packageName}.utils.Parameter.QueryEntity;
-import $!{projModel.packageName}.utils.Result;
-import $!{projModel.packageName}.utils.StringUtils;
-import $!{projModel.packageName}.exception.ParamIsNullException;
+import com.dhlg.module.test.sysTest.entity.SysTest;
+import com.dhlg.module.test.sysTest.service.ISysTestService;
+import com.dhlg.utils.Parameter.QueryEntity;
+import com.dhlg.utils.Result;
+import com.dhlg.utils.StringUtils;
+import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,20 +21,20 @@ import java.util.List;
  * @since
  */
 @RestController
-@RequestMapping("/api/$!{projModel.projectName}/$!{projModel.tableName}")
+@RequestMapping("/api/system/sysTest")
 @CrossOrigin
-public class $!{projModel._TableName}Controller {
+public class SysTestController {
 
         @Autowired
-        I$!{projModel._TableName}Service doService;
+        ISysTestService doService;
 
         @ApiOperation("保存或者更新")
         @PostMapping("/saveOrUpdate")
-        public Result saveOrUpdate(@RequestBody $!{projModel._TableName} $!{projModel.tableName}) {
-                if(StringUtils.isBlank($!{projModel.tableName})){
+        public Result saveOrUpdate(@RequestBody SysTest sysTest) {
+                if(StringUtils.isBlank(sysTest)){
                         throw new ParamIsNullException();
                 }
-                return  doService.saveOrUpdateCommon($!{projModel.tableName});
+                return  doService.saveOrUpdateCommon(sysTest);
         }
 
         @ApiOperation("删除（物理删除）")
@@ -46,7 +46,7 @@ public class $!{projModel._TableName}Controller {
 
         @ApiOperation("查询")
         @PostMapping("/query")
-        public Result query(@RequestBody QueryEntity<$!{projModel._TableName}> parameter) {
+        public Result query(@RequestBody QueryEntity<SysTest> parameter) {
                 if(StringUtils.isBlank(parameter)){
                         throw new ParamIsNullException();
                 }

@@ -2,7 +2,7 @@
 
         <div class="query-item" :style="{'width':width}">
             <template v-if="!isButton">
-                <div class="query-title" :style="{'width':labelWidth}">{{label}}</div>
+                <div class="query-title" :style="{'min-width':labelWidth}">{{label}}</div>
             </template>
             <div class="query-input"><slot></slot></div>
         </div>

@@ -1,6 +1,7 @@
 package com.dhlg.code;
 
 
+import com.dhlg.module.system.sysAutoTable.entity.CommonMap;
 import com.dhlg.utils.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -64,7 +65,7 @@ public class codeAutoGenerationUtil {
         map.put("controller.java.vm","controller/" + DomainName + "Controller.java");
         map.put("service.java.vm","service/"+"I" + DomainName + "Service.java");
         map.put("serviceImpl.java.vm","service/impl/" + DomainName + "ServiceImpl.java");
-        map.put("mapper.java.vm","dao/" + DomainName + "Mapper.java");
+        map.put("dao.java.vm","dao/" + DomainName + "Mapper.java");
         map.put("entity.java.vm","entity/" + DomainName + ".java");
         map.put("mapper.xml.vm","dao/xml/" + DomainName + "Mapper.xml");
 //        map.put("templates2.vue.vm",domainName +"/" + domainName + "List.vue");
