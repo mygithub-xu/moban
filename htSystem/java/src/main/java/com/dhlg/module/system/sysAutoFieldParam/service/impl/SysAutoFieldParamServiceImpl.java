@@ -81,4 +81,8 @@ public class SysAutoFieldParamServiceImpl extends ServiceImpl<SysAutoFieldParamM
     public List<SysAutoFieldParam> findParamList(String id, String layoutType) {
         return doMapper.findParamList(id,layoutType);
     }
+
+    public List<SysAutoFieldParam> findParamList(String id, String layoutType,String type) {
+        return doMapper.findParamListType(id,layoutType,type);
+    }
 }

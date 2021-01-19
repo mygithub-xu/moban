@@ -25,5 +25,7 @@ public interface SysAutoFieldParamMapper extends BaseMapper<SysAutoFieldParam> {
     IPage<SysAutoFieldParam> listFieldQuery(Page page, @Param("parameter") Map<String, Object> params);
 
     List<SysAutoFieldParam> findParamList(String id, String layoutType);
+
+    List<SysAutoFieldParam> findParamListType(String id, String layoutType,String type);
 }
         

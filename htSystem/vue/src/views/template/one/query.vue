@@ -12,11 +12,6 @@
                     type="date"
                     placeholder="选择日期">
                   </el-date-picker>
-                  <el-date-picker
-                    v-model="queryContion.createTimeFrom"
-                    type="date"
-                    placeholder="选择日期">
-                  </el-date-picker>
                   <span style="margin: 0 10px;line-height: 36px;"> 至 </span>
                   <el-date-picker
                     v-model="queryContion.createTimeTo"
@@ -29,14 +24,15 @@
                     <el-button type="primary"  @click="search" >搜索</el-button>
                     <el-button  plain @click="reset" >重置</el-button>
                     <el-button  plain @click="handleAdd" >新增</el-button>
-
+                    <el-button type="danger" @click="handleDeleteBatch" >删除</el-button>
             </query-item>
            
         </div>
         <!-- 数据表格 -->
         <div class="container-table">
             <div class="common-table-style">
-                <el-table :data="pageData.list" border>
+                <el-table :data="pageData.list" border @selection-change="handleSelectionChange">
+                    <el-table-column type="selection"></el-table-column>
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
                     <el-table-column prop="createTime"  label="创建时间" ></el-table-column>
                     <el-table-column prop="testName"  label="测试名" ></el-table-column>
@@ -106,6 +102,9 @@ export default {
           ]
         },
 
+        //批量删除
+        delVal:""
+
       }
     },
     created() {
@@ -165,6 +164,7 @@ export default {
         handleEdit(row) {
           this.$refs.oneEdit.openByEdit(row)
         },
+        //删除
         handleDelete(row){
           this.$confirm("此操作将永久删除, 是否继续?", "提示", {
             confirmButtonText: "确定",
@@ -178,6 +178,25 @@ export default {
                 }
               });
           })
+        },
+        handleDeleteBatch(){
+          this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }).then(() => {
+            let deletebatch = this.$utils.findIds(this.delVal)
+            this.$http.post(this.api.sysTestbatchDelete,deletebatch).then(res => {
+              if(res.data.code == '200'){
+                this.$message.success(res.data.message)
+                this.getData()
+              }
+            });
+          })
+        },
+        //勾选
+        handleSelectionChange(val){
+          this.delVal = val;
         }
     }
 }

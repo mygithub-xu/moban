@@ -43,15 +43,25 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
 
         //是否展示查询区域
         if (sysAutoParam.getIsShowQuery()){
-            sysAutoParam.setShowQuery("1");
+            sysAutoParam.setShowQuery(Dictionaries.COMMONTRUE);
         }
         //是否展示表格区域
         if (sysAutoParam.getIsShowTable()){
-            sysAutoParam.setShowTable("1");
+            sysAutoParam.setShowTable(Dictionaries.COMMONTRUE);
         }
         //是否显示分页区域
         if (sysAutoParam.getIsShowPage()){
-            sysAutoParam.setShowPage("1");
+            sysAutoParam.setShowPage(Dictionaries.COMMONTRUE);
+        }
+
+        //是否显示表格按钮
+        if (sysAutoParam.getIsShowTable()&&sysAutoParam.getIsShowOperaTable()){
+            sysAutoParam.setShowOperaTable(Dictionaries.COMMONTRUE);
+        }
+
+        //是否显示表格勾选
+        if (sysAutoParam.getIsShowTable()&&sysAutoParam.getIsShowCheckTable()){
+            sysAutoParam.setShowCheckTable(Dictionaries.COMMONTRUE);
         }
 
         //判断新增还是修改
@@ -102,6 +112,17 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
                 item.setId(StringUtils.uuid());
                 item.setParamId(sysAutoParam.getId());
                 item.setLayoutType(Dictionaries.LAYOUTTYPETABLE);
+                item.setType(Dictionaries.TABLEDEFAULT);
+                sysAutoFieldParam.add(item);
+            }
+        }
+        //添加表格区域操作按钮
+        if (sysAutoParam.getIsShowTable()&&sysAutoParam.getIsShowOperaTable()){
+            for (SysAutoFieldParam item : sysAutoParam.getTableButtonList()){
+                item.setId(StringUtils.uuid());
+                item.setParamId(sysAutoParam.getId());
+                item.setLayoutType(Dictionaries.LAYOUTTYPETABLE);
+                item.setType(Dictionaries.TABLEOPERA);
                 sysAutoFieldParam.add(item);
             }
         }
@@ -148,21 +169,27 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
             return Result.success(one,"获取成功");
         }
         //构造查询区域
-        one.setIsShowQuery(Dictionaries.ISSHOWQUERY.equals(one.getShowQuery()));
+        one.setIsShowQuery(Dictionaries.COMMONTRUE.equals(one.getShowQuery()));
         //构造查询区域
-        one.setIsShowTable(Dictionaries.ISSHOWTABLE.equals(one.getShowTable()));
+        one.setIsShowTable(Dictionaries.COMMONTRUE.equals(one.getShowTable()));
         //构造区域
-        one.setIsShowEdit(Dictionaries.ISSHOWQUERY.equals(one.getShowQuery()));
+        one.setIsShowEdit(Dictionaries.COMMONTRUE.equals(one.getShowQuery()));
         //构造查询区域
-        one.setIsShowPage(Dictionaries.ISSHOWPAGE.equals(one.getShowPage()));
+        one.setIsShowPage(Dictionaries.COMMONTRUE.equals(one.getShowPage()));
+        //构造表格区域的操作按钮
+        one.setIsShowOperaTable(Dictionaries.COMMONTRUE.equals(one.getShowOperaTable()));
+        //构造表格区域的勾选按钮
+        one.setIsShowCheckTable(Dictionaries.COMMONTRUE.equals(one.getShowOperaTable()));
 
         //通过id找到queryList
         List<SysAutoFieldParam> queryList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPEQUERY).orderByAsc("param_index"));
         one.setQueryList(queryList);
         //通过id找到tableList
-        List<SysAutoFieldParam> tableList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPETABLE).orderByAsc("param_index"));
+        List<SysAutoFieldParam> tableList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPETABLE).eq("type",Dictionaries.TABLEDEFAULT).orderByAsc("param_index"));
         one.setTableList(tableList);
-
+        //通过id找到tableList
+        List<SysAutoFieldParam> tableButtonList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPETABLE).eq("type",Dictionaries.TABLEOPERA).orderByAsc("param_index"));
+        one.setTableButtonList(tableButtonList);
 
         return Result.success(one,"获取成功");
     }

@@ -146,6 +146,7 @@ export default {
                     this.$http.post(this.api.sysTestsaveOrUpdate,this.form).then(res => {
                       if(res.data.code == '200'){
                         this.$message.success(res.data.message)
+                        this.editVisible = false
                         this.getData()
                       }
                     });

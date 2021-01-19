@@ -69,4 +69,8 @@
     <select id="findParamList" parameterType="String" resultType="com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam">
         SELECT p.*,f.field_name FROM sys_auto_field_param p LEFT JOIN sys_auto_field f on p.`value` = f.id where  p.param_id = #{id} and p.layout_type = #{layoutType} order by param_index
     </select>
+
+    <select id="findParamListType" parameterType="String" resultType="com.dhlg.module.system.sysAutoFieldParam.entity.SysAutoFieldParam">
+        SELECT p.*,f.field_name FROM sys_auto_field_param p LEFT JOIN sys_auto_field f on p.`value` = f.id where  p.param_id = #{id} and p.layout_type = #{layoutType} and p.type = #{type} order by param_index
+    </select>
 </mapper>

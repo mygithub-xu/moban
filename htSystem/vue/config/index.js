@@ -11,16 +11,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     //开发环境，proxyTable在开发环境中使用，目的是解决本地环境跨域
-    proxyTable: {
-      '/api': {
-          target: 'http://localhost:4040/moban/api/',
-          // target: 'http://120.25.197.11/api/api/', 
-          changeOrigin: true, //改变源 
-          pathRewrite: {
-              '^/api': '' //路径重写 
-          }
-      }
-    },
+    proxyTable: {},
 
     // Various Dev Server settings
     host: '0.0.0.0', // can be overwritten by process.env.HOST

@@ -72,9 +72,23 @@ public class SysAutoParam implements Serializable {
      */
     @TableField("show_table")
     private String showTable;
+    /**
+     * 表格操作区域（0：false，1：true）
+     */
+    @TableField("show_opera_table")
+    private String showOperaTable;
+
+    /**
+     * 表格勾选区域（0：false，1：true）
+     */
+    @TableField("show_check_table")
+    private String showCheckTable;
+
 
     @TableField("table_id")
     private String tableId;
+
+
 
     /**
      * 更新时间
@@ -101,8 +115,18 @@ public class SysAutoParam implements Serializable {
     private Boolean isShowEdit;
 
     @TableField(exist = false)
+    private Boolean isShowOperaTable;
+
+    @TableField(exist = false)
+    private Boolean isShowCheckTable;
+
+    @TableField(exist = false)
     private List<SysAutoFieldParam> tableList;
 
     @TableField(exist = false)
     private List<SysAutoFieldParam> queryList;
+
+    @TableField(exist = false)
+    private List<SysAutoFieldParam> tableButtonList;
+
 }

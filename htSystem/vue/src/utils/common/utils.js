@@ -36,4 +36,13 @@ export default {
         }
         return (Array(2).join(0) + num).slice(-2);
     },
+
+    findIds(list) {
+      let deletebatch = []
+      list.forEach(i => {
+        deletebatch.push(i.id)
+      });
+      return deletebatch
+    }
+
 }

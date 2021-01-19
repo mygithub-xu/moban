@@ -15,12 +15,13 @@
         <result column="table_id" property="tableId" />
         <result column="update_time" property="updateTime" />
         <result column="update_user" property="updateUser" />
-
+        <result column="show_opera_table" property="showOperaTable" />
+        <result column="show_check_table" property="showCheckTable" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-                create_time, create_user,id,  layout_type, show_edit,show_page,show_query,show_table  ,tableId ,update_time,update_user</sql>
+                create_time, create_user,id,  layout_type, show_edit,show_page,show_query,show_table  ,tableId ,update_time,update_user,show_opera_table,show_check_table</sql>
 
     <select id="queryByCondition" parameterType="com.dhlg.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoParam.entity.SysAutoParam">
         select * from sys_auto_param

@@ -44,10 +44,12 @@
             </div>
             </template>
             <!--表格区域 -->
-            <template v-if="needParam.isShowTable">
+            <template v-show="needParam.isShowTable">
                 <div class="container-table">
                     <div class="common-table-style">
+                        
                         <el-table :data="pageData.list" border style="width: 100%">
+                            
                             <el-table-column type="selection" width="55" v-if="needParam.isShowCheckTable"></el-table-column>
                             <el-table-column type="index" width="50" label="#"></el-table-column>
                             <el-table-column
@@ -57,8 +59,10 @@
                             :label="item.title">
                             aaaaa
                             </el-table-column>
-                            <el-table-column v-if="needParam.isShowOperaTable" width="200px" label="操作">
-                                
+                            <el-table-column v-if="needParam.isShowOperaTable"  width="200px" label="操作">
+                                <slot slot-scope="scope">
+                                    <el-button v-for="(item,index) in needParam.tableButtonList"  :key="index">{{item.title}}</el-button>
+                                </slot>
                             </el-table-column>
                         </el-table>
                     </div>
@@ -150,7 +154,7 @@
                 <div class="add-query-button">
                     <el-button @click="addTableItem">添加</el-button>
                     <el-checkbox style="margin-left:10px" v-model="needParam.isShowCheckTable">多选</el-checkbox>
-                    <el-checkbox v-model="needParam.isShowOperaTable" @change="addOperaTable">操作</el-checkbox>
+                    <el-checkbox v-model="needParam.isShowOperaTable">操作</el-checkbox>
                 </div>
             </div>
             <div class="data-area-item" v-for="(item,index) in needParam.tableList" :key="index">
@@ -158,28 +162,30 @@
                 <el-input class="data-area-input" placeholder="请输入查询标题" v-model="item.title"></el-input>
                 <el-select class="data-area-input" v-model="item.value" placeholder="请选择"  clearable>
                 <el-option
-                    v-for="item in tableFileds"
-                    :key="item.id"
-                    :label="item.fieldName"
-                    :value="item.id"
+                    v-for="item2 in tableFileds"
+                    :key="item2.id"
+                    :label="item2.fieldName"
+                    :value="item2.id"
                 ></el-option>
                 </el-select>
             </div>
-            <div>
-                <el-button @click="addOperaTable"></el-button>
-            </div>
-            <div class="data-area-item" v-for="(item,index) in needParam.tableButtonList" :key="index">
+        
+            <div v-show="needParam.isShowOperaTable">
+            <el-button @click="addOperaTable">表格操作按钮添加</el-button>
+            <div  class="data-area-item" v-for="(item,index) in needParam.tableButtonList" :key="'key-'+item.paramIndex">
                 <i type="text" class="data-area-button el-icon-delete" @click="delOperaTableItem(index)"></i>
-                <el-input class="data-area-input" placeholder="请输入查询标题" v-model="item.title"></el-input>
+                <el-input class="data-area-input" placeholder="请输入按钮名称" v-model="item.title"></el-input>
                 <el-select class="data-area-input" v-model="item.value" placeholder="请选择"  clearable>
                 <el-option
-                    v-for="item in tableFileds"
-                    :key="item.id"
-                    :label="item.fieldName"
-                    :value="item.id"
+                    v-for="item2 in tableButtonCheckList"
+                    :key="item2.value"
+                    :label="item2.label"
+                    :value="item2.value"
                 ></el-option>
                 </el-select>
             </div>
+            </div>
+    
         </el-collapse-item>
         </el-collapse>
     </el-scrollbar>
@@ -223,6 +229,7 @@ export default {
                 isShowQuery:true,//是否展示查询区域
                 isShowTable:true,//是否展示表格区域
                 isShowPage:true,//是否显示分页区域
+                isShowOperaTable:true,
                 queryList:[],//查询区域元素集合
                 tableList: [],//表格元素
                 tableButtonList:[]
@@ -244,7 +251,8 @@ export default {
             buttonDataSource:[
                 {value:'1',label:'查询'},
                 {value:'2',label:'重置'},
-                {value:'3',label:'自定义'}
+                {value:'3',label:'批量删除'},
+                {value:'4',label:'自定义'}
             ],
             pageData: {
                 list: [{}],
@@ -254,7 +262,12 @@ export default {
                 totalPage: 1
             },
             editTableId:"",
-            dialogVisible:false
+            dialogVisible:false,
+            tableButtonCheckList:[
+                {value:'1',label:'编辑'},
+                {value:'2',label:'删除'},
+                {value:'3',label:'自定义'}
+            ]
         }
     },
     computed:{
@@ -263,9 +276,22 @@ export default {
         }
     },
     methods:{
+        delOperaTableItem(index){
+            this.needParam.tableButtonList.splice(index,1)
+            his.$forceUpdate()
+        },
         //操作
         addOperaTable(){
-
+            if(!this.needParam.tableButtonList){
+                this.needParam.tableButtonList = []
+            }
+            var item = {
+                title:"",
+                value:"",
+                paramIndex: this.needParam.tableButtonList.length
+            }
+            this.needParam.tableButtonList.push(item)
+            this.$forceUpdate()
         },
         //打开
         openDigCode(){
@@ -342,7 +368,6 @@ export default {
                 }
             })
         },
-        //根据
         back(){
             this.$emit("backfont")
         },
@@ -382,8 +407,10 @@ export default {
                 isShowQuery:true,//是否展示查询区域
                 isShowTable:true,//是否展示表格区域
                 isShowPage:true,//是否显示分页区域
+                isShowOperaTable:true,
                 queryList:[],//查询区域元素集合
-                tableList: []//表格元素
+                tableList: [],//表格元素
+                tableButtonList:[]
             }
         },
         delItem(index){

@@ -48,6 +48,7 @@ public class SysAutoFieldParam implements Serializable {
     private String title;
     /**
      * 查询页面元素（1.输入框，2.下拉框，3.日期下拉框，4.按钮）
+     * 表格页面元素（1.表格操作按钮）
      */
     @TableField("type")
     private String type;
