@@ -1,5 +1,7 @@
 <template>
-
+#set($http="$http")
+#set($message="$message")
+#set($utils="$utils")
 
     <div class="app-container">
         <!-- 查询区域 -->
@@ -98,8 +100,8 @@ export default {
         // 查询
         queryContion: {
         #foreach ($item in $queryList)
-        #if(!$item.fieldNameHump)
-        $!{item.fieldNameHump}#if($foreach.hasNext),#end
+        #if($item.fieldNameHump)
+        $!{item.fieldNameHump},
         #end
         #end
         },
@@ -127,11 +129,11 @@ export default {
         // 清空
         empty(){
             this.queryContion = {
-            #foreach ($item in $queryList)
-            #if(!$item.fieldNameHump)
-            $!{item.fieldNameHump}#if($foreach.hasNext),#end
-            #end
-            #end
+                #foreach ($item in $queryList)
+                #if($item.fieldNameHump)
+                $!{item.fieldNameHump},
+                #end
+                #end
             }
         },
         //获取数据
@@ -141,7 +143,7 @@ export default {
                 number: this.pageData.pageNumber,
                 size: this.pageData.pageSize
             }
-            this.$http.post("api/$!{projModel.projectName}/$!{projModel.tableName}/query",queryContion)
+            this.${http}.post("api/$!{projModel.projectName}/$!{projModel.tableName}/query",queryContion)
             .then(res => {
               this.pageData.list = res.data.body.records;
               this.pageData.totalCount = res.data.body.total;
@@ -171,10 +173,7 @@ export default {
         handleAdd() {
           this.$refs.oneEdit.openByNew()
         },
-        //编辑
-        handleEdit(row) {
-          this.$refs.oneEdit.openByEdit(row)
-        },
+
         #foreach ($item in $tableButtonList)
         #if($item.value ==  '2')
         //删除
@@ -183,18 +182,23 @@ export default {
             confirmButtonText: "确定",
             cancelButtonText: "取消",
             type: "warning"
-          })
-          .then(() => {
-              this.$http.delete("api/$!{projModel.projectName}/$!{projModel.tableName}/deleteById/" + row.id)
+          }).then(() =>
+          {
+              this.${http}.delete("api/$!{projModel.projectName}/$!{projModel.tableName}/deleteById/" + row.id)
               .then(res => {
                 if(res.data.code == '200'){
-                  this.$message.success(res.data.message)
+                  this.${message}.success(res.data.message)
                   this.getData()
                 }
               })
           })
         },
         #end
+        #if($item.value ==  '1')
+        //编辑
+        handleEdit(row) {
+          this.$refs.oneEdit.openByEdit(row)
+        },
         #end
 
         #foreach ($item in $queryList)
@@ -206,11 +210,11 @@ export default {
             type: "warning"
           })
           .then(() => {
-            let deletebatch = this.$\utils.findIds(this.delVal)
-            this.$\http.post("api/$!{projModel.projectName}/$!{projModel.tableName}/batchDelete",deletebatch)
+            let deletebatch = this.${utils}.findIds(this.delVal)
+            this.${http}.post("api/$!{projModel.projectName}/$!{projModel.tableName}/batchDelete",deletebatch)
             .then(res => {
               if(res.data.code == '200'){
-                this.$\message.success(res.data.message)
+                this.${message}.success(res.data.message)
                 this.getData()
               }
             })

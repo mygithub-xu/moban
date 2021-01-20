@@ -127,11 +127,12 @@ export default {
         },
         //获取数据
         getData(row){
-            this.$http.post(this.api.sysTestquery,{
+          let queryContion = {
                 condition: this.queryContion,
                 number: this.pageData.pageNumber,
                 size: this.pageData.pageSize
-            }).then(res => {
+            }
+            this.$http.post(this.api.sysTestquery,queryContion).then(res => {
               this.pageData.list = res.data.body.records;
               this.pageData.totalCount = res.data.body.total;
               this.pageData.totalPage = res.data.body.pages;
