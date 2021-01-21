@@ -1,5 +1,5 @@
 <template>
-    <div class="show-dialog">
+    <div class="edit-frame-dialog">
         <el-dialog :visible.sync="editVisible" :show-close="false" :modal="false" fullscreen>
             <!--按钮区域-->
             <div class="dialog-button">
@@ -122,13 +122,6 @@ export default {
             this.editVisible = true
             this.empty()
         },
-        //编辑
-        openByEdit(row){
-            this.openByNew()
-            this.$http.get(this.api.sysTestqueryById + row.id).then(res => {
-                this.form = res.data.body
-            });
-        },
         //返回
         backHandle(){
             this.clearCheck()
@@ -136,25 +129,36 @@ export default {
         },
         //保存
         saveHandle(){
-            this.$refs['form'].validate((valid)=>{
-              if(valid){
-                this.$confirm("是否保存?", "提示", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                }).then(() => {
-                    this.$http.post(this.api.sysTestsaveOrUpdate,this.form).then(res => {
-                      if(res.data.code == '200'){
-                        this.$message.success(res.data.message)
-                        this.editVisible = false
-                        this.getData()
-                      }
-                    });
-                })
-              }
-            })
         }
     }
     
 }
 </script>
+<style>
+
+/*弹出框*/
+.edit-frame-dialog .el-dialog__wrapper {
+  position: absolute !important;
+  border-radius: 5px;
+}
+.edit-frame-dialog .el-dialog__header{
+  padding: 0;
+}
+.edit-frame-dialog .el-dialog{
+  background-color: #f3f3f3;
+}
+.edit-frame-dialog .el-dialog__body{
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
+  background: #fff;
+}
+.edit-frame-dialog .dialog-button{
+  margin-bottom: 10px;
+}
+.edit-frame-dialog .el-form{
+  flex-direction: row;
+  flex-wrap: wrap;
+  display: flex;
+}
+</style>

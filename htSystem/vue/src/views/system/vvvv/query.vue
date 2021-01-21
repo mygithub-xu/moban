@@ -1,92 +1,61 @@
 <template>
-#set($http="$http")
-#set($message="$message")
-#set($utils="$utils")
 
     <div class="app-container">
         <!-- 查询区域 -->
         <div class="container-query">
-        #foreach ($item in $queryList)
-        #if($!item.type ==  '1')
-            <queryItem label="$!{item.title}：">
-                <el-input v-model="queryContion.$!{item.fieldNameHump}" placeholder="请输入$!{item.title}"></el-input>
+            <queryItem label="测试字段：">
+                <el-input v-model="queryContion.vvvv" placeholder="请输入测试字段"></el-input>
             </queryItem>
-        #end
-        #if($!item.type ==  '3')
-            <queryItem  label="$!{item.title}：" style="width:50%">
+            <queryItem  label="测试时间：" style="width:50%">
                 <div class="is_data">
                   <el-date-picker
-                    v-model="queryContion.$!{item.fieldNameHump}From"
+                    v-model="queryContion.createTimeFrom"
                     type="date"
                     placeholder="选择日期">
                   </el-date-picker>
                   <span style="margin: 0 10px;line-height: 36px;"> 至 </span>
                   <el-date-picker
-                    v-model="queryContion.$!{item.fieldNameHump}To"
+                    v-model="queryContion.createTimeTo"
                     type="date"
                     placeholder="选择日期">
                   </el-date-picker>
                 </div>
             </queryItem>
-        #end
-        #end
             <query-item isButton style="width:100%;padding-left:30px">
-            #foreach ($item in $queryList)
-            #if($item.type ==  '4')
-                #if($item.value ==  '1')
-                <el-button type="primary"  @click="search" >$!{item.title}</el-button>
-                #elseif($item.value ==  '2')
-                <el-button  plain @click="reset" >$!{item.title}</el-button>
-                #else
-                <el-button  plain >$!{item.title}</el-button>
-                #end
-            #end
-            #end
+                <el-button type="primary"  @click="search" >搜索</el-button>
+                <el-button  plain @click="reset" >重置</el-button>
+                <el-button  plain >新增</el-button>
+                <el-button  plain >删除</el-button>
             </query-item>
         </div>
         <!-- 数据表格 -->
         <div class="container-table">
             <div class="common-table-style">
                 <el-table :data="pageData.list" border
-                #if($autoParam.isShowCheckTable ==  '1')
-                 @selection-change="handleSelectionChange"
-                #end
                 >
-                    #if($autoParam.showCheckTable ==  '1')
                     <el-table-column type="selection"></el-table-column>
-                    #end
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
-                    #foreach ($item in $tableList)
-                    <el-table-column prop="$!{item.fieldNameHump}"  label="$!{item.title}"></el-table-column>
-                    #end
-                    #if($autoParam.showOperaTable ==  '1')
+                    <el-table-column prop="vvvv"  label="测试字段"></el-table-column>
+                    <el-table-column prop="createTime"  label="测试时间"></el-table-column>
+                    <el-table-column prop="createUser"  label="测试人"></el-table-column>
                     <el-table-column  label="操作">
                       <template slot-scope="scope">
-                        #foreach ($item in $tableButtonList)
-                            #if($item.value ==  '1')
-                            <el-button @click="handleEdit(scope.row)" type="text">$!{item.title}</el-button>
-                            #elseif($item.value ==  '2')
-                            <el-button @click="handleDelete(scope.row)" type="text" style="color:red">$!{item.title}</el-button>
-                            #else
-                            <el-button type="text" >$!{item.title}</el-button>
-                            #end
-                        #end
+                            <el-button @click="handleEdit(scope.row)" type="text">编辑</el-button>
+                            <el-button @click="handleDelete(scope.row)" type="text" style="color:red">删除</el-button>
+                            <el-button type="text" >查看</el-button>
                       </template>
                     </el-table-column>
-                    #end
                   </el-table>
             </div>
-            #if($autoParam.showPage ==  '1')
             <div class="pagination">
               <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
             </div>
-            #end
         </div>
     </div>
 </template>
 <script>
 export default {
-    name: "$!{projModel.tableName}Query",
+    name: "vvvvQuery",
     data() {
       return {
         // 数据
@@ -99,20 +68,16 @@ export default {
         },
         // 查询
         queryContion: {
-        #foreach ($item in $queryList)
-        #if($item.fieldNameHump)
-          $!{item.fieldNameHump}:"",
-        #end
-        #end
+          vvvv:"",
+          createTime:"",
+          createUser:"",
         },
         //下拉框数据
         selectData: {
 
         },
-        #if($autoParam.showCheckTable == '1')
         //批量删除
         delVal:""
-        #end
       }
     },
     created() {
@@ -129,11 +94,9 @@ export default {
         // 清空
         empty(){
             this.queryContion = {
-                #foreach ($item in $queryList)
-                #if($item.fieldNameHump)
-                $!{item.fieldNameHump}:"",
-                #end
-                #end
+                vvvv:"",
+                createTime:"",
+                createUser:"",
             }
         },
         //获取数据
@@ -143,7 +106,7 @@ export default {
                 number: this.pageData.pageNumber,
                 size: this.pageData.pageSize
             }
-            this.${http}.post("api/$!{projModel.projectName}/$!{projModel.tableName}/query",queryContion)
+            this.$http.post("api/system/vvvv/query",queryContion)
             .then(res => {
               this.pageData.list = res.data.body.records;
               this.pageData.totalCount = res.data.body.total;
@@ -160,17 +123,17 @@ export default {
             this.empty()
             this.getData()
         },
-        #if($!autoParam.showPage ==  '1')
         //分页查询
         handlePage(number, size){
             this.pageData.pageNumber = number
             this.pageData.pageSize = size
             this.getData()
         },
-        #end
 
-        #foreach ($item in $tableButtonList)
-        #if($item.value ==  '2')
+        //编辑
+        handleEdit(row) {
+          this.$refs.oneEdit.openByEdit(row)
+        },
         //删除
         handleDelete(row){
           this.$confirm("此操作将永久删除, 是否继续?", "提示", {
@@ -179,32 +142,20 @@ export default {
             type: "warning"
           }).then(() =>
           {
-              this.${http}.delete("api/$!{projModel.projectName}/$!{projModel.tableName}/deleteById/" + row.id)
+              this.$http.delete("api/system/vvvv/deleteById/" + row.id)
               .then(res => {
                 if(res.data.code == '200'){
-                  this.${message}.success(res.data.message)
+                  this.$message.success(res.data.message)
                   this.getData()
                 }
               })
           })
         },
-        #end
-        #if($item.value ==  '1')
-        //编辑
-        handleEdit(row) {
-          this.$refs.oneEdit.openByEdit(row)
-        },
-        #end
-        #end
 
-        #foreach ($item in $queryList)
-        #if($item.value ==  '4')
         //新增
         handleAdd() {
           this.$refs.oneEdit.openByNew()
         },
-        #end
-        #if($item.value ==  '3')
         handleDeleteBatch(){
           this.$confirm("此操作将永久删除, 是否继续?", "提示", {
             confirmButtonText: "确定",
@@ -212,24 +163,16 @@ export default {
             type: "warning"
           })
           .then(() => {
-            let deletebatch = this.${utils}.findIds(this.delVal)
-            this.${http}.post("api/$!{projModel.projectName}/$!{projModel.tableName}/batchDelete",deletebatch)
+            let deletebatch = this.$utils.findIds(this.delVal)
+            this.$http.post("api/system/vvvv/batchDelete",deletebatch)
             .then(res => {
               if(res.data.code == '200'){
-                this.${message}.success(res.data.message)
+                this.$message.success(res.data.message)
                 this.getData()
               }
             })
           })
         },
-        #end
-        #end
-        #if($autoParam.isShowCheckTable ==  '1')
-        //勾选
-        handleSelectionChange(val){
-          this.delVal = val
-        }
-        #end
     }
 }
 </script>

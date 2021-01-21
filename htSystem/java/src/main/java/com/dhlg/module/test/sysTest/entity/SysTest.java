@@ -36,7 +36,6 @@ public class SysTest implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @TableField("create_time")
     private Date createTime;
     /**

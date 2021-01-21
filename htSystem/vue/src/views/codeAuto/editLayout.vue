@@ -35,10 +35,11 @@
                     </queryItem>
 
                 </template>
-                <query-item isButton>
+                <query-item isButton style="width:100%">
                      <!--按钮 -->
                     <template v-for="(item,index) in needParam.queryList">
-                       <el-button style="margin-left:10px" v-if="item.type == '4'" :key="index">{{item.title}}</el-button> 
+                       <el-button style="margin-left:10px" v-if="item.type == '4'&&item.value == '4'" :key="index" @click="handleAdd">{{item.title}}</el-button>
+                       <el-button style="margin-left:10px" v-if="item.type == '4'&&item.value != '4'" :key="index">{{item.title}}</el-button>
                     </template>
                 </query-item>
             </div>
@@ -50,7 +51,7 @@
                         
                         <el-table :data="pageData.list" border style="width: 100%">
                             
-                            <el-table-column type="selection" width="55" v-if="needParam.isShowCheckTable"></el-table-column>
+                            <el-table-column type="selection" width="55" v-show="needParam.isShowCheckTable"></el-table-column>
                             <el-table-column type="index" width="50" label="#"></el-table-column>
                             <el-table-column
                             v-for="(item,index) in needParam.tableList"
@@ -72,6 +73,7 @@
                 </div>
             </template>
         </template>
+        <editTem ref="editTem"></editTem>
          <!--上下结构 end-->
     </div>
 
@@ -185,7 +187,25 @@
                 </el-select>
             </div>
             </div>
-    
+        </el-collapse-item>
+
+        <el-collapse-item title="编辑区域" name="3">
+            <div class="add-query">
+                <div class="add-query-input">
+                    <el-select v-model="addType" placeholder="请选择"  clearable>
+                    <el-option
+                        v-for="item in addTypeList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    ></el-option>
+                    </el-select>
+                </div>
+                <div class="add-query-button">
+                    <el-button @click="addQueryItem">添加</el-button>
+                </div>
+            </div>
+            
         </el-collapse-item>
         </el-collapse>
     </el-scrollbar>
@@ -207,14 +227,15 @@
             <el-button type="primary" @click="greatCode">确 定</el-button>
         </span>
     </el-dialog>
-    
 </div>
 
 </template>
 
 <script>
+import editTem from "./editTem"
 export default {
     name:"editLayout",
+    components: { editTem },
     data(){
         return{
             projModel:{
@@ -249,10 +270,11 @@ export default {
                 {value:'1',label:'状态'}
             ],
             buttonDataSource:[
-                {value:'1',label:'查询'},
-                {value:'2',label:'重置'},
-                {value:'3',label:'批量删除'},
-                {value:'4',label:'自定义'}
+                {value:'1',label:'查询',fun:''},
+                {value:'2',label:'重置',fun:''},
+                {value:'3',label:'批量删除',fun:''},
+                {value:'4',label:'新增',fun:'handleAdd'},
+                {value:'5',label:'自定义',fun:''}
             ],
             pageData: {
                 list: [{}],
@@ -276,6 +298,11 @@ export default {
         }
     },
     methods:{
+        //新增
+        handleAdd() {
+          this.$refs.editTem.openByNew()
+        },
+        
         delOperaTableItem(index){
             this.needParam.tableButtonList.splice(index,1)
             his.$forceUpdate()
@@ -430,6 +457,7 @@ export default {
     flex: 1;
     flex-direction: column;
     margin-right: 10px;
+    position: relative;
 }
 .edit-frame-right{
     width: 300px;

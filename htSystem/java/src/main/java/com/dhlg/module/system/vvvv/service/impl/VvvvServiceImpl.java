@@ -1,9 +1,9 @@
-package com.dhlg.module.test.sysTest.service.impl;
+package com.dhlg.module.system.vvvv.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.dhlg.module.test.sysTest.entity.SysTest;
-import com.dhlg.module.test.sysTest.dao.SysTestMapper;
-import com.dhlg.module.test.sysTest.service.ISysTestService;
+import com.dhlg.module.system.vvvv.entity.Vvvv;
+import com.dhlg.module.system.vvvv.dao.VvvvMapper;
+import com.dhlg.module.system.vvvv.service.IVvvvService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.Dictionaries;
 import com.dhlg.utils.Parameter.Parameter;
@@ -24,25 +24,25 @@ import java.util.List;
  * @since 2020-05-05
  */
 @Service
-public class SysTestServiceImpl extends ServiceImpl<SysTestMapper, SysTest> implements ISysTestService {
+public class VvvvServiceImpl extends ServiceImpl<VvvvMapper, Vvvv> implements IVvvvService {
 
     @Autowired
-    SysTestMapper doMapper;
+    VvvvMapper doMapper;
 
     @Override
-    public Result saveOrUpdateCommon(SysTest sysTest) {
+    public Result saveOrUpdateCommon(Vvvv vvvv) {
         //判断新增还是修改
-        if (!StringUtils.isBlank(sysTest.getId())) {
+        if (!StringUtils.isBlank(vvvv.getId())) {
             //修改
-            if(!updateById(sysTest)){
+            if(!updateById(vvvv)){
 
                 return Result.error(Dictionaries.UPDATE_FAILED);
             }
 
             return Result.success(Dictionaries.SAVE_SUCCESS);
         }
-        sysTest.setId(StringUtils.uuid());
-        if (!save(sysTest)){
+
+        if (!save(vvvv)){
 
             return Result.error(Dictionaries.SAVE_FAILED);
         }
@@ -59,8 +59,8 @@ public class SysTestServiceImpl extends ServiceImpl<SysTestMapper, SysTest> impl
     }
 
     @Override
-    public Result query(QueryEntity<SysTest> parameter) {
-        IPage<SysTest> dataList = doMapper.queryByCondition(parameter.getPage(), parameter.getCondition());
+    public Result query(QueryEntity<Vvvv> parameter) {
+        IPage<Vvvv> dataList = doMapper.queryByCondition(parameter.getPage(), parameter.getCondition());
         return new Result(dataList);
     }
 

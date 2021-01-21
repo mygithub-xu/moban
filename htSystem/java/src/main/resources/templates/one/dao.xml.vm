@@ -31,10 +31,10 @@
         #end
         #if($!item.type ==  '3')
             <if test="params.$!{item.fieldNameHump}From != null">
-                and $!{item.fieldName} &gt;= #{params.$!{item.fieldName}From}
+                and $!{item.fieldName} &gt;= #{params.$!{item.fieldNameHump}From}
             </if>
             <if test="params.$!{item.fieldNameHump}To != null">
-                and $!{item.fieldName} &lt; DATE_ADD(#{params.$!{item.fieldName}To}, INTERVAL 1 DAY)
+                and $!{item.fieldName} &lt; DATE_ADD(#{params.$!{item.fieldNameHump}To}, INTERVAL 1 DAY)
             </if>
         #end
         #end

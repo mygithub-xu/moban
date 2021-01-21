@@ -1,4 +1,4 @@
-package $!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.entity;
+package com.dhlg.module.system.vvvv.entity;
 
 import java.util.Date;
 import java.math.BigDecimal;
@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("$!{projModel.table_name}")
-public class $!{projModel._TableName} implements Serializable {
+@TableName("vvvv")
+public class Vvvv implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,27 +26,39 @@ public class $!{projModel._TableName} implements Serializable {
         @TableId("id")
         private String id;
 
-    #foreach ($item in $autoFieldList)
-        #if($!item.fieldName !=  'id')
         /**
-         * ${item.fieldDes}
+         * 创建人
          */
-        @TableField("${item.fieldName}")
-        private $!{item.fieldTypeToJava} ${item.fieldNameHump};
-        #end
-    #end
-    #foreach ($item in $queryList)
-        #if($!item.type ==  '3')
+        @TableField("create_user")
+        private String createUser;
+        /**
+         * vvvv
+         */
+        @TableField("vvvv")
+        private String vvvv;
+        /**
+         * 更新时间
+         */
+        @TableField("update_time")
+        private Date updateTime;
+        /**
+         * 创建时间
+         */
+        @TableField("create_time")
+        private Date createTime;
+        /**
+         * 更新人
+         */
+        @TableField("update_user")
+        private String updateUser;
         /**
          * 时间区域start
          */
         @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
         @TableField(exist = false)
-        private Date ${item.fieldNameHump}From;
+        private Date createTimeFrom;
 
         @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
         @TableField(exist = false)
-        private Date ${item.fieldNameHump}To;
-        #end
-    #end
+        private Date createTimeTo;
 }

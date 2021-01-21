@@ -341,7 +341,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
                 param.setFieldNameHump(StringUtils.underscoreToCamelCase(param.getFieldName()));
             }
         }
-        autoParam.setTableList(tableButtonList);
+        autoParam.setTableButtonList(tableButtonList);
 
         autoTable.setAutoParam(autoParam);
         //主备数据---子数据二
