@@ -94,11 +94,12 @@
             <el-checkbox v-model="needParam.isShowQuery">查询区域</el-checkbox>
             <el-checkbox v-model="needParam.isShowTable">列表区域</el-checkbox>
             <el-checkbox v-model="needParam.isShowPage">分页区域</el-checkbox>
+            <el-checkbox v-model="needParam.isShowEdit">编辑区域</el-checkbox>
         </div>
 
 
         <el-collapse class="data-area" v-model="activeName" accordion>
-        <el-collapse-item title="查询区域" name="1">
+        <el-collapse-item v-show="needParam.isShowQuery" title="查询区域" name="1">
             <div class="add-query">
                 <div class="add-query-input">
                     <el-select v-model="addType" placeholder="请选择"  clearable>
@@ -151,7 +152,7 @@
                 </template>
             </div>
         </el-collapse-item>
-        <el-collapse-item title="列表区域" name="2">
+        <el-collapse-item v-show="needParam.isShowTable" title="列表区域" name="2">
             <div class="add-query">
                 <div class="add-query-button">
                     <el-button @click="addTableItem">添加</el-button>
@@ -189,7 +190,7 @@
             </div>
         </el-collapse-item>
 
-        <el-collapse-item title="编辑区域" name="3">
+        <el-collapse-item v-show="needParam.isShowEdit" title="编辑区域" name="3">
             <div class="add-query">
                 <div class="add-query-input">
                     <el-select v-model="addType" placeholder="请选择"  clearable>
@@ -205,7 +206,6 @@
                     <el-button @click="addQueryItem">添加</el-button>
                 </div>
             </div>
-            
         </el-collapse-item>
         </el-collapse>
     </el-scrollbar>
@@ -250,7 +250,8 @@ export default {
                 isShowQuery:true,//是否展示查询区域
                 isShowTable:true,//是否展示表格区域
                 isShowPage:true,//是否显示分页区域
-                isShowOperaTable:true,
+                isShowEdit:true,//是否显示编辑区域
+                isShowOperaTable:true,//是否显示表格区域的table
                 queryList:[],//查询区域元素集合
                 tableList: [],//表格元素
                 tableButtonList:[]
@@ -434,11 +435,13 @@ export default {
                 isShowQuery:true,//是否展示查询区域
                 isShowTable:true,//是否展示表格区域
                 isShowPage:true,//是否显示分页区域
-                isShowOperaTable:true,
+                isShowEdit:true,//是否显示编辑区域
+                isShowOperaTable:true,//是否显示表格区域的table
                 queryList:[],//查询区域元素集合
                 tableList: [],//表格元素
                 tableButtonList:[]
             }
+            
         },
         delItem(index){
             this.needParam.queryList.splice(index,1)

@@ -173,7 +173,7 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
         //构造查询区域
         one.setIsShowTable(Dictionaries.COMMONTRUE.equals(one.getShowTable()));
         //构造区域
-        one.setIsShowEdit(Dictionaries.COMMONTRUE.equals(one.getShowQuery()));
+        one.setIsShowEdit(Dictionaries.COMMONTRUE.equals(one.getShowEdit()));
         //构造查询区域
         one.setIsShowPage(Dictionaries.COMMONTRUE.equals(one.getShowPage()));
         //构造表格区域的操作按钮
