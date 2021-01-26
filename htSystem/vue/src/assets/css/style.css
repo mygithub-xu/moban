@@ -50,15 +50,34 @@
   margin-bottom: 10px;
   margin-right: 10px;
 }
-/*主布局--左右布局*/
+/*主布局--左右布局 start*/
 .app-container-tree{
-  height: 100%;
   width: calc(100% - 20px);
-  margin: 0 10px 10px 0;
-  display:flex;
+  margin: 0 10px;
+  display: flex;
   flex-direction: row;
+  margin-bottom: 10px;
 }
-
+.app-container-tree .tree-area{
+  width: 300px;
+  background: #fff;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
+  background: #fff;
+}
+.app-container-tree .table-area{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-right: 10px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
+  background: #fff;
+}
+/*主布局--左右布局 end*/
 /*弹出框*/
 .show-dialog .el-dialog__wrapper {
   position: absolute !important;

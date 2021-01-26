@@ -42,8 +42,8 @@ spring:
     druidLoginName: admin # 登录druid的账号
     druidPassword: 123456 # 登录druid的密码
   redis:
-#    host: 120.25.197.11
-    host: 127.0.0.1
+    host: 47.94.8.32
+#    host: 127.0.0.1
     port: 6379
     password: 'hehe'
     jedis:
