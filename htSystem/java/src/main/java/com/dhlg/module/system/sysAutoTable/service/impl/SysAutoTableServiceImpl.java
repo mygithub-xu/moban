@@ -343,6 +343,15 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         }
         autoParam.setTableButtonList(tableButtonList);
 
+        //编辑页form表单区域
+        List<SysAutoFieldParam> editList = fieldParamService.findParamList(autoParam.getId(),Dictionaries.LAYOUTTYPEEDITFORM);
+        for (SysAutoFieldParam param : editList){
+            if (!StringUtils.isBlank(param.getFieldName())){
+                param.setFieldNameHump(StringUtils.underscoreToCamelCase(param.getFieldName()));
+            }
+        }
+        autoParam.setEditList(editList);
+
         autoTable.setAutoParam(autoParam);
         //主备数据---子数据二
         List<SysAutoField> autoFieldList = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", projModel.getTableId()));
@@ -365,6 +374,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         map.put("entity.java.vm","entity/" + projModel.get_TableName() + ".java");
         map.put("dao.xml.vm","dao/xml/" + projModel.get_TableName() + "Mapper.xml");
         map.put("query.vue.vm",projModel.getTableName() + "/query.vue");
+        map.put("edit.vue.vm",projModel.getTableName() + "/edit.vue");
         for(String templateFile:map.keySet()){
             String targetFile = (String) map.get(templateFile);
             Properties pro = new Properties();
@@ -381,6 +391,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             context.put("queryList",autoTable.getAutoParam().getQueryList());
             context.put("tableList",autoTable.getAutoParam().getTableList());
             context.put("tableButtonList",autoTable.getAutoParam().getTableButtonList());
+            context.put("editList",autoTable.getAutoParam().getEditList());
 
             Template t = ve.getTemplate(templateFile, "UTF-8");
             try {

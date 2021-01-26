@@ -11,10 +11,14 @@ public interface Dictionaries {
     String COMMONTRUE = "1";
     String COMMONFALSE = "0";
     //代码生成--start
-    //查询区域
+    //查询页查询区域
     String LAYOUTTYPEQUERY = "1";
-    //编辑区域
+    //查询页表格区域
     String LAYOUTTYPETABLE= "2";
+    //编辑页表单区域
+    String LAYOUTTYPEEDITFORM= "3";
+    //编辑页明细区域
+    String LAYOUTTYPEEDITDETAILS= "4";
     //表格操作按钮
     String TABLEOPERA = "1";
     //表格默认

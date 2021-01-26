@@ -37,6 +37,10 @@
                 <el-button type="primary"  @click="search" >$!{item.title}</el-button>
                 #elseif($item.value ==  '2')
                 <el-button  plain @click="reset" >$!{item.title}</el-button>
+                #elseif($item.value ==  '3')
+                <el-button  plain @click="handleDeleteBatch" type="danger">$!{item.title}</el-button>
+                #elseif($item.value ==  '4')
+                <el-button  plain @click="handleAdd" >$!{item.title}</el-button>
                 #else
                 <el-button  plain >$!{item.title}</el-button>
                 #end
@@ -48,7 +52,7 @@
         <div class="container-table">
             <div class="common-table-style">
                 <el-table :data="pageData.list" border
-                #if($autoParam.isShowCheckTable ==  '1')
+                #if($autoParam.showCheckTable ==  '1')
                  @selection-change="handleSelectionChange"
                 #end
                 >
@@ -82,10 +86,13 @@
             </div>
             #end
         </div>
+        <$!{projModel.tableName}Edit ref="$!{projModel.tableName}Edit" @back="getData"></$!{projModel.tableName}Edit>
     </div>
 </template>
 <script>
+import $!{projModel.tableName}Edit from "./edit"
 export default {
+    components: { $!{projModel.tableName}Edit },
     name: "$!{projModel.tableName}Query",
     data() {
       return {
@@ -192,7 +199,7 @@ export default {
         #if($item.value ==  '1')
         //编辑
         handleEdit(row) {
-          this.$refs.oneEdit.openByEdit(row)
+          this.$refs.$!{projModel.tableName}Edit.openByEdit(row)
         },
         #end
         #end
@@ -201,7 +208,7 @@ export default {
         #if($item.value ==  '4')
         //新增
         handleAdd() {
-          this.$refs.oneEdit.openByNew()
+          this.$refs.$!{projModel.tableName}Edit.openByNew()
         },
         #end
         #if($item.value ==  '3')
@@ -224,7 +231,7 @@ export default {
         },
         #end
         #end
-        #if($autoParam.isShowCheckTable ==  '1')
+        #if($autoParam.showCheckTable ==  '1')
         //勾选
         handleSelectionChange(val){
           this.delVal = val

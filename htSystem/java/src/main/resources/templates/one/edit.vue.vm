@@ -1,0 +1,127 @@
+<template>
+#set($http="$http")
+#set($message="$message")
+#set($refs="$refs")
+    <div class="show-dialog">
+        <el-dialog :visible.sync="editVisible" :show-close="false" :modal="false" fullscreen>
+            <!--按钮区域-->
+            <div class="dialog-button">
+                <el-button  @click="backHandle">返回</el-button>
+            #foreach ($item in $editList)
+            #if($item.type ==  '4')
+                #if($item.value ==  '1')
+                <el-button type="primary" @click="saveHandle">保存</el-button>
+                #else
+                <el-button  plain >$!{item.title}</el-button>
+                #end
+            #end
+            #end
+
+            </div>
+            <div class="dialog-form">
+                <el-form ref="form" label-width="150px" :rules="rules" :model="form">
+
+                #foreach ($item in $editList)
+                #if($item.type ==  '1')
+                    <el-form-item label="$!{item.title}" prop="$!{item.fieldNameHump}">
+                        <el-input v-model="form.$!{item.fieldNameHump}"></el-input>
+                    </el-form-item>
+                #end
+                #if($item.type ==  '2')
+                    <el-form-item label="$!{item.title}" prop="$!{item.fieldNameHump}">
+                        <el-input v-model="form.$!{item.fieldNameHump}"></el-input>
+                    </el-form-item>
+                #end
+                #if($item.type ==  '3')
+                    <el-form-item label="$!{item.title}" prop="$!{item.fieldNameHump}" >
+                        <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="form.createTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                    </el-form-item>
+                #end
+
+                #end
+                </el-form>
+            </div>
+
+        </el-dialog>
+    </div>
+</template>
+<script>
+export default {
+    name: "$!{projModel.tableName}Edit",
+    data() {
+      return {
+        editVisible: false,
+        //表单数据
+        form: {},
+        //下拉框数据
+        selectData: {
+        },
+        //校验
+        rules:{
+        }
+
+      }
+    },
+    methods:{
+        //清除校验
+        clearCheck(){
+            this.$refs['form'].resetFields()
+        },
+        //清空
+        empty(){
+            this.form = {
+                #foreach ($item in $editList)
+                #if($item.fieldNameHump)
+                $!{item.fieldNameHump}:"",
+                #end
+                #end
+            }
+        },
+        //新增
+        openByNew(){
+            this.editVisible = true
+            this.empty()
+        },
+        //编辑
+        openByEdit(row){
+            this.openByNew()
+            this.${http}.get("api/$!{projModel.projectName}/$!{projModel.tableName}/queryById/" + row.id).then(res => {
+                this.form = res.data.body
+            });
+        },
+        //返回
+        backHandle(){
+            this.clearCheck()
+            this.editVisible = false
+        },
+    #foreach ($item in $queryList)
+    #if($item.type ==  '4')
+        #if($item.value ==  '1')
+        //保存
+        saveHandle(){
+            this.${refs}['form'].validate((valid)=>{
+              if(valid){
+                this.$confirm("是否保存?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                }).then(() => {
+                    this.${http}.post("api/$!{projModel.projectName}/$!{projModel.tableName}/saveOrUpdate",this.form).then(res => {
+                      if(res.data.code == '200'){
+                        this.${message}.success(res.data.message)
+                        this.editVisible = false
+                        this.$emit("back")
+                      }
+                    });
+                })
+              }
+            })
+        }
+        #end
+    #end
+    #end
+
+    }
+
+}
+</script>

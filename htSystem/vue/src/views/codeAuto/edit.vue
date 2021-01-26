@@ -261,7 +261,7 @@
 
         this.$refs.tableForm.validate((valid) => {
           if(valid){
-            this.$http.post("system/sysAutoTable/existable", this.form).then(res => {
+            this.$http.post(this.api.sysAutoTableExistable, this.form).then(res => {
               if (res.data.code == "200") {
                 this.saveTableData()
               }
@@ -272,7 +272,7 @@
 
       },
       saveTableData(){
-              this.$http.post("system/sysAutoTable/saveOrUpdate", this.form).then(res => {
+              this.$http.post(this.api.sysAutoTableSaveOrUpdate, this.form).then(res => {
                 if (res.data.code == "200") {
                   this.$message.success(res.data.message);
                   this.editVisible = false;

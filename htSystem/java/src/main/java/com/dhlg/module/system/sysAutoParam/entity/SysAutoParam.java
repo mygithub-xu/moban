@@ -129,4 +129,8 @@ public class SysAutoParam implements Serializable {
     @TableField(exist = false)
     private List<SysAutoFieldParam> tableButtonList;
 
+    @TableField(exist = false)
+    private List<SysAutoFieldParam> editList;
+
+
 }

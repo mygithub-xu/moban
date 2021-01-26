@@ -50,7 +50,6 @@
                     <div class="common-table-style">
                         
                         <el-table :data="pageData.list" border style="width: 100%">
-                            
                             <el-table-column type="selection" width="55" v-show="needParam.isShowCheckTable"></el-table-column>
                             <el-table-column type="index" width="50" label="#"></el-table-column>
                             <el-table-column
@@ -73,7 +72,7 @@
                 </div>
             </template>
         </template>
-        <editTem ref="editTem"></editTem>
+        <editTem ref="editTem" :editList="needParam.editList"></editTem>
          <!--上下结构 end-->
     </div>
 
@@ -117,19 +116,8 @@
             </div>
             <div class="data-area-item" v-for="(item,index) in needParam.queryList" :key="index">
                 <i type="text" class="data-area-button el-icon-delete" @click="delItem(index)"></i>
-                <template v-if="item.type == '1' || item.type == '2'">
+                <template v-if="item.type != '4'">
                     <el-input class="data-area-input" placeholder="请输入查询标题" v-model="item.title"></el-input>
-                    <el-select class="data-area-input" v-model="item.value" placeholder="请选择"  clearable>
-                    <el-option
-                        v-for="item in tableFileds"
-                        :key="item.id"
-                        :label="item.fieldName"
-                        :value="item.id"
-                    ></el-option>
-                    </el-select>
-                </template>
-                <template v-if="item.type == '3'">
-                    <el-input class="data-area-input" placeholder="请选择数据来源" v-model="item.title"></el-input>
                     <el-select class="data-area-input" v-model="item.value" placeholder="请选择"  clearable>
                     <el-option
                         v-for="item in tableFileds"
@@ -172,10 +160,9 @@
                 ></el-option>
                 </el-select>
             </div>
-        
             <div v-show="needParam.isShowOperaTable">
             <el-button @click="addOperaTable">表格操作按钮添加</el-button>
-            <div  class="data-area-item" v-for="(item,index) in needParam.tableButtonList" :key="'key-'+item.paramIndex">
+            <div  class="data-area-item" v-for="(item,index) in needParam.tableButtonList" :key="'operaTablekey-'+item.paramIndex">
                 <i type="text" class="data-area-button el-icon-delete" @click="delOperaTableItem(index)"></i>
                 <el-input class="data-area-input" placeholder="请输入按钮名称" v-model="item.title"></el-input>
                 <el-select class="data-area-input" v-model="item.value" placeholder="请选择"  clearable>
@@ -193,7 +180,7 @@
         <el-collapse-item v-show="needParam.isShowEdit" title="编辑区域" name="3">
             <div class="add-query">
                 <div class="add-query-input">
-                    <el-select v-model="addType" placeholder="请选择"  clearable>
+                    <el-select v-model="addEditType" placeholder="请选择"  clearable>
                     <el-option
                         v-for="item in addTypeList"
                         :key="item.value"
@@ -203,8 +190,33 @@
                     </el-select>
                 </div>
                 <div class="add-query-button">
-                    <el-button @click="addQueryItem">添加</el-button>
+                    <el-button @click="addEditItem">添加</el-button>
                 </div>
+            </div>
+            <div class="data-area-item" v-for="(item,index) in needParam.editList" :key="index">
+                <i type="text" class="data-area-button el-icon-delete" @click="delEditItem(index)"></i>
+                <template v-if="item.type != '4'">
+                    <el-input class="data-area-input" placeholder="请输入查询标题" v-model="item.title"></el-input>
+                    <el-select class="data-area-input" v-model="item.value" placeholder="请选择"  clearable>
+                    <el-option
+                        v-for="item in tableFileds"
+                        :key="item.id"
+                        :label="item.fieldName"
+                        :value="item.id"
+                    ></el-option>
+                    </el-select>
+                </template>
+                <template v-if="item.type == '4'">
+                    <el-input class="data-area-input" placeholder="请输入按钮名称" v-model="item.title"></el-input>
+                    <el-select class="data-area-input"  v-model="item.value" placeholder="请选择"  clearable>
+                    <el-option
+                        v-for="item in editButtonDataSource"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    ></el-option>
+                    </el-select>
+                </template>
             </div>
         </el-collapse-item>
         </el-collapse>
@@ -254,21 +266,26 @@ export default {
                 isShowOperaTable:true,//是否显示表格区域的table
                 queryList:[],//查询区域元素集合
                 tableList: [],//表格元素
-                tableButtonList:[]
+                tableButtonList:[],//表格按钮
+                editList:[]
             },
             activeName: '1',
             tableFileds:[],
             addType:'',//添加查询页面元素
             addTypeList:[
                 {value:'1',label:'输入框'},
-                {value:'2',label:'下拉框'},
-                {value:'3',label:'日期下拉框'},
+                {value:'2',label:'选择框'},
+                {value:'3',label:'日期选择框'},
                 {value:'4',label:'按钮'}
             ],
             currencyList:[],//下拉框通用list
             currencyValue:'',//下拉框通用值
             dropDataSource:[
                 {value:'1',label:'状态'}
+            ],
+            editButtonDataSource:[
+                {value:'1',label:'保存',fun:''},
+                {value:'5',label:'自定义',fun:''}
             ],
             buttonDataSource:[
                 {value:'1',label:'查询',fun:''},
@@ -285,6 +302,7 @@ export default {
                 totalPage: 1
             },
             editTableId:"",
+            addEditType:"",
             dialogVisible:false,
             tableButtonCheckList:[
                 {value:'1',label:'编辑'},
@@ -299,14 +317,44 @@ export default {
         }
     },
     methods:{
+        updateInput(){
+            this.$forceUpdate()
+        },
         //新增
         handleAdd() {
-          this.$refs.editTem.openByNew()
+            if(this.needParam.isShowEdit){
+                this.$refs.editTem.openByNew()
+            }
         },
-        
+        delTableItem(index){
+            this.needParam.tableList.splice(index,1)
+        },
+        delItem(index){
+            this.needParam.queryList.splice(index,1)
+        },
         delOperaTableItem(index){
             this.needParam.tableButtonList.splice(index,1)
-            his.$forceUpdate()
+            this.$forceUpdate()
+        },
+        delEditItem(index){
+            this.needParam.editList.splice(index,1)
+        },
+        //编辑区域
+        addEditItem(){
+            if(!this.addEditType){
+                return this.$message.warning("请选择添加类型");
+            }
+            if(!this.needParam.editList){
+                this.needParam.editList = []
+            }
+            var item = {
+                type:this.addEditType,
+                title:"",
+                value:"",
+                paramIndex:this.needParam.editList.length
+            }
+            this.needParam.editList.push(item)
+            this.$forceUpdate()
         },
         //操作
         addOperaTable(){
@@ -320,6 +368,32 @@ export default {
             }
             this.needParam.tableButtonList.push(item)
             this.$forceUpdate()
+        },
+        addTableItem(){
+            if(!this.needParam.tableList){
+                this.needParam.tableList = []
+            }
+            var item = {
+                title:"",
+                value:"",
+                paramIndex: this.needParam.tableList.length
+            }
+            this.needParam.tableList.push(item)
+        },
+        addQueryItem(){
+            if(!this.addType){
+                return this.$message.warning("请选择添加类型");
+            }
+            if(!this.needParam.queryList){
+                this.needParam.queryList = []
+            }
+            var item = {
+                type:this.addType,
+                title:"",
+                value:"",
+                paramIndex:this.needParam.queryList.length
+            }
+            this.needParam.queryList.push(item)
         },
         //打开
         openDigCode(){
@@ -399,38 +473,10 @@ export default {
         back(){
             this.$emit("backfont")
         },
-        delTableItem(index){
-            this.needParam.tableList.splice(index,1)
-        },
-        addTableItem(){
-            if(!this.needParam.tableList){
-                this.needParam.tableList = []
-            }
-            var item = {
-                title:"",
-                value:"",
-                paramIndex: this.needParam.tableList.length
-            }
-            this.needParam.tableList.push(item)
-        },
-        addQueryItem(){
-            if(!this.addType){
-                return this.$message.warning("请选择添加类型");
-            }
-            if(!this.needParam.queryList){
-                this.needParam.queryList = []
-            }
-            var item = {
-                type:this.addType,
-                title:"",
-                value:"",
-                paramIndex:this.needParam.queryList.length
-            }
-            this.needParam.queryList.push(item)
-        },
+
         empty(){
             this.needParam = {
-                tableId:this.editTableId,
+                tableId:"",
                 layoutType:'1',//1.上查下表，2.左树右表
                 isShowQuery:true,//是否展示查询区域
                 isShowTable:true,//是否展示表格区域
@@ -439,13 +485,11 @@ export default {
                 isShowOperaTable:true,//是否显示表格区域的table
                 queryList:[],//查询区域元素集合
                 tableList: [],//表格元素
-                tableButtonList:[]
+                tableButtonList:[],//表格按钮
+                editList:[]
             }
-            
         },
-        delItem(index){
-            this.needParam.queryList.splice(index,1)
-        }
+
     }
 }
 </script>

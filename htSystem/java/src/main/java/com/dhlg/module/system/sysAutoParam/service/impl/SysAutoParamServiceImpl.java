@@ -49,20 +49,28 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
         if (sysAutoParam.getIsShowTable()){
             sysAutoParam.setShowTable(Dictionaries.COMMONTRUE);
         }
+
+        //是否显示编辑区域
+        if (sysAutoParam.getIsShowEdit()){
+            sysAutoParam.setShowEdit(Dictionaries.COMMONTRUE);
+        }
+
         //是否显示分页区域
         if (sysAutoParam.getIsShowPage()){
             sysAutoParam.setShowPage(Dictionaries.COMMONTRUE);
         }
 
-        //是否显示表格按钮
+        //是否显示表格按钮区域
         if (sysAutoParam.getIsShowTable()&&sysAutoParam.getIsShowOperaTable()){
             sysAutoParam.setShowOperaTable(Dictionaries.COMMONTRUE);
         }
 
-        //是否显示表格勾选
+        //是否显示表格勾选区域
         if (sysAutoParam.getIsShowTable()&&sysAutoParam.getIsShowCheckTable()){
             sysAutoParam.setShowCheckTable(Dictionaries.COMMONTRUE);
         }
+
+
 
         //判断新增还是修改
         if (!StringUtils.isBlank(sysAutoParam.getId())) {
@@ -113,6 +121,15 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
                 item.setParamId(sysAutoParam.getId());
                 item.setLayoutType(Dictionaries.LAYOUTTYPETABLE);
                 item.setType(Dictionaries.TABLEDEFAULT);
+                sysAutoFieldParam.add(item);
+            }
+        }
+        //添加编辑区域
+        if (sysAutoParam.getIsShowEdit()){
+            for (SysAutoFieldParam item : sysAutoParam.getEditList()){
+                item.setId(StringUtils.uuid());
+                item.setParamId(sysAutoParam.getId());
+                item.setLayoutType(Dictionaries.LAYOUTTYPEEDITFORM);
                 sysAutoFieldParam.add(item);
             }
         }
@@ -190,6 +207,9 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
         //通过id找到tableList
         List<SysAutoFieldParam> tableButtonList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPETABLE).eq("type",Dictionaries.TABLEOPERA).orderByAsc("param_index"));
         one.setTableButtonList(tableButtonList);
+        //通过id找到editList
+        List<SysAutoFieldParam> editList = fieldParamService.list(new QueryWrapper<SysAutoFieldParam>().eq("param_id", one.getId()).eq("layout_type",Dictionaries.LAYOUTTYPEEDITFORM).orderByAsc("param_index"));
+        one.setEditList(editList);
 
         return Result.success(one,"获取成功");
     }

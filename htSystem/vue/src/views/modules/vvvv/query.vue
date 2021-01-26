@@ -24,14 +24,15 @@
             <query-item isButton style="width:100%;padding-left:30px">
                 <el-button type="primary"  @click="search" >搜索</el-button>
                 <el-button  plain @click="reset" >重置</el-button>
-                <el-button  plain >新增</el-button>
-                <el-button  plain >删除</el-button>
+                <el-button  plain @click="handleAdd" >新增</el-button>
+                <el-button  plain @click="handleDeleteBatch" >删除</el-button>
             </query-item>
         </div>
         <!-- 数据表格 -->
         <div class="container-table">
             <div class="common-table-style">
                 <el-table :data="pageData.list" border
+                 @selection-change="handleSelectionChange"
                 >
                     <el-table-column type="selection"></el-table-column>
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
@@ -51,10 +52,13 @@
               <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
             </div>
         </div>
+        <vvvvEdit ref="vvvvEdit" @back="getData"></vvvvEdit>
     </div>
 </template>
 <script>
+import vvvvEdit from "./edit"
 export default {
+    components: { vvvvEdit },
     name: "vvvvQuery",
     data() {
       return {
@@ -132,7 +136,7 @@ export default {
 
         //编辑
         handleEdit(row) {
-          this.$refs.oneEdit.openByEdit(row)
+          this.$refs.vvvvEdit.openByEdit(row)
         },
         //删除
         handleDelete(row){
@@ -154,7 +158,7 @@ export default {
 
         //新增
         handleAdd() {
-          this.$refs.oneEdit.openByNew()
+          this.$refs.vvvvEdit.openByNew()
         },
         handleDeleteBatch(){
           this.$confirm("此操作将永久删除, 是否继续?", "提示", {
@@ -173,6 +177,10 @@ export default {
             })
           })
         },
+        //勾选
+        handleSelectionChange(val){
+          this.delVal = val
+        }
     }
 }
 </script>

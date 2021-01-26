@@ -41,7 +41,7 @@ public class $!{projModel._TableName}ServiceImpl extends ServiceImpl<$!{projMode
 
             return Result.success(Dictionaries.SAVE_SUCCESS);
         }
-
+        $!{projModel.tableName}.setId(StringUtils.uuid());
         if (!save($!{projModel.tableName})){
 
             return Result.error(Dictionaries.SAVE_FAILED);

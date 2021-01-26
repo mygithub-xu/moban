@@ -86,6 +86,8 @@ export default {
   sysAutoTableBatchDelete: `/api/system/sysAutoTable/batchdelete`,//批量删除
   sysAutoTableFindByID: `/api/system/sysAutoTable/findByID/`,//编辑
   sysAutoTableCodeGeneration: `/api/system/sysAutoTable/codeGeneration/`,//代码生成
+  sysAutoTableExistable: `/api/system/sysAutoTable/existable`,//检查是否存在该表
+  sysAutoTableSaveOrUpdate: `/api/system/sysAutoTable/saveOrUpdate`,//保存表
   
   //代码生成子类 sys_auto_field
   sysAutoFieldFindByTableID: `api/system/sysAutoField/findByTableID/`,//{id}获取表的字段数据

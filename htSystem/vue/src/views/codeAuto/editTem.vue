@@ -4,78 +4,42 @@
             <!--按钮区域-->
             <div class="dialog-button">
                 <el-button  @click="backHandle">返回</el-button>
-                <el-button type="primary" @click="saveHandle">保存</el-button>
+                <template v-for="(item,index) in editList">
+                <el-button style="margin-left:10px"   :key="'button-'+index" v-if="item.type == '4'">{{item.title}}</el-button>
+                </template>
             </div>
             <div class="dialog-form">
                 <el-form ref="form" label-width="150px" :rules="rules" :model="form">
-                    <el-form-item label="测试名" prop="testName">
-                        <el-input v-model="form.testName"></el-input>
+                  <template v-for="(item,index) in editList" >
+                    <!--普通查询框 -->
+                    <el-form-item v-if="item.type == '1'" :label="item.title+'：'" :key="index">
+                        <el-input  clearable></el-input>
                     </el-form-item>
-
-                    <el-form-item label="时间测试" prop="createTime">
-                        <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="form.createTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                    <!--下拉选择器 -->
+                    <el-form-item v-if="item.type == '2'" :label="item.title+'：'" :key="index">
+                        <el-select v-model="currencyValue" placeholder="请选择"  clearable>
+                        <el-option
+                            v-for="item in currencyList"
+                            :key="item.id"
+                            :label="item.fieldName"
+                            :value="item.id"
+                        ></el-option>
+                        </el-select>
                     </el-form-item>
-
-                    <el-form-item label="选择框测试" prop="testSelect">
-                        <el-input v-model="form.testSelect"></el-input>
+                    <!--时间选择器 -->
+                    <el-form-item v-if="item.type == '3'" :label="item.title+'：'" :key="index">
+                        <el-date-picker
+                            type="daterange"
+                            align="right"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            ></el-date-picker>
                     </el-form-item>
+                  </template>
                 </el-form>
             </div>
-
-    <!-- <div class="dialog-tab">
-          <el-tabs v-model="activeName">
-            <el-tab-pane label="明细表" name="first">
-              <div class="container-btn">
-                <el-button icon="el-icon-plus"  type="primary" @click="addList"></el-button>
-                <el-button icon="el-icon-minus"  type="danger" @click="delList"></el-button>
-              </div>
-              <div class="tab-table">
-                <el-table @selection-change="handleSelectionChangeDetil" ref="tableData" :data="form.testSysTetailList"
-                          border align="center">
-
-                  <el-table-column type="selection" fixed width="45" align="center"
-                                   show-overflow-tooltip></el-table-column>
-                  <el-table-column type="index" width="55" label="序号" align="center"
-                                   show-overflow-tooltip></el-table-column>
-
-                  <el-table-column prop="name" min-width="200" label="名称" show-overflow-tooltip>
-                    <template slot-scope="scope">
-                      <div>
-                        <el-input  v-model="scope.row.name"></el-input>
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column prop="status" min-width="200" label="状态" align="center" show-overflow-tooltip>
-                    <template slot-scope="scope">
-                      <div>
-                        <el-select v-model="scope.row.status"  placeholder="请选择" style="width:100%;">
-                          <el-option
-                            v-for="item in statusList"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                          ></el-option>
-                        </el-select>
-
-                      </div>
-                    </template>
-                  </el-table-column>
-
-                  <el-table-column prop="money" min-width="200" label="金额" align="center">
-                    <template slot-scope="scope">
-                      <currencyInput v-model="scope.row.money"></currencyInput>
-                    </template>
-                  </el-table-column>
-
-
-                  <el-table-column min-width="200" label="表格一" align="center" show-overflow-tooltip>
-                    表格一
-                  </el-table-column>
-                </el-table>
-              </div>
-            </el-tab-pane>
-          </el-tabs>
-        </div> -->
 
         </el-dialog>
     </div>
@@ -96,6 +60,9 @@ export default {
         }
         
       }
+    },
+    props:{
+      editList:Array
     },
     methods:{
         //清除校验
