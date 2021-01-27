@@ -1,5 +1,6 @@
 <template>
     <div class="app-container">
+      <el-scrollbar style="width:100%">
         <!-- 查询区域 -->
         <div class="container-query">
             <queryItem label="测试名：">
@@ -65,6 +66,8 @@
             </div>
         </div>
         <oneEdit ref="oneEdit"></oneEdit>
+      </el-scrollbar>
+        
     </div>
 </template>
 <script>
@@ -132,7 +135,7 @@ export default {
                 number: this.pageData.pageNumber,
                 size: this.pageData.pageSize
             }
-            this.$http.post(this.api.sysTestquery,queryContion).then(res => {
+            this.$http.post(this.api.LoginLogQuery,queryContion).then(res => {
               this.pageData.list = res.data.body.records;
               this.pageData.totalCount = res.data.body.total;
               this.pageData.totalPage = res.data.body.pages;

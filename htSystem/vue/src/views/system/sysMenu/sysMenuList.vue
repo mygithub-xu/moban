@@ -7,20 +7,16 @@
                     菜单
                 </span>
             </div>
-
             <el-tree   ref="attrList" :data="treeData"  :props="props1"  accordion  default-expand-all
                 @node-click="handleNodeClick"  node-key="id" :default-expanded-keys="defaultExpandKeys" :highlight-current="isShowGaoliang">
             </el-tree>
-
         </div>
-
-        <div class="table-area">
+    <div class="table-area">
           <div class="common-header">
               <span class="common-header-title">
                   菜单配置
               </span>
           </div>
-
           <div class="treeTable-button" >
             <span>
                 <el-button type="primary" size="mini" v-if="!editState"  @click="edit" >修改</el-button>
@@ -183,7 +179,7 @@
             </el-dialog>
         </div>
         </div>
-        </div>
+    </div>
     </div>
 </template>
 
@@ -285,10 +281,10 @@
     created() {
     },
     activated() {
-      if (this.$route.meta.idj === true) {
-        Object.assign(this.$data, this.$options.data())
-        this.queryTree()
-      }
+      // if (this.$route.meta.idj === true) {
+      //   Object.assign(this.$data, this.$options.data())
+      //   this.queryTree()
+      // }
     },
     methods: {
       getType(type) {
@@ -637,10 +633,10 @@
       }
     },
     mounted() {
-      const vm = this
-      vm.getType('enabled')
-      vm.getType('isChildren');
-      vm.queryTree();
+      // const vm = this
+      // vm.getType('enabled')
+      // vm.getType('isChildren');
+      // vm.queryTree();
     }
   }
 

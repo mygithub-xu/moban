@@ -372,7 +372,7 @@ export default {
     .headTabsDivCom{
         height: 100%;
         width: 100%;
-        /* overflow: hidden; */
+        overflow: hidden;
         position: relative;
     }
     .tab-comp{
@@ -444,12 +444,5 @@ export default {
     .flip-list-enter, .flip-list-leave-to{
         opacity: 0;
         transform: translateX(40px);
-    }
-
-    .aaaaaaaa{
-        background-color: red;
-        width: 50px;
-        height: 50px;
-        z-index: 9999;
     }
 </style>

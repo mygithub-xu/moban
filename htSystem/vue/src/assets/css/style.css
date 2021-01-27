@@ -1,9 +1,9 @@
 /*布局样式*/
-
 /*主布局--上下布局*/
 .app-container{
+  height: 100%;
   width: calc(100% - 20px);
-  margin: 0 10px;
+  margin: 10px 10px 0 10px;
   display:flex;
   flex-direction: column;
 }
@@ -18,6 +18,14 @@
   display: flex;
   padding-top: 10px;
 }
+/* 去除滚动条 */
+.app-container .el-scrollbar__bar{
+  display: none;
+}
+.app-container .el-scrollbar__wrap{
+  overflow-x: hidden;
+}
+
 .container-btn-left{
   display: flex;
   justify-content:flex-start;
@@ -33,6 +41,7 @@
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
   background: #fff;
+  margin-bottom: 10px;
 }
 /*按钮*/
 .container-btn{
@@ -52,27 +61,29 @@
 }
 /*主布局--左右布局 start*/
 .app-container-tree{
-  width: calc(100% - 20px);
-  margin: 0 10px;
+  height: 100%;
+  margin: 10px 10px 0 10px;
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
+  overflow: hidden;
 }
 .app-container-tree .tree-area{
   width: 300px;
   background: #fff;
-  padding: 10px 10px;
   display: flex;
   flex-direction: column;
+  height: calc(100% - 30px);
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
   background: #fff;
 }
 .app-container-tree .table-area{
+  width: 100%;
+  height: calc(100% - 10px);
   display: flex;
+  margin-left: 10px;
   flex: 1;
   flex-direction: column;
-  margin-right: 10px;
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
   background: #fff;

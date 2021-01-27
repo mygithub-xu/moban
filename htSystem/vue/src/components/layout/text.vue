@@ -19,9 +19,7 @@
             </div>
             <!-- 右侧主界面 -->
             <div class="right-body">
-                <el-scrollbar class="right-body-scrollar">
-                    <AppMain class="app-main"></AppMain>
-                </el-scrollbar>
+                <AppMain class="app-main"></AppMain>
             </div>
         </div>
 
@@ -83,6 +81,7 @@ export default {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: row;
 }
 .left-main{
     height: 100%;
@@ -91,15 +90,15 @@ export default {
     transition: width 0.5s;
 }
 .right-main{
-    width: 100%;
     height: 100%;
     background-color: #f3f3f3;
     flex: 1;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 .right-header{
     height: 50px;
-    width: 100%;
     background-color: #ffffff;
     border-bottom: solid 1px #e6e6e6;
     flex-wrap: nowrap;
@@ -107,19 +106,14 @@ export default {
 }
 .right-tab{
     height: 40px;
-    width: 100%;
     background-color: #ffffff;
 }
 .right-body{
-    height: calc(100% - 95px);
-    flex: 1;
-    width: 100%;
-    margin-top: 5px;
+    display: flex;
+    height: calc(100% - 101px);
 }
 .app-main{
     height: 100%;
-}
-.right-body-scrollar{
-    height: 100%;
+    width: 100%;
 }
 </style>
