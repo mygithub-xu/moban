@@ -88,4 +88,9 @@ public class SysAutoFieldServiceImpl extends ServiceImpl<SysAutoFieldMapper, Sys
 
         return Result.success(list,"获取成功");
     }
+
+    public List<SysAutoField> getFieldList(String tableId) {
+
+        return  doMapper.getFieldList(tableId);
+    }
 }

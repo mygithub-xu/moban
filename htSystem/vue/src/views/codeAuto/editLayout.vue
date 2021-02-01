@@ -50,7 +50,7 @@
                     <div class="common-table-style">
                         
                         <el-table :data="pageData.list" border style="width: 100%">
-                            <el-table-column type="selection" width="55" v-show="needParam.isShowCheckTable"></el-table-column>
+                            <el-table-column type="selection" width="55" v-if="needParam.isShowCheckTable" ></el-table-column>
                             <el-table-column type="index" width="50" label="#"></el-table-column>
                             <el-table-column
                             v-for="(item,index) in needParam.tableList"
@@ -79,9 +79,21 @@
     <div class="edit-frame-right" :style="{height:frameRight+'px'}">
     <el-scrollbar style="height:100%">
         <div class="line-div">
-            <el-button @click="back">返回</el-button>
-            <el-button @click="saveParm">保存</el-button>
-            <el-button  @click="openDigCode">代码生成</el-button>
+            <el-button class="line-div-button" @click="back">返回</el-button>
+            <el-button class="line-div-button" @click="saveParm">保存</el-button>
+            <el-button class="line-div-button" @click="openDigCode">代码生成</el-button>
+            <el-button class="line-div-button" @click="openDigTem">生成模板</el-button>
+            <div>
+                <span>选择模板</span>
+                <el-select v-model="currencyValue" placeholder="请选择"  clearable>
+                <el-option
+                    v-for="item in currencyList"
+                    :key="item.id"
+                    :label="item.fieldName"
+                    :value="item.id"
+                ></el-option>
+                </el-select>
+            </div>
         </div>
 
         <div class="line-div">
@@ -118,7 +130,7 @@
                 <i type="text" class="data-area-button el-icon-delete" @click="delItem(index)"></i>
                 <template v-if="item.type != '4'">
                     <el-input class="data-area-input" placeholder="请输入查询标题" v-model="item.title"></el-input>
-                    <el-select class="data-area-input" v-model="item.value" placeholder="请选择"  clearable>
+                    <el-select class="data-area-input" v-model="item.value" placeholder="关联字段"  clearable>
                     <el-option
                         v-for="item in tableFileds"
                         :key="item.id"
@@ -250,6 +262,8 @@ export default {
     components: { editTem },
     data(){
         return{
+            currencyList:[],//下拉框通用list
+            currencyValue:'',//下拉框通用值
             projModel:{
                 tableId:"",
                 packageName:"",
@@ -264,6 +278,7 @@ export default {
                 isShowPage:true,//是否显示分页区域
                 isShowEdit:true,//是否显示编辑区域
                 isShowOperaTable:true,//是否显示表格区域的table
+                isShowCheckTable:true,
                 queryList:[],//查询区域元素集合
                 tableList: [],//表格元素
                 tableButtonList:[],//表格按钮
@@ -278,8 +293,6 @@ export default {
                 {value:'3',label:'日期选择框'},
                 {value:'4',label:'按钮'}
             ],
-            currencyList:[],//下拉框通用list
-            currencyValue:'',//下拉框通用值
             dropDataSource:[
                 {value:'1',label:'状态'}
             ],
@@ -295,7 +308,7 @@ export default {
                 {value:'5',label:'自定义',fun:''}
             ],
             pageData: {
-                list: [{}],
+                list: [],
                 pageNumber: 1,
                 pageSize: 10,
                 totalCount: 1,
@@ -308,7 +321,7 @@ export default {
                 {value:'1',label:'编辑'},
                 {value:'2',label:'删除'},
                 {value:'3',label:'自定义'}
-            ]
+            ],
         }
     },
     computed:{
@@ -317,6 +330,12 @@ export default {
         }
     },
     methods:{
+        openDigTem(){
+
+        },
+        generateTemplate(){
+
+        },
         updateInput(){
             this.$forceUpdate()
         },
@@ -427,6 +446,7 @@ export default {
         },
         saveParm(){
             console.log(this.needParam.id)
+            this.needParam.tableId = this.editTableId;
             if(!this.needParam.tableId){
                 return this.$message.warning("错误")
             }
@@ -475,6 +495,7 @@ export default {
         },
 
         empty(){
+            
             this.needParam = {
                 tableId:"",
                 layoutType:'1',//1.上查下表，2.左树右表
@@ -483,6 +504,7 @@ export default {
                 isShowPage:true,//是否显示分页区域
                 isShowEdit:true,//是否显示编辑区域
                 isShowOperaTable:true,//是否显示表格区域的table
+                isShowCheckTable:true,
                 queryList:[],//查询区域元素集合
                 tableList: [],//表格元素
                 tableButtonList:[],//表格按钮
@@ -494,6 +516,9 @@ export default {
 }
 </script>
 <style  scoped>
+.line-div-button{
+    margin-bottom: 5px;
+}
 .edit-frame{
     display: flex;
     flex-direction: row;
@@ -546,6 +571,7 @@ export default {
 .data-area-item{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     line-height: 32px;
 }
 .data-area-item >.data-area-input{

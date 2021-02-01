@@ -1,5 +1,6 @@
 <template>
     <div class="app-container">
+      <el-scrollbar style="width:100%">
         <div class="container-table">
           <!-- 区域一 查询区域 -->
           <div class="container-btn" >
@@ -15,7 +16,7 @@
           </div>
           <!-- 区域二---表格+分页 -->
           <div class="common-table-style">
-          <el-table :data="pageData.list" border ref="multipleTable" align="center" @selection-change="handleSelectionChange" height="100%">
+          <el-table :data="pageData.list" border ref="multipleTable" align="center" @selection-change="handleSelectionChange" >
             <el-table-column type="selection"   width="55"  align="center" show-overflow-tooltip></el-table-column>
             <el-table-column type="index" width="55" label="序号" align="center" show-overflow-tooltip></el-table-column>
             <el-table-column prop="userName"  label="用户名" align="center" v-if="indexUserName" show-overflow-tooltip></el-table-column>
@@ -51,6 +52,7 @@
             <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
           </div>
         </div>
+      </el-scrollbar>
           <!-- 区域三---弹出框，覆盖全部 -->
         <div class="show-dialog">
             <el-dialog :visible.sync="editVisible"  :show-close="false" :modal="false" fullscreen>

@@ -75,7 +75,7 @@
                   <el-table-column prop="fieldName" min-width="200"  align="center" label="字段名" >
                     <template slot-scope="scope">
                       <div>
-                        <el-input  v-model="scope.row.fieldName" :disabled="scope.row.fieldName == 'id'"></el-input>
+                        <el-input  v-model="scope.row.fieldName" :disabled="isNotId(scope.row)"></el-input>
                       </div>
                     </template>
                   </el-table-column>
@@ -83,7 +83,7 @@
                   <el-table-column prop="fieldType" min-width="200" label="字段类型" align="center" >
                     <template slot-scope="scope">
                       <div>
-                        <el-select v-model="scope.row.fieldType" filterable  placeholder="请选择" :disabled="scope.row.fieldName == 'id'" style="width:100%;">
+                        <el-select v-model="scope.row.fieldType" filterable  placeholder="请选择" :disabled="isNotId(scope.row)" style="width:100%;">
                           <el-option
                             v-for="item in xiala.fieldTypeList"
                             :key="item.label"
@@ -97,34 +97,72 @@
 
                   <el-table-column prop="fieldLength" min-width="200" label="字段长度" align="center">
                     <template slot-scope="scope">
-                      <NumberInput v-model="scope.row.fieldLength" :disabled="scope.row.fieldName == 'id'"></NumberInput>
+                      <NumberInput v-model="scope.row.fieldLength" :disabled="isNotId(scope.row)"></NumberInput>
                     </template>
                   </el-table-column>
 
                   <el-table-column prop="fieldDecimal" min-width="200" label="小数点" align="center">
                     <template slot-scope="scope">
-                      <NumberInput v-model="scope.row.fieldDecimal" :disabled="scope.row.fieldName == 'id'"></NumberInput>
+                      <NumberInput v-model="scope.row.fieldDecimal" :disabled="isNotId(scope.row)"></NumberInput>
                     </template>
                   </el-table-column>
 
                   <el-table-column prop="fieldIsNullBoo" min-width="90" label="不是null" align="center">
                     <template slot-scope="scope">
-                      <el-checkbox v-model="scope.row.fieldIsNullBoo" :disabled="scope.row.fieldName == 'id'"></el-checkbox>
+                      <el-checkbox v-model="scope.row.fieldIsNullBoo" :disabled="isNotId(scope.row)"></el-checkbox>
                     </template>
                   </el-table-column>
 
                   <el-table-column prop="fieldPrimaryBoo" min-width="90" label="键" align="center">
                     <template slot-scope="scope">
-                      <el-checkbox v-model="scope.row.fieldPrimaryBoo" :disabled="scope.row.fieldName == 'id'"></el-checkbox>
+                      <el-checkbox v-model="scope.row.fieldPrimaryBoo" :disabled="isNotId(scope.row)"></el-checkbox>
                     </template>
                   </el-table-column>
 
                   <el-table-column prop="fieldDes" min-width="200" label="注释" align="center">
                     <template slot-scope="scope">
-                      <el-input v-model="scope.row.fieldDes" :disabled="scope.row.fieldName == 'id'"></el-input>
+                      <el-input v-model="scope.row.fieldDes" :disabled="isNotId(scope.row)"></el-input>
                     </template>
                   </el-table-column>
 
+                  <el-table-column prop="dicId" min-width="200" label="字典" align="center">
+                    <template slot-scope="scope">
+                      <div>
+                        <el-select v-model="scope.row.dicId" filterable  placeholder="请选择" :disabled="isNotId(scope.row)" style="width:100%;">
+                          <el-option
+                            v-for="item in xiala.dicList"
+                            :key="item.id"
+                            :label="item.dicType"
+                            :value="item.id"
+                          >
+                          <span style="float: left">{{ item.dicType }}</span>
+                          <span style="float: right; color: #8492a6; font-size: 13px">{{ item.description }}</span>
+                          </el-option>
+                          
+                        </el-select>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="fieldIsBeRelatedBoo" min-width="90" label="是否关联表" align="center">
+                    <template slot-scope="scope">
+                      <el-checkbox v-model="scope.row.fieldIsBeRelatedBoo" :disabled="isNotId(scope.row)"></el-checkbox>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="fieldRelatedTableName" min-width="200" label="关联表名" align="center">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.fieldRelatedTableName" :disabled="isNotId(scope.row)||!scope.row.fieldIsBeRelatedBoo"></el-input>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="fieldRelatedField" min-width="200" label="关联字段" align="center">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.fieldRelatedField" :disabled="isNotId(scope.row)||!scope.row.fieldIsBeRelatedBoo"></el-input>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="fieldRelatedfieldName" min-width="200" label="关联字段别名" align="center">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.fieldRelatedfieldName" :disabled="isNotId(scope.row)||!scope.row.fieldIsBeRelatedBoo"></el-input>
+                    </template>
+                  </el-table-column>
                 </el-table>
               </div>
 
@@ -161,6 +199,13 @@
         },
       }
     },
+    computed:{
+      isNotId(){
+        return (row) => {
+          return row.fieldName == 'id'
+        }
+      }
+    },
     props:{
       xiala:{
           type:Object,
@@ -182,19 +227,20 @@
           if (res.data.code == "200") {
             this.form = res.data.body
           } else {
+            this.empty()
             this.$message.warning("获取子数据失败");
           }
-          
+          this.editVisible = true;
         });
         this.editVisible = true;
       },
-      //
+      //新增时
       addInit(){
-
+        this.empty()
+        this.editVisible = true;
       },
       //初始化数据
       empty(){
-        this.editVisible = true
         this.form = {
           id: "",
           tableName: "",
@@ -212,7 +258,12 @@
             fieldIsNullBoo: true,
             fieldPrimaryBoo: true,
             fieldDes: "主键",
-            fieldIndex: "0"
+            fieldIndex: "0",
+            dicId:"",
+            fieldIsBeRelatedBoo:false,
+            fieldRelatedTableName:"",
+            fieldRelatedField:"",
+            fieldRelatedFieldShow:"",
           },
           {
             fieldName: "create_time",
@@ -222,7 +273,12 @@
             fieldIsNullBoo: false,
             fieldPrimaryBoo: false,
             fieldDes: "创建时间",
-            fieldIndex: "1"
+            fieldIndex: "1",
+            dicId:"",
+            fieldIsBeRelatedBoo:false,
+            fieldRelatedTableName:"",
+            fieldRelatedField:"",
+            fieldRelatedFieldShow:"",
           },
           {
             fieldName: "create_user",
@@ -232,7 +288,12 @@
             fieldIsNullBoo: false,
             fieldPrimaryBoo: false,
             fieldDes: "创建人",
-            fieldIndex: "2"
+            fieldIndex: "2",
+            dicId:"",
+            fieldIsBeRelatedBoo:false,
+            fieldRelatedTableName:"",
+            fieldRelatedField:"",
+            fieldRelatedFieldShow:"",
           },
           {
             fieldName: "update_time",
@@ -242,7 +303,12 @@
             fieldIsNullBoo: false,
             fieldPrimaryBoo: false,
             fieldDes: "更新时间",
-            fieldIndex: "3"
+            fieldIndex: "3",
+            dicId:"",
+            fieldIsBeRelatedBoo:false,
+            fieldRelatedTableName:"",
+            fieldRelatedField:"",
+            fieldRelatedFieldShow:"",
           },
           {
             fieldName: "update_user",
@@ -252,35 +318,50 @@
             fieldIsNullBoo: false,
             fieldPrimaryBoo: false,
             fieldDes: "更新人",
-            fieldIndex: "4"
+            fieldIndex: "4",
+            dicId:"",
+            fieldIsBeRelatedBoo:false,
+            fieldRelatedTableName:"",
+            fieldRelatedField:"",
+            fieldRelatedFieldShow:"",
           }
         ]
       },
       //保存/修改
       handleSave() {
-
-        this.$refs.tableForm.validate((valid) => {
-          if(valid){
-            this.$http.post(this.api.sysAutoTableExistable, this.form).then(res => {
-              if (res.data.code == "200") {
-                this.saveTableData()
-              }
-              
+          this.$confirm("确定是否生成表", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+            }).then(() => {
+                  this.saveTableData()
+            }).catch(() => {
+                this.$message.info("已取消");
             });
-          }
-        })
+        
+
+        // this.$refs.tableForm.validate((valid) => {
+        //   if(valid){
+        //     this.$http.post(this.api.sysAutoTableExistable, this.form).then(res => {
+        //       if (res.data.code == "200") {
+        //         this.saveTableData()
+        //       }
+              
+        //     });
+        //   }
+        // })
 
       },
       saveTableData(){
-              this.$http.post(this.api.sysAutoTableSaveOrUpdate, this.form).then(res => {
-                if (res.data.code == "200") {
-                  this.$message.success(res.data.message);
-                  this.editVisible = false;
-                  this.$parent.getdata();
-                } else {
-                  this.$message.warning(res.data.message);
-                } 
-              });
+          this.$http.post(this.api.sysAutoTableSaveOrUpdate, this.form).then(res => {
+            if (res.data.code == "200") {
+              this.$message.success(res.data.message);
+              this.editVisible = false;
+              this.$parent.getdata();
+            } else {
+              this.$message.warning(res.data.message);
+            } 
+          });
       },
       handleSelectionChangeDetil(val){
           this.delVal = val;
@@ -306,6 +387,11 @@
           fieldIsNullBoo: false,
           fieldPrimaryBoo: false,
           fieldDes: "",
+          dicId:"",
+          fieldIsBeRelatedBoo:false,
+          fieldRelatedTableName:"",
+          fieldRelatedField:"",
+          fieldRelatedFieldShow:"",
           fieldIndex:this.form.autoFieldList.length+1
         }
         this.form.autoFieldList.push(aa);

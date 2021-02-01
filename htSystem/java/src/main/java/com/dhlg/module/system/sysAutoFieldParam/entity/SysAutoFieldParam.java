@@ -75,4 +75,10 @@ public class SysAutoFieldParam implements Serializable {
     @TableField(exist = false)
     private String fieldNameHump;
 
+    /**
+     * 字典名称
+     */
+    @TableField(exist = false)
+    private String dicType;
+
 }

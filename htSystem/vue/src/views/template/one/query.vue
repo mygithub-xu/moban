@@ -6,7 +6,17 @@
             <queryItem label="测试名：">
                 <el-input v-model="queryContion.testName" placeholder="请输入测试名"></el-input>
             </queryItem>
-            <queryItem  label="测试状态：" style="width:50%">
+            <queryItem label="测试状态">
+                <el-select v-model="queryContion.testStatus" placeholder="请选择"  clearable>
+                  <el-option
+                    v-for="item in selectData.testStatusList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+            </queryItem>
+            <queryItem  label="测试日期：" style="width:50%">
                 <div class="is_data">
                   <el-date-picker
                     v-model="queryContion.createTimeFrom"
@@ -37,7 +47,11 @@
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
                     <el-table-column prop="createTime"  label="创建时间" ></el-table-column>
                     <el-table-column prop="testName"  label="测试名" ></el-table-column>
-                    <el-table-column prop="testStatusDesc"  label="测试状态"  ></el-table-column>
+                    <el-table-column prop="testStatus"  label="测试状态" align="center" >
+                      <template slot-scope="scope">
+                          <el-tag v-for="item in selectData.testStatusList" :key="item.id" v-show="item.value == scope.row.testStatus">{{item.label}}</el-tag>
+                      </template>
+                    </el-table-column>
                     <el-table-column prop="testNum" label="数量" >
                       <template slot-scope="scope">
                         <span>{{scope.row.testNum | 10}}</span>
@@ -89,20 +103,13 @@ export default {
         queryContion: {
           testName: "",
           createTimeFrom:"",
-          createTimeTo:""
+          createTimeTo:"",
+          testStatus:""
         },
         //下拉框数据
         selectData: {
-          testStatusList:[
-            {
-              value:'1',
-              label:'启用'
-            },
-            {
-              value:'2',
-              label:'禁用'
-            }
-          ]
+          testStatusList:[],
+          
         },
 
         //批量删除
@@ -111,15 +118,18 @@ export default {
       }
     },
     created() {
-      //获取表格数据
-      this.getData()
       //获取下拉框数据
       this.getDropData()
+      //获取表格数据
+      this.getData()
+
     },
     methods:{
         //获取表格数据
         getDropData(){
-          
+            this.$http.get(this.api.dicTypeGetType + "enabled").then(res => {
+                this.selectData.testStatusList = res.data.body
+            })
         },
         // 清空
         empty(){
@@ -129,13 +139,13 @@ export default {
             }
         },
         //获取数据
-        getData(row){
+        getData(){
           let queryContion = {
                 condition: this.queryContion,
                 number: this.pageData.pageNumber,
                 size: this.pageData.pageSize
             }
-            this.$http.post(this.api.LoginLogQuery,queryContion).then(res => {
+            this.$http.post(this.api.sysTestquery,queryContion).then(res => {
               this.pageData.list = res.data.body.records;
               this.pageData.totalCount = res.data.body.total;
               this.pageData.totalPage = res.data.body.pages;

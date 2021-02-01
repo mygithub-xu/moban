@@ -49,6 +49,8 @@ export default {
     name: "oneEdit",
     data() {
       return {
+        currencyList:[],
+        currencyValue:"",
         editVisible: false,
         //表单数据
         form: {},

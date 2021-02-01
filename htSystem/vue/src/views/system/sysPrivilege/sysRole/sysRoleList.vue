@@ -1,6 +1,7 @@
 <template>
 <!-- 系统配置---权限管理---角色管理 -->
 <div class="app-container">
+  <el-scrollbar style="width:100%">
   <div class="container-table">
       <div class="container-btn" >
           <span class="container-btn-left">
@@ -9,15 +10,14 @@
             <el-button type="danger"  :disabled="dicDisabled"  v-has="'sysRole:updateStatus'" @click="saveEnable('N')">禁用</el-button>
             <el-button  type="danger" :disabled="dicDisabled" @click="handleDeleteBatch" v-has="'sysRole:batchDelete'" >删除</el-button>
           </span>
-          <span class="handle-box" style="float:right;padding-bottom: 10px;">
-            <span>角色名称：</span>
+          <span class="container-btn-right">
             <el-input v-model="condition.name" placeholder="请输入角色名" style="width: 200px;"></el-input>
             <el-button type="primary"  icon="search"  @click="handleSearch">查询</el-button>
             <el-button  type="text"  @click="handlereset">重置</el-button>
           </span>
       </div>
       <div class="common-table-style">
-      <el-table :data="pageData.list" border ref="multipleTable" align="center" @selection-change="handleSelectionChange" height="100%">
+      <el-table :data="pageData.list" border ref="multipleTable" align="center" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" ></el-table-column>
             <el-table-column type="index" label="序号" sortable width="55" align="center" > </el-table-column>
             <el-table-column prop="name" label="角色名"  align="center"></el-table-column>
@@ -45,7 +45,7 @@
             <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
           </div>
     </div>
-
+  </el-scrollbar>
     <div class="show-dialog">
       <el-dialog fullscreen :visible.sync="treeVisible" :modal="false" :show-close="false" :modal-append-to-body="false" @close="cancelTreeVisible">
             <div class="dialog-button">

@@ -10,28 +10,29 @@
             <div class="dialog-form">
                 <el-form ref="form" label-width="150px" :rules="rules" :model="form">
 
-                    <el-form-item label="测试字段" prop="vvvv">
-                        <el-input v-model="form.vvvv"></el-input>
+                    <el-form-item label="终端型号" prop="terminalModel">
+                        <el-input v-model="form.terminalModel"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="测试选择框" prop="createUser">
-                        <el-input v-model="form.createUser"></el-input>
+                    <el-form-item label="终端名称" prop="terminalName">
+                        <el-input v-model="form.terminalName"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="测试日期选择框" prop="updateTime" >
-                        <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" v-model="form.createTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                    <el-form-item label="终端编号" prop="terminalNumber">
+                        <el-input v-model="form.terminalNumber"></el-input>
                     </el-form-item>
 
-
+                    <el-form-item label="终端型号名称" prop="terminalNameType">
+                        <el-input v-model="form.terminalNameType"></el-input>
+                    </el-form-item>
                 </el-form>
             </div>
-
         </el-dialog>
     </div>
 </template>
 <script>
 export default {
-    name: "vvvvEdit",
+    name: "phoneModelEdit",
     data() {
       return {
         editVisible: false,
@@ -54,9 +55,10 @@ export default {
         //清空
         empty(){
             this.form = {
-                vvvv:"",
-                createUser:"",
-                updateTime:"",
+                terminalModel:"",
+                terminalName:"",
+                terminalNumber:"",
+                terminalNameType:"",
             }
         },
         //新增
@@ -67,7 +69,7 @@ export default {
         //编辑
         openByEdit(row){
             this.openByNew()
-            this.$http.get("api/system/vvvv/queryById/" + row.id).then(res => {
+            this.$http.get("api/system/phoneModel/queryById/" + row.id).then(res => {
                 this.form = res.data.body
             });
         },
@@ -85,7 +87,7 @@ export default {
                   cancelButtonText: "取消",
                   type: "warning"
                 }).then(() => {
-                    this.$http.post("api/system/vvvv/saveOrUpdate",this.form).then(res => {
+                    this.$http.post("api/system/phoneModel/saveOrUpdate",this.form).then(res => {
                       if(res.data.code == '200'){
                         this.$message.success(res.data.message)
                         this.editVisible = false

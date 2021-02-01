@@ -6,6 +6,7 @@
   margin: 10px 10px 0 10px;
   display:flex;
   flex-direction: column;
+  position: relative;
 }
 /*查询*/
 .app-container .container-query{
@@ -17,6 +18,7 @@
   flex-wrap: wrap;
   display: flex;
   padding-top: 10px;
+  margin-bottom: 10px;
 }
 /* 去除滚动条 */
 .app-container .el-scrollbar__bar{
@@ -25,7 +27,6 @@
 .app-container .el-scrollbar__wrap{
   overflow-x: hidden;
 }
-
 .container-btn-left{
   display: flex;
   justify-content:flex-start;
@@ -36,16 +37,16 @@
   flex: 1;
 }
 /*查询页表格*/
-.app-container .container-table{
-  margin:10px 0;
+.container-table{
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0,0.2,0,0.2);
   background: #fff;
-  margin-bottom: 10px;
+  padding-top: 5px;
 }
+
 /*按钮*/
 .container-btn{
-  margin: 10px;
+  margin: 0 10px;
   display: flex;
   flex-direction: row;
 }
@@ -57,6 +58,7 @@
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
+  padding-bottom: 10px;
   margin-right: 10px;
 }
 /*主布局--左右布局 start*/
@@ -90,6 +92,11 @@
 }
 /*主布局--左右布局 end*/
 /*弹出框*/
+/* .show-dialog{
+  height: 100%;
+  width: 100%;
+  position:absolute;
+} */
 .show-dialog .el-dialog__wrapper {
   position: absolute !important;
   border-radius: 5px;

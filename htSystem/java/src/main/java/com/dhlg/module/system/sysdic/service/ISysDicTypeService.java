@@ -19,4 +19,6 @@ public interface ISysDicTypeService extends IService<SysDicType> {
     boolean deleteBatch(Collection<String> ids);
 
     List<Option>  getType(String type);
+
+    Result getAll();
 }

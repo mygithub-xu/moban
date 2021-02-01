@@ -42,31 +42,31 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
     public Result customSaveOrUpdate(SysAutoParam sysAutoParam) {
 
         //是否展示查询区域
-        if (sysAutoParam.getIsShowQuery()){
+        if (!StringUtils.isBlank(sysAutoParam.getIsShowQuery())&&sysAutoParam.getIsShowQuery()){
             sysAutoParam.setShowQuery(Dictionaries.COMMONTRUE);
         }
         //是否展示表格区域
-        if (sysAutoParam.getIsShowTable()){
+        if (!StringUtils.isBlank(sysAutoParam.getIsShowTable())&&sysAutoParam.getIsShowTable()){
             sysAutoParam.setShowTable(Dictionaries.COMMONTRUE);
         }
 
         //是否显示编辑区域
-        if (sysAutoParam.getIsShowEdit()){
+        if (!StringUtils.isBlank(sysAutoParam.getIsShowEdit())&&sysAutoParam.getIsShowEdit()){
             sysAutoParam.setShowEdit(Dictionaries.COMMONTRUE);
         }
 
         //是否显示分页区域
-        if (sysAutoParam.getIsShowPage()){
+        if (!StringUtils.isBlank(sysAutoParam.getIsShowPage())&&sysAutoParam.getIsShowPage()){
             sysAutoParam.setShowPage(Dictionaries.COMMONTRUE);
         }
 
         //是否显示表格按钮区域
-        if (sysAutoParam.getIsShowTable()&&sysAutoParam.getIsShowOperaTable()){
+        if (!StringUtils.isBlank(sysAutoParam.getIsShowOperaTable())&&sysAutoParam.getIsShowTable()&&sysAutoParam.getIsShowOperaTable()){
             sysAutoParam.setShowOperaTable(Dictionaries.COMMONTRUE);
         }
 
         //是否显示表格勾选区域
-        if (sysAutoParam.getIsShowTable()&&sysAutoParam.getIsShowCheckTable()){
+        if (!StringUtils.isBlank(sysAutoParam.getIsShowCheckTable())&&sysAutoParam.getIsShowTable()&&sysAutoParam.getIsShowCheckTable()){
             sysAutoParam.setShowCheckTable(Dictionaries.COMMONTRUE);
         }
 

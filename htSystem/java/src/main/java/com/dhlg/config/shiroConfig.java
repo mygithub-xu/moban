@@ -71,11 +71,10 @@ public class shiroConfig {
 
 
         //自定义拦截器
-//        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
-//        filtersMap.put("jwt", new JwtFilter());
-//        shiroFilterFactoryBean.setFilters(filtersMap);
-//        map.put("/**", "jwt");
-//
+        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
+        filtersMap.put("jwt", new JwtFilter());
+        shiroFilterFactoryBean.setFilters(filtersMap);
+        map.put("/**", "jwt");
 //        shiroFilterFactoryBean.setLoginUrl("/login.html");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;

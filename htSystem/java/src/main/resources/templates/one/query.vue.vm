@@ -5,11 +5,24 @@
 
     <div class="app-container">
         <!-- 查询区域 -->
+        <el-scrollbar style="width:100%">
         <div class="container-query">
         #foreach ($item in $queryList)
         #if($!item.type ==  '1')
             <queryItem label="$!{item.title}：">
                 <el-input v-model="queryContion.$!{item.fieldNameHump}" placeholder="请输入$!{item.title}"></el-input>
+            </queryItem>
+        #end
+        #if($!item.type ==  '2')
+            <queryItem label="$!{item.title}：">
+                <el-select v-model="queryContion.$!{item.fieldName}" placeholder="请选择"  clearable>
+                  <el-option
+                    v-for="item in selectData.$!{item.dicType}List"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
             </queryItem>
         #end
         #if($!item.type ==  '3')
@@ -87,6 +100,7 @@
             #end
         </div>
         <$!{projModel.tableName}Edit ref="$!{projModel.tableName}Edit" @back="getData"></$!{projModel.tableName}Edit>
+        </el-scrollbar>
     </div>
 </template>
 <script>
@@ -114,7 +128,11 @@ export default {
         },
         //下拉框数据
         selectData: {
-
+        #foreach ($item in $autoFieldList)
+        #if($item.dicType)
+          $!{item.dicType}List:[],
+        #end
+        #end
         },
         #if($autoParam.showCheckTable == '1')
         //批量删除
@@ -131,7 +149,11 @@ export default {
     methods:{
         //获取下拉框数据
         getDropData(){
-
+            #foreach ($item in $autoFieldList)
+            #if($item.dicType)
+              $!{item.dicType}List:[],
+            #end
+            #end
         },
         // 清空
         empty(){

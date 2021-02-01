@@ -1,15 +1,16 @@
 <template>
 <!-- 系统配置---全局参数---字典管理 -->
   <div class="app-container">
+    <el-scrollbar style="width:100%">
     <div class="container-table">
 
       <div class="container-btn">
         <span class="container-btn-left">
-          <el-button type="primary" size="small" @click="handleTypeAdd">新增</el-button>
+          <el-button type="primary"  @click="handleTypeAdd">新增</el-button>
           <!--<el-button type="warning" size="small" @click="typeEditVisible = true">弹框测试</el-button>-->
           <el-button
             type="danger"
-            size="small"
+            
             :disabled="dicTypeDisabled"
             @click="handleTypeDeleteBatch"
             v-has="'sysdic:batchDelete'"
@@ -35,7 +36,6 @@
         border
         ref="multipleTable"
         @selection-change="handleTypeSelectionChange"
-        height="100%"
       >
         <el-table-column type="selection" min-width="35" align="center" show-overflow-tooltip></el-table-column>
         <el-table-column type="index" min-width="35" label="序号" align="center" show-overflow-tooltip></el-table-column>
@@ -45,12 +45,12 @@
             <el-tag
               v-if="scope.row.status==='0'"
               type="danger"
-              style="height: 22px; line-height: 0; padding:10px 8px;margin: 0;"
+    
             >禁用</el-tag>
             <el-tag
               v-else
               type="success"
-              style="height: 22px; line-height: 0; padding:10px 8px;margin: 0;"
+ 
             >启用</el-tag>
           </template>
         </el-table-column>
@@ -94,7 +94,6 @@
       </div>
 
     </div>
-
       <div class="show-dialog">
           <el-dialog title="添加/修改类型" :visible.sync="typeEditVisible" fullscreen width="45%" @close="cancelTypeSave" :modal="false" :modal-append-to-body="false">
         <div class="dialogFix">
@@ -122,7 +121,7 @@
           </span>
           </el-dialog>
       </div>
-
+    </el-scrollbar>
     
 <sysDicLabel ref="edit" :labelVisible="labelVisible" :desId="desId"  @cancelLabelVisible="cancelLabelVisible()" :data="currentType"></sysDicLabel>
   </div>

@@ -13,7 +13,6 @@
           class="table"
           ref="multipleTable"
           align="center"
-          height="100%"
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55" align="center"></el-table-column>

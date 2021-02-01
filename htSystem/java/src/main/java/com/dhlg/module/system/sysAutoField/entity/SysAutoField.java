@@ -47,12 +47,6 @@ public class SysAutoField implements Serializable {
     private String fieldName;
 
     /**
-     * 字段名称驼峰式
-     */
-    @TableField(exist = false)
-    private String fieldNameHump;
-
-    /**
      * 字段描述
      */
     @TableField("field_des")
@@ -95,12 +89,42 @@ public class SysAutoField implements Serializable {
      */
     @TableField("field_index")
     private String fieldIndex;
-
+    /**
+     * 字典id
+     */
+    @TableField("dic_id")
+    private String dicId;
+    /**
+     * 是否关联表（0不关联，1关联）
+     */
+    @TableField("field_is_be_related")
+    private String fieldIsBeRelated;
+    /**
+     * 关联表名称
+     */
+    @TableField("field_related_table_name")
+    private String fieldRelatedTableName;
+    /**
+     * 关联表字段
+     */
+    @TableField("field_related_field")
+    private String fieldRelatedField;
+    /**
+     * 关联表字段显示
+     */
+    @TableField("field_related_field_show")
+    private String fieldRelatedFieldShow;
     /**
      * 是否显示小数点 0显示，1不显示
      */
     @TableField(exist = false)
     private String fieldShowType;
+
+    /**
+     * 字段名称驼峰式
+     */
+    @TableField(exist = false)
+    private String fieldNameHump;
 
     /**
      * 是否为空
@@ -113,5 +137,17 @@ public class SysAutoField implements Serializable {
      */
     @TableField(exist = false)
     private Boolean fieldPrimaryBoo;
+
+    /**
+     * 是否为空
+     */
+    @TableField(exist = false)
+    private Boolean fieldIsBeRelatedBoo;
+
+    /**
+     * 字典id
+     */
+    @TableField(exist = false)
+    private String dicType;
 
 }

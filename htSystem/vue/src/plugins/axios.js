@@ -4,6 +4,7 @@ import axios from "axios";
 import router from '@/router'
 import { Message } from 'element-ui';
 
+
 axios.defaults.baseURL = process.env.API_ROOT
 Vue.prototype.$http = axios;
 

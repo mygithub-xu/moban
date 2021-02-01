@@ -22,7 +22,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     }
 
     @Override
-    protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+    protected boolean executeLogin(ServletRequest request, ServletResponse response){
         HttpServletRequest httpServletRequest = (javax.servlet.http.HttpServletRequest) request;
         String token = httpServletRequest.getHeader(Dictionaries.ACCESS_TOKEN);
 

@@ -14,11 +14,18 @@
         <result column="field_isNull" property="fieldIsNull" />
         <result column="field_primary" property="fieldPrimary" />
         <result column="field_index" property="fieldIndex" />
+        <result column="dic_id" property="dicId" />
+        <result column="field_is_be_related" property="fieldIsBeRelated" />
+        <result column="field_related_table_name" property="fieldRelatedTableName" />
+        <result column="field_related_field" property="fieldRelatedField" />
+        <result column="field_related_field_show" property="fieldRelatedFieldShow" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-                id,                table_id,                field_name,                field_des,                field_length,                field_type,                field_decimal,                field_isNull,                field_primary,                       field_index           </sql>
+                id, table_id, field_name,field_des,field_length,field_type,field_decimal,field_isNull,field_primary,
+        field_index,dic_id,field_is_be_related,field_related_table_name,field_related_field,field_related_field_show
+    </sql>
 
     <select id="queryByCondition" parameterType="com.dhlg.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
         select * from sys_auto_field
@@ -107,4 +114,8 @@
         order by id desc
     </select>
 
+    <select id="getFieldList" parameterType="String" resultType="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
+        select a.*,d.dic_type as dicType from sys_auto_field a
+        left join sys_dic_type d on a.dic_type = d.id where a.table_id = #{tableId}
+    </select>
 </mapper>

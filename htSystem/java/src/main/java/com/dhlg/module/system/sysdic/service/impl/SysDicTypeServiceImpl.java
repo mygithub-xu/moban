@@ -90,4 +90,10 @@ public class SysDicTypeServiceImpl extends ServiceImpl<SysDicTypeMapper, SysDicT
         return sysDicTypeMapper.getType(type);
 
     }
+
+    @Override
+    public Result getAll() {
+        return Result.success(list());
+    }
+
 }

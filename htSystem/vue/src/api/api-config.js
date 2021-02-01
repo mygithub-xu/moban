@@ -40,7 +40,8 @@ export default {
   dicDelete: `api/system/sysdic/delete/`, //{id}
   dicBatchDelete: `api/system/sysdic/batchdelete`,
   dicQueryAll: `api/system/sysdic/queryAllDic`,
-
+  sysdictypeGetAll: `api/system/sysdictype/getAll`,
+  
   //按钮配置 sys_button_config
   buttonConfigSave: `api/system/sysbuttonconfig/saveOrUpdate`,
   buttonConfigQueryByPage: `api/system/sysbuttonconfig/querybycondition`,

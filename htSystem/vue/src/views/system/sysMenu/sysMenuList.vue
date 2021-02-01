@@ -11,7 +11,7 @@
                 @node-click="handleNodeClick"  node-key="id" :default-expanded-keys="defaultExpandKeys" :highlight-current="isShowGaoliang">
             </el-tree>
         </div>
-    <div class="table-area">
+        <div class="table-area">
           <div class="common-header">
               <span class="common-header-title">
                   菜单配置
@@ -19,15 +19,15 @@
           </div>
           <div class="treeTable-button" >
             <span>
-                <el-button type="primary" size="mini" v-if="!editState"  @click="edit" >修改</el-button>
-                <el-button type="danger" size="mini"  v-has="'sysMenu:delete'" v-if="!editState" @click="remove">删除</el-button>
-                <el-button type="primary" size="mini" v-if="!editState"  @click="append" :disabled="!isChildren">新增</el-button>
-                <el-button type="primary" size="mini"  v-has="'sysMenu:save'" v-if="editState"  @click="save('currentRes')">保存</el-button>
-                <el-button type="primary" size="mini" v-if="editState" @click="cancel">取消</el-button>
+                <el-button type="primary"  v-show="!editState"  @click="edit" >修改</el-button>
+                <el-button type="danger"   v-has="'sysMenu:delete'" v-show="!editState" @click="remove">删除</el-button>
+                <el-button type="primary"  v-show="!editState"  @click="append" :disabled="!isChildren">新增</el-button>
+                <el-button type="primary"   v-has="'sysMenu:save'" v-show="editState"  @click="save('currentRes')">保存</el-button>
+                <el-button type="primary"  v-show="editState" @click="cancel">取消</el-button>
             </span>
           </div>
           <div class="treeTable-from">
-            <el-form :model="currentRes" ref="currentRes" class="form-search" size="mini" label-width="100px"
+            <el-form :model="currentRes" ref="currentRes" class="form-search"  label-width="100px"
               label-position="right" :disabled="!editState">
               <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
                 <el-form-item label="是否含有下级" prop="isChildren">
@@ -62,7 +62,7 @@
                         @show="Show()"
                         :disabled='!visible'
                         popper-class="popper-class">
-                        <my-icon ref="icons" v-if="visible" v-on:selected="selectedIcon" />
+                        <my-icon ref="icons" v-show="visible" v-on:selected="selectedIcon" />
                         <el-input slot="reference" placeholder="请输入图标名称" v-model="currentRes.icon" style="cursor: pointer;width:80%">
                         <template slot="prepend"><i class="icon iconfont" :class="currentRes.icon"></i></template>
                         </el-input>
@@ -114,7 +114,7 @@
                 <div v-for="item in options" :key="item.value">
                   <el-tag
                     :type="item.label=='启用'?'success':'danger'"
-                    v-if="scope.row.status==item.value"
+                    v-show="scope.row.status==item.value"
                   >{{item.label}}</el-tag>
                 </div>
               </template>
@@ -230,7 +230,7 @@
         visible:false,
         btnName: true,
         btnDes: true,
-        //   isIconPickerVisible: false,
+          // isIconPickerVisible: false,
         props1: {
           children: 'children',
           label: 'menuCodeName'
@@ -281,10 +281,10 @@
     created() {
     },
     activated() {
-      // if (this.$route.meta.idj === true) {
-      //   Object.assign(this.$data, this.$options.data())
-      //   this.queryTree()
-      // }
+      if (this.$route.meta.idj === true) {
+        Object.assign(this.$data, this.$options.data())
+        this.queryTree()
+      }
     },
     methods: {
       getType(type) {
@@ -327,6 +327,7 @@
        * 移除节点
        * */
       remove() {
+        
         const vm = this
         vm.keysid = "2"
         this.$confirm('此操作将永久删除, 是否继续?', '提示', {
@@ -334,7 +335,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          if (!vm.currentRes.menuCode) {
+          if (!vm.currentRes.id) {
             this.$message.error('请选中一条记录')
           } else {
             axios.delete(this.api.deleteNode + vm.currentRes.id).then((res) => {
@@ -362,6 +363,7 @@
        * 编辑节点
        * */
       edit() {
+        
         const vm = this
         vm.keysid = "2"
         if (!vm.currentRes.id) {
@@ -633,10 +635,10 @@
       }
     },
     mounted() {
-      // const vm = this
-      // vm.getType('enabled')
-      // vm.getType('isChildren');
-      // vm.queryTree();
+      const vm = this
+      vm.getType('enabled')
+      vm.getType('isChildren');
+      vm.queryTree();
     }
   }
 

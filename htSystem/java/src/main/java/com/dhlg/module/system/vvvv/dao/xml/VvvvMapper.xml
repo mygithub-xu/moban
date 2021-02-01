@@ -32,6 +32,7 @@ create_user,vvvv,update_time,id,create_time,update_user    </sql>
             <if test="params.createUser != null and params.createUser !=''">
                 and create_user = #{params.createUser}
             </if>
+
         </trim>
     </select>
 

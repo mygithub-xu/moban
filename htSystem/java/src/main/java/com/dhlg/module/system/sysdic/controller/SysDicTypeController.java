@@ -3,6 +3,7 @@ package com.dhlg.module.system.sysdic.controller;
 
 import com.dhlg.module.system.sysdic.entity.Option;
 import com.dhlg.module.system.sysdic.entity.SysDicType;
+import com.dhlg.module.system.sysdic.service.ISysDicTypeService;
 import com.dhlg.module.system.sysdic.service.impl.SysDicTypeServiceImpl;
 import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Result;
@@ -22,7 +23,7 @@ import java.util.List;
 public class SysDicTypeController {
 
     @Autowired
-    SysDicTypeServiceImpl sysDicTypeService;
+    ISysDicTypeService sysDicTypeService;
 
 
     @RequiresPermissions("dicType:save")
@@ -62,6 +63,11 @@ public class SysDicTypeController {
     public Result getType(@PathVariable String dicType ){
         List<Option> options = sysDicTypeService.getType(dicType);
         return new Result("200", options, "SUCCESS");
+    }
+    @ApiOperation("获取字典全部数据")
+    @GetMapping("/getAll")
+    public Result getAll(){
+        return sysDicTypeService.getAll();
     }
 }
 

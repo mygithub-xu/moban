@@ -33,10 +33,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * <p>
@@ -87,28 +84,24 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     @Override
     @Transactional
     public Result customSaveOrUpdate(SysAutoTable sysAutoTable) {
-        //判断表是否存在
-        boolean isexis = existboolean(sysAutoTable);
-        if (isexis){
-            return Result.error("表已经存在，请更改表名称重试");
-        }
+
         //判断新增还是修改
         if (StringUtils.isBlank(sysAutoTable.getId())) {
             //新增
+            //判断表是否存在
+            boolean isexis = existboolean(sysAutoTable);
+            if (isexis){
+                return Result.error("表已经存在，请更改表名称重试");
+            }
+
+            //插入数据
             sysAutoTable.setId(StringUtils.uuid());
             sysAutoTable.setCreateTime(DateUtils.getCurrentDate());
             sysAutoTable.setCreateUser(GetLoginUser.getCurrentUserId());
             sysAutoTable.setStatus("0");
 
-            if (!StringUtils.isBlank(sysAutoTable.getAutoFieldList())){
-                for (SysAutoField autoField : sysAutoTable.getAutoFieldList()) {
-                    autoField.setId(StringUtils.uuid());
-                    autoField.setTableId(sysAutoTable.getId());
-                    autoField.setFieldIsNull(autoField.getFieldIsNullBoo()?Dictionaries.FIELDISNOTNULLBOO:Dictionaries.FIELDISNULLBOO);
-                    autoField.setFieldPrimary(autoField.getFieldPrimaryBoo()?Dictionaries.FIELDNOTPRIMARYBOO:Dictionaries.FIELDPRIMARYBOO);
-                }
-                autoFieldService.saveBatch(sysAutoTable.getAutoFieldList());
-            }
+            //批量保存明细
+            saveDetails(sysAutoTable,true);
 
             //创建表
             SysAutoTable sysAutoTable1 = changeTableData(sysAutoTable);
@@ -123,19 +116,8 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         sysAutoTable.setUpdateTime(DateUtils.getCurrentDate());
         sysAutoTable.setUpdateUser(GetLoginUser.getCurrentUserId());
         sysAutoTable.setStatus("0");
+        saveDetails(sysAutoTable,false);
 
-        //保存明细
-        if (!StringUtils.isBlank(sysAutoTable.getAutoFieldList())){
-            for (SysAutoField autoField : sysAutoTable.getAutoFieldList()) {
-                autoField.setId(StringUtils.uuid());
-                autoField.setTableId(sysAutoTable.getId());
-                autoField.setFieldIsNull(autoField.getFieldIsNullBoo()?Dictionaries.FIELDISNOTNULLBOO:Dictionaries.FIELDISNULLBOO);
-                autoField.setFieldPrimary(autoField.getFieldPrimaryBoo()?Dictionaries.FIELDNOTPRIMARYBOO:Dictionaries.FIELDPRIMARYBOO);
-            }
-            QueryWrapper<SysAutoField> queryWrapper = new QueryWrapper<>();
-            autoFieldService.remove(queryWrapper.eq("table_id", sysAutoTable.getId()));
-            autoFieldService.saveBatch(sysAutoTable.getAutoFieldList());
-        }
         //删除表
         SysAutoTable oldTable = getById(sysAutoTable.getId());
         doMapper.deleteTable(oldTable.getTableName());
@@ -146,6 +128,29 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             return new Result("500","", Dictionaries.UPDATE_FAILED);
         }
         return new Result("200","",Dictionaries.UPDATE_SUCCESS);
+    }
+
+    private void saveDetails(SysAutoTable sysAutoTable,boolean isAdd) {
+        //保存明细
+        if (!StringUtils.isBlank(sysAutoTable.getAutoFieldList())){
+            for (SysAutoField autoField : sysAutoTable.getAutoFieldList()) {
+                autoField.setId(StringUtils.uuid());
+                autoField.setTableId(sysAutoTable.getId());
+                autoField.setFieldIsNull(autoField.getFieldIsNullBoo()?Dictionaries.FIELDISNOTNULLBOO:Dictionaries.FIELDISNULLBOO);
+                autoField.setFieldPrimary(autoField.getFieldPrimaryBoo()?Dictionaries.FIELDNOTPRIMARYBOO:Dictionaries.FIELDPRIMARYBOO);
+                autoField.setFieldIsBeRelated(autoField.getFieldIsBeRelatedBoo()?Dictionaries.COMMONTRUE:Dictionaries.COMMONFALSE);
+                if (!autoField.getFieldIsBeRelatedBoo()){
+                    autoField.setFieldRelatedTableName("");
+                    autoField.setFieldRelatedField("");
+                    autoField.setFieldRelatedFieldShow("");
+                }
+            }
+            QueryWrapper<SysAutoField> queryWrapper = new QueryWrapper<>();
+            if(!isAdd){
+                autoFieldService.remove(queryWrapper.eq("table_id", sysAutoTable.getId()));
+            }
+            autoFieldService.saveBatch(sysAutoTable.getAutoFieldList());
+        }
     }
 
     /**
@@ -354,7 +359,8 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
 
         autoTable.setAutoParam(autoParam);
         //主备数据---子数据二
-        List<SysAutoField> autoFieldList = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", projModel.getTableId()));
+//        List<SysAutoField> autoFieldList = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", projModel.getTableId()));
+        List<SysAutoField> autoFieldList = autoFieldService.getFieldList(projModel.getTableId());
         for (SysAutoField param : autoFieldList){
             param.setFieldNameHump(StringUtils.underscoreToCamelCase(param.getFieldName()));
             param.setFieldTypeToJava(CommonMap.javaTypeMap.get(param.getFieldType()));

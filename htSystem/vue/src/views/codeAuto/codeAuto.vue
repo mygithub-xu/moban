@@ -1,5 +1,6 @@
 <template>
     <div class="app-container">
+        <el-scrollbar style="width:100%">
         <template v-if="frameFontvisible">
         <div class="container-table" > 
             <div class="container-btn">
@@ -58,12 +59,13 @@
         </div>
         </template>
 
-        <template v-else>
+        
+        </el-scrollbar>
+        
+        <template v-if="!frameFontvisible">
             <editLayout ref="editLayout" @backfont="backfont"></editLayout>
         </template>
-
         <codeEdit ref="edit" :xiala="xiala"></codeEdit>
-
     </div>
 </template>
 <script>
@@ -86,7 +88,8 @@
                     templateList:[],
                     statusList:[],
                     tableData:[],
-                    fieldTypeList:[]
+                    fieldTypeList:[],
+                    dicList:[]
                 },
                 frameFontvisible: true
 
@@ -113,6 +116,10 @@
                 //字段类型
                 this.$http.get(this.api.dicTypeGetType + "fieldType").then(res => {
                     this.xiala.fieldTypeList = res.data.body
+                })
+                //字典
+                this.$http.get(this.api.sysdictypeGetAll).then(res => {
+                    this.xiala.dicList = res.data.body
                 })
                 
             },
@@ -168,7 +175,7 @@
 
             },
             handleCreateTable(){
-                this.$refs['edit'].empty();
+                this.$refs['edit'].addInit();
             },
             handlePage(){
 
