@@ -122,7 +122,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (!set){
             return "";
         }
-        //将其缓存时间设置为比jwt大的时间，，这里设置为两倍
+        //将其缓存时间设置为比jwt大的时间，，这里设置为两倍 单位秒
         redisUtil.expire(Dictionaries.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME * 2/ 1000);
         SysUser vo = new SysUser();
         //保存用户信息

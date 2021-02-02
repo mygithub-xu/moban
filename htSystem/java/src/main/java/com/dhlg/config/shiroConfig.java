@@ -68,6 +68,8 @@ public class shiroConfig {
         map.put("/webjars/**","anon");
         map.put("/swagger-resources/**","anon");
         map.put("/v2/**","anon");
+        //添加
+        map.put("/api/system/phoneModel/getPhoneNumber","anon");
 
 
         //自定义拦截器
