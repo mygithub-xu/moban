@@ -299,6 +299,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         for (SysAutoField field : fields){
             field.setFieldIsNullBoo(Dictionaries.FIELDISNOTNULLBOO.equals(field.getFieldIsNull()));
             field.setFieldPrimaryBoo(Dictionaries.FIELDNOTPRIMARYBOO.equals(field.getFieldPrimary()));
+            field.setFieldIsBeRelatedBoo(Dictionaries.COMMONTRUE.equals(field.getFieldIsBeRelated()));
         }
         autoTable.setAutoFieldList(fields);
 

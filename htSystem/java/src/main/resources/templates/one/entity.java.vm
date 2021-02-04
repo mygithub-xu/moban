@@ -36,6 +36,10 @@ public class $!{projModel._TableName} implements Serializable {
         #end
         @TableField("${item.fieldName}")
         private $!{item.fieldTypeToJava} ${item.fieldNameHump};
+        #if($item.fieldIsBeRelated == '1'&&item.fieldRelatedFieldShow)
+        @TableField(exist = false)
+        private String ${item.fieldRelatedFieldShow}
+        #end
         #end
     #end
     #foreach ($item in $queryList)

@@ -16,25 +16,31 @@
 
     <select id="queryByCondition" parameterType="$!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.entity.$!{projModel._TableName}" 
     resultType="$!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.entity.$!{projModel._TableName}">
-        select * from $!{projModel.table_name}
+        select *
+        #foreach ($item in $autoFieldList)#if($item.fieldIsBeRelated == '1'&&item.fieldRelatedFieldShow),$!{item.fieldRelatedFieldShow} #end #end from $!{projModel.table_name} t
+        #foreach ($item in $autoFieldList)
+        #if($item.fieldIsBeRelated == '1'&&item.fieldRelatedFieldShow)
+        left join $!{item.fieldRelatedTableName} t${velocityCount} on t.$!{item.fieldName} = t${velocityCount}.$!{item.fieldRelatedField}
+        #end
+        #end
         <trim prefix="where" prefixOverrides="and">
         #foreach ($item in $queryList)
         #if($!item.type ==  '1')
             <if test="params.$!{item.fieldNameHump} != null and params.$!{item.fieldNameHump} !=''">
-                and $!{item.fieldName} like concat('%',#{params.$!{item.fieldNameHump}},'%')
+                and t.$!{item.fieldName} like concat('%',#{params.$!{item.fieldNameHump}},'%')
             </if>
         #end
         #if($!item.type ==  '2')
             <if test="params.$!{item.fieldNameHump} != null and params.$!{item.fieldNameHump} !=''">
-                and $!{item.fieldName} = #{params.$!{item.fieldNameHump}}
+                and t.$!{item.fieldName} = #{params.$!{item.fieldNameHump}}
             </if>
         #end
         #if($!item.type ==  '3')
             <if test="params.$!{item.fieldNameHump}From != null">
-                and $!{item.fieldName} &gt;= #{params.$!{item.fieldNameHump}From}
+                and t.$!{item.fieldName} &gt;= #{params.$!{item.fieldNameHump}From}
             </if>
             <if test="params.$!{item.fieldNameHump}To != null">
-                and $!{item.fieldName} &lt; DATE_ADD(#{params.$!{item.fieldNameHump}To}, INTERVAL 1 DAY)
+                and t.$!{item.fieldName} &lt; DATE_ADD(#{params.$!{item.fieldNameHump}To}, INTERVAL 1 DAY)
             </if>
         #end
         #end
