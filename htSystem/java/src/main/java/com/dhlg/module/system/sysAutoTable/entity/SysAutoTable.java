@@ -80,6 +80,19 @@ public class SysAutoTable implements Serializable{
     private String type;
 
     /**
+     * 是否为模板：0否1是
+     */
+    @TableField("is_template")
+    private String isTemplate;
+
+    /**
+     * 模板名称
+     */
+    @TableField("temPlate_name")
+    private String temPlateName;
+
+
+    /**
      * 更新时间
      */
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")

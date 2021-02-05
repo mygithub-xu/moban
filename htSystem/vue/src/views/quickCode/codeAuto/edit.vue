@@ -83,7 +83,7 @@
                   <el-table-column prop="fieldType" min-width="200" label="字段类型" align="center" >
                     <template slot-scope="scope">
                       <div>
-                        <el-select v-model="scope.row.fieldType" filterable  placeholder="请选择" :disabled="isNotId(scope.row)" style="width:100%;">
+                        <el-select v-model="scope.row.fieldType" filterable  placeholder="请选择" :disabled="isNotId(scope.row)" style="width:100%;" clearable >
                           <el-option
                             v-for="item in xiala.fieldTypeList"
                             :key="item.label"
@@ -128,7 +128,7 @@
                   <el-table-column prop="dicId" min-width="200" label="字典" align="center">
                     <template slot-scope="scope">
                       <div>
-                        <el-select v-model="scope.row.dicId" filterable  placeholder="请选择" :disabled="isNotId(scope.row)" style="width:100%;">
+                        <el-select v-model="scope.row.dicId" filterable  placeholder="请选择" :disabled="isNotId(scope.row)" clearable >
                           <el-option
                             v-for="item in xiala.dicList"
                             :key="item.id"
@@ -158,9 +158,9 @@
                       <el-input v-model="scope.row.fieldRelatedField" :disabled="isNotId(scope.row)||!scope.row.fieldIsBeRelatedBoo"></el-input>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="fieldRelatedfieldName" min-width="200" label="关联字段别名" align="center">
+                  <el-table-column prop="fieldRelatedFieldShow" min-width="200" label="关联字段别名" align="center">
                     <template slot-scope="scope">
-                      <el-input v-model="scope.row.fieldRelatedfieldName" :disabled="isNotId(scope.row)||!scope.row.fieldIsBeRelatedBoo"></el-input>
+                      <el-input v-model="scope.row.fieldRelatedFieldShow" :disabled="isNotId(scope.row)||!scope.row.fieldIsBeRelatedBoo"></el-input>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -408,7 +408,9 @@
   }
 </script>
 <style>
-
+.tab-table{
+  margin-top: 10px;
+}
 .tab-table .el-table--scrollable-x .el-table__body-wrapper {
     overflow-x: auto;
     min-height: 200px;

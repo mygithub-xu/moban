@@ -116,6 +116,6 @@
 
     <select id="getFieldList" parameterType="String" resultType="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
         select a.*,d.dic_type as dicType from sys_auto_field a
-        left join sys_dic_type d on a.dic_type = d.id where a.table_id = #{tableId}
+        left join sys_dic_type d on a.dic_id = d.id where a.table_id = #{tableId}
     </select>
 </mapper>

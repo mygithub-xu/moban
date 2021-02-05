@@ -251,6 +251,22 @@
             <el-button type="primary" @click="greatCode">确 定</el-button>
         </span>
     </el-dialog>
+    <el-dialog title="提示" :visible.sync="输入模板名" width="30%">
+    <div>
+        <el-form :inline="true" :model="projModel">
+            <el-form-item label="">
+                <el-input v-model="projModel.packageName"></el-input>
+            </el-form-item>
+            <el-form-item label="项目分类路径">
+                <el-input v-model="projModel.projectName"></el-input>
+            </el-form-item>
+        </el-form>
+    </div>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="greatCode">确 定</el-button>
+    </span>
+    </el-dialog>
 </div>
 
 </template>

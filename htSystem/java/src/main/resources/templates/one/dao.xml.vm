@@ -17,9 +17,14 @@
     <select id="queryByCondition" parameterType="$!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.entity.$!{projModel._TableName}" 
     resultType="$!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.entity.$!{projModel._TableName}">
         select *
-        #foreach ($item in $autoFieldList)#if($item.fieldIsBeRelated == '1'&&item.fieldRelatedFieldShow),$!{item.fieldRelatedFieldShow} #end #end from $!{projModel.table_name} t
         #foreach ($item in $autoFieldList)
-        #if($item.fieldIsBeRelated == '1'&&item.fieldRelatedFieldShow)
+        #if($item.fieldIsBeRelated == '1')
+        ,$!{item.fieldRelatedFieldShow}
+        #end
+        #end
+        from $!{projModel.table_name} t
+        #foreach ($item in $autoFieldList)
+        #if($item.fieldIsBeRelated == '1')
         left join $!{item.fieldRelatedTableName} t${velocityCount} on t.$!{item.fieldName} = t${velocityCount}.$!{item.fieldRelatedField}
         #end
         #end

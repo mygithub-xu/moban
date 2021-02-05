@@ -12,6 +12,8 @@ import $!{projModel.packageName}.utils.Result;
 import $!{projModel.packageName}.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import $!{projModel.packageName}.utils.GetLoginUser;
+import $!{projModel.packageName}.utils.DateUtils;
 
 import java.util.List;
 
@@ -34,6 +36,14 @@ public class $!{projModel._TableName}ServiceImpl extends ServiceImpl<$!{projMode
         //判断新增还是修改
         if (!StringUtils.isBlank($!{projModel.tableName}.getId())) {
             //修改
+            #foreach ($item in $autoFieldList)
+            #if($item.fieldName == 'update_time')
+            $!{projModel.tableName}.setUpdateTime(DateUtils.getCurrentDate());
+            #end
+            #if($item.fieldName == 'update_user')
+            $!{projModel.tableName}.setCreateUser(GetLoginUser.getCurrentUserId());
+            #end
+            #end
             if(!updateById($!{projModel.tableName})){
 
                 return Result.error(Dictionaries.UPDATE_FAILED);
@@ -41,6 +51,14 @@ public class $!{projModel._TableName}ServiceImpl extends ServiceImpl<$!{projMode
 
             return Result.success(Dictionaries.SAVE_SUCCESS);
         }
+        #foreach ($item in $autoFieldList)
+        #if($item.fieldName == 'create_time')
+        $!{projModel.tableName}.setCreateTime(DateUtils.getCurrentDate());
+        #end
+        #if($item.fieldName == 'create_user')
+        $!{projModel.tableName}.setCreateUser(GetLoginUser.getCurrentUserId());
+        #end
+        #end
         $!{projModel.tableName}.setId(StringUtils.uuid());
         if (!save($!{projModel.tableName})){
 
