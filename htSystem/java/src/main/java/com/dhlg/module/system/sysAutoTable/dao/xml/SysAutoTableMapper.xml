@@ -22,23 +22,22 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
                 create_time,create_user, field_index,temPlate_name,is_template
-        id,parent_id,remark,status,                table_name,                table_type,                type,                update_time,                update_user    </sql>
+        id,parent_id,remark,status,table_name,  table_type, type, update_time,  update_user    </sql>
 
-    <select id="queryByCondition" parameterType="com.dhlg.utils.Parameter.Parameter" resultType="com.dhlg.module.system.sysAutoTable.entity.SysAutoTable">
+    <select id="queryByCondition" parameterType="com.dhlg.module.system.sysAutoTable.entity.SysAutoTable"
+            resultType="com.dhlg.module.system.sysAutoTable.entity.SysAutoTable">
         select * from sys_auto_table
         <trim prefix="where" prefixOverrides="and">
-            <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">
-                CONCAT(
-                            ,create_user
-                            ,parent_id
-                            ,remark
-                            ,status
-                            ,table_name
-                            ,table_type
-                            ,type
-                            ,update_user
-                ) like concat('%',#{parameter.condition.queryContent},'%')
+            <if test="params.isTemplate != null and params.isTemplate !=''">
+                and is_template = #{params.isTemplate}
             </if>
+            <if test="params.temPlateName != null and params.temPlateName !=''">
+                and temPlate_name like concat('%',#{params.temPlateName},'%')
+            </if>
+            <if test="params.tableName != null and params.tableName !=''">
+                and table_name like concat('%',#{params.tableName},'%')
+            </if>
+
         </trim>
     </select>
 

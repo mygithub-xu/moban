@@ -3,7 +3,9 @@ package com.dhlg.module.system.sysAutoTable.controller;
 import com.dhlg.module.system.sysAutoTable.entity.ProjModel;
 import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
+import com.dhlg.module.system.vvvv.entity.Vvvv;
 import com.dhlg.utils.Parameter.Parameter;
+import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
 import com.dhlg.utils.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
@@ -69,7 +71,7 @@ public class SysAutoTableController {
 
         @ApiOperation("根据条件分页获取按钮数据")
         @PostMapping("/querybycondition")
-        public Result queryByCondition(@RequestBody Parameter parameter) {
+        public Result queryByCondition(@RequestBody QueryEntity<SysAutoTable> parameter) {
                 if(StringUtils.isBlank(parameter)){
                         throw new ParamIsNullException();
                 }
@@ -101,6 +103,14 @@ public class SysAutoTableController {
                         throw new ParamIsNullException();
                 }
                 return  doService.codeGeneration(projModel);
+        }
+        @ApiOperation("创建、修改模板")
+        @PostMapping("/saveOrUpdateTem")
+        public Result saveOrUpdateTem(@RequestBody SysAutoTable autoTable) {
+                if(StringUtils.isBlank(autoTable)){
+                        throw new ParamIsNullException();
+                }
+                return  doService.saveOrUpdateTem(autoTable);
         }
 }
 

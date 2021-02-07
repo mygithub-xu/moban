@@ -70,8 +70,6 @@ public class SysAutoParamServiceImpl extends ServiceImpl<SysAutoParamMapper, Sys
             sysAutoParam.setShowCheckTable(Dictionaries.COMMONTRUE);
         }
 
-
-
         //判断新增还是修改
         if (!StringUtils.isBlank(sysAutoParam.getId())) {
             sysAutoParam.setUpdateTime(DateUtils.getCurrentDate());

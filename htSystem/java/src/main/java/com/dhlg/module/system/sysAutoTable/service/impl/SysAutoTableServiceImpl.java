@@ -17,6 +17,7 @@ import com.dhlg.module.system.sysAutoTable.dao.SysAutoTableMapper;
 import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.Parameter.Parameter;
+import com.dhlg.utils.Parameter.QueryEntity;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -58,9 +59,6 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     @Autowired
     SysAutoParamServiceImpl paramService;
 
-    @Autowired
-    mailUtils mailUtils;
-
     @Value("${spring.datasource.url}")
     private String url;
 
@@ -84,7 +82,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     @Override
     @Transactional
     public Result customSaveOrUpdate(SysAutoTable sysAutoTable) {
-
+        sysAutoTable.setIsTemplate(Dictionaries.COMMONFALSE);
         //判断新增还是修改
         if (StringUtils.isBlank(sysAutoTable.getId())) {
             //新增
@@ -257,9 +255,8 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     }
 
     @Override
-    public Result queryByCondition(Parameter parameter) {
-        parameter.setDefault();
-        IPage<SysAutoTable> dataList = doMapper.queryByCondition(parameter.getPage(), parameter);
+    public Result queryByCondition(QueryEntity<SysAutoTable> parameter) {
+        IPage<SysAutoTable> dataList = doMapper.queryByCondition(parameter.getPage(), parameter.getCondition());
         return new Result(dataList);
     }
 
@@ -370,6 +367,33 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
 
         greatFile(autoTable,projModel,targetPath);
         return Result.success("生成成功");
+    }
+
+    @Transactional
+    @Override
+    public Result saveOrUpdateTem(SysAutoTable autoTable) {
+        if (!StringUtils.isBlank(autoTable.getId())){
+            //修改
+            autoTable.setIsTemplate(Dictionaries.COMMONTRUE);
+            autoTable.setUpdateTime(DateUtils.getCurrentDate());
+            autoTable.setUpdateUser(GetLoginUser.getCurrentUserId());
+            if (!updateById(autoTable)){
+                return Result.error(Dictionaries.UPDATE_FAILED);
+            }
+            autoTable.getAutoParam().setTableId(autoTable.getId());
+            paramService.customSaveOrUpdate(autoTable.getAutoParam());
+            return Result.success(Dictionaries.UPDATE_SUCCESS);
+        }
+        autoTable.setId(StringUtils.uuid());
+        autoTable.setCreateTime(DateUtils.getCurrentDate());
+        autoTable.setCreateUser(GetLoginUser.getCurrentUserId());
+        if (!save(autoTable)){
+            return Result.error(Dictionaries.SAVE_FAILED);
+        }
+        autoTable.getAutoParam().setTableId(autoTable.getId());
+        paramService.customSaveOrUpdate(autoTable.getAutoParam());
+        //新增
+        return Result.success(Dictionaries.SAVE_SUCCESS);
     }
 
     private void greatFile(SysAutoTable autoTable,ProjModel projModel,String targetPath) {

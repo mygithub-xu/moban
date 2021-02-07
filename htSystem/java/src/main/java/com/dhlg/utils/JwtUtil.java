@@ -10,8 +10,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class JwtUtil {
 
-    // 过期时间30分钟 单位毫秒
-    public static final long EXPIRE_TIME =  30 * 60 * 1000;
+    // 过期时间4小时 单位毫秒
+    public static final long EXPIRE_TIME = 4 * 60 * 60 * 1000;
 
     public static String sign(String username, String password) {
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);

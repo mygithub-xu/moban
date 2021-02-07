@@ -80,16 +80,16 @@
     <el-scrollbar style="height:100%">
         <div class="line-div">
             <el-button class="line-div-button" @click="back">返回</el-button>
-            <el-button class="line-div-button" @click="saveParm">保存</el-button>
-            <el-button class="line-div-button" @click="openDigCode">代码生成</el-button>
-            <el-button class="line-div-button" @click="openDigTem">生成模板</el-button>
-            <div>
+            <el-button class="line-div-button" @click="saveParm" v-show="!isFromTem">保存</el-button>
+            <el-button class="line-div-button" @click="openDigCode" v-show="!isFromTem">代码生成</el-button>
+            <el-button class="line-div-button" @click="openDigTem" v-show="isFromTem">保存模板</el-button>
+            <div v-show="!isFromTem">
                 <span>选择模板</span>
-                <el-select v-model="currencyValue" placeholder="请选择"  clearable>
+                <el-select v-model="currencyValue" placeholder="请选择" @change="changeTemp" clearable>
                 <el-option
-                    v-for="item in currencyList"
+                    v-for="item in templateList"
                     :key="item.id"
-                    :label="item.fieldName"
+                    :label="item.temPlateName"
                     :value="item.id"
                 ></el-option>
                 </el-select>
@@ -251,20 +251,17 @@
             <el-button type="primary" @click="greatCode">确 定</el-button>
         </span>
     </el-dialog>
-    <el-dialog title="提示" :visible.sync="输入模板名" width="30%">
+    <el-dialog title="提示" :visible.sync="temVisible" width="30%">
     <div>
         <el-form :inline="true" :model="projModel">
-            <el-form-item label="">
-                <el-input v-model="projModel.packageName"></el-input>
-            </el-form-item>
-            <el-form-item label="项目分类路径">
-                <el-input v-model="projModel.projectName"></el-input>
+            <el-form-item label="模板名称">
+                <el-input v-model="projModel.temPlateName"></el-input>
             </el-form-item>
         </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="greatCode">确 定</el-button>
+        <el-button @click="temVisible = false">取 消</el-button>
+        <el-button type="primary" @click="generateTemplate">确 定</el-button>
     </span>
     </el-dialog>
 </div>
@@ -283,9 +280,9 @@ export default {
             projModel:{
                 tableId:"",
                 packageName:"",
-                projectName:""
+                projectName:"",
+                temPlateName:""
             },
-            saveFlag:false,
             needParam:{
                 tableId:"",
                 layoutType:'1',//1.上查下表，2.左树右表
@@ -298,7 +295,7 @@ export default {
                 queryList:[],//查询区域元素集合
                 tableList: [],//表格元素
                 tableButtonList:[],//表格按钮
-                editList:[]
+                editList:[],
             },
             activeName: '1',
             tableFileds:[],
@@ -324,7 +321,7 @@ export default {
                 {value:'5',label:'自定义',fun:''}
             ],
             pageData: {
-                list: [],
+                list: [{}],
                 pageNumber: 1,
                 pageSize: 10,
                 totalCount: 1,
@@ -338,6 +335,14 @@ export default {
                 {value:'2',label:'删除'},
                 {value:'3',label:'自定义'}
             ],
+            temVisible:false,
+            templateList:[],//模板集合
+        }
+    },
+    props:{
+        isFromTem:{
+            type:Boolean,
+            default:false
         }
     },
     computed:{
@@ -345,15 +350,56 @@ export default {
             return document.getElementsByClassName('right-body')[0].clientHeight - 40;
         }
     },
+    created(){
+        this.getSelect()
+    },
     methods:{
-        openDigTem(){
-
+        /** 模板页面进入 start*/
+        //新增进入
+        openByNew(){
+            this.empty()
         },
+        //打开弹框
+        openDigTem(){
+            this.temVisible = true
+        },
+        //生成模板
         generateTemplate(){
-
+            if(!this.projModel.temPlateName){
+                return this.$message.warning("未填写模板名称")
+            }
+            let param = {
+                id:this.editTableId,
+                isTemplate:"1",
+                temPlateName:this.projModel.temPlateName,
+                autoParam:this.needParam
+            }
+            this.$http.post(this.api.sysAutoTableSaveOrUpdateTem,param).then(res => {
+                if (res.data.code == "200") {
+                    this.$message.success("保存成功");
+                    this.back()
+                }
+            })
         },
         updateInput(){
             this.$forceUpdate()
+        },
+        /** 模板页面进入 end*/
+        //改变模板
+        changeTemp(val){
+            this.getAutoParamData(val)
+        },
+        //获取下拉框数据
+        getSelect(){
+            this.$http.post(this.api.sysAutoTableQuerybycondition,{
+                condition: {isTemplate : '1'},
+                number: 1,
+                size: 999
+            }).then(res => {
+                if (res.data.code == "200") {
+                    this.templateList = res.data.body.records
+                }
+            })
         },
         //新增
         handleAdd() {
@@ -435,7 +481,7 @@ export default {
             this.projModel = {
                 tableId:"",
                 packageName:"com.dhlg",
-                projectName:"system"
+                projectName:"system",
             }
 
             if(!this.editTableId){
@@ -454,14 +500,15 @@ export default {
                 this.$http.post(this.api.sysAutoTableCodeGeneration,this.projModel).then(res => {
                     if (res.data.code == "200") {
                         this.$message.success(res.data.message);
+                        this.back()
                     }
                 })
             }).catch(() => {
                 this.$message.info("已取消");
             });
         },
+        //保存
         saveParm(){
-            console.log(this.needParam.id)
             this.needParam.tableId = this.editTableId;
             if(!this.needParam.tableId){
                 return this.$message.warning("错误")
@@ -471,23 +518,27 @@ export default {
             cancelButtonText: "取消",
             type: "warning"
             }).then(() => {
-                this.$http.post(this.api.sysAutoParamSaveOrUpdate,this.needParam).then(res => {
-                    if (res.data.code == "200") {
-                        this.saveFlag = true
-                        this.$message.success("保存成功");
-                    }
-                })
+                this.savePost()
             }).catch(() => {
                 this.$message.info("已取消");
             });
-
+        },
+        savePost(){
+            this.$http.post(this.api.sysAutoParamSaveOrUpdate,this.needParam).then(res => {
+                if (res.data.code == "200") {
+                    this.$message.success("保存成功");
+                }
+            })
         },
         editInit(row){
             //获取下拉框数据
             this.getdropData(row.id)
             this.editTableId = row.id
             //通过id获取字段
-            this.$http.get(this.api.sysAutoParamFindByTableID + row.id).then(res => {
+            this.getAutoParamData(row.id)
+        },
+        getAutoParamData(id){
+            this.$http.get(this.api.sysAutoParamFindByTableID + id).then(res => {
                 if (res.data.code == "200") {
                     let data = res.data.body
                     if(!data){
@@ -509,9 +560,7 @@ export default {
         back(){
             this.$emit("backfont")
         },
-
         empty(){
-            
             this.needParam = {
                 tableId:"",
                 layoutType:'1',//1.上查下表，2.左树右表
@@ -524,7 +573,8 @@ export default {
                 queryList:[],//查询区域元素集合
                 tableList: [],//表格元素
                 tableButtonList:[],//表格按钮
-                editList:[]
+                editList:[],
+                temPlateName:""
             }
         },
 

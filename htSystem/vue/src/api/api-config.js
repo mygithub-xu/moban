@@ -89,6 +89,8 @@ export default {
   sysAutoTableCodeGeneration: `/api/system/sysAutoTable/codeGeneration/`,//代码生成
   sysAutoTableExistable: `/api/system/sysAutoTable/existable`,//检查是否存在该表
   sysAutoTableSaveOrUpdate: `/api/system/sysAutoTable/saveOrUpdate`,//保存表
+  sysAutoTableSaveOrUpdateTem: `/api/system/sysAutoTable/saveOrUpdateTem`,//保存模板
+  
   
   //代码生成子类 sys_auto_field
   sysAutoFieldFindByTableID: `api/system/sysAutoField/findByTableID/`,//{id}获取表的字段数据

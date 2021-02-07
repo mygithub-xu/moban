@@ -1,8 +1,9 @@
 <template>
-
     <div class="app-container">
         <!-- 查询区域 -->
+
         <el-scrollbar style="width:100%">
+        <template v-show="frameFontvisible">
         <div class="container-query">
             <queryItem label="模板名：">
                 <el-input v-model="queryContion.temName" placeholder="请输入模板名"></el-input>
@@ -19,8 +20,8 @@
                 <el-table :data="pageData.list" border
                 >
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
-                    <el-table-column prop="temName"  label="模板名"></el-table-column>
-                    <el-table-column prop="updateTime"  label="创建时间"></el-table-column>
+                    <el-table-column prop="temPlateName"  label="模板名"></el-table-column>
+                    <el-table-column prop="createTime"  label="创建时间"></el-table-column>
                     <el-table-column prop="createUser"  label="创建人"></el-table-column>
                     <el-table-column  label="操作">
                       <template slot-scope="scope">
@@ -34,8 +35,11 @@
               <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
             </div>
         </div>
-        <editLayout ref="editLayout" @back="getData"></editLayout>
+        </template>
         </el-scrollbar>
+        <template v-if="!frameFontvisible">
+            <editLayout ref="editLayout" isFromTem @backfont="backfont"></editLayout>
+        </template>
     </div>
 </template>
 <script>
@@ -60,6 +64,7 @@ export default {
         //下拉框数据
         selectData: {
         },
+        frameFontvisible:true
       }
     },
     created() {
@@ -79,13 +84,14 @@ export default {
             }
         },
         //获取数据
-        getData(row){
+        getData(){
+          this.queryContion.isTemplate = '1'
             let queryContion = {
                 condition: this.queryContion,
                 number: this.pageData.pageNumber,
                 size: this.pageData.pageSize
             }
-            this.$http.post("api/system/sysAutoTem/query",queryContion)
+            this.$http.post(this.api.sysAutoTableQuerybycondition,queryContion)
             .then(res => {
               this.pageData.list = res.data.body.records;
               this.pageData.totalCount = res.data.body.total;
@@ -121,7 +127,7 @@ export default {
             type: "warning"
           }).then(() =>
           {
-              this.$http.delete("api/system/sysAutoTem/deleteById/" + row.id)
+              this.$http.delete(this.api.sysAutoTabledeleteById + row.id)
               .then(res => {
                 if(res.data.code == '200'){
                   this.$message.success(res.data.message)
@@ -133,8 +139,12 @@ export default {
 
         //新增
         handleAdd() {
-          this.$refs.editLayout.openByNew()
+          this.frameFontvisible = false
         },
+        backfont(){
+          this.frameFontvisible = true
+          this.getData()
+        }
     }
 }
 </script>

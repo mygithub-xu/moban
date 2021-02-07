@@ -13,14 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-/**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author xu
- * @since
- */
+
 @RestController
 @RequestMapping("/api/system/sysTable")
 @CrossOrigin

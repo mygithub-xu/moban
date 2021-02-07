@@ -58,12 +58,9 @@
             </div>
         </div>
         </template>
-
-        
         </el-scrollbar>
-        
         <template v-if="!frameFontvisible">
-            <editLayout ref="editLayout" @backfont="backfont"></editLayout>
+            <editLayout ref="editLayout"  @backfont="backfont"></editLayout>
         </template>
         <codeEdit ref="edit" :xiala="xiala"></codeEdit>
     </div>
@@ -182,7 +179,7 @@
             },
             getdata(){
                 this.$http.post(this.api.sysAutoTableQuerybycondition,{
-                    condition: {},
+                    condition: {isTemplate : '0'},
                     number: this.pageData.pageNumber,
                     size: this.pageData.pageSize
                 }).then(res => {
