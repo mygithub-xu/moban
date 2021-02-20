@@ -80,7 +80,9 @@ public class SysButtonConfigServiceImpl extends ServiceImpl<SysButtonConfigMappe
             sysButtonConfig.setId(StringUtils.uuid());
             sysButtonConfig.setCreateUser(currentUserId);
             sysButtonConfig.setCreateTime(currentDate);
-            if (!super.save(sysButtonConfig)) result.setBody(Dictionaries.SAVE_FAILED);
+            if (!super.save(sysButtonConfig)) {
+                result.setBody(Dictionaries.SAVE_FAILED);
+            }
         } else {
             //更新
             SysButtonConfig oldButton = getById(sysButtonConfig.getId());
@@ -97,7 +99,9 @@ public class SysButtonConfigServiceImpl extends ServiceImpl<SysButtonConfigMappe
             result.setBody(Dictionaries.UPDATE_SUCCESS);
             sysButtonConfig.setUpdateUser(currentUserId);
             sysButtonConfig.setUpdateTime(currentDate);
-            if (!super.updateById(sysButtonConfig)) result.setBody(Dictionaries.UPDATE_FAILED);
+            if (!super.updateById(sysButtonConfig)) {
+                result.setBody(Dictionaries.UPDATE_FAILED);
+            }
         }
 
         verificationProperty.lockAndVerify(sysButtonConfig, SysButtonConfig.BUTTON_CODE, requestId);

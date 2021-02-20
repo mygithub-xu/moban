@@ -71,7 +71,9 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         }
         Session session = subject.getSession();
         Object user =  subject.getPrincipal();
-        if(null==user) return Boolean.FALSE;
+        if(null==user) {
+            return Boolean.FALSE;
+        }
         JSONObject user1 = JSONObject.fromObject(user);
         //查看是否存在同样的登录名
         String username = user1.get("loginUser").toString();

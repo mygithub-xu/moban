@@ -73,15 +73,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new ParamIsNullException();
         }
 
-        Result result = new Result();
         //1. 校验用户是否有效
         SysUser sysUser = findByName(username);
         if (sysUser == null) {
-            return result.error("用户不存在");
+            return Result.error("用户不存在");
         }
         //2.校验用户密码
         if(!sysUser.getPassword().equals(passwordHelper.checkPass(password ,sysUser.getSalt()))){
-            return result.error("用户名或密码错误");
+            return Result.error("用户名或密码错误");
         }
 
         //3.保存token并返回
@@ -98,7 +97,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         Set<String> buttonUrlList= new HashSet<>();
         List<SysButton> buttonList;
-        if (sysUser.getLoginUser().equals("admin")){
+        if ("admin".equals(sysUser.getLoginUser())){
             //这里不允许重复，所以用set代替list
             buttonList= buttonService.findAllButtonUrl();
         }else {
@@ -227,7 +226,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setPassword(PASSWORD);
         PasswordHelper passwordHelper = new PasswordHelper();
         passwordHelper.encryptPassword(sysUser);
-        if (!updateById(sysUser)) result.setBody(Dictionaries.RESET_PASSWORD_FAILED);
+        if (!updateById(sysUser)) {
+            result.setBody(Dictionaries.RESET_PASSWORD_FAILED);
+        }
         return result;
     }
 
@@ -252,7 +253,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             String url = uploadFileUtils.uploadImgByHead(sysUser.getHeadPortraitSrc(),fileDownSrc);
             //通知更新了头像，将原有头像删除，保存现有头像-----交给mq
 
-            if (url.equals("-1")){
+            if ("-1".equals(url)){
                 return new Result("500","",Dictionaries.UPLOAD_ERROR);
             }
             sysUser.setHeadPortrait(url);
@@ -278,7 +279,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = super.getById(id);
         String pass = passwordHelper.checkPass(sysUser.getPassword(),sysUser.getSalt());
         if (password.equals(pass)) {
-            return result.error("原密码不正确");
+            return Result.error("原密码不正确");
         }
         SysUser sysObj = super.getById(id);
         //用户名

@@ -8,14 +8,13 @@ import com.dhlg.module.system.phoneModel.entity.PhoneModel;
 import com.dhlg.module.system.phoneModel.dao.PhoneModelMapper;
 import com.dhlg.module.system.phoneModel.service.IPhoneModelService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dhlg.module.system.sysAutoParam.entity.SysAutoParam;
 import com.dhlg.utils.Dictionaries;
-import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
 import com.dhlg.utils.StringUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,15 +78,21 @@ public class PhoneModelServiceImpl extends ServiceImpl<PhoneModelMapper, PhoneMo
         return Result.success(getById(id));
     }
 
+    @Test
+    public void text(){
+        PhoneModel phoneModel = new PhoneModel();
+        phoneModel.setTerminalModel("phoneModel");
+        getModel(phoneModel);
+    }
     @Override
     public Result getModel(PhoneModel phoneModel) {
         if (StringUtils.isBlank(phoneModel.getTerminalModel())){
             throw new ParamIsNullException();
         }
-        PhoneModel dataPhone = isexit(phoneModel.getTerminalModel());
-        if (!StringUtils.isBlank(dataPhone)){
-            return Result.success(dataPhone);
-        }
+//        PhoneModel dataPhone = isexit(phoneModel.getTerminalModel());
+//        if (!StringUtils.isBlank(dataPhone)){
+//            return Result.success(dataPhone);
+//        }
         String url = "http://www.wholedata.top:81/getAllBehavior";
         Map<String, String> params = new HashMap<>();
         params.put("needParam",phoneModel.getTerminalModel());

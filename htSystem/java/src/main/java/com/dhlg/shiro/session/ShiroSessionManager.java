@@ -27,7 +27,7 @@ public class ShiroSessionManager extends DefaultWebSessionManager {
 
     private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
 
-
+    @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response){
         String id = WebUtils.toHttp(request).getHeader(AUTHORIZATION);
         if(StringUtils.isEmpty(id)){

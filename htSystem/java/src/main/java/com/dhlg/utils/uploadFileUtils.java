@@ -79,7 +79,9 @@ public class uploadFileUtils {
     //base64字符串转化成图片
     private static boolean GenerateImage(String imgStr,String url) {
         if (imgStr == null) // 图像数据为空
+        {
             return false;
+        }
         BASE64Decoder decoder = new BASE64Decoder();
         try {
             // Base64解码

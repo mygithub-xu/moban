@@ -36,10 +36,10 @@ public class SysLoginLogServiceImpl extends ServiceImpl<SysLoginLogMapper, SysLo
 
         //把前端传的时间戳转成日期字符串
         Map<String, String> condition = parameter.getCondition();
-        if (null != condition && null != condition.get("startTime")&& !condition.get("startTime").equals("")) {
+        if (null != condition && null != condition.get("startTime")&& !"".equals(condition.get("startTime"))) {
             condition.put("startTime", DateUtils.convertTimestampToString(Long.valueOf(condition.get("startTime"))));
         }
-        if (null != condition && null != condition.get("endTime")&& !condition.get("endTime").equals("")) {
+        if (null != condition && null != condition.get("endTime")&& !"".equals(condition.get("endTime"))) {
             condition.put("endTime", DateUtils.convertTimestampToString(Long.valueOf(condition.get("endTime"))));
         }
 

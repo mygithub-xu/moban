@@ -11,16 +11,22 @@ import org.apache.shiro.subject.Subject;
 public class GetLoginUser {
     public static SysUser getCurrentUser() {
         Subject subject = SecurityUtils.getSubject();
-        if (StringUtils.isBlank(subject)) return null;
+        if (StringUtils.isBlank(subject)) {
+            return null;
+        }
         Object principal = subject.getPrincipal();
-        if (StringUtils.isBlank(principal)) return null;
+        if (StringUtils.isBlank(principal)) {
+            return null;
+        }
         return (SysUser) principal;
     }
 
 
     public static String getCurrentUserId() {
         SysUser currentUser = getCurrentUser();
-        if(StringUtils.isBlank(currentUser))return "";
+        if(StringUtils.isBlank(currentUser)) {
+            return "";
+        }
         return currentUser.getId();
     }
 

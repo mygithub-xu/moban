@@ -427,8 +427,9 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
             Template t = ve.getTemplate(templateFile, "UTF-8");
             try {
                 File file = new File(targetPath, targetFile);
-                if (!file.getParentFile().exists())
+                if (!file.getParentFile().exists()) {
                     file.getParentFile().mkdirs();
+                }
                 if (!file.exists()){
                     file.createNewFile();
                 }

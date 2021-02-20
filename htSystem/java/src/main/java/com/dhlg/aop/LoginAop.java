@@ -44,7 +44,7 @@ public class LoginAop {
 
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    final static String ak = "VYLpZYzmTaujCBGTmBLnK5YLrtIljB3R";
+        final static String AK = "VYLpZYzmTaujCBGTmBLnK5YLrtIljB3R";
 
     @Pointcut("execution(* com.dhlg.module.system.sysUser.controller.SysUserController.login(..))")//断点
     public void aspectaMethod() {
@@ -74,7 +74,7 @@ public class LoginAop {
         String ip = loginAgentUtils.getInternetIp();
 
         //ps: 局域网的ip不能获取到地址。正常ip，例如  = "219.136.134.157";
-        String ipInfo = AddressUtils.getAddresses("ip=" + ip + "&ak=" + ak, "utf-8");
+        String ipInfo = AddressUtils.getAddresses("ip=" + ip + "&ak=" + AK, "utf-8");
         if (null != ipInfo && !"0".equals(ipInfo)) {
             //有效ip
             JSONObject location = JSONObject.fromObject(ipInfo);
@@ -87,7 +87,9 @@ public class LoginAop {
         }
 
         //生成一个登录日志对象，保存到数据库
-        if (null != userId) loginLog.setUserId(userId);
+        if (null != userId) {
+            loginLog.setUserId(userId);
+        }
         loginLog.setLoginIp(ip);
         loginLog.setLoginAddress(city + "");
 

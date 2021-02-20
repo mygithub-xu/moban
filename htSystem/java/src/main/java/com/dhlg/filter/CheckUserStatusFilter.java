@@ -8,7 +8,7 @@ import javax.servlet.ServletResponse;
 
 @Component
 public class CheckUserStatusFilter extends UserFilter{
-
+    @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response){
         return true;
     }

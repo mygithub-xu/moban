@@ -89,11 +89,12 @@ public class codeAutoGenerationUtil {
             Template t = ve.getTemplate(templateFile, "UTF-8");
             try {
                 File file = new File(targetPath, targetFile);
-                if (!file.getParentFile().exists())
+                if (!file.getParentFile().exists()){
                     file.getParentFile().mkdirs();
-                if (!file.exists())
+                }
+                if (!file.exists()){
                     file.createNewFile();
-
+                }
                 FileOutputStream outStream = null;
 
                 outStream = new FileOutputStream(file);
@@ -146,7 +147,7 @@ public class codeAutoGenerationUtil {
                 //Java属性类型
                 tableClass.setAttrType(CommonMap.javaTypeMap.get(tableClass.getFieldType()));
                 //java字段长度
-                String ss=resultSet.getString("fieldLength").equals("varchar(36)")?"1":"0";
+                String ss= "varchar(36)".equals(resultSet.getString("fieldLength"))?"1":"0";
                 tableClass.setFieldLength(ss) ;
                 System.out.println(tableClass.getFieldName()+" : "+ tableClass.getFieldLength());
                 tableList.add(tableClass);
