@@ -19,13 +19,13 @@
         select *
         #foreach ($item in $autoFieldList)
         #if($item.fieldIsBeRelated == '1')
-        ,$!{item.fieldRelatedFieldShow}
+        ,t${foreach.index}.$!{item.fieldRelatedFieldShow}
         #end
         #end
         from $!{projModel.table_name} t
         #foreach ($item in $autoFieldList)
         #if($item.fieldIsBeRelated == '1')
-        left join $!{item.fieldRelatedTableName} t${velocityCount} on t.$!{item.fieldName} = t${velocityCount}.$!{item.fieldRelatedField}
+        left join $!{item.fieldRelatedTableName} t${foreach.index} on t.$!{item.fieldName} = t${foreach.index}.$!{item.fieldRelatedField}
         #end
         #end
         <trim prefix="where" prefixOverrides="and">

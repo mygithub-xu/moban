@@ -141,10 +141,10 @@ export default {
       }
     },
     created() {
-      //获取表格数据
-      this.getData()
       //获取下拉框数据
       this.getDropData()
+      //获取表格数据
+      this.getData()
     },
     methods:{
         //获取下拉框数据
