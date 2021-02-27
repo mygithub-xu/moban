@@ -17,6 +17,8 @@
         <result column="update_user" property="updateUser" />
         <result column="is_template" property="isTemplate" />
         <result column="temPlate_name" property="temPlateName" />
+        <result column="create_url" property="createUrl" />
+        <result column="api_url" property="apiUrl" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -105,5 +107,9 @@
 
     <update  id="deleteTable">
         DROP TABLE ${tableName}
+    </update >
+
+    <update  id="updateUrl" parameterType="com.dhlg.module.system.sysAutoTable.entity.ProjModel">
+        UPDATE sys_auto_table set create_url = #{projModel.createUrl} , api_url = #{projModel.apiUrl} where id = #{projModel.tableId}
     </update >
 </mapper>

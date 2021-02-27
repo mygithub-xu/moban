@@ -110,7 +110,7 @@ public class SysAutoField implements Serializable {
     @TableField("field_related_field")
     private String fieldRelatedField;
     /**
-     * 关联表字段显示
+     * 关联表显示字段
      */
     @TableField("field_related_field_show")
     private String fieldRelatedFieldShow;
@@ -145,9 +145,26 @@ public class SysAutoField implements Serializable {
     private Boolean fieldIsBeRelatedBoo;
 
     /**
-     * 字典id
+     * 字典类型
      */
     @TableField(exist = false)
     private String dicType;
+
+    /**
+     * 接口路径
+     */
+    @TableField(exist = false)
+    private String apiUrl;
+
+    /**
+     * 关联表字段驼峰式
+     */
+    @TableField("field_related_field")
+    private String fieldRelatedFieldHump;
+    /**
+     * 关联表显示字段驼峰式
+     */
+    @TableField("field_related_field_show")
+    private String fieldRelatedFieldShowHump;
 
 }

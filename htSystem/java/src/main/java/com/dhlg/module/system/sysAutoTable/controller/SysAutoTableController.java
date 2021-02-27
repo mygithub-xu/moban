@@ -3,8 +3,6 @@ package com.dhlg.module.system.sysAutoTable.controller;
 import com.dhlg.module.system.sysAutoTable.entity.ProjModel;
 import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
-import com.dhlg.module.system.vvvv.entity.Vvvv;
-import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
 import com.dhlg.utils.StringUtils;

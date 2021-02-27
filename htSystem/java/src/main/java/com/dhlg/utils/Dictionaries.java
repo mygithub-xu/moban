@@ -31,6 +31,10 @@ public interface Dictionaries {
     String FIELDPRIMARYBOO = "0";
     //字段不可以为空
     String FIELDNOTPRIMARYBOO = "1";
+    //有关联
+    String HASRELATED = "1";
+    //无关联
+    String HASNORELATED = "0";
     //代码生成--end
     /**
      * token的key

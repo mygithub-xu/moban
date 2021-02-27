@@ -91,6 +91,17 @@ public class SysAutoTable implements Serializable{
     @TableField("temPlate_name")
     private String temPlateName;
 
+    /**
+     * 模板名称
+     */
+    @TableField("create_url")
+    private String createUrl;
+
+    /**
+     * 模板名称
+     */
+    @TableField("api_url")
+    private String apiUrl;
 
     /**
      * 更新时间

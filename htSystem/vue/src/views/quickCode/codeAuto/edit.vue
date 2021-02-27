@@ -128,7 +128,7 @@
                   <el-table-column prop="dicId" min-width="200" label="字典" align="center">
                     <template slot-scope="scope">
                       <div>
-                        <el-select v-model="scope.row.dicId" filterable  placeholder="请选择" :disabled="isNotId(scope.row)" clearable >
+                        <el-select v-model="scope.row.dicId" filterable  placeholder="请选择" :disabled="isNotId(scope.row)||scope.row.fieldIsBeRelatedBoo" clearable >
                           <el-option
                             v-for="item in xiala.dicList"
                             :key="item.id"

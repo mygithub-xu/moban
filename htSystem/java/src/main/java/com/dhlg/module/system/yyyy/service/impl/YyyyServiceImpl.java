@@ -1,9 +1,9 @@
-package com.dhlg.module.system.vvvv.service.impl;
+package com.dhlg.module.system.yyyy.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.dhlg.module.system.vvvv.entity.Vvvv;
-import com.dhlg.module.system.vvvv.dao.VvvvMapper;
-import com.dhlg.module.system.vvvv.service.IVvvvService;
+import com.dhlg.module.system.yyyy.entity.Yyyy;
+import com.dhlg.module.system.yyyy.dao.YyyyMapper;
+import com.dhlg.module.system.yyyy.service.IYyyyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.Dictionaries;
 import com.dhlg.utils.Parameter.Parameter;
@@ -12,6 +12,8 @@ import com.dhlg.utils.Result;
 import com.dhlg.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.dhlg.utils.GetLoginUser;
+import com.dhlg.utils.DateUtils;
 
 import java.util.List;
 
@@ -24,25 +26,29 @@ import java.util.List;
  * @since 2020-05-05
  */
 @Service
-public class VvvvServiceImpl extends ServiceImpl<VvvvMapper, Vvvv> implements IVvvvService {
+public class YyyyServiceImpl extends ServiceImpl<YyyyMapper, Yyyy> implements IYyyyService {
 
     @Autowired
-    VvvvMapper doMapper;
+    YyyyMapper doMapper;
 
     @Override
-    public Result saveOrUpdateCommon(Vvvv vvvv) {
+    public Result saveOrUpdateCommon(Yyyy yyyy) {
         //判断新增还是修改
-        if (!StringUtils.isBlank(vvvv.getId())) {
+        if (!StringUtils.isBlank(yyyy.getId())) {
             //修改
-            if(!updateById(vvvv)){
+            yyyy.setCreateUser(GetLoginUser.getCurrentUserId());
+            yyyy.setUpdateTime(DateUtils.getCurrentDate());
+            if(!updateById(yyyy)){
 
                 return Result.error(Dictionaries.UPDATE_FAILED);
             }
 
             return Result.success(Dictionaries.SAVE_SUCCESS);
         }
-        vvvv.setId(StringUtils.uuid());
-        if (!save(vvvv)){
+        yyyy.setCreateTime(DateUtils.getCurrentDate());
+        yyyy.setCreateUser(GetLoginUser.getCurrentUserId());
+        yyyy.setId(StringUtils.uuid());
+        if (!save(yyyy)){
 
             return Result.error(Dictionaries.SAVE_FAILED);
         }
@@ -59,8 +65,8 @@ public class VvvvServiceImpl extends ServiceImpl<VvvvMapper, Vvvv> implements IV
     }
 
     @Override
-    public Result query(QueryEntity<Vvvv> parameter) {
-        IPage<Vvvv> dataList = doMapper.queryByCondition(parameter.getPage(), parameter.getCondition());
+    public Result query(QueryEntity<Yyyy> parameter) {
+        IPage<Yyyy> dataList = doMapper.queryByCondition(parameter.getPage(), parameter.getCondition());
         return new Result(dataList);
     }
 

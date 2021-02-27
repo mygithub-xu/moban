@@ -15,9 +15,9 @@
         #end
         #if($!item.type ==  '2')
             <queryItem label="$!{item.title}：">
-                <el-select v-model="queryContion.$!{item.fieldName}" placeholder="请选择"  clearable>
+                <el-select v-model="queryContion.$!{item.fieldNameHump}" placeholder="请选择"  clearable>
                   <el-option
-                    v-for="item in selectData.$!{item.dicType}List"
+                    v-for="item in selectData.$!{item.fieldNameHump}List"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -74,7 +74,9 @@
                     #end
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
                     #foreach ($item in $tableList)
-                    <el-table-column prop="$!{item.fieldNameHump}"  label="$!{item.title}"></el-table-column>
+                    <el-table-column prop="$!{item.fieldNameHump}"  label="$!{item.title}">
+
+                    </el-table-column>
                     #end
                     #if($autoParam.showOperaTable ==  '1')
                     <el-table-column  label="操作">
@@ -99,7 +101,7 @@
             </div>
             #end
         </div>
-        <$!{projModel.tableName}Edit ref="$!{projModel.tableName}Edit" @back="getData"></$!{projModel.tableName}Edit>
+        <$!{projModel.tableName}Edit ref="$!{projModel.tableName}Edit" @back="getData" :selectData="selectData"></$!{projModel.tableName}Edit>
         </el-scrollbar>
     </div>
 </template>
@@ -129,8 +131,8 @@ export default {
         //下拉框数据
         selectData: {
         #foreach ($item in $autoFieldList)
-        #if($item.dicType)
-          $!{item.dicType}List:[],
+        #if($item.dicId||$item.fieldIsBeRelated == '1')
+          $!{item.fieldNameHump}List:[],
         #end
         #end
         },
@@ -150,8 +152,23 @@ export default {
         //获取下拉框数据
         getDropData(){
             #foreach ($item in $autoFieldList)
-            #if($item.dicType)
-              $!{item.dicType}List:[],
+            #if($item.fieldIsBeRelated == '0')
+                #if($item.dicId)
+                this.${http}.get(this.api.dicTypeGetType + "$!{item.dicType}").then(res => {
+                    this.selectData.$!{item.fieldNameHump}List = res.data.body
+                })
+                #end
+            #else
+                this.${http}.post("$!{item.apiUrl}",{
+                       condition: {},
+                       number: 1,
+                       size: 999
+                   }).then(res => {
+                  this.selectData.$!{item.fieldNameHump}List = res.data.body.records.map(item => ({
+                     label: item.$!{item.fieldRelatedFieldShowHump},
+                     value: item.$!{item.fieldRelatedFieldHump}
+                   }))
+                });
             #end
             #end
         },

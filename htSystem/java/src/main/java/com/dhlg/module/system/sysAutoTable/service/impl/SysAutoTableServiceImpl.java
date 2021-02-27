@@ -304,6 +304,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     }
 
     @Override
+    @Transactional
     public Result codeGeneration(ProjModel projModel) {
         //主备数据---主数据
         SysAutoTable autoTable= getById(projModel.getTableId());
@@ -312,12 +313,34 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         projModel.setTable_name(autoTable.getTableName());
         projModel.setTableName(StringUtils.underscoreToCamelCase(autoTable.getTableName()));
         projModel.set_TableName(StringUtils.upperFirstCase(projModel.getTableName()));
+        //添加生成路径到主表
+        addAutoTableUrl(projModel);
         //检测文件是否存在
         String targetPath = System.getProperty("user.dir")+"\\src\\main\\java\\"+projModel.getPackage_name()+"\\module\\"+projModel.getProjectName()+ "\\"+projModel.getTableName();
         File file = new File(targetPath);
         if (file.exists()){
             return Result.error("文件已存在，不能生成");
         }
+
+        //主备数据---子数据二
+//        List<SysAutoField> autoFieldList = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", projModel.getTableId()));
+        List<SysAutoField> autoFieldList = autoFieldService.getFieldList(projModel.getTableId());
+        for (SysAutoField param : autoFieldList){
+            param.setFieldNameHump(StringUtils.underscoreToCamelCase(param.getFieldName()));
+            param.setFieldTypeToJava(CommonMap.javaTypeMap.get(param.getFieldType()));
+
+            if (Dictionaries.HASRELATED.equals(param.getFieldIsBeRelated())){
+                param.setFieldRelatedFieldHump(StringUtils.underscoreToCamelCase(param.getFieldRelatedField()));
+                param.setFieldRelatedFieldShowHump(StringUtils.underscoreToCamelCase(param.getFieldRelatedFieldShow()));
+                //当有关联表时,添加关联表的url
+                SysAutoTable table = getOne(new QueryWrapper<SysAutoTable>().eq("table_name", param.getFieldRelatedTableName()));
+                if (!StringUtils.isBlank(table)){
+                    param.setApiUrl(table.getApiUrl());
+                }
+
+            }
+        }
+
         //主备数据---子数据一
         SysAutoParam autoParam = paramService.getOne(new QueryWrapper<SysAutoParam>().eq("table_id", projModel.getTableId()));
         //查询区域数据queryList
@@ -355,18 +378,19 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         }
         autoParam.setEditList(editList);
 
-        autoTable.setAutoParam(autoParam);
-        //主备数据---子数据二
-//        List<SysAutoField> autoFieldList = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", projModel.getTableId()));
-        List<SysAutoField> autoFieldList = autoFieldService.getFieldList(projModel.getTableId());
-        for (SysAutoField param : autoFieldList){
-            param.setFieldNameHump(StringUtils.underscoreToCamelCase(param.getFieldName()));
-            param.setFieldTypeToJava(CommonMap.javaTypeMap.get(param.getFieldType()));
-        }
-        autoTable.setAutoFieldList(autoFieldList);
 
+        autoTable.setAutoParam(autoParam);
+        autoTable.setAutoFieldList(autoFieldList);
         greatFile(autoTable,projModel,targetPath);
+
         return Result.success("生成成功");
+    }
+
+    private void addAutoTableUrl(ProjModel projModel) {
+        //生成路径
+        projModel.setCreateUrl(projModel.getPackageName()+"."+projModel.getProjectName()+"."+projModel.getTableName());
+        projModel.setApiUrl("api/"+projModel.getProjectName()+"/"+projModel.getTableName());
+        doMapper.updateUrl(projModel);
     }
 
     @Transactional

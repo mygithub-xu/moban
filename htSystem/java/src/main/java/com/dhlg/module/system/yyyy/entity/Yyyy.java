@@ -1,4 +1,4 @@
-package com.dhlg.module.system.vvvv.entity;
+package com.dhlg.module.system.yyyy.entity;
 
 import java.util.Date;
 import java.math.BigDecimal;
@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("vvvv")
-public class Vvvv implements Serializable {
+@TableName("yyyy")
+public class Yyyy implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,21 +27,20 @@ public class Vvvv implements Serializable {
         private String id;
 
         /**
-         * 创建人
+         * 状态
          */
-        @TableField("create_user")
-        private String createUser;
+        @TableField("status")
+        private String status;
         /**
-         * vvvv
+         * 测试字段
          */
-        @TableField("vvvv")
-        private String vvvv;
+        @TableField("yyyccccc")
+        private String yyyccccc;
         /**
-         * 更新时间
+         * 更新人
          */
-        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-        @TableField("update_time")
-        private Date updateTime;
+        @TableField("update_user")
+        private String updateUser;
         /**
          * 创建时间
          */
@@ -49,18 +48,21 @@ public class Vvvv implements Serializable {
         @TableField("create_time")
         private Date createTime;
         /**
-         * 更新人
+         * 创建人
          */
-        @TableField("update_user")
-        private String updateUser;
+        @TableField("create_user")
+        private String createUser;
         /**
-         * 时间区域start
+         * 用户
          */
-        @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+        @TableField("user_id")
+        private String userId;
         @TableField(exist = false)
-        private Date createTimeFrom;
-
-        @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
-        @TableField(exist = false)
-        private Date createTimeTo;
+        private String user_name;
+        /**
+         * 更新时间
+         */
+        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+        @TableField("update_time")
+        private Date updateTime;
 }

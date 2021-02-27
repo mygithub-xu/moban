@@ -19,5 +19,9 @@ public class ProjModel {
     private String tableName;
     //表名首字母大写驼峰式 如SysTest
     private String _TableName;
+    //生成文件路径
+    private String createUrl;
+    //接口名
+    private String apiUrl;
 
 }

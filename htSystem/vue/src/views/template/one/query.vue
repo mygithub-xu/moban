@@ -140,7 +140,7 @@ export default {
         },
         //获取数据
         getData(){
-          let queryContion = {
+            let queryContion = {
                 condition: this.queryContion,
                 number: this.pageData.pageNumber,
                 size: this.pageData.pageSize

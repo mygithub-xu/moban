@@ -2,6 +2,7 @@ package com.dhlg.module.system.sysAutoTable.dao;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.dhlg.module.system.sysAutoTable.entity.ProjModel;
 import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -27,5 +28,7 @@ public interface SysAutoTableMapper extends BaseMapper<SysAutoTable> {
     String getDatabaseName();
 
     void deleteTable(@Param("tableName")String tableName);
+
+    void updateUrl(@Param("projModel")ProjModel projModel);
 }
         

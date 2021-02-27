@@ -19,7 +19,7 @@
         select *
         #foreach ($item in $autoFieldList)
         #if($item.fieldIsBeRelated == '1')
-        ,t${foreach.index}.$!{item.fieldRelatedFieldShow}
+        ,t${foreach.index}.$!{item.fieldRelatedFieldShow} as $!{item.fieldRelatedFieldShowHump}
         #end
         #end
         from $!{projModel.table_name} t

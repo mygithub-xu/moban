@@ -62,7 +62,6 @@ public class SysDicTypeServiceImpl extends ServiceImpl<SysDicTypeMapper, SysDicT
         IPage<SysDicType> dicTypeList = sysDicTypeMapper.pageDicType(parameter.getPage(), parameter);
 
         return new Result(dicTypeList);
-
     }
 
     @Override

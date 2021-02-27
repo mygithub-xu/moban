@@ -38,7 +38,7 @@ public class $!{projModel._TableName} implements Serializable {
         private $!{item.fieldTypeToJava} ${item.fieldNameHump};
         #if($item.fieldIsBeRelated == '1')
         @TableField(exist = false)
-        private String ${item.fieldRelatedFieldShow}
+        private String ${item.fieldRelatedFieldShowHump};
         #end
         #end
     #end
