@@ -75,7 +75,13 @@
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
                     #foreach ($item in $tableList)
                     <el-table-column prop="$!{item.fieldNameHump}"  label="$!{item.title}">
-
+                    #if($item.isSelect == '1')
+                          <template slot-scope="scope">
+                            <template v-for="item in selectData.$!{item.fieldNameHump}List" >
+                              <span :key="item.value" v-if="scope.row.userId == item.value">{{item.label}}</span>
+                            </template>
+                          </template>
+                    #end
                     </el-table-column>
                     #end
                     #if($autoParam.showOperaTable ==  '1')

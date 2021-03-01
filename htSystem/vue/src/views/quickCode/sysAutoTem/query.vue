@@ -117,6 +117,7 @@ export default {
 
         //编辑
         handleEdit(row) {
+          
           this.$refs.editLayout.openByEdit(row)
         },
         //删除

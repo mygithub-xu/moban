@@ -1,9 +1,9 @@
-package com.dhlg.module.system.yyyy.service.impl;
+package com.dhlg.module.familyTree.faUser.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.dhlg.module.system.yyyy.entity.Yyyy;
-import com.dhlg.module.system.yyyy.dao.YyyyMapper;
-import com.dhlg.module.system.yyyy.service.IYyyyService;
+import com.dhlg.module.familyTree.faUser.entity.FaUser;
+import com.dhlg.module.familyTree.faUser.dao.FaUserMapper;
+import com.dhlg.module.familyTree.faUser.service.IFaUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.Dictionaries;
 import com.dhlg.utils.Parameter.Parameter;
@@ -26,29 +26,29 @@ import java.util.List;
  * @since 2020-05-05
  */
 @Service
-public class YyyyServiceImpl extends ServiceImpl<YyyyMapper, Yyyy> implements IYyyyService {
+public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> implements IFaUserService {
 
     @Autowired
-    YyyyMapper doMapper;
+    FaUserMapper doMapper;
 
     @Override
-    public Result saveOrUpdateCommon(Yyyy yyyy) {
+    public Result saveOrUpdateCommon(FaUser faUser) {
         //判断新增还是修改
-        if (!StringUtils.isBlank(yyyy.getId())) {
+        if (!StringUtils.isBlank(faUser.getId())) {
             //修改
-            yyyy.setCreateUser(GetLoginUser.getCurrentUserId());
-            yyyy.setUpdateTime(DateUtils.getCurrentDate());
-            if(!updateById(yyyy)){
+            faUser.setUpdateTime(DateUtils.getCurrentDate());
+            faUser.setCreateUser(GetLoginUser.getCurrentUserId());
+            if(!updateById(faUser)){
 
                 return Result.error(Dictionaries.UPDATE_FAILED);
             }
 
             return Result.success(Dictionaries.SAVE_SUCCESS);
         }
-        yyyy.setCreateTime(DateUtils.getCurrentDate());
-        yyyy.setCreateUser(GetLoginUser.getCurrentUserId());
-        yyyy.setId(StringUtils.uuid());
-        if (!save(yyyy)){
+        faUser.setCreateUser(GetLoginUser.getCurrentUserId());
+        faUser.setCreateTime(DateUtils.getCurrentDate());
+        faUser.setId(StringUtils.uuid());
+        if (!save(faUser)){
 
             return Result.error(Dictionaries.SAVE_FAILED);
         }
@@ -65,8 +65,8 @@ public class YyyyServiceImpl extends ServiceImpl<YyyyMapper, Yyyy> implements IY
     }
 
     @Override
-    public Result query(QueryEntity<Yyyy> parameter) {
-        IPage<Yyyy> dataList = doMapper.queryByCondition(parameter.getPage(), parameter.getCondition());
+    public Result query(QueryEntity<FaUser> parameter) {
+        IPage<FaUser> dataList = doMapper.queryByCondition(parameter.getPage(), parameter.getCondition());
         return new Result(dataList);
     }
 

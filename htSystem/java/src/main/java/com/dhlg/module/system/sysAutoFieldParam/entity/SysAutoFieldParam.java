@@ -81,4 +81,10 @@ public class SysAutoFieldParam implements Serializable {
     @TableField(exist = false)
     private String dicType;
 
+    /**
+     * 是否是选择框
+     */
+    @TableField(exist = false)
+    private String isSelect;
+
 }

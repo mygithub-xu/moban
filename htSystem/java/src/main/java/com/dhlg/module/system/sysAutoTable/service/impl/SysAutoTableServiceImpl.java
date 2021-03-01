@@ -142,6 +142,7 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
                     autoField.setFieldRelatedField("");
                     autoField.setFieldRelatedFieldShow("");
                 }
+
             }
             QueryWrapper<SysAutoField> queryWrapper = new QueryWrapper<>();
             if(!isAdd){
@@ -238,7 +239,9 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         }
         //最后删除表，因为删除表无法回退
         SysAutoTable autoTable = getById(id);
-        doMapper.deleteTable(autoTable.getTableName());
+        if (!StringUtils.isBlank(autoTable.getTableName())){
+            doMapper.deleteTable(autoTable.getTableName());
+        }
         //删除这条数据
         if (!removeById(id)){
             return new Result("500","", Dictionaries.DELETE_FAILED);
@@ -365,6 +368,11 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         for (SysAutoFieldParam param : tableList){
             if (!StringUtils.isBlank(param.getFieldName())){
                 param.setFieldNameHump(StringUtils.underscoreToCamelCase(param.getFieldName()));
+                for (SysAutoField field : autoFieldList){
+                    if (Dictionaries.COMMONTRUE.equals(field.getFieldIsBeRelated())||!StringUtils.isBlank(field.getDicId())){
+                        param.setIsSelect(Dictionaries.COMMONTRUE);
+                    }
+                }
             }
         }
         autoParam.setTableButtonList(tableButtonList);

@@ -1,6 +1,6 @@
-package com.dhlg.module.system.yyyy.service;
+package com.dhlg.module.familyTree.faUser.service;
 
-import com.dhlg.module.system.yyyy.entity.Yyyy;
+import com.dhlg.module.familyTree.faUser.entity.FaUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
@@ -15,15 +15,15 @@ import java.util.List;
  * @author xu
  * @since
  */
-public interface IYyyyService extends IService<Yyyy> {
+public interface IFaUserService extends IService<FaUser> {
 
-    Result saveOrUpdateCommon(Yyyy yyyy);
+    Result saveOrUpdateCommon(FaUser faUser);
 
     Result delete(String id);
 
     Result deleteBatch(List<String> ids);
 
-    Result query(QueryEntity<Yyyy> parameter);
+    Result query(QueryEntity<FaUser> parameter);
 
     Result query(String id);
 

@@ -4,23 +4,16 @@
         <!-- 查询区域 -->
         <el-scrollbar style="width:100%">
         <div class="container-query">
-            <queryItem label="测试字段：">
-                <el-input v-model="queryContion.yyyccccc" placeholder="请输入测试字段"></el-input>
+            <queryItem label="用户名：">
+                <el-input v-model="queryContion.realName" placeholder="请输入用户名"></el-input>
             </queryItem>
-            <queryItem label="状态：">
-                <el-select v-model="queryContion.status" placeholder="请选择"  clearable>
-                  <el-option
-                    v-for="item in selectData.statusList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
+            <queryItem label="电话：">
+                <el-input v-model="queryContion.phone" placeholder="请输入电话"></el-input>
             </queryItem>
-            <queryItem label="用户：">
-                <el-select v-model="queryContion.userId" placeholder="请选择"  clearable>
+            <queryItem label="性别：">
+                <el-select v-model="queryContion.gender" placeholder="请选择"  clearable>
                   <el-option
-                    v-for="item in selectData.userIdList"
+                    v-for="item in selectData.genderList"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -42,9 +35,41 @@
                 >
                     <el-table-column type="selection"></el-table-column>
                     <el-table-column type="index" width="50" label="序号"></el-table-column>
-                    <el-table-column prop="yyyccccc"  label="测试字段"></el-table-column>
-                    <el-table-column prop="status"  label="状态"></el-table-column>
-                    <el-table-column prop="userId"  label="用户名"></el-table-column>
+                    <el-table-column prop="name"  label="昵称">
+                          <template slot-scope="scope">
+                            <template v-for="item in selectData.nameList" >
+                              <span :key="item.value" v-if="scope.row.userId == item.value">{{item.label}}</span>
+                            </template>
+                          </template>
+                    </el-table-column>
+                    <el-table-column prop="realName"  label="名称">
+                          <template slot-scope="scope">
+                            <template v-for="item in selectData.realNameList" >
+                              <span :key="item.value" v-if="scope.row.userId == item.value">{{item.label}}</span>
+                            </template>
+                          </template>
+                    </el-table-column>
+                    <el-table-column prop="phone"  label="电话">
+                          <template slot-scope="scope">
+                            <template v-for="item in selectData.phoneList" >
+                              <span :key="item.value" v-if="scope.row.userId == item.value">{{item.label}}</span>
+                            </template>
+                          </template>
+                    </el-table-column>
+                    <el-table-column prop="gender"  label="性别">
+                          <template slot-scope="scope">
+                            <template v-for="item in selectData.genderList" >
+                              <span :key="item.value" v-if="scope.row.userId == item.value">{{item.label}}</span>
+                            </template>
+                          </template>
+                    </el-table-column>
+                    <el-table-column prop="status"  label="状态">
+                          <template slot-scope="scope">
+                            <template v-for="item in selectData.statusList" >
+                              <span :key="item.value" v-if="scope.row.userId == item.value">{{item.label}}</span>
+                            </template>
+                          </template>
+                    </el-table-column>
                     <el-table-column  label="操作">
                       <template slot-scope="scope">
                             <el-button @click="handleEdit(scope.row)" type="text">编辑</el-button>
@@ -57,15 +82,15 @@
               <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
             </div>
         </div>
-        <yyyyEdit ref="yyyyEdit" @back="getData" :selectData="selectData"></yyyyEdit>
+        <faUserEdit ref="faUserEdit" @back="getData" :selectData="selectData"></faUserEdit>
         </el-scrollbar>
     </div>
 </template>
 <script>
-import yyyyEdit from "./edit"
+import faUserEdit from "./edit"
 export default {
-    components: { yyyyEdit },
-    name: "yyyyQuery",
+    components: { faUserEdit },
+    name: "faUserQuery",
     data() {
       return {
         // 数据
@@ -78,14 +103,13 @@ export default {
         },
         // 查询
         queryContion: {
-          yyyccccc:"",
-          status:"",
-          userId:"",
+          realName:"",
+          phone:"",
+          gender:"",
         },
         //下拉框数据
         selectData: {
           statusList:[],
-          userIdList:[],
         },
         //批量删除
         delVal:""
@@ -100,26 +124,16 @@ export default {
     methods:{
         //获取下拉框数据
         getDropData(){
-                this.$http.get(this.api.dicTypeGetType + "status").then(res => {
+                this.$http.get(this.api.dicTypeGetType + "liveState").then(res => {
                     this.selectData.statusList = res.data.body
                 })
-                this.$http.post("",{
-                       condition: {},
-                       number: 1,
-                       size: 999
-                   }).then(res => {
-                  this.selectData.userIdList = res.data.body.records.map(item => ({
-                     label: item.userName,
-                     value: item.id
-                   }))
-                });
         },
         // 清空
         empty(){
             this.queryContion = {
-                yyyccccc:"",
-                status:"",
-                userId:"",
+                realName:"",
+                phone:"",
+                gender:"",
             }
         },
         //获取数据
@@ -129,7 +143,7 @@ export default {
                 number: this.pageData.pageNumber,
                 size: this.pageData.pageSize
             }
-            this.$http.post("api/system/yyyy/query",queryContion)
+            this.$http.post("api/familyTree/faUser/query",queryContion)
             .then(res => {
               this.pageData.list = res.data.body.records;
               this.pageData.totalCount = res.data.body.total;
@@ -155,7 +169,7 @@ export default {
 
         //编辑
         handleEdit(row) {
-          this.$refs.yyyyEdit.openByEdit(row)
+          this.$refs.faUserEdit.openByEdit(row)
         },
         //删除
         handleDelete(row){
@@ -165,7 +179,7 @@ export default {
             type: "warning"
           }).then(() =>
           {
-              this.$http.delete("api/system/yyyy/deleteById/" + row.id)
+              this.$http.delete("api/familyTree/faUser/deleteById/" + row.id)
               .then(res => {
                 if(res.data.code == '200'){
                   this.$message.success(res.data.message)
@@ -177,7 +191,7 @@ export default {
 
         //新增
         handleAdd() {
-          this.$refs.yyyyEdit.openByNew()
+          this.$refs.faUserEdit.openByNew()
         },
         handleDeleteBatch(){
           this.$confirm("此操作将永久删除, 是否继续?", "提示", {
@@ -187,7 +201,7 @@ export default {
           })
           .then(() => {
             let deletebatch = this.$utils.findIds(this.delVal)
-            this.$http.post("api/system/yyyy/batchDelete",deletebatch)
+            this.$http.post("api/familyTree/faUser/batchDelete",deletebatch)
             .then(res => {
               if(res.data.code == '200'){
                 this.$message.success(res.data.message)

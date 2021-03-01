@@ -11,14 +11,18 @@
                 <el-form ref="form" label-width="150px" :rules="rules" :model="form">
 
 
-                    <el-form-item label="测试字段" prop="yyyccccc">
-                        <el-input v-model="form.yyyccccc"></el-input>
+                    <el-form-item label="昵称" prop="name">
+                        <el-input v-model="form.name"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="测试状态" prop="status">
-                        <el-select v-model="form.status" placeholder="请选择"  clearable>
+                    <el-form-item label="姓名" prop="realName">
+                        <el-input v-model="form.realName"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="性别" prop="gender">
+                        <el-select v-model="form.gender" placeholder="请选择"  clearable>
                           <el-option
-                            v-for="item in selectData.statusList"
+                            v-for="item in selectData.genderList"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value"
@@ -26,10 +30,14 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="用户名" prop="userId">
-                        <el-select v-model="form.userId" placeholder="请选择"  clearable>
+                    <el-form-item label="电话" prop="phone">
+                        <el-input v-model="form.phone"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="状态" prop="status">
+                        <el-select v-model="form.status" placeholder="请选择"  clearable>
                           <el-option
-                            v-for="item in selectData.userIdList"
+                            v-for="item in selectData.statusList"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value"
@@ -45,7 +53,7 @@
 </template>
 <script>
 export default {
-    name: "yyyyEdit",
+    name: "faUserEdit",
     data() {
       return {
         editVisible: false,
@@ -68,9 +76,11 @@ export default {
         //清空
         empty(){
             this.form = {
-                yyyccccc:"",
+                name:"",
+                realName:"",
+                gender:"",
+                phone:"",
                 status:"",
-                userId:"",
             }
         },
         //新增
@@ -81,7 +91,7 @@ export default {
         //编辑
         openByEdit(row){
             this.openByNew()
-            this.$http.get("api/system/yyyy/queryById/" + row.id).then(res => {
+            this.$http.get("api/familyTree/faUser/queryById/" + row.id).then(res => {
                 this.form = res.data.body
             });
         },
@@ -99,7 +109,7 @@ export default {
                   cancelButtonText: "取消",
                   type: "warning"
                 }).then(() => {
-                    this.$http.post("api/system/yyyy/saveOrUpdate",this.form).then(res => {
+                    this.$http.post("api/familyTree/faUser/saveOrUpdate",this.form).then(res => {
                       if(res.data.code == '200'){
                         this.$message.success(res.data.message)
                         this.editVisible = false
