@@ -76,6 +76,11 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
     }
 
     @Override
+    public Result listTree() {
+        return Result.success("chenggong");
+    }
+
+    @Override
     public Result deleteBatch(List<String> ids) {
         if (!removeByIds(ids)){
 

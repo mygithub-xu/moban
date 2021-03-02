@@ -65,5 +65,11 @@ public class FaUserController {
 
                 return doService.deleteBatch(ids);
         }
+
+        @ApiOperation("查询")
+        @PostMapping("/list")
+        public Result listTree() {
+                return  doService.listTree();
+        }
 }
 

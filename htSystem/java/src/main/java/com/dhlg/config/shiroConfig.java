@@ -70,6 +70,7 @@ public class shiroConfig {
         map.put("/v2/**","anon");
         //添加
         map.put("/api/system/phoneModel/getPhoneNumber","anon");
+        map.put("/api/familyTree/**","anon");
 
 
         //自定义拦截器
