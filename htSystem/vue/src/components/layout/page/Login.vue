@@ -25,8 +25,8 @@
     data() {
       return {
         form: {
-          userName: '',
-          passWord: '',
+          userName: 'whfch',
+          passWord: 'whfch123',
           fullscreenLoading:false
         },
 

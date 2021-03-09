@@ -7,7 +7,7 @@ module.exports = merge(prodEnv, {
   // 开发环境
   EVN_CONFIG:'"dev"',
   API_ROOT:'"http://localhost:4040/moban/"',
-  // API_ROOT:'"http://47.94.8.32:4040/moban/"',
+  // API_ROOT:'"http://www.whfch.icu/api/moban/"'
 
   //该环境下各种变量在此处编写
 

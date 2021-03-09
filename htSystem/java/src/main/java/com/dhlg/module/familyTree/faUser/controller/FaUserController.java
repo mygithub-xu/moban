@@ -8,6 +8,7 @@ import com.dhlg.utils.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,6 +50,11 @@ public class FaUserController {
         public Result query(@RequestBody QueryEntity<FaUser> parameter) {
                 if(StringUtils.isBlank(parameter)){
                         throw new ParamIsNullException();
+                }
+                try {
+                        int aa = 1/0;
+                }catch (Exception e){
+
                 }
                 return  doService.query(parameter);
         }
