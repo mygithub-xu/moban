@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.blog.blogBlog.dao.BlogBlogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.blog.blogBlog.entity.BlogBlog">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="category" property="category" />
+        <result column="description" property="description" />
+        <result column="read" property="read" />
+        <result column="like" property="like" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="cover_img" property="coverImg" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+                id,                title,                content,                category,                description,                read,                like,                create_time,                update_time,                cover_img    </sql>
+
+    <select id="queryByCondition" parameterType="com.dhlg.utils.Parameter.Parameter" resultType="com.dhlg.module.blog.blogBlog.entity.BlogBlog">
+        select * from blog_blog
+        <trim prefix="where" prefixOverrides="and">
+            <if test="parameter.condition != null and parameter.condition.category !=null and parameter.condition.category !=''and parameter.condition.category !='-1' ">
+                category =#{parameter.condition.category}
+            </if>
+        </trim>
+        order by create_time desc
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select * from blog_blog
+        <trim prefix="where" prefixOverrides="and">
+
+
+                    <if test=" parameter.title !=null and parameter.title !='' ">
+                        and title like concat('%',#{parameter.title},'%')
+                    </if>
+
+
+                    <if test=" parameter.content !=null and parameter.content !='' ">
+                        and content like concat('%',#{parameter.content},'%')
+                    </if>
+
+
+                    <if test=" parameter.category !=null and parameter.category !='' ">
+                        and category like concat('%',#{parameter.category},'%')
+                    </if>
+
+
+                    <if test=" parameter.description !=null and parameter.description !='' ">
+                        and description like concat('%',#{parameter.description},'%')
+                    </if>
+
+
+                    <if test=" parameter.read !=null and parameter.read !='' ">
+                        and read like concat('%',#{parameter.read},'%')
+                    </if>
+
+
+                    <if test=" parameter.like !=null and parameter.like !='' ">
+                        and like like concat('%',#{parameter.like},'%')
+                    </if>
+
+
+                        <if test="parameter.createTime != null and parameter.createTime .size() == 2">
+                            and create_time between
+                            <foreach collection="parameter.createTime" index="index" item="item" open=" " separator=" and " close=" ">
+                                #{item}
+                            </foreach>
+                        </if>
+
+
+
+                        <if test="parameter.updateTime != null and parameter.updateTime .size() == 2">
+                            and update_time between
+                            <foreach collection="parameter.updateTime" index="index" item="item" open=" " separator=" and " close=" ">
+                                #{item}
+                            </foreach>
+                        </if>
+
+
+
+                    <if test=" parameter.coverImg !=null and parameter.coverImg !='' ">
+                        and cover_img like concat('%',#{parameter.coverImg},'%')
+                    </if>
+
+        </trim>
+        order by id desc
+    </select>
+
+</mapper>

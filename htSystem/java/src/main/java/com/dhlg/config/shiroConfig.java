@@ -71,7 +71,8 @@ public class shiroConfig {
         //添加
         map.put("/api/system/phoneModel/getPhoneNumber","anon");
         map.put("/api/familyTree/**","anon");
-
+        map.put("/api/blog/**","anon");
+        map.put("/api/system/sysdictype/gettype/blogType","anon");
 
         //自定义拦截器
         Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();

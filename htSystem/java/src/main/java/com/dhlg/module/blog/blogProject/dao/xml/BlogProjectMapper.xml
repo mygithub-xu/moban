@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.blog.blogProject.dao.BlogProjectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.blog.blogProject.entity.BlogProject">
+        <id column="id" property="id" />
+        <result column="img" property="img" />
+        <result column="title" property="title" />
+        <result column="description" property="description" />
+        <result column="url" property="url" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+                id,                img,                title,                description,                url,                create_time    </sql>
+
+    <select id="queryByCondition" parameterType="com.dhlg.utils.Parameter.Parameter" resultType="com.dhlg.module.blog.blogProject.entity.BlogProject">
+        select * from blog_project
+        <trim prefix="where" prefixOverrides="and">
+            <if test="parameter.condition != null and parameter.condition.queryContent !=null and parameter.condition.queryContent !='' ">
+                CONCAT(
+                            ,img
+                            ,title
+                            ,description
+                            ,url
+                ) like concat('%',#{parameter.condition.queryContent},'%')
+            </if>
+        </trim>
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select * from blog_project
+        <trim prefix="where" prefixOverrides="and">
+
+
+                    <if test=" parameter.img !=null and parameter.img !='' ">
+                        and img like concat('%',#{parameter.img},'%')
+                    </if>
+
+
+                    <if test=" parameter.title !=null and parameter.title !='' ">
+                        and title like concat('%',#{parameter.title},'%')
+                    </if>
+
+
+                    <if test=" parameter.description !=null and parameter.description !='' ">
+                        and description like concat('%',#{parameter.description},'%')
+                    </if>
+
+
+                    <if test=" parameter.url !=null and parameter.url !='' ">
+                        and url like concat('%',#{parameter.url},'%')
+                    </if>
+
+
+                        <if test="parameter.createTime != null and parameter.createTime .size() == 2">
+                            and create_time between
+                            <foreach collection="parameter.createTime" index="index" item="item" open=" " separator=" and " close=" ">
+                                #{item}
+                            </foreach>
+                        </if>
+
+
+        </trim>
+        order by id desc
+    </select>
+
+</mapper>

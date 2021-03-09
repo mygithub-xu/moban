@@ -18,7 +18,7 @@
             <div>
               <template v-for="item in homePageData">
                 <template>    
-                    <el-menu-item :index="item.url" :key="item.id" >
+                    <el-menu-item :index="item.menuCode" :key="item.id" >
                     <i :class="item.icon" style="font-size: 18px;width:20px"> </i>
                     <span slot="title"  style="font-size: 13px;margin-left:7px">{{item.menuName}}</span>
                     </el-menu-item>
@@ -181,7 +181,14 @@ export default {
 
    //获取菜单数据
    getMenuData(){
-     
+     var homePage = {
+       url: "/003",
+       icon: "icon-gerenzhongxin",
+       menuName: '首页',
+       children: [],
+       menuCode: "0000"
+     }
+     let data = this.$User.getMenuData().push()
      return this.$User.getMenuData()
    }
 

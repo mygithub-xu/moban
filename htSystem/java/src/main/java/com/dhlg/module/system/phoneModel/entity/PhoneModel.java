@@ -1,7 +1,6 @@
 package com.dhlg.module.system.phoneModel.entity;
 
 import java.util.Date;
-import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
