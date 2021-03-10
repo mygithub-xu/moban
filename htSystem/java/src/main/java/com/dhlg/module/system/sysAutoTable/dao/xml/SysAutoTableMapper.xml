@@ -101,7 +101,7 @@
         SELECT count(*) FROM INFORMATION_SCHEMA.TABLES where TABLE_NAME = #{tableName} and TABLE_SCHEMA = #{name}
     </select>
 
-    <select id="getDatabaseName" parameterType="String" resultType="java.lang.String">
+    <select id="getDatabaseName" resultType="java.lang.String">
        select database()
     </select>
 
@@ -112,4 +112,12 @@
     <update  id="updateUrl" parameterType="com.dhlg.module.system.sysAutoTable.entity.ProjModel">
         UPDATE sys_auto_table set create_url = #{projModel.createUrl} , api_url = #{projModel.apiUrl} where id = #{projModel.tableId}
     </update >
+
+    <select id="findTable"  resultType="String">
+        select table_name from information_schema.tables
+    </select>
+
+    <select id="SysAutoField"  resultType="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
+        select table_name from information_schema.tables where table_schema=#{v}
+    </select>
 </mapper>

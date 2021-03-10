@@ -7,6 +7,7 @@ import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,5 +31,9 @@ public interface SysAutoTableMapper extends BaseMapper<SysAutoTable> {
     void deleteTable(@Param("tableName")String tableName);
 
     void updateUrl(@Param("projModel")ProjModel projModel);
+
+    List findTable();
+
+    String findTableField(String tableName);
 }
         

@@ -428,6 +428,17 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         return Result.success(Dictionaries.SAVE_SUCCESS);
     }
 
+    @Override
+    public Result findTable() {
+
+        return Result.success(doMapper.findTable());
+    }
+
+    @Override
+    public Result findTableField(String tableName) {
+        return Result.success(doMapper.findTableField(tableName));
+    }
+
     private void greatFile(SysAutoTable autoTable,ProjModel projModel,String targetPath) {
         Map<String,Object> map = new HashMap();
         map.put("controller.java.vm","controller/" + projModel.get_TableName() + "Controller.java");

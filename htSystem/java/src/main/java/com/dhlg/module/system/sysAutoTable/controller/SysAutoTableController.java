@@ -110,5 +110,16 @@ public class SysAutoTableController {
                 }
                 return  doService.saveOrUpdateTem(autoTable);
         }
+        @ApiOperation("查找表")
+        @GetMapping("/findTable")
+        public Result findTable() {
+                return  doService.findTable();
+        }
+
+        @ApiOperation("查找表字段")
+        @GetMapping("/findTableField")
+        public Result findTableField(@RequestBody String tableName) {
+                return  doService.findTableField(tableName);
+        }
 }
 

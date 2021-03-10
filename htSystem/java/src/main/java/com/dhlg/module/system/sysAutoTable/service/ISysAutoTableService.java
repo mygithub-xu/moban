@@ -40,4 +40,8 @@ public interface ISysAutoTableService extends IService<SysAutoTable> {
     Result codeGeneration(ProjModel projModel);
 
     Result saveOrUpdateTem(SysAutoTable autoTable);
+
+    Result findTable();
+
+    Result findTableField(String tableName);
 }

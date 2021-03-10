@@ -10,6 +10,17 @@
         <div>
             <el-form :model="form" ref="tableForm" label-width="120px" :rules="rules">
                 <div class="edit-area">
+                  <el-form-item v-show="isImportTable" label="数据库表" prop="tableName">
+                     <el-select v-model="form.tableType" placeholder="请选择"  clearable>
+                        <el-option
+                          v-for="item in xiala.tableNameList"
+                          :key="item"
+                          :label="item"
+                          :value="item"
+                        ></el-option>
+                      </el-select>
+                  </el-form-item>
+
                   <el-form-item label="表名" prop="tableName">
                       <el-input v-model="form.tableName"></el-input>
                   </el-form-item>
@@ -197,6 +208,7 @@
             { required: true, message: '表类型不能为空', trigger: 'blur' }
           ]
         },
+        isImportTable: false
       }
     },
     computed:{
@@ -233,6 +245,11 @@
           this.editVisible = true;
         });
         this.editVisible = true;
+      },
+      //导入数据库页面
+      importInit(){
+        this.isImportTable = true;
+        this.addInit()
       },
       //新增时
       addInit(){
@@ -403,6 +420,7 @@
       },
       back(){
           this.editVisible = false
+          this.isImportTable = false;
       },
     }
   }

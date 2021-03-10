@@ -6,8 +6,8 @@
             <div class="container-btn">
                     <span class="container-btn-left">
                         <el-button type="primary"  icon="el-icon-plus" @click="handleCreateTable">创建表</el-button>
-                        <el-button type="primary"  icon="el-icon-edit" @click="handleEdit">从数据库导入表</el-button>
-                        <!-- <el-button type="danger"  icon="el-icon-delete" @click="handleDeleteBatch">删除</el-button> -->
+                        <el-button type="primary"  icon="el-icon-edit" @click="importTable">从数据库导入表</el-button>
+                        <el-button type="danger"  icon="el-icon-delete" @click="handleDeleteBatch">删除</el-button>
                     </span>
                     <span class="container-btn-right">
                         <el-button plain icon="el-icon-refresh" @click="getdata()"></el-button>
@@ -86,10 +86,10 @@
                     statusList:[],
                     tableData:[],
                     fieldTypeList:[],
-                    dicList:[]
+                    dicList:[],
+                    tableNameList:[]
                 },
                 frameFontvisible: true
-
             }
         },
         created(){
@@ -97,6 +97,10 @@
             this.getxiala();
         },
         methods:{
+            importTable(){
+                // 导入表
+                this.$refs['edit'].importInit();
+            },
             getxiala(){
                 //生成状态
                 this.$http.get(this.api.dicTypeGetType + "autoTableStatus").then(res => {
@@ -118,7 +122,10 @@
                 this.$http.get(this.api.sysdictypeGetAll).then(res => {
                     this.xiala.dicList = res.data.body
                 })
-                
+                //查找表
+                this.$http.get(this.api.sysAutoTableFindTable).then(res => {
+                    this.xiala.tableNameList = res.data.body
+                })
             },
 
             handleEdit(row){

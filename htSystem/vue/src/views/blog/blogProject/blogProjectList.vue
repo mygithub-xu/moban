@@ -1,17 +1,19 @@
 <template>
     <div class="app-container">
-        <div class="container">
+        <el-scrollbar style="width:100%">
+        <div class="container-table">
             <!-- 区域一 查询区域 -->
             <div class="container_btn" >
             <span>
-            <el-button type="warning" size="small"   @click="handleAdd">新增</el-button>
-            <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
-            <el-button type="primary" plain size="small"   @click="search">刷新</el-button>
-			<el-button type="info" plain size="small" @click="reset">重置搜索</el-button>
+                <el-button type="warning" size="small"   @click="handleAdd">新增</el-button>
+                <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
+                <el-button type="primary" plain size="small"   @click="search">刷新</el-button>
+                <el-button type="info" plain size="small" @click="reset">重置搜索</el-button>
             </span>
             </div>
             <!-- 区域二---表格+分页 -->
-            <el-table :data="pageData.list" style="width: 100%" height="100%" :row-style="{height:'50px'}" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange" >
+            <div class="common-table-style">
+            <el-table :data="pageData.list" style="width: 100%" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange" >
                 <el-table-column type="selection"  fixed width="45"  align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column type="index" width="55" label="序号" align="center" v-if="xuhao" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="img" min-width="140" label="图片" align="center" show-overflow-tooltip>
@@ -115,42 +117,40 @@
 
                         </el-table-column>
                         <el-table-column prop="createTime" min-width="140" label="创建时间" align="center" show-overflow-tooltip>
-                                <template slot="header" slot-scope="scope">
-                                    <span class="col-filter">
-                                    {{scope.column.label}}
-                                    <el-popover placement="bottom-end" width="400" trigger="click"  v-model="queryVisible.createTime">
-                                        <el-date-picker
-                                                v-model="condition.createTime"
-                                                type="daterange"
-                                                align="right"
-                                                unlink-panels
-                                                range-separator="至"
-                                                start-placeholder="开始日期"
-                                                end-placeholder="结束日期"
-                                                :picker-options="pickerOptions"
-                                                value-format="yyyy-MM-dd HH:mm:ss"
-                                        ></el-date-picker>
-                                        <hr
-                                                style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"
-                                        />
-                                        <div style="display: flex; justify-content: space-evenly;">
-                                        <el-button
-                                                type="text"
-                                                @click="handleDateRangeListFilterOk('createTime')"
-                                        >确定</el-button>
-                                        <el-button
-                                                type="text"
-                                                @click="handleDateRangeListFilterCancel('createTime')"
-                                        >重置</el-button>
-                                        </div>
-                                        <i slot="reference" class="icon-filter" @click.stop></i>
-                                    </el-popover>
-                                    </span>
-                                </template>
-
-                        </el-table-column>
-
-                <el-table-column label="操作" fixed="right" min-width="160" align="center" show-overflow-tooltip>
+                            <template slot="header" slot-scope="scope">
+                                <span class="col-filter">
+                                {{scope.column.label}}
+                                <el-popover placement="bottom-end" width="400" trigger="click"  v-model="queryVisible.createTime">
+                                    <el-date-picker
+                                            v-model="condition.createTime"
+                                            type="daterange"
+                                            align="right"
+                                            unlink-panels
+                                            range-separator="至"
+                                            start-placeholder="开始日期"
+                                            end-placeholder="结束日期"
+                                            :picker-options="pickerOptions"
+                                            value-format="yyyy-MM-dd HH:mm:ss"
+                                    ></el-date-picker>
+                                    <hr
+                                            style="background-color: lightgray; height: 1px; border: none; margin-top: 1em;"
+                                    />
+                                    <div style="display: flex; justify-content: space-evenly;">
+                                    <el-button
+                                            type="text"
+                                            @click="handleDateRangeListFilterOk('createTime')"
+                                    >确定</el-button>
+                                    <el-button
+                                            type="text"
+                                            @click="handleDateRangeListFilterCancel('createTime')"
+                                    >重置</el-button>
+                                    </div>
+                                    <i slot="reference" class="icon-filter" @click.stop></i>
+                                </el-popover>
+                                </span>
+                            </template>
+                    </el-table-column>
+                <el-table-column label="操作" min-width="160" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-view" class="yellow"  @click="handlePre(scope.row)" >预览</el-button>
                         <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)" >编辑</el-button>
@@ -158,8 +158,9 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="pagination">
-                <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
+                <div class="pagination">
+                    <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
+                </div>
             </div>
         </div>
         <!-- 区域三---弹出框，覆盖全部 -->
@@ -176,20 +177,6 @@
                         <div style="margin-top: 42px;">
 
                             <el-form  ref="form" :model="form" :rules="rules" label-width="150px" size="small" style="margin-top:10px">
-                                            <!-- <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
-                                                <el-form-item label="图片" prop="img" style="width:35rem;height:32px">
-                                                        <template v-if="form.img">
-                                                            <img :src="form.img"  @click="openPhotoDig" style="height:100px;width:200px"/>
-                                                        </template>
-                                                        <template v-else>
-                                                            <el-button type="primary" size="small" @click="openPhotoDig">选择图片</el-button>
-                                                        </template>
-                                                </el-form-item>
-                                            </el-col> -->
-
-
-
-
                                             <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
                                                 <el-form-item label="标题" prop="title" style="width:35rem;height:32px">
                                                     <el-input v-model="form.title" :disabled="preVisiable"></el-input>
@@ -214,25 +201,6 @@
                                                 </el-form-item>
                                             </el-col>
 
-
-
-
-                                            <!-- <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" >
-                                                <el-form-item label="创建时间" prop="createTime" style="max-width:35rem;height:32px">
-                                                    <el-date-picker
-                                                            :disabled="preVisiable"
-                                                            v-model="form.createTime"
-                                                            type="datetime"
-                                                            placeholder="选择日期时间"
-                                                            default-time="12:00:00"
-                                                            style="width:100%">
-                                                    </el-date-picker>
-                                                </el-form-item>
-                                            </el-col> -->
-
-
-
-
                             </el-form>
 
                         </div>
@@ -240,8 +208,8 @@
                 </el-row>
             </el-dialog>
         </div>
-
-<photoShow ref="photoView" @handleSure="handleSure"></photoShow>
+    </el-scrollbar>
+    <photoShow ref="photoView" @handleSure="handleSure"></photoShow>
     </div>
 </template>
 <script>
