@@ -50,6 +50,8 @@ public class SysTestController {
                 if(StringUtils.isBlank(parameter)){
                         throw new ParamIsNullException();
                 }
+
+
                 return  doService.query(parameter);
         }
 

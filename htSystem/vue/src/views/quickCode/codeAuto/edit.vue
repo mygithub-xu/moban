@@ -11,7 +11,7 @@
             <el-form :model="form" ref="tableForm" label-width="120px" :rules="rules">
                 <div class="edit-area">
                   <el-form-item v-show="isImportTable" label="数据库表" prop="tableName">
-                     <el-select v-model="form.tableType" placeholder="请选择"  clearable>
+                     <el-select v-model="form.tableType" placeholder="请选择"  clearable @change="selectTableName">
                         <el-option
                           v-for="item in xiala.tableNameList"
                           :key="item"
@@ -225,6 +225,9 @@
       }
     },
     methods:{
+      selectTableName(){
+        
+      },
       //id无法选择
       checkSelect(row,index){
         if(row.fieldName == "id"){
