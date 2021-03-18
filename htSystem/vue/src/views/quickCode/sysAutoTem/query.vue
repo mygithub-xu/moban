@@ -98,7 +98,6 @@ export default {
               this.pageData.totalPage = res.data.body.pages;
             })
         },
-
         // 查询
         search(){
             this.getData()
@@ -117,8 +116,9 @@ export default {
 
         //编辑
         handleEdit(row) {
-          
-          this.$refs.editLayout.openByEdit(row)
+          debugger
+          this.frameFontvisible = false
+          this.$refs.editLayout.editInit(row)
         },
         //删除
         handleDelete(row){
