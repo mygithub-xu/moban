@@ -387,6 +387,10 @@ export default {
         /** 模板页面进入 end*/
         //改变模板
         changeTemp(val){
+            debugger
+            if(!val){
+                return
+            }
             this.getAutoParamData(val)
         },
         //获取下拉框数据
