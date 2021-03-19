@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.familyTree.faTable.dao.FaTableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.familyTree.faTable.entity.FaTable">
+        <result column="remark" property="remark" />
+        <result column="update_time" property="updateTime" />
+        <result column="name" property="name" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="update_user" property="updateUser" />
+        <result column="password" property="password" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+remark,update_time,name,create_user,create_time,id,code,update_user,password    </sql>
+
+    <select id="queryByCondition" parameterType="com.dhlg.module.familyTree.faTable.entity.FaTable" 
+    resultType="com.dhlg.module.familyTree.faTable.entity.FaTable">
+        select *
+        from fa_table t
+        <trim prefix="where" prefixOverrides="and">
+            <if test="params.code != null and params.code !=''">
+                and t.code like concat('%',#{params.code},'%')
+            </if>
+        </trim>
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from fa_table
+    </select>
+
+</mapper>

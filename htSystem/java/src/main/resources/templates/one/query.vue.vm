@@ -158,13 +158,12 @@ export default {
         //获取下拉框数据
         getDropData(){
             #foreach ($item in $autoFieldList)
-            #if($item.fieldIsBeRelated == '0')
-                #if($item.dicId)
+            #if($item.dicId)
                 this.${http}.get(this.api.dicTypeGetType + "$!{item.dicType}").then(res => {
                     this.selectData.$!{item.fieldNameHump}List = res.data.body
                 })
-                #end
-            #else
+            #end
+            #if($item.fieldIsBeRelated == '1')
                 this.${http}.post("$!{item.apiUrl}",{
                        condition: {},
                        number: 1,
