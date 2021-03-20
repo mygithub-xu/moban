@@ -68,4 +68,15 @@ public class FaTable implements Serializable {
          */
         @TableField("password")
         private String password;
+        /**
+         * 创建人
+         */
+        @TableField(exist = false)
+        private String createUserName;
+        /**
+         * 人数
+         */
+        @TableField(exist = false)
+        private String userNum;
+
 }

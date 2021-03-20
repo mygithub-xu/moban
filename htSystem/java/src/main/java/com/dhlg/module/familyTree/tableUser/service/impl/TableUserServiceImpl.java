@@ -1,9 +1,9 @@
-package com.dhlg.module.familyTree.faTable.service.impl;
+package com.dhlg.module.familyTree.tableUser.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.dhlg.module.familyTree.faTable.entity.FaTable;
-import com.dhlg.module.familyTree.faTable.dao.FaTableMapper;
-import com.dhlg.module.familyTree.faTable.service.IFaTableService;
+import com.dhlg.module.familyTree.tableUser.entity.TableUser;
+import com.dhlg.module.familyTree.tableUser.dao.TableUserMapper;
+import com.dhlg.module.familyTree.tableUser.service.ITableUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.Dictionaries;
 import com.dhlg.utils.Parameter.Parameter;
@@ -26,27 +26,26 @@ import java.util.List;
  * @since 2020-05-05
  */
 @Service
-public class FaTableServiceImpl extends ServiceImpl<FaTableMapper, FaTable> implements IFaTableService {
+public class TableUserServiceImpl extends ServiceImpl<TableUserMapper, TableUser> implements ITableUserService {
 
     @Autowired
-    FaTableMapper doMapper;
+    TableUserMapper doMapper;
 
     @Override
-    public Result saveOrUpdateCommon(FaTable faTable) {
+    public Result saveOrUpdateCommon(TableUser tableUser) {
         //判断新增还是修改
-        if (!StringUtils.isBlank(faTable.getId())) {
+        if (!StringUtils.isBlank(tableUser.getId())) {
             //修改
-            faTable.setUpdateTime(DateUtils.getCurrentDate());
-            faTable.setCreateUser(GetLoginUser.getCurrentUserId());
-            if(!updateById(faTable)){
+            if(!updateById(tableUser)){
+
                 return Result.error(Dictionaries.UPDATE_FAILED);
             }
+
             return Result.success(Dictionaries.SAVE_SUCCESS);
         }
-        faTable.setCreateUser(GetLoginUser.getCurrentUserId());
-        faTable.setCreateTime(DateUtils.getCurrentDate());
-        faTable.setId(StringUtils.uuid());
-        if (!save(faTable)){
+        tableUser.setId(StringUtils.uuid());
+        if (!save(tableUser)){
+
             return Result.error(Dictionaries.SAVE_FAILED);
         }
 
@@ -62,19 +61,14 @@ public class FaTableServiceImpl extends ServiceImpl<FaTableMapper, FaTable> impl
     }
 
     @Override
-    public Result query(QueryEntity<FaTable> parameter) {
-        IPage<FaTable> dataList = doMapper.queryByCondition(parameter.getPage(), parameter.getCondition());
+    public Result query(QueryEntity<TableUser> parameter) {
+        IPage<TableUser> dataList = doMapper.queryByCondition(parameter.getPage(), parameter.getCondition());
         return new Result(dataList);
     }
 
     @Override
     public Result query(String id) {
         return Result.success(getById(id));
-    }
-
-    @Override
-    public Result getCallPhoto(String id) {
-        return null;
     }
 
     @Override
@@ -85,6 +79,4 @@ public class FaTableServiceImpl extends ServiceImpl<FaTableMapper, FaTable> impl
         }
         return Result.success(Dictionaries.DELETE_SUCCESS);
     }
-
-
 }

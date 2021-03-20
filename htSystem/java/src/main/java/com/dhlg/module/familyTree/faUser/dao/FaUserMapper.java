@@ -6,6 +6,7 @@ import com.dhlg.module.familyTree.faUser.entity.FaUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 public interface FaUserMapper extends BaseMapper<FaUser> {
@@ -13,5 +14,7 @@ public interface FaUserMapper extends BaseMapper<FaUser> {
     IPage<FaUser> queryByCondition(Page page, @Param("params") FaUser parameter);
 
     IPage<FaUser> listFieldQuery(Page page, @Param("parameter") Map<String, Object> params);
+
+    List<FaUser> queryByTaleId(String id);
 }
         

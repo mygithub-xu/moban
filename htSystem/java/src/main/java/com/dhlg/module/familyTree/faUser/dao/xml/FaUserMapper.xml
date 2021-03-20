@@ -21,14 +21,14 @@
         <result column="head_url" property="headUrl" />
         <result column="live_state" property="liveState" />
         <result column="id" property="id" />
-        <result column="fa_table_id" property="faTableId" />
         <result column="password" property="password" />
         <result column="birthday_date" property="birthdayDate" />
+        <result column="home_rank" property="homeRank" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-status,create_user,wechat_number,name,phone,address,gender,spouse_id,create_time,parent_id,update_time,update_user,real_name,signature,head_url,live_state,id,fa_table_id,password,birthday_date    </sql>
+status,create_user,wechat_number,home_rank,name,phone,address,gender,spouse_id,create_time,parent_id,update_time,update_user,real_name,signature,head_url,live_state,id,password,birthday_date    </sql>
 
     <select id="queryByCondition" parameterType="com.dhlg.module.familyTree.faUser.entity.FaUser" 
     resultType="com.dhlg.module.familyTree.faUser.entity.FaUser">
@@ -49,6 +49,10 @@ status,create_user,wechat_number,name,phone,address,gender,spouse_id,create_time
 
     <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
         select * from fa_user
+    </select>
+
+    <select id="queryByTaleId" parameterType="java.util.Map" resultType="com.dhlg.module.familyTree.faUser.entity.FaUser">
+        select u.* from fa_table_user t left join fa_user u on t.user_id = u.id where t.table_id = #{id}
     </select>
 
 </mapper>

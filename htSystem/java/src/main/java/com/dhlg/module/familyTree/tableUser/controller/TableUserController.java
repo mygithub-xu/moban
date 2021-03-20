@@ -1,14 +1,13 @@
-package com.dhlg.module.familyTree.faUser.controller;
+package com.dhlg.module.familyTree.tableUser.controller;
 
-import com.dhlg.module.familyTree.faUser.entity.FaUser;
-import com.dhlg.module.familyTree.faUser.service.IFaUserService;
+import com.dhlg.module.familyTree.tableUser.entity.TableUser;
+import com.dhlg.module.familyTree.tableUser.service.ITableUserService;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
 import com.dhlg.utils.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,20 +21,20 @@ import java.util.List;
  * @since
  */
 @RestController
-@RequestMapping("/api/familyTree/faUser")
+@RequestMapping("/api/familyTree/tableUser")
 @CrossOrigin
-public class FaUserController {
+public class TableUserController {
 
         @Autowired
-        IFaUserService doService;
+        ITableUserService doService;
 
         @ApiOperation("保存或者更新")
         @PostMapping("/saveOrUpdate")
-        public Result saveOrUpdate(@RequestBody FaUser faUser) {
-                if(StringUtils.isBlank(faUser)){
+        public Result saveOrUpdate(@RequestBody TableUser tableUser) {
+                if(StringUtils.isBlank(tableUser)){
                         throw new ParamIsNullException();
                 }
-                return  doService.saveOrUpdateCommon(faUser);
+                return  doService.saveOrUpdateCommon(tableUser);
         }
 
         @ApiOperation("删除（物理删除）")
@@ -47,7 +46,7 @@ public class FaUserController {
 
         @ApiOperation("查询")
         @PostMapping("/query")
-        public Result query(@RequestBody QueryEntity<FaUser> parameter) {
+        public Result query(@RequestBody QueryEntity<TableUser> parameter) {
                 if(StringUtils.isBlank(parameter)){
                         throw new ParamIsNullException();
                 }
@@ -65,12 +64,6 @@ public class FaUserController {
         public Result batchDelete(@RequestBody List<String> ids) {
 
                 return doService.deleteBatch(ids);
-        }
-
-        @ApiOperation("查询")
-        @PostMapping("/listTree")
-        public Result listTree(@PathVariable String id) {
-                return  doService.listTree(id);
         }
 }
 

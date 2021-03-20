@@ -1,6 +1,6 @@
-package com.dhlg.module.familyTree.faTable.service;
+package com.dhlg.module.familyTree.tableUser.service;
 
-import com.dhlg.module.familyTree.faTable.entity.FaTable;
+import com.dhlg.module.familyTree.tableUser.entity.TableUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
@@ -15,17 +15,16 @@ import java.util.List;
  * @author xu
  * @since
  */
-public interface IFaTableService extends IService<FaTable> {
+public interface ITableUserService extends IService<TableUser> {
 
-    Result saveOrUpdateCommon(FaTable faTable);
+    Result saveOrUpdateCommon(TableUser tableUser);
 
     Result delete(String id);
 
     Result deleteBatch(List<String> ids);
 
-    Result query(QueryEntity<FaTable> parameter);
+    Result query(QueryEntity<TableUser> parameter);
 
     Result query(String id);
 
-    Result getCallPhoto(String id);
 }

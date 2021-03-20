@@ -21,8 +21,8 @@ remark,update_time,name,create_user,create_time,id,code,update_user,password    
 
     <select id="queryByCondition" parameterType="com.dhlg.module.familyTree.faTable.entity.FaTable" 
     resultType="com.dhlg.module.familyTree.faTable.entity.FaTable">
-        select *
-        from fa_table t
+        select t.*,u.name as createUserName
+        from fa_table t left join fa_user u on u.id = t.create_user
         <trim prefix="where" prefixOverrides="and">
             <if test="params.code != null and params.code !=''">
                 and t.code like concat('%',#{params.code},'%')

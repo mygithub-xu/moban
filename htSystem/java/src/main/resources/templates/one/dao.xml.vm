@@ -16,7 +16,7 @@
 
     <select id="queryByCondition" parameterType="$!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.entity.$!{projModel._TableName}" 
     resultType="$!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.entity.$!{projModel._TableName}">
-        select *
+        select t.*
         from $!{projModel.table_name} t
         <trim prefix="where" prefixOverrides="and">
         #foreach ($item in $queryList)

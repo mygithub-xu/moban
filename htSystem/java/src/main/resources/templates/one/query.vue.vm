@@ -164,7 +164,7 @@ export default {
                 })
             #end
             #if($item.fieldIsBeRelated == '1')
-                this.${http}.post("$!{item.apiUrl}",{
+                this.${http}.post("$!{item.apiUrl}/query",{
                        condition: {},
                        number: 1,
                        size: 999

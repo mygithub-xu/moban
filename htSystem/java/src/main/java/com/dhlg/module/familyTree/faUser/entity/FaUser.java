@@ -73,7 +73,7 @@ public class FaUser implements Serializable {
         @TableField("create_time")
         private Date createTime;
         /**
-         * 上级用户
+         * 父母id
          */
         @TableField("parent_id")
         private String parentId;
@@ -109,19 +109,24 @@ public class FaUser implements Serializable {
         @TableField("live_state")
         private String liveState;
         /**
-         * 与fa_table关联
-         */
-        @TableField("fa_table_id")
-        private String faTableId;
-        /**
          * 密码
          */
         @TableField("password")
         private String password;
+        /**
+         * 密码
+         */
+        @TableField("home_rank")
+        private String homeRank;
         /**
          * 出生日期
          */
         @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
         @TableField("birthday_date")
         private Date birthdayDate;
+        /**
+         * 称谓
+         */
+        @TableField(exist = false)
+        private String call;
 }

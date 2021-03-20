@@ -27,5 +27,5 @@ public interface IFaUserService extends IService<FaUser> {
 
     Result query(String id);
 
-    Result listTree();
+    Result listTree(String id);
 }

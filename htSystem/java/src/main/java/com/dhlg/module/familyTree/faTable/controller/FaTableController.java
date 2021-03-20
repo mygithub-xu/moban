@@ -62,8 +62,13 @@ public class FaTableController {
         @ApiOperation("批量删除（物理删除）")
         @PostMapping("/batchDelete")
         public Result batchDelete(@RequestBody List<String> ids) {
-
                 return doService.deleteBatch(ids);
+        }
+
+        @ApiOperation("组成称谓图")
+        @PostMapping("/getCallPhoto")
+        public Result getCallPhoto(@PathVariable String id) {
+                return doService.getCallPhoto(id);
         }
 }
 

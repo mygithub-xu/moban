@@ -8,6 +8,11 @@ package com.dhlg.utils;
  **/
 
 public interface Dictionaries {
+    // 男
+    String MAN = "0";
+    String WOMAN = "1";
+
+
     String COMMONTRUE = "1";
     String COMMONFALSE = "0";
     //代码生成--start
