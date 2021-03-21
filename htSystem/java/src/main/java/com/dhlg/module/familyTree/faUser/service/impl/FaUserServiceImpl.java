@@ -98,8 +98,14 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
         FaUser me = userMap.get(userId);
         // 给称谓
         me.setCall("I");
+        me.setX(0);
+        me.setY(0);
         // 生长
         growUser(userMap,userId);
+        users.clear();
+        for (String key : userMap.keySet()) {
+            users.add(userMap.get(key));
+        }
         return users;
     }
 
@@ -111,9 +117,12 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
         if (!StringUtils.isBlank(parents)&&StringUtils.isBlank(parents.getCall())){
             // 判断是父亲（father）还是母亲(mather)
             String sex = parents.getGender().equals(Dictionaries.MAN)?"f":"m";
+            // 称谓
             parents.setCall(me.getCall()+sex);
-            //装载
-            userMap.put(parents.getId(),parents);
+            // 在x轴坐标
+            parents.setX(me.getX());
+            // 在y轴坐标
+            parents.setY(me.getX()+2);
             // 生长
             growUser(userMap,parents.getId());
         }
@@ -121,12 +130,14 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
         FaUser spouse = userMap.get(me.getSpouseId());
         if (!StringUtils.isBlank(spouse)&&StringUtils.isBlank(spouse.getCall())){
             // 判断是妻子（wife）还是丈夫（husband）
-            String sex = spouse.getGender().equals(Dictionaries.MAN)?"w":"h";
+            String sex = spouse.getGender().equals(Dictionaries.MAN)?"h":"w";
             spouse.setCall(me.getCall()+sex);
-            //装载
-            userMap.put(spouse.getId(),spouse);
+            // 在x轴坐标
+            spouse.setX(me.getX()+2);
+            // 在y轴坐标
+            spouse.setY(me.getX());
             // 生长
-            growUser(userMap,parents.getId());
+            growUser(userMap,spouse.getId());
         }
         // 孩子
         List<FaUser> children = new ArrayList<>();
@@ -142,9 +153,11 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
                     // 判断是儿子（son）还是女儿(daughter)
                     String sex = child.getGender().equals(Dictionaries.MAN)?"s":"d";
                     child.setCall(me.getCall()+sex);
+                    // 在x轴坐标
+                    spouse.setX(me.getX());
+                    // 在y轴坐标
+                    spouse.setY(me.getX()-2);
                 }
-                //装载
-                userMap.put(child.getId(),child);
                 // 生长
                 growUser(userMap,child.getId());
             }

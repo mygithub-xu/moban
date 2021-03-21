@@ -129,4 +129,14 @@ public class FaUser implements Serializable {
          */
         @TableField(exist = false)
         private String call;
+        /**
+         * 在x轴上的
+         */
+        @TableField(exist = false)
+        private int x;
+        /**
+         * 在y轴上
+         */
+        @TableField(exist = false)
+        private int y;
 }

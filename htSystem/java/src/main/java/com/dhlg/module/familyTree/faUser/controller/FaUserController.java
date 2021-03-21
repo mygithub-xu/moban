@@ -68,7 +68,7 @@ public class FaUserController {
         }
 
         @ApiOperation("查询")
-        @PostMapping("/listTree")
+        @GetMapping("/listTree/{id}")
         public Result listTree(@PathVariable String id) {
                 return  doService.listTree(id);
         }
