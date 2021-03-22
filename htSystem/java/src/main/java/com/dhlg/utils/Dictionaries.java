@@ -8,6 +8,10 @@ package com.dhlg.utils;
  **/
 
 public interface Dictionaries {
+    // 生长方向 左
+    String GROWLEFT = "0";
+    // 生长方向 右
+    String GROWRIGHT = "0";
     // 男
     String MAN = "0";
     String WOMAN = "1";

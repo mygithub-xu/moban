@@ -33,6 +33,9 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
     @Autowired
     FaUserMapper doMapper;
 
+    final int XN = 8;
+    final int YN = 8;
+
     @Override
     public Result saveOrUpdateCommon(FaUser faUser) {
         //判断新增还是修改
@@ -98,10 +101,12 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
         FaUser me = userMap.get(userId);
         // 给称谓
         me.setCall("I");
-        me.setX(0);
-        me.setY(0);
+        HashMap<Integer, ArrayList<Integer>> placeMap = new HashMap<>();
+        ArrayList<Integer> placeList = new ArrayList<>();
+        placeList.add(0);
+        placeMap.put(0, placeList);
         // 生长
-        growUser(userMap,userId);
+        growUser(userMap,userId,placeMap,Dictionaries.GROWLEFT);
         users.clear();
         for (String key : userMap.keySet()) {
             users.add(userMap.get(key));
@@ -109,7 +114,17 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
         return users;
     }
 
-    private void growUser(HashMap<String, FaUser> userMap, String userId) {
+    /**
+     *
+     * @param userMap 装填用户实体
+     * @param userId 用户id
+     * @param placeMap 每一行所含有的坐标
+     * @param growDire 生长方向
+     * @date 2021/3/22 16:40
+     * @author xu
+     * @return void
+     */
+    private void growUser(HashMap<String, FaUser> userMap, String userId, HashMap<Integer, ArrayList<Integer>> placeMap,String growDire) {
         // 找出我身边的
         FaUser me = userMap.get(userId);
         // 父母
@@ -119,25 +134,30 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
             String sex = parents.getGender().equals(Dictionaries.MAN)?"f":"m";
             // 称谓
             parents.setCall(me.getCall()+sex);
-            // 在x轴坐标
-            parents.setX(me.getX());
             // 在y轴坐标
-            parents.setY(me.getX()+2);
+            parents.setY(me.getY()+YN);
+            // 在x轴坐标
+            parents.setX(getXLength(me.getX(),parents.getY(),placeMap));
             // 生长
-            growUser(userMap,parents.getId());
+            growUser(userMap,parents.getId(),placeMap,growDire);
         }
         // 配偶
         FaUser spouse = userMap.get(me.getSpouseId());
         if (!StringUtils.isBlank(spouse)&&StringUtils.isBlank(spouse.getCall())){
             // 判断是妻子（wife）还是丈夫（husband）
-            String sex = spouse.getGender().equals(Dictionaries.MAN)?"h":"w";
+            boolean isMan = spouse.getGender().equals(Dictionaries.MAN);
+            String sex = isMan?"h":"w";
             spouse.setCall(me.getCall()+sex);
-            // 在x轴坐标
-            spouse.setX(me.getX()+2);
             // 在y轴坐标
-            spouse.setY(me.getX());
+            spouse.setY(me.getY());
+            //修改生长方向,主线的夫妻均在右
+            if (me.getX() == 0){
+                growDire = Dictionaries.GROWRIGHT;
+            }
+            // 在x轴坐标
+            spouse.setX(getXLength(isMan?me.getX()-XN:me.getX()+XN,spouse.getY(),placeMap,growDire));
             // 生长
-            growUser(userMap,spouse.getId());
+            growUser(userMap,spouse.getId(),placeMap,growDire);
         }
         // 孩子
         List<FaUser> children = new ArrayList<>();
@@ -147,21 +167,36 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
                 children.add(value);
             }
         }
-        if (!StringUtils.isBlank(children)&&children.size()>0){
+        if (!StringUtils.isBlank(children)&&children.isEmpty()){
             for (FaUser child:children) {
                 if (StringUtils.isBlank(child.getCall())){
                     // 判断是儿子（son）还是女儿(daughter)
                     String sex = child.getGender().equals(Dictionaries.MAN)?"s":"d";
                     child.setCall(me.getCall()+sex);
-                    // 在x轴坐标
-                    spouse.setX(me.getX());
                     // 在y轴坐标
-                    spouse.setY(me.getX()-2);
+                    child.setY(me.getX()-2);
+                    // 在x轴坐标
+                    child.setX(getXLength(me.getX(),child.getY(),placeMap));
                 }
                 // 生长
-                growUser(userMap,child.getId());
+                growUser(userMap,child.getId(),placeMap,growDire);
             }
         }
+    }
+
+    private int getXLength(int x,int y, HashMap<Integer, ArrayList<Integer>> placeMap) {
+        //记录X坐标
+        ArrayList<Integer> integers = placeMap.get(y);
+        if (StringUtils.isBlank(integers)){
+            integers = new ArrayList<>();
+            integers.add(x);
+            return x;
+        }
+        if (!integers.contains(x)){
+            integers.add(x);
+            return x;
+        }
+        return getXLength(x/2,y,placeMap);
     }
 
     @Override

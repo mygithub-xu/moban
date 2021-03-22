@@ -114,7 +114,7 @@ public class FaUser implements Serializable {
         @TableField("password")
         private String password;
         /**
-         * 密码
+         * 家庭排名
          */
         @TableField("home_rank")
         private String homeRank;
@@ -139,4 +139,9 @@ public class FaUser implements Serializable {
          */
         @TableField(exist = false)
         private int y;
+        /**
+         * 在y轴上
+         */
+        @TableField(exist = false)
+        private int layered;
 }
