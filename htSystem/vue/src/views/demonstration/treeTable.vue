@@ -1,14 +1,14 @@
 <template>
     <div class="app-container-tree">
-    
                     <div class="tree-area">
                         <div class="common-header">
                             <span class="common-header-title">
                                 我是标题
                             </span>
                         </div>
-
+                        <el-scrollbar style="width:100%">
                         <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"> </el-tree>
+                        </el-scrollbar>
                     </div>
 
                     <div class="table-area">

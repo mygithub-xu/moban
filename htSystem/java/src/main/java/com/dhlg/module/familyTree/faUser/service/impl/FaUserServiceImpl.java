@@ -155,7 +155,7 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
                 growDire = Dictionaries.GROWRIGHT;
             }
             // 在x轴坐标
-            spouse.setX(getXLength(isMan?me.getX()-XN:me.getX()+XN,spouse.getY(),placeMap,growDire));
+//            spouse.setX(getXLength(isMan?me.getX()-XN:me.getX()+XN,spouse.getY(),placeMap,growDire));
             // 生长
             growUser(userMap,spouse.getId(),placeMap,growDire);
         }
