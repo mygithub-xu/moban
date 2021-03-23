@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dhlg.module.familyTree.faUser.entity.FaUser;
 import com.dhlg.module.familyTree.faUser.dao.FaUserMapper;
+import com.dhlg.module.familyTree.faUser.entity.HomeLink;
 import com.dhlg.module.familyTree.faUser.service.IFaUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.Dictionaries;
@@ -35,7 +36,7 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
 
     final int XN = 8;
     final int YN = 4;
-
+    List<HomeLink> homeLinks;
     @Override
     public Result saveOrUpdateCommon(FaUser faUser) {
         //判断新增还是修改
@@ -83,13 +84,18 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
     @Override
     public Result listTree(String id) {
         // 找到当前用户id
-        String userId = "1";
+        String userId = "2";
         // 找到该族谱用户
         List<FaUser> users = doMapper.queryByTaleId(id);
-        // 形成族谱Tree
-        List<FaUser> faUserList = createdTree(users,userId);
+        //清空
+        homeLinks = new ArrayList<>();
+        // 形成族谱数据和两点结合数组
+        createdTree(users,userId);
+        HashMap<String, Object> data = new HashMap<>();
 
-        return Result.success(faUserList);
+        data.put("homeList",users);
+        data.put("homeLinks",homeLinks);
+        return Result.success(data);
     }
 
     private List<FaUser> createdTree(List<FaUser> users,String userId) {
@@ -126,6 +132,8 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
             int goX = 0;
             if (Dictionaries.GROWLEFT.equals(split[1])){
                 for (FaUser fa:userList) {
+
+
                     if (fa.getX()!=0){
                         goX = goX - XN;
                         users.get(fa.getId()).setX(goX);
@@ -137,12 +145,11 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
             }else {
                 for (FaUser fa:userList) {
                     if (fa.getX()!=0){
+                        goX = goX + XN;
                         users.get(fa.getId()).setX(goX);
                     }
-                    goX = goX + XN;
                 }
             }
-
         }
     }
 
@@ -159,6 +166,8 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
     private void growUser(HashMap<String, FaUser> userMap, String userId, HashMap<String, ArrayList<FaUser>> placeMap,String growDire) {
         // 找出我身边的
         FaUser me = userMap.get(userId);
+        // 构造连接数据
+        creatLinkList(me);
         // 父母
         FaUser parents = userMap.get(me.getParentId());
         if (!StringUtils.isBlank(parents)&&StringUtils.isBlank(parents.getCall())){
@@ -207,6 +216,7 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
             }
         }
         if (!StringUtils.isBlank(children)&&children.size()>0){
+            boolean flag = true;
             int xnle = Dictionaries.GROWLEFT.equals(growDire)?-XN:XN;
             for (FaUser child:children) {
                 if (StringUtils.isBlank(child.getCall())){
@@ -215,7 +225,12 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
                     child.setCall(me.getCall()+sex);
                     // 在y轴坐标
                     child.setY(me.getY()-YN);
-                    child.setX(me.getX()+xnle);
+                    if (flag&&child.getY()<0){
+                        child.setX(me.getX());
+                        flag = false;
+                    }else {
+                        child.setX(me.getX()+xnle);
+                    }
                     // 添加每一层的实体
                     addent(placeMap,child.getY() + ";" + growDire,child);
                     // 生长
@@ -226,6 +241,24 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
         }
     }
 
+    private void creatLinkList(FaUser me) {
+        // 添加父（母）子
+        if (!StringUtils.isBlank(me.getParentId())){
+            addLink(me.getId(),me.getParentId());
+        }
+        // 添加夫妻
+        if (!StringUtils.isBlank(me.getSpouseId())){
+            addLink(me.getId(),me.getSpouseId());
+        }
+    }
+
+    private void addLink(String sourceId, String targetId) {
+        HomeLink homeLink = new HomeLink();
+        homeLink.setSource(sourceId);
+        homeLink.setTarget(targetId);
+        homeLinks.add(homeLink);
+    }
+
     private void addent(HashMap<String, ArrayList<FaUser>> placeMap, String s,FaUser u) {
         ArrayList<FaUser> faUsers = placeMap.get(s);
         if (StringUtils.isBlank(faUsers)){
@@ -233,21 +266,6 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
         }
         faUsers.add(u);
         placeMap.put(s,faUsers);
-    }
-
-    private int getXLength(int x,int y, HashMap<Integer, ArrayList<Integer>> placeMap) {
-        //记录X坐标
-        ArrayList<Integer> integers = placeMap.get(y);
-        if (StringUtils.isBlank(integers)){
-            integers = new ArrayList<>();
-            integers.add(x);
-            return x;
-        }
-        if (!integers.contains(x)){
-            integers.add(x);
-            return x;
-        }
-        return getXLength(x/2,y,placeMap);
     }
 
     @Override

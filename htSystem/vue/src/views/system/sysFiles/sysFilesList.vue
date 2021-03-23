@@ -1,5 +1,6 @@
 <template>
     <div class="app-container">
+      <el-scrollbar style="width:100%">
         <div class="container-table">
           <!-- 区域一 查询区域 -->
           <div class="container-btn" >
@@ -17,7 +18,7 @@
           </div>
           <!-- 区域二---表格+分页 -->
           <div class="common-table-style">
-          <el-table :data="pageData.list" :row-style="{height:'50px'}" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange" height="100%">
+          <el-table :data="pageData.list" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange">
             <el-table-column type="selection"  fixed width="55"  align="center" show-overflow-tooltip></el-table-column>
             <el-table-column type="index" width="55" label="序号" align="center" v-if="xuhao" show-overflow-tooltip></el-table-column>
             <el-table-column prop="url" min-width="75" label="图片缩略图" align="center" show-overflow-tooltip>
@@ -42,7 +43,6 @@
           </div>
           </div>
         </div>
-
         <el-dialog
           title="图片上传"
           :visible.sync="editVisible"
@@ -60,7 +60,7 @@
             <el-button @click="handleClose2">关闭</el-button>
           </span>
         </el-dialog>
-        
+        </el-scrollbar>
     </div>
 </template>
 <script>

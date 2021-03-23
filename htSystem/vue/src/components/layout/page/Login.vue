@@ -1,27 +1,32 @@
 <template>
-  <div  class="login-body">
-    <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
+  <div  class="login-contain">
+    <div class="login-body">
+      <div class="login-box">
+      </div>
+      <div class="login-out-form">
+      <div class="login-form">
       <h3 class="login-title">欢迎登录</h3>
-      <el-form-item label="账号ccc" prop="userName">
-        <el-input type="text" placeholder="请输入账号" v-model="form.userName"/>
-      </el-form-item>
-      <el-form-item label="密码ccc" prop="passWord">
-        <el-input  show-password placeholder="请输入密码" v-model="form.passWord" @keyup.enter.native="onSubmit('loginForm')"/>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit('loginForm')" >登录</el-button>
-      </el-form-item>
-
-    </el-form>
-
-
+      <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" style="margin: 80px 10px;">
+            <el-form-item label="账号ccc" prop="userName">
+              <el-input type="text" placeholder="请输入账号" v-model="form.userName"/>
+            </el-form-item>
+            <el-form-item label="密码ccc" prop="passWord">
+              <el-input  show-password placeholder="请输入密码" v-model="form.passWord" @keyup.enter.native="onSubmit('loginForm')"/>
+            </el-form-item>
+            <div class="login-button">
+              <el-button type="primary" @click="onSubmit('loginForm')" style="width:40%">登录</el-button>
+            </div>
+              
+      </el-form>
+      </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
     name: "Login",
-
     data() {
       return {
         form: {
@@ -29,7 +34,6 @@
           passWord: 'whfch123',
           fullscreenLoading:false
         },
-
         // 表单验证，需要在 el-form-item 元素中增加 prop 属性
         rules: {
           userName: [
@@ -46,7 +50,6 @@
 
     methods: {
       onSubmit(formName) {
-        
         // 为表单绑定验证功能
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -58,11 +61,8 @@
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         });
-
             this.$http.post(this.api.login,this.form).then(res=>{
               if (res.data.code == '200') {
-
-                
                 //更新登录状态,true为第一次登录。
                 this.$store.dispatch('changeLoginStatusFun',true);
 
@@ -102,7 +102,6 @@
                 }
 
               }
-
             loading.close();
               // this.fullscreenLoading=false;
             }).catch(() => {
@@ -116,33 +115,55 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  .login-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -200px;
-    margin-left: -175px;
-    padding: 35px 35px 15px 35px;
-    border: 1px solid #DCDFE6;
-    width: 350px;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    box-shadow: 0 0 25px #909399;
-    background-color: #ffffff;
-    opacity:0.7;
-  }
-  .login-body{
+<style scoped>
+  .login-contain{
     width: 100%;
     height: 100%;
-    position: relative;
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center;     /* 垂直居中 */
+    background-color: #f3f3f3;
+  }
+  .login-body{
+    height: 80%;
+    width: 60%;
+    max-height:  500px;;
+    max-width: 820px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    background-image: url('https://www.whfch.icu/resources/8476443.jpg');
     background-size:100% 100%;
   }
-
+  .login-box {
+    flex: 1;
+  }
+  .login-out-form{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-form{
+    height: 80%;
+    width: 90%;
+    max-height: 450px;
+    background-color: #f3f3f3;
+    opacity: 0.9;
+  }
+  .login-in-form{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+  }
   .login-title {
     text-align: center;
-    margin: 0 auto 40px auto;
-    color: #303133;
+    margin: 20px 0;
+  }
+  .login-button{
+    justify-content: center;
+    display: flex;
   }
 </style>
