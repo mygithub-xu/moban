@@ -35,7 +35,7 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
     FaUserMapper doMapper;
 
     final int XN = 8;
-    final int YN = 4;
+    final int YN = 8;
     List<HomeLink> homeLinks;
     @Override
     public Result saveOrUpdateCommon(FaUser faUser) {
@@ -116,7 +116,6 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
         // 生长
         growUser(userMap,userId,placeMap,Dictionaries.GROWLEFT);
         insertXY(userMap,placeMap);
-        System.out.println(userMap);
         users.clear();
         for (String key : userMap.keySet()) {
             users.add(userMap.get(key));
@@ -130,26 +129,23 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
             List<FaUser> userList = placeMap.get(key);
             String[] split = key.split(";");
             int goX = 0;
-            if (Dictionaries.GROWLEFT.equals(split[1])){
-                for (FaUser fa:userList) {
-
-
+            for (FaUser fa:userList) {
+                if (Dictionaries.GROWLEFT.equals(split[1])){
                     if (fa.getX()!=0){
                         goX = goX - XN;
                         users.get(fa.getId()).setX(goX);
                     }else {
                         users.get(fa.getId()).setX(0);
                     }
-
-                }
-            }else {
-                for (FaUser fa:userList) {
+                }else {
                     if (fa.getX()!=0){
                         goX = goX + XN;
                         users.get(fa.getId()).setX(goX);
                     }
                 }
+                users.get(fa.getId()).setY(-fa.getY());
             }
+
         }
     }
 
