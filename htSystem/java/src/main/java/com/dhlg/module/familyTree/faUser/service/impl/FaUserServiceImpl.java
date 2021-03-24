@@ -1,6 +1,5 @@
 package com.dhlg.module.familyTree.faUser.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dhlg.module.familyTree.faUser.entity.FaUser;
 import com.dhlg.module.familyTree.faUser.dao.FaUserMapper;
@@ -130,23 +129,35 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
             String[] split = key.split(";");
             int goX = 0;
             for (FaUser fa:userList) {
+                float k = getK(fa.getY());
                 if (Dictionaries.GROWLEFT.equals(split[1])){
                     if (fa.getX()!=0){
                         goX = goX - XN;
-                        users.get(fa.getId()).setX(goX);
+                        users.get(fa.getId()).setX(goX*k);
                     }else {
                         users.get(fa.getId()).setX(0);
                     }
                 }else {
                     if (fa.getX()!=0){
                         goX = goX + XN;
-                        users.get(fa.getId()).setX(goX);
+                        users.get(fa.getId()).setX(goX*k);
                     }
                 }
                 users.get(fa.getId()).setY(-fa.getY());
             }
 
         }
+    }
+
+    private float getK(float x) {
+        float k = x/YN;
+        if (k == 0){
+            k = 1;
+        }
+        if (k < 0){
+            k = 1/((-k)*2);
+        }
+        return k;
     }
 
     /**
