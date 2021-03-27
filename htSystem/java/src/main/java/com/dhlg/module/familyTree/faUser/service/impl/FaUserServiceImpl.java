@@ -149,15 +149,15 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
         }
     }
 
-    private float getK(float x) {
-        float k = x/YN;
+    private float getK(float y) {
+        float k = y/YN;
         if (k == 0){
-            k = 1;
+            return 1;
         }
         if (k < 0){
-            k = 1/((-k)*2);
+            return  1/((-k)*2);
         }
-        return k;
+        return k+1;
     }
 
     /**
