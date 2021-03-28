@@ -15,7 +15,7 @@ axios.interceptors.request.use(
     const token = sessionStorage.getItem("Token")
     // 将tokexn设置到headers中
     if (token) {
-        config.headers['Authorization'] = token;
+        config.headers['dh-Token'] = token;
     }
     return config
   },

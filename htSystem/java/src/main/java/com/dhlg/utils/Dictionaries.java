@@ -48,7 +48,7 @@ public interface Dictionaries {
     /**
      * token的key
      */
-    String ACCESS_TOKEN = "Authorization";
+    String ACCESS_TOKEN = "dh-Token";
 
     String FAILED_CODE= "400";
 

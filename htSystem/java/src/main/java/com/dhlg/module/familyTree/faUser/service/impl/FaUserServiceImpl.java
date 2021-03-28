@@ -1,6 +1,6 @@
 package com.dhlg.module.familyTree.faUser.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dhlg.module.familyTree.faUser.entity.FaUser;
 import com.dhlg.module.familyTree.faUser.dao.FaUserMapper;

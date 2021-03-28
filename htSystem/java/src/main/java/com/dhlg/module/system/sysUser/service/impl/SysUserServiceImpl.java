@@ -149,7 +149,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (StringUtils.isBlank(sysUser.getId())){
             sysUser.setId(StringUtils.uuid());
             //新增,1.判断账号名是否重名
-
             boolean isRepeat=verificationProperty.lockAndVerify(sysUser, SysUser.LOGIN_USER,sysUser.getId());
             if (isRepeat){
                 throw new UncheckedException(Dictionaries.NAME_REPETITION,Dictionaries.NAME_REPETITION,Dictionaries.NAME_REPETITION);
