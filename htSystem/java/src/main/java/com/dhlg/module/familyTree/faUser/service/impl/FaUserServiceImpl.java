@@ -130,23 +130,35 @@ public class FaUserServiceImpl extends ServiceImpl<FaUserMapper, FaUser> impleme
             String[] split = key.split(";");
             int goX = 0;
             for (FaUser fa:userList) {
+                float k = getK(fa.getY());
                 if (Dictionaries.GROWLEFT.equals(split[1])){
                     if (fa.getX()!=0){
                         goX = goX - XN;
-                        users.get(fa.getId()).setX(goX);
+                        users.get(fa.getId()).setX(goX*k);
                     }else {
                         users.get(fa.getId()).setX(0);
                     }
                 }else {
                     if (fa.getX()!=0){
                         goX = goX + XN;
-                        users.get(fa.getId()).setX(goX);
+                        users.get(fa.getId()).setX(goX*k);
                     }
                 }
                 users.get(fa.getId()).setY(-fa.getY());
             }
 
         }
+    }
+
+    private float getK(float y) {
+        float k = y/YN;
+        if (k == 0){
+            return 1;
+        }
+        if (k < 0){
+            return  1/((-k)*2);
+        }
+        return k+1;
     }
 
     /**

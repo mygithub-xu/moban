@@ -7,9 +7,11 @@
                     菜单
                 </span>
             </div>
-            <el-tree   ref="attrList" :data="treeData"  :props="props1"  accordion  default-expand-all
+            <el-scrollbar style="width:100%">
+            <el-tree   ref="attrList" :data="treeData"  :props="props1"  accordion
                 @node-click="handleNodeClick"  node-key="id" :default-expanded-keys="defaultExpandKeys" :highlight-current="isShowGaoliang">
             </el-tree>
+             </el-scrollbar>
         </div>
         <div class="table-area">
           <div class="common-header">
@@ -29,7 +31,6 @@
           <div class="treeTable-from">
             <el-form :model="currentRes" ref="currentRes" class="form-search"  label-width="100px"
               label-position="right" :disabled="!editState">
-              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
                 <el-form-item label="是否含有下级" prop="isChildren">
                   <el-select v-model="currentRes.isChildren" style="width:11rem" @change="handleIsChildrenOption">
                     <el-option v-for="item in isChildrenOptions" :key="item.value" :label="item.label"
@@ -37,66 +38,47 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
-              </el-col>
-              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8">
                 <el-form-item label="上级菜单" prop="parentId" style="width:84.2%">
                   <treeSelect v-model="currentRes.parentId" :readonly="!editState" :disabled="!editState" :data="treeSelectdata" label="menuName" />
                 </el-form-item>
-              </el-col>
-              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
                 <el-form-item label="编码" prop="menuCode">
                   <el-input type="text" style="width:11rem" v-model="currentRes.menuCode" placeholder="编码"></el-input>
                 </el-form-item>
-              </el-col>
-              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
                 <el-form-item label="名称" prop="menuName">
                   <el-input type="text" style="width:11rem" v-model="currentRes.menuName" placeholder="名称"></el-input>
                 </el-form-item>
-              </el-col>
-              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
-                    <el-form-item label="图标："  prop="icon" > 
-                      <el-popover
-                        placement="right"
-                        width="200"
-                        trigger="click"
-                        @show="Show()"
-                        :disabled='!visible'
-                        popper-class="popper-class">
-                        <my-icon ref="icons" v-show="visible" v-on:selected="selectedIcon" />
-                        <el-input slot="reference" placeholder="请输入图标名称" v-model="currentRes.icon" style="cursor: pointer;width:80%">
-                        <template slot="prepend"><i class="icon iconfont" :class="currentRes.icon"></i></template>
-                        </el-input>
-                      </el-popover>
-                      </el-form-item>
-              </el-col>
-              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
+                <el-form-item label="图标："  prop="icon" > 
+                  <el-popover
+                    placement="right"
+                    width="200"
+                    trigger="click"
+                    @show="Show()"
+                    :disabled='!visible'
+                    popper-class="popper-class">
+                    <my-icon ref="icons" v-show="visible" v-on:selected="selectedIcon" />
+                    <el-input slot="reference" placeholder="请输入图标名称" v-model="currentRes.icon" style="cursor: pointer;width:80%">
+                    <template slot="prepend"><i class="icon iconfont" :class="currentRes.icon"></i></template>
+                    </el-input>
+                  </el-popover>
+                </el-form-item>
                 <el-form-item label="路径" prop="url">
                   <el-input type="text" style="width:11rem" v-model="currentRes.url" placeholder="路径"></el-input>
                 </el-form-item>
-              </el-col>
-              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
                 <el-form-item label="启用状态" prop="status">
                   <el-select style="width:11rem" v-model="currentRes.status">
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                   </el-select>
                 </el-form-item>
-              </el-col>
-              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
                 <el-form-item label="创建人" prop="createUser">
                   <el-input style="width:11rem" type="text" v-model="currentRes.createUser" placeholder="创建人" readonly></el-input>
                 </el-form-item>
-              </el-col>
-              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
                 <el-form-item label="创建时间" prop="createTime">
                   <el-input style="width:11rem" type="text" v-model="currentRes.createTime" placeholder="创建时间" readonly></el-input>
                 </el-form-item>
-              </el-col>
-              <el-col :xs="12" :sm="24" :md="12" :lg="8" :xl="8" >
                 <el-form-item label="备注" prop="description">
                   <el-input style="width:11rem" type="text" v-model="currentRes.description" placeholder="备注" maxlength="400"></el-input>
                 </el-form-item>
-              </el-col>
             </el-form>
           </div>
        
@@ -646,34 +628,21 @@
 
 <style lang="scss" scoped>
 
-.el-form-item  .el-form-item__content>div{
-  width: 80%!important;
-}
+// .el-form-item  .el-form-item__content>div{
+//   width: 80%!important;
+// }
 .button-table{
   width: 100%;
   height: 400px;
 }
-.treeTable-from{
+.treeTable-from .el-form{
   width: 100%;
   height: 250px;
+  display: flex;
+  flex-direction: row-reverse;
 }
-// /deep/ .el-dialog__wrapper {
-//     position: absolute !important;
-// }
-
-// /deep/ .v-modal {
-//     position: absolute !important;
-// }
-
-// /deep/ .content {
-//     position: relative !important;
-// }
-// .sysMenyListWrap /deep/ .el-dialog{
-//     height: 70%!important;
-//     overflow: auto;
-// }
-/*.sysMenyListWrap .el-dialog__header {*/
-    /*display: none;*/
-/*}*/
+.treeTable-from .el-form-item{
+  width: 30%;
+}
 </style>
 

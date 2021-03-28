@@ -133,12 +133,12 @@ public class FaUser implements Serializable {
          * 在x轴上的
          */
         @TableField(exist = false)
-        private int x;
+        private float x;
         /**
          * 在y轴上
          */
         @TableField(exist = false)
-        private int y;
+        private float y;
         /**
          * 在y轴上
          */
