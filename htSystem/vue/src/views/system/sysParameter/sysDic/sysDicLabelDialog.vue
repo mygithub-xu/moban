@@ -1,5 +1,5 @@
 <template>
-  <div class="show-dialog dialog-table">
+  <div class="show-dialog">
     <el-dialog :visible.sync="labelVisible" :show-close="false" :modal="false" fullscreen>
     <div class="dialog-button">
         <el-button type="primary" @click="handleAdd" >新增</el-button>
@@ -47,6 +47,7 @@
     </el-dialog>
     <!-- 弹窗 -->
     <template v-if="editVisible">
+      <div class="dic_label">
       <el-dialog
         style="margin-top: 20px;"
         :rules="rules"  :show-close="false" :close-on-click-modal="false" :append-to-body="false" :visible.sync="editVisible" width="45%"  @close="cancelSave"  :modal="false" >
@@ -86,15 +87,10 @@
             </el-select>
           </el-form-item>
         </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button
-          type="primary"
-          v-has="'dicType:save'"
-          @click="handleSave">保 存
-          </el-button>
-          <el-button @click="cancelSave">返 回</el-button>
-        </span>
+        <el-button type="primary" v-has="'dicType:save'" @click="handleSave">保 存</el-button>
+        <el-button @click="cancelSave">返 回</el-button>
       </el-dialog>
+      </div>
     </template>
   </div>
 </template>
@@ -243,6 +239,9 @@ export default {
 <style >
 .dialog-table .el-dialog__body{
   height: calc(100% - 30px);
+}
+.dic_label{
+  
 }
 </style>
 

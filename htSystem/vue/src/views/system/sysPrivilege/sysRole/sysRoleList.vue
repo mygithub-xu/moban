@@ -35,7 +35,7 @@
             <el-table-column align="center" label="操作" >
               <template slot-scope="scope">
                   <el-button icon="el-icon-edit" type="text" class="green"  @click="handleEdit(scope.row)"></el-button>
-                  <el-button icon="el-icon-delete" v-has="'sysRole:delete'" type="text" class="red"@click="handleDelete(scope.row.id)"></el-button>
+                  <el-button icon="el-icon-delete" v-has="'sysRole:delete'" type="text" class="red" @click="handleDelete(scope.row.id)"></el-button>
                   <el-button icon="el-icon-edit" type="text" class="green"  @click="handleRole(scope.row.id)">权限配置</el-button>
               </template>
             </el-table-column>
@@ -220,7 +220,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-          this.$http.delete(this.api.deleteById + this.id).then(res => {
+          this.$http.delete(this.api.roleDeleteById + id).then(res => {
             if (res.data && res.data.code == "200") {
               this.$message({
                 message: "删除数据成功",

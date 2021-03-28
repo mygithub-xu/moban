@@ -1,70 +1,29 @@
 <template>
 <!-- 系统配置---全局参数---按钮配置 -->
   <div class="app-container" style="flex-direction: column;">
-    <div class="container">
-      <div class="container_btn" >
-        <span>
+    <el-scrollbar style="width:100%">
+    <div class="container-table">
+      <div class="container-btn" >
+        <span class="container-btn-left">
           <el-button type="primary" size="small"  @click="handleAdd">新增</el-button>
-          <el-button
-            type="danger"
-            size="small"
-            :disabled="dicDisabled"
-            v-has="'buttonConfig:batchDelete'"
-            @click="handleDeleteBatch"
-          >删除</el-button>
+          <el-button type="danger" size="small" :disabled="dicDisabled" v-has="'buttonConfig:batchDelete'" @click="handleDeleteBatch">删除</el-button>
         </span>
-        <span class="handle-box" style="float:right">
-          <el-input
-            v-model="selectWord"
-            placeholder="按钮名称/编码"
-            class="handle-input mr10"
-            style="width: 200px;"
-            clearable
-          ></el-input>
-          <el-button type="primary" size="small" icon="search" buttonCode="TY001" @click="search">查询</el-button>
-          <el-button size="small" type="text" buttonCode="TY002" @click="reset">重置</el-button>
-          <el-row class="tac">
-            <el-col :span="24">
-              <el-dropdown trigger="click" :hide-on-click="false">
-                <div class="el-icon-menu"></div>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
-                    <el-checkbox v-model="btnNum">按钮编码</el-checkbox>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-checkbox v-model="btnName">按钮名称</el-checkbox>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-checkbox v-model="btnDes">备注</el-checkbox>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </el-col>
-          </el-row>
+        <span class="container-btn-right">
+          <el-input v-model="selectWord" placeholder="按钮名称/编码" class="handle-input" style="width: 200px;" clearable></el-input>
+          <el-button type="primary" size="small" icon="search" style="margin-left:10px" @click="search">查询</el-button>
+          <el-button size="small" type="text" @click="reset">重置</el-button>
         </span>
       </div>
-      <el-table
-        :data="pageData.list"
-        border
-        class="table"
-        ref="multipleTable"
-        align="center"
-        @selection-change="handleSelectionChange"
-        height="100%"
-      >
+      <div class="common-table-style">
+      <el-table :data="pageData.list" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange">
         <el-table-column type="selection" min-width="35" align="center" show-overflow-tooltip></el-table-column>
         <el-table-column type="index" width="55" label="序号" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="buttonCode" label="按钮编码" align="center" v-if="btnNum" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="buttonName" label="按钮名称" align="center" v-if="btnName" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="description" label="备注" align="center" v-if="btnDes" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="buttonCode" label="按钮编码" align="center"  show-overflow-tooltip></el-table-column>
+        <el-table-column prop="buttonName" label="按钮名称" align="center"  show-overflow-tooltip></el-table-column>
+        <el-table-column prop="description" label="备注" align="center"  show-overflow-tooltip></el-table-column>
         <el-table-column label="操作" min-width="250" align="center" show-overflow-tooltip>
           <template slot-scope="scope">
-            <el-button
-              type="text"
-              icon="el-icon-edit"
-              @click="handleEdit(scope.row)"
-              buttonCode="TY010"
-            >编辑</el-button>
+            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)" >编辑</el-button>
             <el-button
               type="text"
               icon="el-icon-delete"
@@ -76,6 +35,7 @@
           </template>
         </el-table-column>
       </el-table>
+      </div>
       <div class="pagination">
         <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
       </div>
@@ -137,8 +97,7 @@
         </el-row>
       </el-dialog>
     </div>
-
-
+    </el-scrollbar>
   </div>
 </template>
 <script>

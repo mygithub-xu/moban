@@ -68,7 +68,7 @@ public class SysRoleController {
 
     @RequiresPermissions("sysRole:delete")
     @ApiOperation("删除角色")
-    @PostMapping ("/deleteById/{id}")
+    @DeleteMapping ("/deleteById/{id}")
     public Result deleteById(@PathVariable String id) {
         if (StringUtils.isBlank(id)) {
             throw new ParamIsNullException();

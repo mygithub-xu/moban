@@ -3,88 +3,39 @@
   <div class="app-container">
     <el-scrollbar style="width:100%">
     <div class="container-table">
-
       <div class="container-btn">
         <span class="container-btn-left">
           <el-button type="primary"  @click="handleTypeAdd">新增</el-button>
           <!--<el-button type="warning" size="small" @click="typeEditVisible = true">弹框测试</el-button>-->
-          <el-button
-            type="danger"
-            
-            :disabled="dicTypeDisabled"
-            @click="handleTypeDeleteBatch"
-            v-has="'sysdic:batchDelete'"
-          >删除</el-button>
+          <el-button type="danger" :disabled="dicTypeDisabled" @click="handleTypeDeleteBatch" v-has="'sysdic:batchDelete'">删除</el-button>
         </span>
-
         <span class="container-btn-right">
-          <el-input
-            v-model="selectWord"
-            placeholder="字典名称/类型"
-            style="width:200px"
-            clearable
-          ></el-input>
-          <el-button type="primary" size="small" icon="search"  @click="search" >查询</el-button>
+          <el-input v-model="selectWord" placeholder="字典名称/类型" style="width:200px" clearable></el-input>
+          <el-button type="primary" size="small" icon="search" style="margin-left:10px" @click="search" >查询</el-button>
           <el-button size="small" type="text" @click="reset" >重置</el-button>
         </span>
       </div>
-
-
       <div class="common-table-style">
-      <el-table
-        :data="pageData.list"
-        border
-        ref="multipleTable"
-        @selection-change="handleTypeSelectionChange"
-      >
-        <el-table-column type="selection" min-width="35" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column type="index" min-width="35" label="序号" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="dicType" label="字典类型" align="center" v-if="btnType" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="status" label="状态" align="center" min-width="100px" v-if="btnStatus" show-overflow-tooltip>
+      <el-table :data="pageData.list" border ref="multipleTable" @selection-change="handleTypeSelectionChange">
+        <el-table-column type="selection" min-width="35" align="center" ></el-table-column>
+        <el-table-column type="index" min-width="35" label="序号" align="center" ></el-table-column>
+        <el-table-column prop="dicType" label="字典类型" align="center" ></el-table-column>
+        <el-table-column prop="status" label="状态" align="center" min-width="100px" >
           <template slot-scope="scope">
-            <el-tag
-              v-if="scope.row.status==='0'"
-              type="danger"
-    
-            >禁用</el-tag>
-            <el-tag
-              v-else
-              type="success"
- 
-            >启用</el-tag>
+            <el-tag v-if="scope.row.status==='0'" type="danger">禁用</el-tag>
+            <el-tag v-else type="success">启用</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="description" label="备注" align="center" v-if="btnDes" show-overflow-tooltip></el-table-column>
-        <el-table-column label="操作" min-width="250" align="center" show-overflow-tooltip>
+        <el-table-column prop="description" label="备注" align="center" ></el-table-column>
+        <el-table-column label="操作" min-width="250" align="center">
           <template slot-scope="scope">
-            <el-tooltip effect="dark" content="编辑" placement="top">
-              <el-button
-                type="text"
-                class="blue"
-              
-                @click="handleTypeEdit(scope.row)"
-              >
+              <el-button type="text" class="blue" @click="handleTypeEdit(scope.row)">
                 <i class="el-icon-edit"></i>
               </el-button>
-            </el-tooltip>
-            <el-tooltip effect="dark" content="删除" placement="top">
-              <el-button
-                type="text"
-                class="red"
-                v-has="'sysdic:deleteID'"
-                @click="handleTypeDelete(scope.row.id)"
-              >
+              <el-button type="text" class="red" v-has="'sysdic:deleteID'" @click="handleTypeDelete(scope.row.id)">
                 <i class="el-icon-delete"></i>
               </el-button>
-            </el-tooltip>
-            <el-tooltip effect="dark" content="列表" placement="top">
-              <el-button
-                type="text"
-                icon="el-icon-edit"
-                
-                @click="handleLabelOpen(scope.row)"
-              ></el-button>
-            </el-tooltip>
+              <el-button type="text" icon="el-icon-edit" @click="handleLabelOpen(scope.row)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -92,10 +43,9 @@
       <div class="pagination">
         <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
       </div>
-
     </div>
       <div class="show-dialog">
-          <el-dialog title="添加/修改类型" :visible.sync="typeEditVisible" fullscreen width="45%" @close="cancelTypeSave" :modal="false" :modal-append-to-body="false">
+        <el-dialog title="添加/修改类型" :visible.sync="typeEditVisible" fullscreen width="45%" @close="cancelTypeSave" :modal="false" :modal-append-to-body="false">
         <div class="dialogFix">
             <el-button type="primary" size="small"  v-has="'sysdic:save'" @click="handleTypeSave('typeform')">保 存</el-button>
             <el-button size="small" @click="cancelTypeSave">返 回</el-button>
@@ -123,7 +73,7 @@
       </div>
     </el-scrollbar>
     
-<sysDicLabel ref="edit" :labelVisible="labelVisible" :desId="desId"  @cancelLabelVisible="cancelLabelVisible()" :data="currentType"></sysDicLabel>
+    <sysDicLabel ref="edit" :labelVisible="labelVisible" :desId="desId"  @cancelLabelVisible="cancelLabelVisible()" :data="currentType"></sysDicLabel>
   </div>
 </template>
 
@@ -140,7 +90,6 @@ export default {
       rules: {
         dicType: [
           {
-            //validate: validateParentId,
             required: true,
             message: "  ",
             trigger: "blur"
@@ -148,9 +97,6 @@ export default {
         ]
       },
       remnant_fou: 200,
-      btnType: true,
-      btnStatus: true,
-      btnDes: true,
       pageData: {
         list: [],
         pageNumber: 1,
@@ -186,54 +132,28 @@ export default {
   created() {
     this.search();
   },
-  activated() {
-    if (this.$route.meta.idj === true) {
-      this.typeEditVisible = false
-      Object.assign(this.$data, this.$options.data());
-      this.reset();
-      this.search();
-      // this.dataInit()
-    }
-  },
-  deactivated() {
-    // this.$route.meta.idj = false
-  },
-  computed: {},
   methods: {
     descInput_fou(){
       var txtVal = this.typeform.description.length;
       this.remnant_fou = 200 - txtVal;
     },
-    dataInit() {
-      (this.btnType = true),
-        (this.btnStatus = true),
-        (this.btnDes = true),
-
-        (this.typeEditVisible = false),
-        (this.labelVisible = false),
-        (this.dicTypeDisabled = true),
-        (this.multipleDicTypeSelection = []),
-        (this.currentType = {});
-    },
-
     search() {
       this.handlePage(this.pageData.pageNumber, this.pageData.pageSize);
     },
     reset() {
       this.selectWord = "";
+      this.search();
     },
     empty() {
       this.typeform = {
         description: "",
         dicType: "",
-
         id: "",
         status: "1"
       };
     },
     handlePage(number, size) {
-      this.$http
-        .post(this.api.dicTypeQueryByPage, {
+      this.$http.post(this.api.dicTypeQueryByPage, {
           condition: {
             dicType: this.selectWord
           },
@@ -321,8 +241,6 @@ export default {
       this.desId = row.id
       Object.assign(this.currentType, row);
       this.labelVisible = true;
-      
-
     },
     cancelLabelVisible(val) {
       this.labelVisible = false

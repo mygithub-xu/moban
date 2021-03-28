@@ -97,17 +97,17 @@
   width: 100%;
   position:absolute;
 } */
-.show-dialog .el-dialog__wrapper {
+.show-dialog >.el-dialog__wrapper {
   position: absolute !important;
   border-radius: 5px;
 }
 .show-dialog .el-dialog__header{
   padding: 0;
 }
-.show-dialog .el-dialog{
+.show-dialog > .el-dialog__wrapper > .el-dialog{
   background-color: #f3f3f3;
 }
-.show-dialog .el-dialog__body{
+.show-dialog > .el-dialog__wrapper > .el-dialog > .el-dialog__body{
   padding: 10px;
   margin: 10px;
   border-radius: 5px;
