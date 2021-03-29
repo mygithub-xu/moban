@@ -63,13 +63,25 @@
         });
             this.$http.post(this.api.login,this.form).then(res=>{
               if (res.data.code == '200') {
-                //更新登录状态,true为第一次登录。
-                this.$store.dispatch('changeLoginStatusFun',true);
-
-                //防止多次弹出框，记录初始值
-                sessionStorage.setItem("morePOp", "1");
-                sessionStorage.setItem("Token", res.data.body.token);
-                sessionStorage.setItem("User", JSON.stringify(res.data.body.user));
+                // 更新登录状态,true为第一次登录。
+                this.$store.dispatch('changeLoginStatusFun',true)
+                // 防止多次弹出框，记录初始值
+                sessionStorage.setItem("morePOp", "1")
+                sessionStorage.setItem("Token", res.data.body.token)
+                let userData = res.data.body.user
+                // 添加首页
+                if(userData.menuData){
+                  let dashboard = {
+                    id: '0',
+                    menuCode: '0',
+                    menuName: '系统首页',
+                    icon: "icon-weibiaoti-1",
+                    url: '/page/Dashboard',
+                    isChildren: 0
+                  }
+                  userData.menuData.unshift(dashboard)
+                }
+                sessionStorage.setItem("User", JSON.stringify(res.data.body.user))
 
                 //更新头像
                 this.$message.success("登入成功");
