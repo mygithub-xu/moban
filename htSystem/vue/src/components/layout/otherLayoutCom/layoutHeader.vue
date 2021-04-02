@@ -8,9 +8,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import layoutHeaderLeft from '@comp/layout/otherLayoutCom/layoutHeaderLeft.vue';
-import layoutHeaderCenter from '@comp/layout/otherLayoutCom/layoutHeaderCenter.vue';
-import layoutHeaderRight from '@comp/layout/otherLayoutCom/layoutHeaderRight.vue';
+import layoutHeaderLeft from '@/components/layout/otherLayoutCom/layoutHeaderLeft.vue';
+import layoutHeaderCenter from '@/components/layout/otherLayoutCom/layoutHeaderCenter.vue';
+import layoutHeaderRight from '@/components/layout/otherLayoutCom/layoutHeaderRight.vue';
 export default {
     name: 'layoutHeader',
     components:{

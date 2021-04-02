@@ -15,12 +15,12 @@ var constantRouterMap=[
   },
   {
     path: '/login',
-    component: resolve => require(['@comp/layout/page/Login.vue'], resolve),
+    component: resolve => require(['@/components/layout/page/Login.vue'], resolve),
     name: '登录'
   },
   {
     path: '/text',
-    component: resolve => require(['@comp/layout/text.vue'], resolve),
+    component: resolve => require(['@/components/layout/text.vue'], resolve),
     name: 'text'
   }
 ]

@@ -29,12 +29,12 @@
     </div>
 </template>
 <script>
-import AppMain from '@comp/layout/otherLayoutCom/AppMain.vue';
-import headTabs from '@comp/layout/otherLayoutCom/headTabs.vue';
-import leftSide from '@comp/layout/otherLayoutCom/leftSide.vue';
-import layoutHeaderCenter from '@comp/layout/otherLayoutCom/layoutHeaderCenter.vue';
-import layoutHeaderRight from '@comp/layout/otherLayoutCom/layoutHeaderRight.vue';
-import layoutSetting from '@comp/layout/otherLayoutCom/layoutSetting.vue';
+import AppMain from '@/components/layout/otherLayoutCom/AppMain.vue';
+import headTabs from '@/components/layout/otherLayoutCom/headTabs.vue';
+import leftSide from '@/components/layout/otherLayoutCom/leftSide.vue';
+import layoutHeaderCenter from '@/components/layout/otherLayoutCom/layoutHeaderCenter.vue';
+import layoutHeaderRight from '@/components/layout/otherLayoutCom/layoutHeaderRight.vue';
+import layoutSetting from '@/components/layout/otherLayoutCom/layoutSetting.vue';
 import { mapGetters } from 'vuex';
 export default {
     name:"layouttext",

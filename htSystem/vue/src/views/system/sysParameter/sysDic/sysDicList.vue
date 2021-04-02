@@ -1,79 +1,156 @@
 <template>
-<!-- 系统配置---全局参数---字典管理 -->
+  <!-- 系统配置---全局参数---字典管理 -->
   <div class="app-container">
     <el-scrollbar style="width:100%">
-    <div class="container-table">
-      <div class="container-btn">
-        <span class="container-btn-left">
-          <el-button type="primary"  @click="handleTypeAdd">新增</el-button>
-          <!--<el-button type="warning" size="small" @click="typeEditVisible = true">弹框测试</el-button>-->
-          <el-button type="danger" :disabled="dicTypeDisabled" @click="handleTypeDeleteBatch" v-has="'sysdic:batchDelete'">删除</el-button>
-        </span>
-        <span class="container-btn-right">
-          <el-input v-model="selectWord" placeholder="字典名称/类型" style="width:200px" clearable></el-input>
-          <el-button type="primary" size="small" icon="search" style="margin-left:10px" @click="search" >查询</el-button>
-          <el-button size="small" type="text" @click="reset" >重置</el-button>
-        </span>
-      </div>
-      <div class="common-table-style">
-      <el-table :data="pageData.list" border ref="multipleTable" @selection-change="handleTypeSelectionChange">
-        <el-table-column type="selection" min-width="35" align="center" ></el-table-column>
-        <el-table-column type="index" min-width="35" label="序号" align="center" ></el-table-column>
-        <el-table-column prop="dicType" label="字典类型" align="center" ></el-table-column>
-        <el-table-column prop="status" label="状态" align="center" min-width="100px" >
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.status==='0'" type="danger">禁用</el-tag>
-            <el-tag v-else type="success">启用</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="description" label="备注" align="center" ></el-table-column>
-        <el-table-column label="操作" min-width="250" align="center">
-          <template slot-scope="scope">
-              <el-button type="text" class="blue" @click="handleTypeEdit(scope.row)">
-                <i class="el-icon-edit"></i>
-              </el-button>
-              <el-button type="text" class="red" v-has="'sysdic:deleteID'" @click="handleTypeDelete(scope.row.id)">
-                <i class="el-icon-delete"></i>
-              </el-button>
-              <el-button type="text" icon="el-icon-edit" @click="handleLabelOpen(scope.row)"></el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      </div>
-      <div class="pagination">
-        <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
-      </div>
-    </div>
-      <div class="show-dialog">
-        <el-dialog title="添加/修改类型" :visible.sync="typeEditVisible" fullscreen width="45%" @close="cancelTypeSave" :modal="false" :modal-append-to-body="false">
-        <div class="dialogFix">
-            <el-button type="primary" size="small"  v-has="'sysdic:save'" @click="handleTypeSave('typeform')">保 存</el-button>
-            <el-button size="small" @click="cancelTypeSave">返 回</el-button>
+      <div class="container-table">
+        <div class="container-btn">
+          <span class="container-btn-left">
+            <el-button type="primary"
+                       @click="handleTypeAdd">新增</el-button>
+            <!--<el-button type="warning" size="small" @click="typeEditVisible = true">弹框测试</el-button>-->
+            <el-button type="danger"
+                       :disabled="dicTypeDisabled"
+                       @click="handleTypeDeleteBatch"
+                       v-has="'sysdic:batchDelete'">删除</el-button>
+          </span>
+          <span class="container-btn-right">
+            <el-input v-model="selectWord"
+                      placeholder="字典名称/类型"
+                      style="width:200px"
+                      clearable></el-input>
+            <el-button type="primary"
+                       size="small"
+                       icon="search"
+                       style="margin-left:10px"
+                       @click="search">查询</el-button>
+            <el-button size="small"
+                       type="text"
+                       @click="reset">重置</el-button>
+          </span>
         </div>
-          <el-form :rules="rules" ref="typeform" class="padT" :model="typeform" size="small" label-width="80px" style="margin-top: 42px;" >
-            <el-form-item label="字典类型"  prop="dicType" style="width:400px;">
-              <el-input v-model="typeform.dicType" ></el-input>
+        <div class="common-table-style">
+          <el-table :data="pageData.list"
+                    border
+                    ref="multipleTable"
+                    @selection-change="handleTypeSelectionChange">
+            <el-table-column type="selection"
+                             min-width="35"
+                             align="center"></el-table-column>
+            <el-table-column type="index"
+                             min-width="35"
+                             label="序号"
+                             align="center"></el-table-column>
+            <el-table-column prop="dicType"
+                             label="字典类型"
+                             align="center"></el-table-column>
+            <el-table-column prop="status"
+                             label="状态"
+                             align="center"
+                             min-width="100px">
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.status==='0'"
+                        type="danger">禁用</el-tag>
+                <el-tag v-else
+                        type="success">启用</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="description"
+                             label="备注"
+                             align="center"></el-table-column>
+            <el-table-column label="操作"
+                             min-width="250"
+                             align="center">
+              <template slot-scope="scope">
+                <el-button type="text"
+                           class="blue"
+                           @click="handleTypeEdit(scope.row)">
+                  <i class="el-icon-edit"></i>
+                </el-button>
+                <el-button type="text"
+                           class="red"
+                           v-has="'sysdic:deleteID'"
+                           @click="handleTypeDelete(scope.row.id)">
+                  <i class="el-icon-delete"></i>
+                </el-button>
+                <el-button type="text"
+                           icon="el-icon-edit"
+                           @click="handleLabelOpen(scope.row)"></el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div class="pagination">
+          <pagination :page-list="pageData"
+                      @pagesearch="handlePage"></pagination>
+        </div>
+      </div>
+      <div class="show-dialog">
+        <el-dialog title="添加/修改类型"
+                   :visible.sync="typeEditVisible"
+                   fullscreen
+                   width="45%"
+                   @close="cancelTypeSave"
+                   :modal="false"
+                   :modal-append-to-body="false">
+          <div class="dialogFix">
+            <el-button type="primary"
+                       size="small"
+                       v-has="'sysdic:save'"
+                       @click="handleTypeSave('typeform')">保 存</el-button>
+            <el-button size="small"
+                       @click="cancelTypeSave">返 回</el-button>
+          </div>
+          <el-form :rules="rules"
+                   ref="typeform"
+                   class="padT"
+                   :model="typeform"
+                   size="small"
+                   label-width="80px"
+                   style="margin-top: 42px;">
+            <el-form-item label="字典类型"
+                          prop="dicType"
+                          style="width:400px;">
+              <el-input v-model="typeform.dicType"></el-input>
             </el-form-item>
-            <el-form-item label="使用状态" style="width:400px;">
-              <el-select v-model="typeform.status" placeholder="请选择" style="width:100%;">
-                <el-option clearable v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            <el-form-item label="使用状态"
+                          style="width:400px;">
+              <el-select v-model="typeform.status"
+                         placeholder="请选择"
+                         style="width:100%;">
+                <el-option clearable
+                           v-for="item in options"
+                           :key="item.value"
+                           :label="item.label"
+                           :value="item.value">
                 </el-option>
               </el-select>
             </el-form-item>
-              <el-form-item label="描述" prop="description" style="width:500px;">
-                  <el-col :span="24">
-                  <el-input maxlength="200"  :rows="8" type="textarea" style="max-width: 35rem;" @input="descInput_fou()" v-model="typeform.description"></el-input>
-                  </el-col>
-                  <span>{{remnant_fou}}/200</span>
-              </el-form-item>
+            <el-form-item label="描述"
+                          prop="description"
+                          style="width:500px;">
+              <el-col :span="24">
+                <el-input maxlength="200"
+                          :rows="8"
+                          type="textarea"
+                          style="max-width: 35rem;"
+                          @input="descInput_fou()"
+                          v-model="typeform.description"></el-input>
+              </el-col>
+              <span>{{remnant_fou}}/200</span>
+            </el-form-item>
           </el-form>
-          <span slot="footer" class="dialog-footer">
+          <span slot="footer"
+                class="dialog-footer">
           </span>
-          </el-dialog>
+        </el-dialog>
       </div>
     </el-scrollbar>
-    
-    <sysDicLabel ref="edit" :labelVisible="labelVisible" :desId="desId"  @cancelLabelVisible="cancelLabelVisible()" :data="currentType"></sysDicLabel>
+
+    <sysDicLabel ref="edit"
+                 :labelVisible="labelVisible"
+                 :desId="desId"
+                 @cancelLabelVisible="cancelLabelVisible()"
+                 :data="currentType"></sysDicLabel>
   </div>
 </template>
 
@@ -85,7 +162,7 @@ export default {
   components: {
     sysDicLabel: sysDicLabel
   },
-  data() {
+  data () {
     return {
       rules: {
         dicType: [
@@ -126,25 +203,25 @@ export default {
         status: "1"
       },
       currentType: {},
-      desId:""
+      desId: ""
     };
   },
-  created() {
+  created () {
     this.search();
   },
   methods: {
-    descInput_fou(){
+    descInput_fou () {
       var txtVal = this.typeform.description.length;
       this.remnant_fou = 200 - txtVal;
     },
-    search() {
+    search () {
       this.handlePage(this.pageData.pageNumber, this.pageData.pageSize);
     },
-    reset() {
+    reset () {
       this.selectWord = "";
       this.search();
     },
-    empty() {
+    empty () {
       this.typeform = {
         description: "",
         dicType: "",
@@ -152,14 +229,14 @@ export default {
         status: "1"
       };
     },
-    handlePage(number, size) {
+    handlePage (number, size) {
       this.$http.post(this.api.dicTypeQueryByPage, {
-          condition: {
-            dicType: this.selectWord
-          },
-          number: number,
-          size: size
-        })
+        condition: {
+          dicType: this.selectWord
+        },
+        number: number,
+        size: size
+      })
         .then(res => {
           if (res.data.code == "200") {
             this.pageData.list = res.data.body.records;
@@ -168,23 +245,23 @@ export default {
           }
         });
     },
-    handleTypeAdd() {
+    handleTypeAdd () {
       this.typeEditVisible = true;
       this.empty();
       this.remnant_fou = 200
     },
-    cancelTypeSave() {
+    cancelTypeSave () {
       this.typeEditVisible = false;
       this.currentType = {};
       this.empty();
       this.$refs.typeform.clearValidate()
     },
-    handleTypeEdit(row) {
+    handleTypeEdit (row) {
       this.typeEditVisible = true;
       this.typeform = Object.assign({}, row);
       this.remnant_fou = 200 - this.typeform.description.length
     },
-    handleTypeSave(formName) {
+    handleTypeSave (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$http.post(this.api.dicTypeSave, this.typeform).then(res => {
@@ -204,12 +281,12 @@ export default {
               }
             }
           });
-        }else {
+        } else {
           return false;
         }
       })
     },
-    handleTypeDelete(id) {
+    handleTypeDelete (id) {
       this.$http.delete(this.api.dicTypeDelete + id).then(res => {
         if (res.data.code == "200") {
           this.$message.success("删除成功");
@@ -217,7 +294,7 @@ export default {
         }
       });
     },
-    handleTypeDeleteBatch() {
+    handleTypeDeleteBatch () {
       let deletebatch = [];
       this.multipleDicTypeSelection.forEach(i => {
         deletebatch.push(i.id);
@@ -229,7 +306,7 @@ export default {
         }
       });
     },
-    handleTypeSelectionChange(val) {
+    handleTypeSelectionChange (val) {
       if (val.length > 0) {
         this.multipleDicTypeSelection = val;
         this.dicTypeDisabled = false;
@@ -237,12 +314,12 @@ export default {
         this.dicTypeDisabled = true;
       }
     },
-    handleLabelOpen(row) {
+    handleLabelOpen (row) {
       this.desId = row.id
       Object.assign(this.currentType, row);
       this.labelVisible = true;
     },
-    cancelLabelVisible(val) {
+    cancelLabelVisible (val) {
       this.labelVisible = false
     }
   }

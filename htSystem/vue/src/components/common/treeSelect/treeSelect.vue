@@ -1,39 +1,33 @@
 <template>
-  <el-popover
-    popper-class="myPopover"
-    placement="bottom"
-    :title="title"
-    :width="width"
-    trigger="click"
-    content
-    v-model="visible"
-    :disabled="disabled"
-    default-expanded-keys
-    @show="setTreeInput"
-    @hide="clearTreeInput"
-  >
-    <el-input
-      placeholder
-      
-      v-model="currentLabel"
-      :readonly="readonly"
-      slot="reference"
-      @click="openPopover"
-      :disabled="disabled"
-      :clearable="true"
-      @clear="handleClear"
-    ></el-input>
-    <el-input placeholder="搜索" v-model="filter"></el-input>
+  <el-popover popper-class="myPopover"
+              placement="bottom"
+              :title="title"
+              :width="width"
+              trigger="click"
+              content
+              v-model="visible"
+              :disabled="disabled"
+              default-expanded-keys
+              @show="setTreeInput"
+              @hide="clearTreeInput">
+    <el-input placeholder
+              v-model="currentLabel"
+              :readonly="readonly"
+              slot="reference"
+              @click="openPopover"
+              :disabled="disabled"
+              :clearable="true"
+              @clear="handleClear"></el-input>
+    <el-input placeholder="搜索"
+              v-model="filter"></el-input>
     <el-scrollbar>
-      <el-tree
-        style="height:260px;overflow-x:auto;overflow-y:auto"
-        class="filter-tree"
-        :data="data2"
-        :props="defaultProps"
-        :filter-node-method="filterNode"
-        ref="tree2"
-        @node-click="nodeClick"
-      ></el-tree>
+      <el-tree style="height:260px;overflow-x:auto;overflow-y:auto"
+               class="filter-tree"
+               :data="data2"
+               :props="defaultProps"
+               :filter-node-method="filterNode"
+               ref="tree2"
+               @node-click="nodeClick"></el-tree>
     </el-scrollbar>
   </el-popover>
 </template>
@@ -80,11 +74,11 @@ export default {
       default: false
     }
   },
-  beforeCreate() {},
-  created() {
+  beforeCreate () { },
+  created () {
     this.findLabel();
   },
-  data() {
+  data () {
     return {
       width: "",
       visible: false,
@@ -95,36 +89,36 @@ export default {
     };
   },
   watch: {
-    filter(val) {
+    filter (val) {
       this.$refs.tree2.filter(val);
     },
-    value() {
+    value () {
       this.findLabel();
     },
-    currentLabel(val) {
+    currentLabel (val) {
       if (val == "") {
         this.$emit("input", "");
       }
     },
-    hasTopData() {
+    hasTopData () {
       this.findLabel();
     }
   },
   computed: {
-    defaultProps() {
+    defaultProps () {
       return {
         children: "children",
         label: this.label
       };
     },
-    expanded() {
+    expanded () {
       if (this.value != null && this.value !== "") {
         return [this.value];
       } else {
         return [];
       }
     },
-    data2() {
+    data2 () {
       this.hasTopData = Object.assign([], this.data);
       if (this.top) {
         var top = {
@@ -143,8 +137,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.$nextTick(function() {
+  mounted () {
+    this.$nextTick(function () {
       if (this.widthValue) {
         this.width = this.widthValue;
         return;
@@ -154,7 +148,7 @@ export default {
   },
   methods: {
     //过滤数据
-    filterTreeData(treeData, id) {
+    filterTreeData (treeData, id) {
       let this_copy = this;
       let treeDataList = [];
       treeData.forEach(object => {
@@ -171,28 +165,28 @@ export default {
 
     //*********以下1、2、两点是为了解决readonly和clearable同时用不生效的解决方法************************* */
     //1、点击选择下拉时设置输入框为只读
-    setTreeInput() {
+    setTreeInput () {
       this.readonly = true;
     },
     //2、点击下拉框不选择时，设置为可编辑，目的是提高clearable方法可以
-    clearTreeInput() {
+    clearTreeInput () {
       this.readonly = false;
     },
-    openPopover() {
+    openPopover () {
       if (!this.disabled) {
         this.visible = true;
         this.readonly = false;
       }
     },
-    filterNode(value, data) {
+    filterNode (value, data) {
       if (!value) return true;
       return data[this.label].indexOf(value) !== -1;
     },
-    findLabel() {
+    findLabel () {
       this.currentLabel = "";
       this.ergodicTree(this.hasTopData, this.value);
     },
-    ergodicTree(data, value) {
+    ergodicTree (data, value) {
       data.forEach(i => {
         if (i.id == value) {
           this.currentLabel = i[this.label];
@@ -203,7 +197,7 @@ export default {
         }
       });
     },
-    nodeClick(Object, node, array) {
+    nodeClick (Object, node, array) {
       if (this.onlyChildren) {
         if (Object.children != null && Object.children.length > 0) {
           return;
@@ -219,7 +213,7 @@ export default {
       this.visible = false;
       this.readonly = false;
     },
-    handleClear() {
+    handleClear () {
       this.$emit("changeValue", undefined, {});
       this.$emit("selected", undefined);
       this.$emit("selectedMerchat", undefined);

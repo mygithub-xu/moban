@@ -35,7 +35,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import draggable from 'vuedraggable'
-import customPopBox from '@comp/layout/otherLayoutCom/customPopBox.vue';
+import customPopBox from '@/components/layout/otherLayoutCom/customPopBox.vue';
 export default {
     name: 'headTabs',
     components:{

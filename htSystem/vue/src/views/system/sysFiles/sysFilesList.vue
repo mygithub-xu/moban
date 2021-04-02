@@ -1,103 +1,153 @@
 <template>
-    <div class="app-container">
-      <el-scrollbar style="width:100%">
-        <div class="container-table">
-          <!-- 区域一 查询区域 -->
-          <div class="container-btn" >
-            <span>
-            <el-button type="primary" size="small"   @click="handleAdd">上传图片</el-button>
-            <el-button type="danger" size="small" :disabled="dicDisabled"  @click="handleDeleteBatch">删除</el-button>
-            </span>
-            <span class="container-btn-right" >
-              <el-input
-                v-model="queryContent" placeholder="请输入查询内容" class="handle-input mr10" size="small" style="width: 200px;" clearable>
-              </el-input>
-                <el-button type="primary" icon="search" size="small"  @click="search">查询</el-button>
-                <el-button size="small" type="text" @click="reset">重置</el-button>
-            </span>
-          </div>
-          <!-- 区域二---表格+分页 -->
-          <div class="common-table-style">
-          <el-table :data="pageData.list" border class="table" ref="multipleTable" align="center" @selection-change="handleSelectionChange">
-            <el-table-column type="selection"  fixed width="55"  align="center" show-overflow-tooltip></el-table-column>
-            <el-table-column type="index" width="55" label="序号" align="center" v-if="xuhao" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="url" min-width="75" label="图片缩略图" align="center" show-overflow-tooltip>
+  <div class="app-container">
+    <el-scrollbar style="width:100%">
+      <div class="container-table">
+        <!-- 区域一 查询区域 -->
+        <div class="container-btn">
+          <span>
+            <el-button type="primary"
+                       size="small"
+                       @click="handleAdd">上传图片</el-button>
+            <el-button type="danger"
+                       size="small"
+                       :disabled="dicDisabled"
+                       @click="handleDeleteBatch">删除</el-button>
+          </span>
+          <span class="container-btn-right">
+            <el-input v-model="queryContent"
+                      placeholder="请输入查询内容"
+                      class="handle-input mr10"
+                      size="small"
+                      style="width: 200px;"
+                      clearable>
+            </el-input>
+            <el-button type="primary"
+                       icon="search"
+                       size="small"
+                       @click="search">查询</el-button>
+            <el-button size="small"
+                       type="text"
+                       @click="reset">重置</el-button>
+          </span>
+        </div>
+        <!-- 区域二---表格+分页 -->
+        <div class="common-table-style">
+          <el-table :data="pageData.list"
+                    border
+                    class="table"
+                    ref="multipleTable"
+                    align="center"
+                    @selection-change="handleSelectionChange">
+            <el-table-column type="selection"
+                             fixed
+                             width="55"
+                             align="center"
+                             show-overflow-tooltip></el-table-column>
+            <el-table-column type="index"
+                             width="55"
+                             label="序号"
+                             align="center"
+                             v-if="xuhao"
+                             show-overflow-tooltip></el-table-column>
+            <el-table-column prop="url"
+                             min-width="75"
+                             label="图片缩略图"
+                             align="center"
+                             show-overflow-tooltip>
               <template slot-scope="scope">
                 <div>
-                  <img :src="scope.row.url" @click="openPhoto(scope.row.url)" fit="contain" style="height:70px"/>
+                  <img :src="scope.row.url"
+                       @click="openPhoto(scope.row.url)"
+                       fit="contain"
+                       style="height:70px" />
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="url" min-width="75" label="图片路径" align="center" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="url"
+                             min-width="75"
+                             label="图片路径"
+                             align="center"
+                             show-overflow-tooltip></el-table-column>
 
-            <el-table-column prop="createTime" min-width="75" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
-            <el-table-column label="操作" min-width="75" align="center" show-overflow-tooltip>
+            <el-table-column prop="createTime"
+                             min-width="75"
+                             label="创建时间"
+                             align="center"
+                             show-overflow-tooltip></el-table-column>
+            <el-table-column label="操作"
+                             min-width="75"
+                             align="center"
+                             show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-button type="text" icon="el-icon-delete" class="red"  @click="handleDelete(scope.row.id)" >删除</el-button>
+                <el-button type="text"
+                           icon="el-icon-delete"
+                           class="red"
+                           @click="handleDelete(scope.row.id)">删除</el-button>
               </template>
-             </el-table-column>
+            </el-table-column>
           </el-table>
-          
+
           <div class="pagination">
-            <pagination :page-list="pageData" @pagesearch="handlePage"></pagination>
-          </div>
+            <pagination :page-list="pageData"
+                        @pagesearch="handlePage"></pagination>
           </div>
         </div>
-        <el-dialog
-          title="图片上传"
-          :visible.sync="editVisible"
-          width="50%"
-          :before-close="handleClose">
-          <uploadMore ref="upload3" ></uploadMore>
-        </el-dialog>
+      </div>
+      <el-dialog title="图片上传"
+                 :visible.sync="editVisible"
+                 width="50%"
+                 :before-close="handleClose">
+        <uploadMore ref="upload3"></uploadMore>
+      </el-dialog>
 
-        <el-dialog
-          :visible.sync="editVisible2"
-          width="50%"
-          :before-close="handleClose2">
-          <img :src="lineImgSrc" style="height:300px;width:500px"/>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="handleClose2">关闭</el-button>
-          </span>
-        </el-dialog>
-        </el-scrollbar>
-    </div>
+      <el-dialog :visible.sync="editVisible2"
+                 width="50%"
+                 :before-close="handleClose2">
+        <img :src="lineImgSrc"
+             style="height:300px;width:500px" />
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button @click="handleClose2">关闭</el-button>
+        </span>
+      </el-dialog>
+    </el-scrollbar>
+  </div>
 </template>
 <script>
 export default {
-  name:"sysFilesList",
-  data(){
-    return{
+  name: "sysFilesList",
+  data () {
+    return {
       // 区域一--start
-      queryContent:"",//查询内容
-      xuhao:true,
-      dicDisabled:true,
+      queryContent: "",//查询内容
+      xuhao: true,
+      dicDisabled: true,
       // 区域一--end
       //区域二--表格数据--start
-        pageData: {
-          list: [],
-          pageNumber: 1,
-          pageSize: 10,
-          totalCount: 0,
-          totalPage: 0
-        },
-        multipleSelection:[],//选中的数据集合
+      pageData: {
+        list: [],
+        pageNumber: 1,
+        pageSize: 10,
+        totalCount: 0,
+        totalPage: 0
+      },
+      multipleSelection: [],//选中的数据集合
       //区域二--表格数据--end
-        editVisible:false,
-        lineImgSrc:"",
-        editVisible2:false
+      editVisible: false,
+      lineImgSrc: "",
+      editVisible2: false
     }
   },
-  created(){
+  created () {
     this.getdata();
   },
-  methods:{
+  methods: {
     //新增
-    handleAdd(){
-      this.editVisible=true;
+    handleAdd () {
+      this.editVisible = true;
     },
     //批量删除--不需要批量删除请将其注释，，
-    handleDeleteBatch(){
+    handleDeleteBatch () {
       let deletebatch = [];
       this.multipleSelection.forEach(i => {
         deletebatch.push(i.id);
@@ -108,20 +158,20 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.$http .post(this.api.sysFileBatchdelete, deletebatch).then(res => {
-              if (res.data.code == "200") {
-                this.$message({
-                  message: "批量删除数据成功",
-                  type: "success"
-                });
-              }else{
-                  this.$message({
-                  message: "批量删除数据失败",
-                  type: "error"
-                });
-              }
-              this.getdata();
-            });
+          this.$http.post(this.api.sysFileBatchdelete, deletebatch).then(res => {
+            if (res.data.code == "200") {
+              this.$message({
+                message: "批量删除数据成功",
+                type: "success"
+              });
+            } else {
+              this.$message({
+                message: "批量删除数据失败",
+                type: "error"
+              });
+            }
+            this.getdata();
+          });
         })
         .catch(() => {
           this.$message({
@@ -132,16 +182,16 @@ export default {
 
     },
     //查询
-    search(){
+    search () {
       this.getdata();
     },
     //重置
-    reset(){
-      this.queryContent="";
+    reset () {
+      this.queryContent = "";
       this.getdata();
     },
     //勾选数据集合
-    handleSelectionChange(val){
+    handleSelectionChange (val) {
       if (val.length > 0) {
         this.multipleSelection = val;
         this.dicDisabled = false;
@@ -150,28 +200,28 @@ export default {
       }
     },
     //编辑
-    handleEdit(row){
-      this.editVisible=true;
+    handleEdit (row) {
+      this.editVisible = true;
     },
     //单个删除
-    handleDelete(id){
+    handleDelete (id) {
       this.$confirm("此操作将永久删除, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.$http.post(this.api.sysFileDeleteFile+id).then(res => {
+          this.$http.post(this.api.sysFileDeleteFile + id).then(res => {
             if (res.data.code == "200") {
               this.$message({
                 message: "删除数据成功",
                 type: "success"
               });
-            }else{
-                  this.$message({
-                  message: "删除数据失败",
-                  type: "error"
-                });
+            } else {
+              this.$message({
+                message: "删除数据失败",
+                type: "error"
+              });
             }
             this.getdata();
           });
@@ -184,13 +234,13 @@ export default {
         });
     },
     //页数
-    handlePage(number, size){
-      this.pageData.pageNumber=number;
-      this.pageData.pageSize=size;
+    handlePage (number, size) {
+      this.pageData.pageNumber = number;
+      this.pageData.pageSize = size;
       this.getdata();
     },
     //表格数据
-    getdata(){
+    getdata () {
       this.$http
         .post(this.api.sysFileQuerybycondition, {
           condition: {
@@ -208,37 +258,37 @@ export default {
         });
     },
 
-    handleClose(){
-      this.editVisible=false;
+    handleClose () {
+      this.editVisible = false;
       this.$refs.upload3.clearFiles();
       this.getdata();
       // window.location.reload()
     },
-    removePhoto(id){
-      this.$http.post(this.api.sysFileDeleteFile+id).then(res => {
+    removePhoto (id) {
+      this.$http.post(this.api.sysFileDeleteFile + id).then(res => {
         if (res.data.code == "200") {
           this.$message({
             message: "删除数据成功",
             type: "success"
           });
-        }else{
-              this.$message({
-              message: "删除数据失败",
-              type: "error"
-            });
+        } else {
+          this.$message({
+            message: "删除数据失败",
+            type: "error"
+          });
         }
         this.getdata();
       });
     },
-    openPhoto(url){
-      this.editVisible2=true;
-      this.lineImgSrc=url;
+    openPhoto (url) {
+      this.editVisible2 = true;
+      this.lineImgSrc = url;
     },
-    handleClose2(){
-       this.editVisible2=false;
+    handleClose2 () {
+      this.editVisible2 = false;
     }
 
   },
-  
+
 }
 </script>

@@ -75,8 +75,8 @@
 </template>
 
 <script>
-import menuTreeHor from '@comp/layout/otherLayoutCom/menuTreeHor.vue';
-import menuTree from '@comp/layout/otherLayoutCom/menuTree.vue';
+import menuTreeHor from '@/components/layout/otherLayoutCom/menuTreeHor.vue';
+import menuTree from '@/components/layout/otherLayoutCom/menuTree.vue';
 import { mapGetters } from 'vuex';
 export default {
   name:"sidebar",

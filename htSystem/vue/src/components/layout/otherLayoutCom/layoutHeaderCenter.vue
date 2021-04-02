@@ -12,7 +12,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import topSide from '@comp/layout/otherLayoutCom/topSide.vue';
+import topSide from '@/components/layout/otherLayoutCom/topSide.vue';
 export default {
     name:"layoutHeaderCenter",
     components:{

@@ -2,11 +2,13 @@
   <div  class="login-contain">
     <div class="login-body">
       <div class="login-box">
+            <div class="login-company-name">company name</div>
+            <img :src="imgUrl" class="login-img"/>
       </div>
       <div class="login-out-form">
       <div class="login-form">
       <h3 class="login-title">欢迎登录</h3>
-      <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" style="margin: 80px 10px;">
+      <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" style="margin-top: 50px">
             <el-form-item label="账号ccc" prop="userName">
               <el-input type="text" placeholder="请输入账号" v-model="form.userName"/>
             </el-form-item>
@@ -16,7 +18,6 @@
             <div class="login-button">
               <el-button type="primary" @click="onSubmit('loginForm')" style="width:40%">登录</el-button>
             </div>
-              
       </el-form>
       </div>
       </div>
@@ -43,11 +44,10 @@
             {required: true, message: '密码不可为空', trigger: 'blur'}
           ]
         },
-
+        imgUrl:"https://www.whfch.icu/resources/login.png",
         flag:1,
       }
     },
-
     methods: {
       onSubmit(formName) {
         // 为表单绑定验证功能
@@ -139,16 +139,14 @@
   .login-body{
     height: 80%;
     width: 60%;
-    max-height:  500px;;
+    max-height:  400px;;
     max-width: 820px;
     border-radius: 5px;
     display: flex;
     flex-direction: row;
-    background-image: url('https://www.whfch.icu/resources/8476443.jpg');
     background-size:100% 100%;
-  }
-  .login-box {
-    flex: 1;
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0,0,0,.2);
   }
   .login-out-form{
     flex: 1;
@@ -161,7 +159,9 @@
     width: 90%;
     max-height: 450px;
     background-color: #f3f3f3;
-    opacity: 0.9;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
   }
   .login-in-form{
     display: flex;
@@ -172,10 +172,27 @@
   }
   .login-title {
     text-align: center;
-    margin: 20px 0;
   }
   .login-button{
     justify-content: center;
     display: flex;
+  }
+  .login-box {
+    width: 400px;
+    position: relative;
+    background-color: green;
+    border-radius: 20px 0 0 20px;
+    opacity: 0.7;
+  }
+  .login-img{
+    height: 100%;
+    width: 100%;
+  }
+  .login-company-name{
+    position: absolute;
+    top: 0;
+    left: 20px;
+    font-size: 20px;
+    color: white;
   }
 </style>

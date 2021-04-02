@@ -20,9 +20,7 @@ export default {
     // window.addEventListener("beforeunload",()=>{
     //     sessionStorage.setItem("store",JSON.stringify(this.$store.state))
     // })
-
   }
-
 }
 </script>
 
@@ -34,41 +32,24 @@ export default {
      margin: 0;
      padding: 0;
   }
-  
   body .el-table th.gutter{
     display: table-cell!important;
  }
-
-// table边框颜色
-.el-table--border:after,
-.el-table--group:after,
-.el-table:before {
-    background-color: #C0C4CC;
+.el-table td{
+  border-bottom: 1px solid #C0C4CC!important;
 }
-
-.el-table--border,
-.el-table--group {
-    border-color: #C0C4CC;
+.el-table--border td{
+  border-right: 1px solid #C0C4CC!important;
 }
-
-.el-table td,
-.el-table th.is-leaf {
-        border-bottom: 1px solid #C0C4CC;
+.el-table--border th{
+      border-right: 1px solid #C0C4CC!important;
 }
-
-.el-table--border th,
-.el-table--border th.gutter:last-of-type {
-        border-bottom: 1px solid #C0C4CC;
+.el-table th.is-leaf{
+  border-bottom: 1px solid #C0C4CC!important;
 }
-
-.el-table--border td,
-.el-table--border th {
-        border-right: 1px solid #C0C4CC;
-}
-
-.el-table__fixed-right::before, 
-.el-table__fixed::before{
-  background-color: #C0C4CC;
+.el-table--border{
+  border: 1px solid #C0C4CC!important;
+  // border-bottom: 0.1px solid #C0C4CC!important;
 }
 </style>
 

@@ -1,43 +1,78 @@
 <template>
   <div class="show-dialog">
-    <el-dialog :visible.sync="labelVisible" :show-close="false" :modal="false" fullscreen>
-    <div class="dialog-button">
-        <el-button type="primary" @click="handleAdd" >新增</el-button>
-        <el-button  @click="handleClose()">返 回</el-button>
-        <el-button type="danger"  v-has="'dicType:bacthDelete'" :disabled="dicDisabled" @click="handleDeleteBatch">删除</el-button>
-    </div>
+    <el-dialog :visible.sync="labelVisible"
+               :show-close="false"
+               :modal="false"
+               fullscreen>
+      <div class="dialog-button">
+        <el-button type="primary"
+                   @click="handleAdd">新增</el-button>
+        <el-button @click="handleClose()">返 回</el-button>
+        <el-button type="danger"
+                   v-has="'dicType:bacthDelete'"
+                   :disabled="dicDisabled"
+                   @click="handleDeleteBatch">删除</el-button>
+      </div>
       <div class="common-table-style">
-        <el-table
-          :data="dataList"
-          border
-          class="table"
-          ref="multipleTable"
-          align="center"
-          @selection-change="handleSelectionChange"
-        >
-          <el-table-column type="selection" width="55" align="center"></el-table-column>
-          <el-table-column type="index" width="280" label="序号" align="center"></el-table-column>
-          <el-table-column prop="dicLabel" label="字典标签" align="center"></el-table-column>
-          <el-table-column prop="dicValue" label="字典键值" sortable align="center"></el-table-column>
-          <el-table-column prop="status" label="状态" align="center" width="100px">
+        <el-table :data="dataList"
+                  border
+                  class="table"
+                  ref="multipleTable"
+                  align="center"
+                  @selection-change="handleSelectionChange">
+          <el-table-column type="selection"
+                           width="55"
+                           align="center"></el-table-column>
+          <el-table-column type="index"
+                           width="280"
+                           label="序号"
+                           align="center"></el-table-column>
+          <el-table-column prop="dicLabel"
+                           label="字典标签"
+                           align="center"></el-table-column>
+          <el-table-column prop="dicValue"
+                           label="字典键值"
+                           sortable
+                           align="center"></el-table-column>
+          <el-table-column prop="status"
+                           label="状态"
+                           align="center"
+                           width="100px">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.status==='0'" type="danger"
-                style="height: 22px; line-height: 0; padding:10px 8px;margin: 0;">禁用
+              <el-tag v-if="scope.row.status==='0'"
+                      type="danger"
+                      style="height: 22px; line-height: 0; padding:10px 8px;margin: 0;">禁用
               </el-tag>
-              <el-tag v-else type="success" style="height: 22px; line-height: 0; padding:10px 8px;margin: 0;">启用
+              <el-tag v-else
+                      type="success"
+                      style="height: 22px; line-height: 0; padding:10px 8px;margin: 0;">启用
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="description" label="备注" align="center">
+          <el-table-column prop="description"
+                           label="备注"
+                           align="center">
           </el-table-column>
-          <el-table-column label="操作" width="250" align="center">
+          <el-table-column label="操作"
+                           width="250"
+                           align="center">
             <template slot-scope="scope">
-              <el-tooltip effect="dark" content="编辑" placement="top">
-                <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)" >
+              <el-tooltip effect="dark"
+                          content="编辑"
+                          placement="top">
+                <el-button type="text"
+                           icon="el-icon-edit"
+                           @click="handleEdit(scope.row)">
                 </el-button>
               </el-tooltip>
-              <el-tooltip effect="dark" content="删除" placement="top">
-                <el-button type="text" icon="el-icon-delete" v-has="'dicType:deleteID'" class="red" @click="handleDelete(scope.row.id)">
+              <el-tooltip effect="dark"
+                          content="删除"
+                          placement="top">
+                <el-button type="text"
+                           icon="el-icon-delete"
+                           v-has="'dicType:deleteID'"
+                           class="red"
+                           @click="handleDelete(scope.row.id)">
                 </el-button>
               </el-tooltip>
             </template>
@@ -48,48 +83,57 @@
     <!-- 弹窗 -->
     <template v-if="editVisible">
       <div class="dic_label">
-      <el-dialog
-        style="margin-top: 20px;"
-        :rules="rules"  :show-close="false" :close-on-click-modal="false" :append-to-body="false" :visible.sync="editVisible" width="45%"  @close="cancelSave"  :modal="false" >
-        <el-form
-          ref="form"
-          :model="form"
-          label-width="80px" style="margin-top:10px">
-          <el-form-item label="字典标签">
-            <el-input
-              v-model="form.dicLabel" style="width: 13rem">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="字典键值">
-            <el-input
-              v-model="form.dicValue" style="width: 13rem">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="字典类型">
-            <el-input
-              v-model="data.dicType"
-              disabled
-              style="width: 13rem">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="描述">
-            <el-input
-              v-model="form.description" style="width: 13rem">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="状态">
-            <el-select
-            v-model="form.status"
-            placeholder="请选择">
-              <el-option
-                clearable v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <el-button type="primary" v-has="'dicType:save'" @click="handleSave">保 存</el-button>
-        <el-button @click="cancelSave">返 回</el-button>
-      </el-dialog>
+        <el-dialog style="margin-top: 20px;"
+                   :rules="rules"
+                   :show-close="false"
+                   :close-on-click-modal="false"
+                   :append-to-body="false"
+                   :visible.sync="editVisible"
+                   width="45%"
+                   @close="cancelSave"
+                   :modal="false">
+          <el-form ref="form"
+                   :model="form"
+                   label-width="80px"
+                   style="margin-top:10px">
+            <el-form-item label="字典标签">
+              <el-input v-model="form.dicLabel"
+                        style="width: 13rem">
+              </el-input>
+            </el-form-item>
+            <el-form-item label="字典键值">
+              <el-input v-model="form.dicValue"
+                        style="width: 13rem">
+              </el-input>
+            </el-form-item>
+            <el-form-item label="字典类型">
+              <el-input v-model="data.dicType"
+                        disabled
+                        style="width: 13rem">
+              </el-input>
+            </el-form-item>
+            <el-form-item label="描述">
+              <el-input v-model="form.description"
+                        style="width: 13rem">
+              </el-input>
+            </el-form-item>
+            <el-form-item label="状态">
+              <el-select v-model="form.status"
+                         placeholder="请选择">
+                <el-option clearable
+                           v-for="item in options"
+                           :key="item.value"
+                           :label="item.label"
+                           :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <el-button type="primary"
+                     v-has="'dicType:save'"
+                     @click="handleSave">保 存</el-button>
+          <el-button @click="cancelSave">返 回</el-button>
+        </el-dialog>
       </div>
     </template>
   </div>
@@ -100,7 +144,7 @@ export default {
   name: "sysDicLabel",
   props: {
   },
-  data() {
+  data () {
     return {
       rules: {
 
@@ -129,30 +173,30 @@ export default {
       ]
     };
   },
-  props:{
-    labelVisible:{
-      type:Boolean,
-      default:false
+  props: {
+    labelVisible: {
+      type: Boolean,
+      default: false
     },
-    desId:{
-      type:String,
+    desId: {
+      type: String,
       require: true
     },
-    data:{
-      type:Object,
+    data: {
+      type: Object,
       require: true
     }
   },
   watch: {
-    labelVisible() {
-      if(this.labelVisible){
+    labelVisible () {
+      if (this.labelVisible) {
         this.getData(this.desId);
       }
     }
 
   },
   methods: {
-    empty() {
+    empty () {
       this.form = {
         description: "",
         dicLabel: "",
@@ -162,26 +206,26 @@ export default {
         status: "1"
       };
     },
-    getData(id) {
+    getData (id) {
       this.$http.get(this.api.dicQueryByPageAndDicTypeID + id).then(res => {
         if (res.data.code == "200") {
           this.dataList = res.data.body;
         }
       });
     },
-    handleAdd() {
+    handleAdd () {
       this.empty();
       this.editVisible = true;
     },
-    handleClose() {
+    handleClose () {
       this.$emit("cancelLabelVisible");
       this.labelVisible = false;
     },
-    handleEdit(row) {
+    handleEdit (row) {
       this.editVisible = true;
       this.form = Object.assign({}, row);
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       if (val.length > 0) {
         this.multipleSelection = val;
         this.dicDisabled = false;
@@ -189,7 +233,7 @@ export default {
         this.dicDisabled = true;
       }
     },
-    handleDeleteBatch() {
+    handleDeleteBatch () {
       let deletebatch = [];
       this.multipleSelection.forEach(i => {
         deletebatch.push(i.id);
@@ -201,7 +245,7 @@ export default {
         }
       });
     },
-    handleDelete(id) {
+    handleDelete (id) {
       this.$http.delete(this.api.dicDelete + id).then(res => {
         if (res.data.code == "200") {
           this.$message.success("删除成功");
@@ -209,7 +253,7 @@ export default {
         }
       });
     },
-    handleSave() {
+    handleSave () {
       this.form.dicTypeId = this.data.id;
       this.$http.post(this.api.dicSave, this.form).then(res => {
         if (res.data.code == "200") {
@@ -228,7 +272,7 @@ export default {
         }
       });
     },
-    cancelSave() {
+    cancelSave () {
       this.editVisible = false;
       this.empty();
     }
@@ -237,11 +281,10 @@ export default {
 </script>
 
 <style >
-.dialog-table .el-dialog__body{
+.dialog-table .el-dialog__body {
   height: calc(100% - 30px);
 }
-.dic_label{
-  
+.dic_label {
 }
 </style>
 

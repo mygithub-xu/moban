@@ -3,9 +3,11 @@ import Vue from 'vue';
 import axios from "axios";
 import router from '@/router'
 import { Message } from 'element-ui';
+import BASE_URL from '@/config'
 
 
-axios.defaults.baseURL = process.env.API_ROOT
+axios.defaults.baseURL = BASE_URL
+// axios.defaults.baseURL = 'https://www.whfch.icu/moban/v1/'
 Vue.prototype.$http = axios;
 
 //改变请求的head内容
