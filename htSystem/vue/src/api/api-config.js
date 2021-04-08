@@ -101,19 +101,4 @@ export default {
   sysAutoParamFindByTableID: `api/system/sysAutoParam/findByTableID/`,//{id}获取表的字段数据
 
   /********* 系统配置  end******/
-
-  //博客管理--start
-  //博客文章
-  blogBlogQueryByCondition: `api/blog/blogBlog/querybycondition`,//查询
-  blogBlogDeletebyid: `api/blog/blogBlog/deleteById/`,//单个删除
-  blogBlogBatchDelete: `api/blog/blogBlog/batchdelete`,//批量删除
-  blogBlogSaveOrUpdate: `api/blog/blogBlog/saveOrUpdate`,//更新或新增
-  blogBlogListFieldQuery: `api/blog/blogBlog/listFieldQuery`,//列表查询
-
-
-  blogProjectQueryByCondition: `api/blog/blogProject/querybycondition`,//查询
-  blogProjectDeletebyid: `api/blog/blogProject/deleteById/`,//单个删除
-  blogProjectBatchDelete: `api/blog/blogProject/batchdelete`,//批量删除
-  blogProjectSaveOrUpdate: `api/blog/blogProject/saveOrUpdate`,//更新或新增
-  blogProjectListFieldQuery: `api/blog/blogProject/listFieldQuery`,//列表查询
 }
