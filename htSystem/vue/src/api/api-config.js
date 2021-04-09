@@ -91,6 +91,7 @@ export default {
   sysAutoTableSaveOrUpdate: `/api/system/sysAutoTable/saveOrUpdate`,//保存表
   sysAutoTableSaveOrUpdateTem: `/api/system/sysAutoTable/saveOrUpdateTem`,//保存模板
   sysAutoTableFindTable: `/api/system/sysAutoTable/findTable`,//查找表
+  sysAutoTableFindTableField: `/api/system/sysAutoTable/findTableField/`,//查表字段形成数据
 
 
   //代码生成子类 sys_auto_field

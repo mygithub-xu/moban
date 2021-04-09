@@ -116,9 +116,9 @@ public class SysAutoTableController {
                 return  doService.findTable();
         }
 
-        @ApiOperation("查找表字段")
-        @GetMapping("/findTableField")
-        public Result findTableField(@RequestBody String tableName) {
+        @ApiOperation("根据表名查找表字段")
+        @GetMapping("/findTableField/{tableName}")
+        public Result findTableField(@PathVariable String tableName) {
                 return  doService.findTableField(tableName);
         }
 }

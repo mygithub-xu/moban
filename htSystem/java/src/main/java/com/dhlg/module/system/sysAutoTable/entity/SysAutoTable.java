@@ -104,6 +104,12 @@ public class SysAutoTable implements Serializable{
     private String apiUrl;
 
     /**
+     * 表生成，0创建，1从数据库导入
+     */
+    @TableField("is_by_table")
+    private String isByTable;
+
+    /**
      * 更新时间
      */
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")

@@ -110,5 +110,6 @@ common:
   #云服务器路径
   fileDownSrc: /usr/local/resources/
   templateUrl: \src\main\resources\templates\
+  dataBase: houtaisql
 #  fileDownSrc: D:/resource/
 

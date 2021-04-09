@@ -159,12 +159,12 @@ public class SysAutoField implements Serializable {
     /**
      * 关联表字段驼峰式
      */
-    @TableField("field_related_field")
+    @TableField(exist = false)
     private String fieldRelatedFieldHump;
     /**
      * 关联表显示字段驼峰式
      */
-    @TableField("field_related_field_show")
+    @TableField(exist = false)
     private String fieldRelatedFieldShowHump;
 
 }

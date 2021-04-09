@@ -77,7 +77,7 @@
                 <el-table-column v-if="needParam.isShowOperaTable"
                                  width="200px"
                                  label="操作">
-                  <slot slot-scope="scope">
+                  <slot>
                     <el-button v-for="(item,index) in needParam.tableButtonList"
                                :key="index">{{item.title}}</el-button>
                   </slot>
@@ -470,7 +470,6 @@ export default {
     /** 模板页面进入 end*/
     //改变模板
     changeTemp (val) {
-      debugger
       if (!val) {
         return
       }

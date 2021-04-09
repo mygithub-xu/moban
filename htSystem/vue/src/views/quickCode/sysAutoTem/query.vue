@@ -115,8 +115,7 @@ export default {
         },
 
         //编辑
-        handleEdit(row) {
-          debugger
+        handleEdit(row) {          
           this.frameFontvisible = false
           this.$refs.editLayout.editInit(row)
         },

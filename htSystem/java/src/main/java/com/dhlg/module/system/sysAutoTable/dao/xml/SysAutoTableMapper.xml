@@ -114,10 +114,26 @@
     </update >
 
     <select id="findTable"  resultType="String">
-        select table_name from information_schema.tables
+        select table_name from information_schema.tables where TABLE_SCHEMA = #{dataBaseName}
     </select>
 
-    <select id="SysAutoField"  resultType="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
-        select table_name from information_schema.tables where table_schema=#{v}
+
+    <select id="findTableField"  parameterType="String" resultType="com.dhlg.module.system.sysAutoField.entity.SysAutoField">
+        SELECT COLUMN_NAME as fieldName , DATA_TYPE as fieldType , CHARACTER_MAXIMUM_LENGTH as fieldLength ,COLUMN_COMMENT as fieldDes ,ORDINAL_POSITION as fieldIndex ,
+        (CASE
+        WHEN IS_NULLABLE = 'YES' THEN
+        0
+        ELSE
+        1
+        END
+        ) as fieldIsNull ,
+        (CASE
+        WHEN COLUMN_KEY = 'PRI' THEN
+        1
+        ELSE
+        0
+        END
+        ) as fieldPrimary
+        FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = #{dataBaseName} AND table_name = #{tableName} ORDER BY ORDINAL_POSITION
     </select>
 </mapper>

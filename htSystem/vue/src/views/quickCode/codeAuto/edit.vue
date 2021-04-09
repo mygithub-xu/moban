@@ -20,7 +20,7 @@
             <el-form-item v-show="isImportTable"
                           label="数据库表"
                           prop="tableName">
-              <el-select v-model="form.tableType"
+              <el-select v-model="form.tableName"
                          placeholder="请选择"
                          clearable
                          @change="selectTableName">
@@ -31,7 +31,8 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item label="表名"
+            <el-form-item v-show="!isImportTable" 
+                          label="表名"
                           prop="tableName">
               <el-input v-model="form.tableName"></el-input>
             </el-form-item>
@@ -303,7 +304,15 @@ export default {
   },
   methods: {
     selectTableName () {
-
+      let tableName = this.form.tableName
+      this.$http.get(this.api.sysAutoTableFindTableField + tableName).then(res => {
+        if (res.data.code == "200") {
+          this.form.autoFieldList = res.data.body
+        } else {
+          this.empty()
+        }
+        this.editVisible = true;
+      })
     },
     //id无法选择
     checkSelect (row, index) {
@@ -323,7 +332,7 @@ export default {
           this.$message.warning("获取子数据失败");
         }
         this.editVisible = true;
-      });
+      })
       this.editVisible = true;
     },
     //导入数据库页面
@@ -426,7 +435,7 @@ export default {
     },
     //保存/修改
     handleSave () {
-      this.$confirm("确定是否生成表", "提示", {
+      this.$confirm("确定是否生成该关系", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -434,22 +443,11 @@ export default {
         this.saveTableData()
       }).catch(() => {
         this.$message.info("已取消");
-      });
-
-
-      // this.$refs.tableForm.validate((valid) => {
-      //   if(valid){
-      //     this.$http.post(this.api.sysAutoTableExistable, this.form).then(res => {
-      //       if (res.data.code == "200") {
-      //         this.saveTableData()
-      //       }
-
-      //     });
-      //   }
-      // })
-
+      })
     },
     saveTableData () {
+      //当从数据库导入的时候isByTable=1
+      this.form.isByTable = this.isImportTable?'1':'0'
       this.$http.post(this.api.sysAutoTableSaveOrUpdate, this.form).then(res => {
         if (res.data.code == "200") {
           this.$message.success(res.data.message);

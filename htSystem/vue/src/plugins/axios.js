@@ -5,11 +5,11 @@ import router from '@/router'
 import { Message } from 'element-ui';
 import BASE_URL from '@/config'
 
-
 axios.defaults.baseURL = BASE_URL
 // axios.defaults.baseURL = 'https://www.whfch.icu/moban/v1/'
 Vue.prototype.$http = axios;
 
+let loading;
 //改变请求的head内容
 axios.interceptors.request.use(
   config => {
@@ -19,6 +19,13 @@ axios.interceptors.request.use(
     if (token) {
         config.headers['dh-Token'] = token;
     }
+    //开启loading
+    loading = Vue.prototype.$loading({
+      lock:true,
+      text:'Loading',
+      spinner:'el-icon-loading',
+      background:'rgba(0,0,0,0,7)'
+    })
     return config
   },
   error => {
@@ -27,12 +34,20 @@ axios.interceptors.request.use(
 
   axios.interceptors.response.use(
     response => {
+      //解出loading
+      if(loading){
+        loading.close()
+      }
       if(response.data.code == "200"){
         return response;
       }
       return Message.error(response.data.message)
     },
     error => {
+      //解出loading
+      if(loading){
+        loading.close()
+      }
       let message="";
       //检查网络是否连接
       if(error.message=='Network Error'){

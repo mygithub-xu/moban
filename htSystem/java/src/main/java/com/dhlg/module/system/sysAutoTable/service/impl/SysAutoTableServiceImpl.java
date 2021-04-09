@@ -67,8 +67,12 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
 
     @Value("${spring.datasource.password}")
     private String password;
+
     @Value("${common.templateUrl}")
     private String templateUrl;
+
+    @Value("${common.dataBase}")
+    private String DATABASE;
 
     private static final String TO = "1967368657@qq.com";
     private static final String SUBJECT = "测试邮件";
@@ -87,11 +91,12 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         if (StringUtils.isBlank(sysAutoTable.getId())) {
             //新增
             //判断表是否存在
-            boolean isexis = existboolean(sysAutoTable);
-            if (isexis){
-                return Result.error("表已经存在，请更改表名称重试");
+            if (!Dictionaries.COMMONTRUE.equals(sysAutoTable.getIsByTable())){
+                boolean isexis = existboolean(sysAutoTable);
+                if (isexis){
+                    return Result.error("表已经存在，请更改表名称重试");
+                }
             }
-
             //插入数据
             sysAutoTable.setId(StringUtils.uuid());
             sysAutoTable.setCreateTime(DateUtils.getCurrentDate());
@@ -100,10 +105,8 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
 
             //批量保存明细
             saveDetails(sysAutoTable,true);
+            operationTable(sysAutoTable,Dictionaries.COMMONTRUE);
 
-            //创建表
-            SysAutoTable sysAutoTable1 = changeTableData(sysAutoTable);
-            creatTable(sysAutoTable1);
             if(!save(sysAutoTable)){
                 return Result.error(Dictionaries.SAVE_FAILED);
             }
@@ -115,17 +118,27 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
         sysAutoTable.setUpdateUser(GetLoginUser.getCurrentUserId());
         sysAutoTable.setStatus("0");
         saveDetails(sysAutoTable,false);
-
-        //删除表
-        SysAutoTable oldTable = getById(sysAutoTable.getId());
-        doMapper.deleteTable(oldTable.getTableName());
-        //创建表
-        SysAutoTable sysAutoTable1 = changeTableData(sysAutoTable);
-        creatTable(sysAutoTable1);
+        // 操作表
+        operationTable(sysAutoTable,Dictionaries.COMMONFALSE);
         if (!updateById(sysAutoTable)){
             return new Result("500","", Dictionaries.UPDATE_FAILED);
         }
         return new Result("200","",Dictionaries.UPDATE_SUCCESS);
+    }
+
+    private void operationTable(SysAutoTable sysAutoTable, String commontrue) {
+        // 从数据库导入的表，不允许改变
+        if (Dictionaries.COMMONTRUE.equals(sysAutoTable.getIsByTable())){
+            return;
+        }
+        if (Dictionaries.COMMONFALSE.equals(commontrue)){
+            //删除表
+            SysAutoTable oldTable = getById(sysAutoTable.getId());
+            doMapper.deleteTable(oldTable.getTableName());
+        }
+        // 创建表
+        SysAutoTable sysAutoTable1 = changeTableData(sysAutoTable);
+        creatTable(sysAutoTable1);
     }
 
     private void saveDetails(SysAutoTable sysAutoTable,boolean isAdd) {
@@ -296,14 +309,21 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     public Result findByID(String id) {
         SysAutoTable autoTable = getById(id);
         List<SysAutoField> fields = autoFieldService.list(new QueryWrapper<SysAutoField>().eq("table_id", id).orderByAsc("field_index"));
+        autoTable.setAutoFieldList(changeFIelds(fields));
+
+        return Result.success(autoTable,"获取成功");
+    }
+
+    private List<SysAutoField> changeFIelds(List<SysAutoField> fields) {
         for (SysAutoField field : fields){
             field.setFieldIsNullBoo(Dictionaries.FIELDISNOTNULLBOO.equals(field.getFieldIsNull()));
             field.setFieldPrimaryBoo(Dictionaries.FIELDNOTPRIMARYBOO.equals(field.getFieldPrimary()));
             field.setFieldIsBeRelatedBoo(Dictionaries.COMMONTRUE.equals(field.getFieldIsBeRelated()));
+            if (StringUtils.isBlank(field.getFieldLength())){
+                field.setFieldLength(0);
+            }
         }
-        autoTable.setAutoFieldList(fields);
-
-        return Result.success(autoTable,"获取成功");
+        return fields;
     }
 
     @Override
@@ -431,12 +451,13 @@ public class SysAutoTableServiceImpl extends ServiceImpl<SysAutoTableMapper, Sys
     @Override
     public Result findTable() {
 
-        return Result.success(doMapper.findTable());
+        return Result.success(doMapper.findTable(DATABASE));
     }
 
     @Override
     public Result findTableField(String tableName) {
-        return Result.success(doMapper.findTableField(tableName));
+        List<SysAutoField> tableField = doMapper.findTableField(DATABASE, tableName);
+        return Result.success(changeFIelds(tableField));
     }
 
     private void greatFile(SysAutoTable autoTable,ProjModel projModel,String targetPath) {
