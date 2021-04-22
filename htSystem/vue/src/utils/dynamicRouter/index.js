@@ -139,12 +139,11 @@ function treeIteration (list) {
 }
 
 function loadView (view) {
+  view = view + '.vue'
   // 判断是否存在此文件,不存在则被catch到
-  require('@/views' + view + '.vue');
-
-  return () => import('@/views' + view + '.vue');
-
+  return (resolve) => require([`@/views${view}`], resolve)
 }
+
 function getToken () {
   return User.getToken()
 }
