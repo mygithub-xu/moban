@@ -89,9 +89,9 @@
                 let indexPath = this.$store.state.tabRouter.indexTab;
                 console.log(indexPath);
                 if(indexPath != "/page/Dashboard"){
-                    this.$router.push(indexPath).catch(()=>{});
+                    this.$router.push(indexPath).catch(()=>{})
                 }else{
-                  this.$router.push("/page/Dashboard").catch(()=>{});
+                  this.$router.push("/page/Dashboard").catch(()=>{})
                 }
                 
               }else{
@@ -109,7 +109,7 @@
                   this.$message({
                     message: "登陆失败",
                     type: "error"
-                  });
+                  })
                   
                 }
 
