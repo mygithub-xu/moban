@@ -108,8 +108,8 @@ common:
   #网络访问路径
   fileNetSrc: http://120.25.197.11/resources/
   #云服务器路径
-  fileDownSrc: /usr/local/resources/
+#  fileDownSrc: /usr/local/resources/
   templateUrl: \src\main\resources\templates\
   dataBase: houtaisql
-#  fileDownSrc: D:/resource/
+  fileDownSrc: D:/resource/
 

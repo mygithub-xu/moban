@@ -74,11 +74,11 @@ export default {
   LoginLogBatchdelete: `api/system/sysLoginLog/batchdelete`, // 条件查询
 
   //测试代码 sys_test
-  sysTestsaveOrUpdate: 'api/system/sysTest/saveOrUpdate',//post
-  sysTestdeleteById: 'api/system/sysTest/deleteById/',//delete
-  sysTestbatchDelete: 'api/system/sysTest/batchDelete',//post
-  sysTestquery: 'api/system/sysTest/query',//post
-  sysTestqueryById: 'api/system/sysTest/queryById/',//get
+  sysTestsaveOrUpdate: 'api/test/sysTest/saveOrUpdate',//post
+  sysTestdeleteById: 'api/test/sysTest/deleteById/',//delete
+  sysTestbatchDelete: 'api/test/sysTest/batchDelete',//post
+  sysTestquery: 'api/test/sysTest/query',//post
+  sysTestqueryById: 'api/test/sysTest/queryById/',//get
 
 
   //代码生成 sys_auto_table

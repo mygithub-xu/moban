@@ -24,21 +24,6 @@ public class MobanApplication extends SpringBootServletInitializer {
         return application.sources(MobanApplication.class);
     }
 
-    /**
-     * 文件上传配置
-     *
-     * @return
-     */
-    @Bean
-    public MultipartConfigElement multipartConfigElement() {
-        MultipartConfigFactory factory = new MultipartConfigFactory();
-        //  单个数据大小
-        factory.setMaxFileSize(DataSize.parse("5MB")); // KB,MB
-        /// 总上传数据大小
-        factory.setMaxRequestSize(DataSize.parse("100MB"));
-        return factory.createMultipartConfig();
-    }
-
 
     public static void main(String[] args) {
         SpringApplication.run(MobanApplication.class, args);

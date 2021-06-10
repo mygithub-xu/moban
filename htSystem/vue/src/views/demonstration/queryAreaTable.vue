@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
+    <el-scrollbar style="width:100%">
     <div class="container-query">
-      <queryItem label="测试状态："
-                 width="100%">
+      <queryItem label="测试状态：">
         <el-select v-model="queryContion.status"
                    placeholder="请选择"
                    clearable>
@@ -64,6 +64,13 @@
                      icon="el-icon-view">预览</el-button>
           <exportcom v-model="exportUrl"
                      fileName="测试222.txt">导出</exportcom>
+          <download-excel class = "export-excel-wrapper"
+            :data ="multipleSelection"
+            :fields ="json_fields"
+            :type ="fileType" >
+            <el-button type="primary" >导出EXCEL</el-button>
+          </download-excel>
+
           <uploadFile @click="handleImport"
                       :uploadUrl="uploadUrl"
                       icon="el-icon-upload2"></uploadFile>
@@ -344,7 +351,7 @@
       </el-dialog>
     </div>
     <!-- 弹出框-- -->
-
+    </el-scrollbar>
   </div>
 </template>
 <script>
@@ -354,6 +361,16 @@ export default {
   name: "queryAreaTable2",
   data () {
     return {
+      json_data:[],
+      json_fields:{
+        '创建时间': 'createTime',
+        '测试名称': 'createTime',
+        '测试单价': 'testUnit',
+        '测试总金额': 'testTotal',
+        '测试状态': 'testStatus',
+        '测试数量': 'testNum'
+      },
+      fileType: 'xls',
       // 区域一--start
       uploadUrl: "http://127.0.0.1:4040/moban/api/test/sysTest/importExcel",
       exportUrl: "test/sysTest/exportExcel",
@@ -599,29 +616,11 @@ export default {
     },
     //表格数据
     getdata () {
-
-      // this.$http
-      //   .post(this.api.sysTestQueryByCondition, {
-      //     condition: this.queryContion,
-      //     number: this.pageData.pageNumber,
-      //     size: this.pageData.pageSize
-      //   })
-      //   .then(res => {
-      //     if (res.data.code == "200") {
-      //       this.pageData.list = res.data.body.records;
-
-      //       this.pageData.totalCount = res.data.body.total;
-      //       this.pageData.totalPage = res.data.body.pages;
-      //     }
-      //   });
-
-      this.$http
-        .post(this.api.LoginLogQuery, {
-          condition: this.condition,
+      this.$http.post(this.api.sysTestquery, {
+          condition: this.queryContion,
           number: this.pageData.pageNumber,
           size: this.pageData.pageSize
-        })
-        .then(res => {
+        }).then(res => {
           this.pageData.list = res.data.body.records;
           this.pageData.totalCount = res.data.body.total;
           this.pageData.totalPage = res.data.body.pages;

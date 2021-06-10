@@ -27,6 +27,7 @@
                  :on-preview="handlePreview"
                  :on-remove="handleRemove"
                  :before-remove="beforeRemove"
+                 :headers="importHeaders"
                  multiple
                  :limit="20"
                  :data="param"
@@ -44,6 +45,7 @@
 </template>
 
 <script>
+import BASE_URL from '@/config'
 export default {
   name: "uploadMore",
   data () {
@@ -55,11 +57,15 @@ export default {
       },
       dialogImageUrl: '',
       dialogVisible: false,
-      uploadUrl: "/api/system/sysFile/uploadFileMore"
     };
   },
-  mounted () {
-    // this.xiala();
+  computed:{
+    uploadUrl(){
+      return BASE_URL + this.api.sysFileUploadFile
+    },
+    importHeaders(){
+      return {'dh-Token':sessionStorage.getItem("Token")}
+    }
   },
   methods: {
     xiala () {

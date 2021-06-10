@@ -10,7 +10,7 @@ export default {
   name: "exportcom",
   data () {
     return {
-    };
+    }
   },
   props: {
     type: {

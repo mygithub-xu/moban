@@ -136,8 +136,8 @@
                :before-close="handleClose"
                width="30%">
       <!-- 上传头像组件 监听事件从上传头像组件传来的数据，即裁剪好的图片-->
-      <upload v-on:listenTitleImg="showTitleImg"
-              :avatarSrc="getAvatar"></upload>
+      <uploadHeader v-on:listenTitleImg="showTitleImg"
+              :avatarSrc="getAvatar"></uploadHeader>
       <el-button @click="handleClose"
                  class="cancelBtn">取 消</el-button>
     </el-dialog>

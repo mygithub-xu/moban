@@ -35,10 +35,27 @@ public class CommonMap {
         javaTypeMap.put("VARCHAR", "String");
         javaTypeMap.put("TINYTEXT", "String");
         javaTypeMap.put("TEXT", "String");
-        javaTypeMap.put("MEDIUMTEXTmediumtext", "String");
+        javaTypeMap.put("MEDIUMTEXT", "String");
         javaTypeMap.put("LONGTEXT", "String");
         javaTypeMap.put("DATE", "Date");
         javaTypeMap.put("DATETIME", "Date");
         javaTypeMap.put("TIMESTAMP", "Date");
+
+        javaTypeMap.put("float", "Float");
+        javaTypeMap.put("int", "Integer");
+        javaTypeMap.put("integer", "Integer");
+        javaTypeMap.put("bigint", "Long");
+        javaTypeMap.put("double", "Double");
+        javaTypeMap.put("decimal", "BigDecimal");
+        javaTypeMap.put("bit", "Boolean");
+        javaTypeMap.put("char", "String");
+        javaTypeMap.put("varchar", "String");
+        javaTypeMap.put("tinytext", "String");
+        javaTypeMap.put("text", "String");
+        javaTypeMap.put("mediumtext", "String");
+        javaTypeMap.put("longtext", "String");
+        javaTypeMap.put("date", "Date");
+        javaTypeMap.put("datetime", "Date");
+        javaTypeMap.put("timestamp", "Date");
     }
 }

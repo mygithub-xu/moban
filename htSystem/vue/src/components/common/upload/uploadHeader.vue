@@ -43,7 +43,7 @@
 <script>
 import VueCropper from 'vue-cropperjs';
 export default {
-  name: 'upload',
+  name: 'uploadHeader',
   data: function () {
     return {
       defaultSrc: '', // 初始的头像
@@ -106,7 +106,7 @@ export default {
         this.dialogVisible = true;
         this.imgSrc = event.target.result;
         this.$refs.cropper && this.$refs.cropper.replace(event.target.result);
-      };
+      }
       reader.readAsDataURL(file);
     },
     cropImage () {

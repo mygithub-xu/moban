@@ -8,6 +8,9 @@ import '@/plugins/element'
 import '@/plugins/axios'
 import '@/plugins/echarts'
 
+import JsonExcel from 'vue-json-excel'
+Vue.component('downloadExcel', JsonExcel)
+
 //引入markdown 富文本编辑器（markDown，quill）
 import '@/plugins/markDown'
 import '@/plugins/quill'

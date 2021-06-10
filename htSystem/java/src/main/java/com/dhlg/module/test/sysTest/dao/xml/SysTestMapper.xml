@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.test.sysTest.dao.SysTestMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.test.sysTest.entity.SysTest">
+        <result column="test_name" property="testName" />
+        <result column="create_time" property="createTime" />
+        <result column="id" property="id" />
+        <result column="create_user" property="createUser" />
+        <result column="test_unit" property="testUnit" />
+        <result column="test_total" property="testTotal" />
+        <result column="test_type" property="testType" />
+        <result column="test_status" property="testStatus" />
+        <result column="test_num" property="testNum" />
+        <result column="parent_id" property="parentId" />
+        <result column="test_area" property="testArea" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+test_name,create_time,id,create_user,test_unit,test_total,test_type,test_status,test_num,parent_id,test_area    </sql>
+
+    <select id="queryByCondition" parameterType="com.dhlg.module.test.sysTest.entity.SysTest" 
+    resultType="com.dhlg.module.test.sysTest.entity.SysTest">
+        select t.*
+        from sys_test t
+        <trim prefix="where" prefixOverrides="and">
+            <if test="params != null and params.testName != null and params.testName !=''">
+                and t.test_name like concat('%',#{params.testName},'%')
+            </if>
+        </trim>
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from sys_test
+    </select>
+
+</mapper>
