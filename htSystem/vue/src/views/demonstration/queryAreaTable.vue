@@ -62,14 +62,14 @@
                      @click="handleDeleteBatch">删除</el-button>
           <el-button type="primary"
                      icon="el-icon-view">预览</el-button>
-          <exportcom v-model="exportUrl"
-                     fileName="测试222.txt">导出</exportcom>
-          <download-excel class = "export-excel-wrapper"
+          <!-- <exportcom v-model="exportUrl"
+                     fileName="测试222.txt">导出</exportcom> -->
+          <ja-export 
             :data ="multipleSelection"
             :fields ="json_fields"
-            :type ="fileType" >
-            <el-button type="primary" >导出EXCEL</el-button>
-          </download-excel>
+            name = "测试.xls">
+            导出
+          </ja-export>
 
           <uploadFile @click="handleImport"
                       :uploadUrl="uploadUrl"
@@ -168,8 +168,12 @@
       </div>
 
     </div>
+    <!-- 弹出框-- -->
+    </el-scrollbar>
 
+    
     <div class="show-dialog">
+      
       <el-dialog :visible.sync="editVisible"
                  :show-close="false"
                  :modal="false"
@@ -350,8 +354,6 @@
         </div>
       </el-dialog>
     </div>
-    <!-- 弹出框-- -->
-    </el-scrollbar>
   </div>
 </template>
 <script>
@@ -367,7 +369,13 @@ export default {
         '测试名称': 'createTime',
         '测试单价': 'testUnit',
         '测试总金额': 'testTotal',
-        '测试状态': 'testStatus',
+        '测试状态': {
+          field: "testStatus",
+                    //自定义回调函数
+          callback: value => {
+            return value == 1 ?'启用' : '禁用';
+          }
+        },
         '测试数量': 'testNum'
       },
       fileType: 'xls',
@@ -453,6 +461,11 @@ export default {
   },
   created () {
     this.getdata();
+  },
+  watch:{
+    multipleSelection(){
+      console.log(JSON.stringify(this.multipleSelection))
+    }
   },
   methods: {
     changebox (item) {

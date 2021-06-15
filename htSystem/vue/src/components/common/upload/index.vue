@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-upload
-    v-show="!readOnly"
+      v-show="!readOnly"
       class="upload-demo"
       :action="uploadUrl"
       :headers="importHeaders"

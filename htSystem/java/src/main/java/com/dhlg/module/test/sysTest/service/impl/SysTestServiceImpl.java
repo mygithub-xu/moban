@@ -74,6 +74,11 @@ public class SysTestServiceImpl extends ServiceImpl<SysTestMapper, SysTest> impl
     }
 
     @Override
+    public List<SysTest> findAllAdta() {
+        return list();
+    }
+
+    @Override
     public Result deleteBatch(List<String> ids) {
         if (!removeByIds(ids)){
 

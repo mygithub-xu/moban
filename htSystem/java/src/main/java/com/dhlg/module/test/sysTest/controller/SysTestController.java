@@ -1,5 +1,9 @@
 package com.dhlg.module.test.sysTest.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
+import com.alibaba.fastjson.JSON;
 import com.dhlg.module.test.sysTest.entity.SysTest;
 import com.dhlg.module.test.sysTest.service.ISysTestService;
 import com.dhlg.utils.Parameter.QueryEntity;
@@ -7,10 +11,19 @@ import com.dhlg.utils.Result;
 import com.dhlg.utils.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -64,6 +77,43 @@ public class SysTestController {
         public Result batchDelete(@RequestBody List<String> ids) {
 
                 return doService.deleteBatch(ids);
+        }
+
+        @ApiOperation("下载")
+        @PostMapping("/down")
+        public void down(@RequestBody List<SysTest> data , HttpServletResponse response) throws IOException {
+                // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+                try {
+                        List<SysTest> allAdta = doService.findAllAdta();
+                        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                        response.setCharacterEncoding("utf-8");
+                        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+                        String fileName = URLEncoder.encode("测试", "UTF-8").replaceAll("\\+", "%20");
+                        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
+                        // 这里需要设置不关闭流
+                        EasyExcel.write(response.getOutputStream(), SysTest.class).autoCloseStream(Boolean.FALSE).sheet("模板")
+                                .doWrite(allAdta);
+                } catch (Exception e) {
+                        // 重置response
+                        response.reset();
+                        response.setContentType("application/json");
+                        response.setCharacterEncoding("utf-8");
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("status", "failure");
+                        map.put("message", "下载文件失败" + e.getMessage());
+                        response.getWriter().println(JSON.toJSONString(map));
+                }
+        }
+
+        @Test
+        @GetMapping("/down2")
+        public void simpleWrite() {
+                // 写法1
+                String fileName = "simpleWrite" + System.currentTimeMillis() + ".xlsx";
+                // 这里 需要指定写用哪个class去写，然后写到第一个sheet，名字为模板 然后文件流会自动关闭
+                // 如果这里想使用03 则 传入excelType参数即可
+                List<SysTest> allAdta = doService.findAllAdta();
+                EasyExcel.write(fileName, SysTest.class).sheet("模板").doWrite(allAdta);
         }
 }
 

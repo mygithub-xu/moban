@@ -27,4 +27,5 @@ public interface ISysTestService extends IService<SysTest> {
 
     Result query(String id);
 
+    List<SysTest> findAllAdta();
 }

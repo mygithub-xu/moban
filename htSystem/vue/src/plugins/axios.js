@@ -38,6 +38,9 @@ axios.interceptors.request.use(
       if(loading){
         loading.close()
       }
+      if(response.config.url.indexOf("down") != -1){
+        return response;
+      }
       if(response.data.code == "200"){
         return response;
       }
