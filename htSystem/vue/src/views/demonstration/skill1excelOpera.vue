@@ -57,7 +57,8 @@
           </el-input>
         </div>
         <div class="skill-item">
-          <el-button @click = "down">导出</el-button>
+          <el-button @click = "down">导出简单xlsx</el-button>
+          <el-button @click = "down">导出复杂且定制化xlsx</el-button>
         </div>
       </div>
       </div>
@@ -97,8 +98,6 @@ export default {
   },
   methods:{
     down () {
-      // this.$http.get('api/test/sysTest/down2').then(res => {
-      // })
       this.$utils.downFile(this.api.sysTestDown,JSON.parse(this.textarea),'测试.xlsx')
     },
     getImportData (data) {

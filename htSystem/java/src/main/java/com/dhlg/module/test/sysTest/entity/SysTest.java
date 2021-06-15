@@ -3,6 +3,7 @@ package com.dhlg.module.test.sysTest.entity;
 import java.util.Date;
 import java.math.BigDecimal;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -25,6 +26,7 @@ public class SysTest implements Serializable {
         /**
         *id
         */
+        @ExcelIgnore
         @TableId("id")
         private String id;
 
@@ -68,8 +70,10 @@ public class SysTest implements Serializable {
         /**
          * 测试状态
          */
+        @ExcelProperty("测试状态")
         @TableField("test_status")
         private String testStatus;
+
         /**
          * 个数
          */
@@ -79,6 +83,7 @@ public class SysTest implements Serializable {
         /**
          * 父id
          */
+        @ExcelIgnore
         @TableField("parent_id")
         private String parentId;
         /**

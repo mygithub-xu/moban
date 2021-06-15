@@ -82,9 +82,13 @@ public class SysTestController {
         @ApiOperation("下载")
         @PostMapping("/down")
         public void down(@RequestBody List<SysTest> data , HttpServletResponse response) throws IOException {
+                for(SysTest test : data){
+                        String status =  "1".equals(test.getTestStatus()) ?"启用" : "禁用";
+                        test.setTestStatus(status);
+                }
                 // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
                 try {
-                        List<SysTest> allAdta = doService.findAllAdta();
+//                        List<SysTest> allAdta = doService.findAllAdta();
                         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
                         response.setCharacterEncoding("utf-8");
                         // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
@@ -92,7 +96,7 @@ public class SysTestController {
                         response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
                         // 这里需要设置不关闭流
                         EasyExcel.write(response.getOutputStream(), SysTest.class).autoCloseStream(Boolean.FALSE).sheet("模板")
-                                .doWrite(allAdta);
+                                .doWrite(data);
                 } catch (Exception e) {
                         // 重置response
                         response.reset();
@@ -104,9 +108,24 @@ public class SysTestController {
                         response.getWriter().println(JSON.toJSONString(map));
                 }
         }
+        @ApiOperation("复杂导出模板")
+        @PostMapping("/down2")
+        public void down2() {
+                String TEMPLATE_PATH = "template/excel/";
+                // 写法1
+                // 模板注意 用{} 来表示你要用的变量 如果本来就有"{","}" 特殊字符 用"\{","\}"代替
+                String templateFileName = TEMPLATE_PATH + "demo.xlsx";
 
-        @Test
-        @GetMapping("/down2")
+                // 方案1 根据对象填充
+                String fileName = "simpleFill" + System.currentTimeMillis() + ".xlsx";
+                // 这里 会填充到第一个sheet， 然后文件流会自动关闭
+                FillData fillData = new FillData();
+                fillData.setName("张三");
+                fillData.setNumber(5.2);
+                EasyExcel.write(fileName).withTemplate(templateFileName).sheet().doFill(fillData);
+        }
+
+        @GetMapping("/down10")
         public void simpleWrite() {
                 // 写法1
                 String fileName = "simpleWrite" + System.currentTimeMillis() + ".xlsx";

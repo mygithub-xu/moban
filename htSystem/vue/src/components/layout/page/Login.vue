@@ -54,13 +54,6 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             // 使用 vue-router 路由到指定页面，该方式称之为编程式导航
-        //开启loading
-        const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
             this.$http.post(this.api.login,this.form).then(res=>{
               if (res.data.code == '200') {
                 // 更新登录状态,true为第一次登录。
@@ -110,15 +103,9 @@
                     message: "登陆失败",
                     type: "error"
                   })
-                  
                 }
-
               }
-            loading.close();
-              // this.fullscreenLoading=false;
-            }).catch(() => {
-                loading.close();
-              });
+            })
           } 
 
         });
