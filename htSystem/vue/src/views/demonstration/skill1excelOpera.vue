@@ -45,7 +45,7 @@
           </ja-import>
         </div>
       </div>
-      <h2 class="skill-h2">3.后端，将excel作为流的形式传给后台，后台使用阿里的easyExcel对其进行处理。一般这样的处理为样式比较复杂，且定制化的的excel。</h2>
+      <h2 class="skill-h2">3.后端，excel导出，将excel作为流的形式传给后台，后台使用阿里的easyExcel对其进行处理。一般这样的处理为样式比较复杂，且定制化的的excel。</h2>
       <div class="skill">
         <div class="skill-item">
           <el-input
@@ -58,7 +58,24 @@
         </div>
         <div class="skill-item">
           <el-button @click = "down">导出简单xlsx</el-button>
-          <el-button @click = "down">导出复杂且定制化xlsx</el-button>
+          <el-button @click = "down2">导出复杂且定制化xlsx</el-button>
+        </div>
+      </div>
+
+      <h2 class="skill-h2">4.后端，excel导入，easyExcel读取复杂excel</h2>
+      <div class="skill">
+        <div class="skill-item">
+          <el-input
+            style="width:350px;margin-left:50px;margin-top:50px"
+            type="textarea"
+            :rows="10"
+            placeholder="请输入内容"
+            v-model="textarea">
+          </el-input>
+        </div>
+        <div class="skill-item">
+          <el-button @click = "down">导出简单xlsx</el-button>
+          <el-button @click = "down2">导出复杂且定制化xlsx</el-button>
         </div>
       </div>
       </div>
@@ -97,6 +114,9 @@ export default {
     }
   },
   methods:{
+    down2(){
+      this.$utils.downFile(this.api.sysTestDown2,JSON.parse(this.textarea),'测试2.xlsx')
+    },
     down () {
       this.$utils.downFile(this.api.sysTestDown,JSON.parse(this.textarea),'测试.xlsx')
     },

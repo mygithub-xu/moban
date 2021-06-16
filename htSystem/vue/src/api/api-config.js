@@ -80,6 +80,7 @@ export default {
   sysTestquery: 'api/test/sysTest/query',//post
   sysTestqueryById: 'api/test/sysTest/queryById/',//get
   sysTestDown: 'api/test/sysTest/down',//post
+  sysTestDown2: 'api/test/sysTest/down2',//post
 
 
   //代码生成 sys_auto_table
