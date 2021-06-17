@@ -4,7 +4,7 @@ package com.dhlg.module.system.sysLoginLog.controller;
 import com.dhlg.module.system.sysLoginLog.service.ISysLoginLogService;
 import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Result;
-import com.dhlg.utils.StringUtils;
+import com.dhlg.utils.common.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

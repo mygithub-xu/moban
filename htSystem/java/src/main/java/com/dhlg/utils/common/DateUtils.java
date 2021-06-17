@@ -1,4 +1,4 @@
-package com.dhlg.utils;
+package com.dhlg.utils.common;
 
 import org.springframework.util.Assert;
 

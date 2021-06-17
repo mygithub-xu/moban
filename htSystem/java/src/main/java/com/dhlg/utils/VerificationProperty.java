@@ -1,6 +1,7 @@
 package com.dhlg.utils;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.dhlg.utils.common.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;

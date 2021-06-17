@@ -16,15 +16,15 @@ import com.dhlg.module.system.sysAutoTable.entity.SysAutoTable;
 import com.dhlg.module.system.sysAutoTable.dao.SysAutoTableMapper;
 import com.dhlg.module.system.sysAutoTable.service.ISysAutoTableService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Parameter.QueryEntity;
+import com.dhlg.utils.common.DateUtils;
+import com.dhlg.utils.common.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import com.dhlg.utils.mailUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

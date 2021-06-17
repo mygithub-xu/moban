@@ -6,7 +6,7 @@ import com.dhlg.module.system.sysMenu.service.ISysMenuService;
 import com.dhlg.module.system.sysUser.entity.SysUser;
 import com.dhlg.utils.GetLoginUser;
 import com.dhlg.utils.Result;
-import com.dhlg.utils.StringUtils;
+import com.dhlg.utils.common.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

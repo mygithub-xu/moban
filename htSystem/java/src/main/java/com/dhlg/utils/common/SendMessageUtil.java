@@ -1,4 +1,4 @@
-package com.dhlg.utils;
+package com.dhlg.utils.common;
 
 import java.util.Random;
 import org.apache.commons.httpclient.Header;

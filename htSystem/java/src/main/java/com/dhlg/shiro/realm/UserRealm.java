@@ -2,13 +2,13 @@ package com.dhlg.shiro.realm;
 
 import com.dhlg.shiro.token.JwtToken;
 import com.dhlg.utils.Dictionaries;
-import com.dhlg.utils.JwtUtil;
+import com.dhlg.utils.common.JwtUtil;
 import com.dhlg.module.system.sysButton.entity.SysButton;
 import com.dhlg.module.system.sysButton.service.impl.SysButtonServiceImpl;
 import com.dhlg.module.system.sysRole.service.impl.SysRoleServiceImpl;
 import com.dhlg.module.system.sysUser.entity.SysUser;
 import com.dhlg.module.system.sysUser.service.impl.SysUserServiceImpl;
-import com.dhlg.utils.StringUtils;
+import com.dhlg.utils.common.StringUtils;
 import com.dhlg.redis.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;

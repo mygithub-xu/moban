@@ -1,4 +1,4 @@
-package com.dhlg.utils;
+package com.dhlg.utils.common;
 
 /**
  * 描述

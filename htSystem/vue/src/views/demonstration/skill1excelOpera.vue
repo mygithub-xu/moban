@@ -62,7 +62,7 @@
         </div>
       </div>
 
-      <h2 class="skill-h2">4.后端，excel导入，easyExcel读取复杂excel</h2>
+      <h2 class="skill-h2">4.后端，excel导入，easyExcel读取大量数据并存在数据库中</h2>
       <div class="skill">
         <div class="skill-item">
           <el-input
@@ -74,8 +74,7 @@
           </el-input>
         </div>
         <div class="skill-item">
-          <el-button @click = "down">导出简单xlsx</el-button>
-          <el-button @click = "down2">导出复杂且定制化xlsx</el-button>
+          <el-button @click = "down">导入xlsx</el-button>
         </div>
       </div>
       </div>

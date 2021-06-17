@@ -2,10 +2,10 @@ package com.dhlg.module.system.sysdic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.dhlg.utils.DateUtils;
+import com.dhlg.utils.common.DateUtils;
 import com.dhlg.utils.GetLoginUser;
 import com.dhlg.utils.Result;
-import com.dhlg.utils.StringUtils;
+import com.dhlg.utils.common.StringUtils;
 import com.dhlg.module.system.sysdic.entity.Option;
 import com.dhlg.module.system.sysdic.entity.SysDic;
 import com.dhlg.module.system.sysdic.entity.SysDicType;

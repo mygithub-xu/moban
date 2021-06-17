@@ -1,4 +1,4 @@
-package com.dhlg.utils;
+package com.dhlg.utils.common;
 
 import org.apache.commons.codec.binary.Base64;
 import sun.misc.BASE64Encoder;

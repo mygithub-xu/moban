@@ -6,7 +6,7 @@ import com.dhlg.module.system.sysRole.entity.SysRole;
 import com.dhlg.module.system.sysRole.service.ISysRoleService;
 import com.dhlg.module.system.sysRole.service.impl.SysRolePermissionServiceImpl;
 import com.dhlg.utils.Result;
-import com.dhlg.utils.StringUtils;
+import com.dhlg.utils.common.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

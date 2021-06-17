@@ -16,9 +16,9 @@ import upload from '@/components/common/upload/index'//上传组件
 import NumberInput from '@/components/common/input/NumberInput'//数字组件
 import queryItem from '@/components/common/UI/queryItem'//查询区域ui组件
 
-import jaImport from '@/components/common/import/index'// 纯前端导入组件
+import jaImport from '@/components/common/import/jaImport'// 纯前端导入组件
 
-import jaExport from '@/components/common/export/index'// 纯前端导出组件
+import jaExport from '@/components/common/export/jaExport'// 纯前端导出组件
 import exportcom from '@/components/common/export/exportcom'//后台导出组件
 
 //全局注册icon-svg

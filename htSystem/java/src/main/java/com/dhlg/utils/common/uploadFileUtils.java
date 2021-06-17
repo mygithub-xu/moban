@@ -1,5 +1,6 @@
-package com.dhlg.utils;
+package com.dhlg.utils.common;
 
+import com.dhlg.utils.common.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;

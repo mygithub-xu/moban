@@ -3,7 +3,7 @@ package com.dhlg.aop;
 import com.dhlg.module.system.sysLoginLog.entity.SysLoginLog;
 import com.dhlg.module.system.sysLoginLog.service.ISysLoginLogService;
 import com.dhlg.module.system.sysUser.service.ISysUserService;
-import com.dhlg.utils.AddressUtils;
+import com.dhlg.utils.common.AddressUtils;
 import com.dhlg.utils.GetLoginUser;
 import com.dhlg.utils.Result;
 import com.dhlg.utils.loginAgentUtils;

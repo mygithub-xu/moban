@@ -6,7 +6,7 @@ import com.dhlg.module.system.sysLoginLog.entity.SysLoginLog;
 import com.dhlg.module.system.sysLoginLog.dao.SysLoginLogMapper;
 import com.dhlg.module.system.sysLoginLog.service.ISysLoginLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dhlg.utils.DateUtils;
+import com.dhlg.utils.common.DateUtils;
 import com.dhlg.utils.Dictionaries;
 import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Result;

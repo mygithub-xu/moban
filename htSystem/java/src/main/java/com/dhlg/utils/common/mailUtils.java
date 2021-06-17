@@ -1,4 +1,4 @@
-package com.dhlg.utils;
+package com.dhlg.utils.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

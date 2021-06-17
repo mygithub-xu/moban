@@ -4,7 +4,7 @@ import com.dhlg.module.system.sysAutoTem.entity.SysAutoTem;
 import com.dhlg.module.system.sysAutoTem.service.ISysAutoTemService;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
-import com.dhlg.utils.StringUtils;
+import com.dhlg.utils.common.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

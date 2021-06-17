@@ -5,7 +5,7 @@ import com.dhlg.module.system.sysUser.entity.SysUser;
 import com.dhlg.module.system.sysUser.service.ISysUserService;
 import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Result;
-import com.dhlg.utils.StringUtils;
+import com.dhlg.utils.common.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

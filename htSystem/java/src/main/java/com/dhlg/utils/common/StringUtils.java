@@ -1,4 +1,4 @@
-package com.dhlg.utils;
+package com.dhlg.utils.common;
 
 import com.alibaba.fastjson.JSONArray;
 //import com.alibaba.fastjson.JSONObject;

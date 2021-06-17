@@ -2,7 +2,7 @@ package com.dhlg.code;
 
 
 import com.dhlg.module.system.sysAutoTable.entity.CommonMap;
-import com.dhlg.utils.StringUtils;
+import com.dhlg.utils.common.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
