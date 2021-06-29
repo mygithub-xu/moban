@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.system.sysVerificationCode.dao.SysVerificationCodeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.system.sysVerificationCode.entity.SysVerificationCode">
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="expire_Time" property="expire4ime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+create_time,create_user,id,code,expire_Time    </sql>
+
+    <select id="queryByCondition" parameterType="com.dhlg.module.system.sysVerificationCode.entity.SysVerificationCode" 
+    resultType="com.dhlg.module.system.sysVerificationCode.entity.SysVerificationCode">
+        select t.*
+        from sys_verification_code t
+        <trim prefix="where" prefixOverrides="and">
+        </trim>
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from sys_verification_code
+    </select>
+
+</mapper>

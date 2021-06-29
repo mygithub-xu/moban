@@ -31,8 +31,8 @@
     data() {
       return {
         form: {
-          userName: 'whfch',
-          passWord: 'whfch123',
+          userName: 'admin',
+          passWord: '123456',
           fullscreenLoading:false
         },
         // 表单验证，需要在 el-form-item 元素中增加 prop 属性
@@ -127,7 +127,7 @@
     height: 80%;
     width: 60%;
     max-height:  400px;;
-    max-width: 820px;
+    max-width: 720px;
     border-radius: 5px;
     display: flex;
     flex-direction: row;
@@ -144,7 +144,7 @@
   .login-form{
     height: 80%;
     width: 90%;
-    max-height: 450px;
+    max-height: 400px;
     background-color: #f3f3f3;
     display: flex;
     justify-content: center;

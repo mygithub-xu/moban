@@ -54,7 +54,7 @@ export default {
     text-align: center;
 }
 .menu-scrollbar{
-    height: 100%;
+    height: calc(100% - 50px);
     transition: width 0.5s; 
 }
 .el-scrollbar__wrap .el-menu{

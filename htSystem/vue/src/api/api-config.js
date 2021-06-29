@@ -12,7 +12,7 @@ export default {
 
   //文件上传
   sysFileUploadFile: `api/system/sysFile/uploadFile`,//文件上传
-  sysFileUploadFile: `api/system/sysFile/uploadFileMore`,//多文件上传
+  sysFileUploadFileMore: `api/system/sysFile/uploadFileMore`,//多文件上传
   sysFileDeleteFile: `api/system/sysFile/deleteFile/`,//单个文件删除
   sysFileBatchdelete: `api/system/sysFile/batchdelete`,//批量文件删除
   sysFileQuerybycondition: `api/system/sysFile/querybycondition`,//查询文件
@@ -73,15 +73,6 @@ export default {
   LoginLogQuery: `api/system/sysLoginLog/query`, // 条件查询
   LoginLogBatchdelete: `api/system/sysLoginLog/batchdelete`, // 条件查询
 
-  //测试代码 sys_test
-  sysTestsaveOrUpdate: 'api/test/sysTest/saveOrUpdate',//post
-  sysTestdeleteById: 'api/test/sysTest/deleteById/',//delete
-  sysTestbatchDelete: 'api/test/sysTest/batchDelete',//post
-  sysTestquery: 'api/test/sysTest/query',//post
-  sysTestqueryById: 'api/test/sysTest/queryById/',//get
-  sysTestDown: 'api/test/sysTest/down',//post
-  sysTestDown2: 'api/test/sysTest/down2',//post
-
 
   //代码生成 sys_auto_table
   sysAutoTableQuerybycondition: 'api/system/sysAutoTable/querybycondition',
@@ -104,4 +95,21 @@ export default {
   sysAutoParamFindByTableID: `api/system/sysAutoParam/findByTableID/`,//{id}获取表的字段数据
 
   /********* 系统配置  end******/
+
+    //测试代码 sys_test
+    sysTestsaveOrUpdate: 'api/test/sysTest/saveOrUpdate',//post
+    sysTestdeleteById: 'api/test/sysTest/deleteById/',//delete
+    sysTestbatchDelete: 'api/test/sysTest/batchDelete',//post
+    sysTestquery: 'api/test/sysTest/query',//post
+    sysTestqueryById: 'api/test/sysTest/queryById/',//get
+    sysTestDown: 'api/test/sysTest/down',//post
+    sysTestDown2: 'api/test/sysTest/down2',//post
+
+    // 验证码获取
+    sysVerificationCodesaveOrUpdate: 'api/system/sysVerificationCode/saveOrUpdate',//post
+    sysVerificationCodedeleteById: 'api/system/sysVerificationCode/deleteById/',//delete
+    sysVerificationCodebatchDelete: 'api/system/sysVerificationCode/batchDelete',//post
+    sysVerificationCodequery: 'api/system/sysVerificationCode/query',//post
+    sysVerificationCodequeryById: 'api/system/sysVerificationCode/queryById/',//get
+    sysVerificationCodeGetCode: 'api/system/sysVerificationCode/getCode',//post
 }
