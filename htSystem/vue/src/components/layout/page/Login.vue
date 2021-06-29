@@ -165,7 +165,7 @@
     display: flex;
   }
   .login-box {
-    width: 400px;
+    width: 50%;
     position: relative;
     background-color: green;
     border-radius: 20px 0 0 20px;

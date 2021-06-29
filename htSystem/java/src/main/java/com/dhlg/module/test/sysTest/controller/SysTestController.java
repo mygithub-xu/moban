@@ -1,10 +1,5 @@
 package com.dhlg.module.test.sysTest.controller;
 
-import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.ExcelWriter;
-import com.alibaba.excel.write.metadata.WriteSheet;
-import com.alibaba.excel.write.metadata.fill.FillConfig;
-import com.alibaba.fastjson.JSON;
 import com.dhlg.module.test.sysTest.entity.SysTest;
 import com.dhlg.module.test.sysTest.service.ISysTestService;
 import com.dhlg.utils.Parameter.QueryEntity;
@@ -12,13 +7,13 @@ import com.dhlg.utils.Result;
 import com.dhlg.utils.common.ExcelUtils;
 import com.dhlg.utils.common.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
+import com.dhlg.utils.common.UserInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +33,9 @@ public class SysTestController {
 
         @Autowired
         ISysTestService doService;
+
+        @Autowired
+        UserInfo userInfo;
 
         @ApiOperation("保存或者更新")
         @PostMapping("/saveOrUpdate")
@@ -84,6 +82,7 @@ public class SysTestController {
                         String status =  "1".equals(test.getTestStatus()) ?"启用" : "禁用";
                         test.setTestStatus(status);
                 }
+                System.out.println("token" + userInfo.getUserName());
 
                 ExcelUtils.downSimple(response,data);
         }

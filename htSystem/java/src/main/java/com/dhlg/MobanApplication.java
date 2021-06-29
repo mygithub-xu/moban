@@ -10,20 +10,14 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.unit.DataSize;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.servlet.MultipartConfigElement;
 
 @SpringBootApplication
 @MapperScan(basePackages = {"com.dhlg.module.*.*.dao","com.dhlg.module.*.*.*.dao"})
 @ServletComponentScan
-public class MobanApplication extends SpringBootServletInitializer {
-
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(MobanApplication.class);
-    }
-
+public class MobanApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MobanApplication.class, args);
