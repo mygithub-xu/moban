@@ -101,10 +101,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Result login(String body, HttpServletRequest request) {
+        // 校验验证码
+
         Map<String, Object> dataMap = new HashMap<>();
         JSONObject jsonObject = JSONObject.fromObject(body);
         String username = jsonObject.get( "userName").toString();
         String password = jsonObject.get( "passWord").toString();
+        String checkCOde = jsonObject.get( "checkCode").toString();
+        Result result = checkCode(checkCOde);
+        if (result.getCode().equals("500")){
+            return result;
+        }
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             throw new ParamIsNullException();
         }

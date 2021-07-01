@@ -9,11 +9,17 @@
       <div class="login-form">
       <h3 class="login-title">欢迎登录</h3>
       <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" style="margin-top: 50px">
-            <el-form-item label="账号ccc" prop="userName">
+            <el-form-item label="账号" prop="userName">
               <el-input type="text" placeholder="请输入账号" v-model="form.userName"/>
             </el-form-item>
-            <el-form-item label="密码ccc" prop="passWord">
+            <el-form-item label="密码" prop="passWord">
               <el-input  show-password placeholder="请输入密码" v-model="form.passWord" @keyup.enter.native="onSubmit('loginForm')"/>
+            </el-form-item>
+            <el-form-item label="验证码" prop="checkCOde">
+              <div style="display: flex;">
+                <el-input style="width: 100px; margin-right: 10px;"  v-model="form.checkCode"/>
+                <img class="login-codeimg" :src="captchaPath" @click="getCaptcha" alt="" >
+              </div>
             </el-form-item>
             <div class="login-button">
               <el-button type="primary" @click="onSubmit('loginForm')" style="width:40%">登录</el-button>
@@ -26,6 +32,7 @@
 </template>
 
 <script>
+  import BASE_URL from '@/config'
   export default {
     name: "Login",
     data() {
@@ -33,8 +40,10 @@
         form: {
           userName: 'admin',
           passWord: '123456',
+          checkCode: '',
           fullscreenLoading:false
         },
+        captchaPath:"",
         // 表单验证，需要在 el-form-item 元素中增加 prop 属性
         rules: {
           userName: [
@@ -42,13 +51,25 @@
           ],
           passWord: [
             {required: true, message: '密码不可为空', trigger: 'blur'}
-          ]
+          ],
+          checkCode: [
+            {required: true, message: '验证码不能为空', trigger: 'blur'}
+          ],
         },
         imgUrl:"https://www.whfch.icu/resources/login.png",
         flag:1,
       }
     },
+    created(){
+      this.getCaptcha()
+    },
     methods: {
+      getCaptcha(){
+        this.captchaPath = BASE_URL + this.api.userGetVerificationCode+'/' +this.S4()
+      },
+      S4() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1)
+      },
       onSubmit(formName) {
         // 为表单绑定验证功能
         this.$refs[formName].validate((valid) => {
@@ -115,6 +136,10 @@
 </script>
 
 <style scoped>
+  .login-codeimg{
+    width: 50px;
+    height: 30px;
+  }
   .login-contain{
     width: 100%;
     height: 100%;
