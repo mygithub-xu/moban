@@ -77,18 +77,17 @@ public class SysTestController {
 
         @ApiOperation("下载")
         @PostMapping("/down")
-        public void down(@RequestBody List<SysTest> data , HttpServletResponse response) throws IOException {
+        public void down(@RequestBody List<SysTest> data , HttpServletResponse response) {
                 for(SysTest test : data){
                         String status =  "1".equals(test.getTestStatus()) ?"启用" : "禁用";
                         test.setTestStatus(status);
                 }
-                System.out.println("token" + userInfo.getUserName());
 
                 ExcelUtils.downSimple(response,data);
         }
         @ApiOperation("复杂导出模板")
         @PostMapping("/down2")
-        public void down2(@RequestBody List<SysTest> data , HttpServletResponse response) throws IOException{
+        public void down2(@RequestBody List<SysTest> data , HttpServletResponse response){
                 for(SysTest test : data){
                         String status =  "1".equals(test.getTestStatus()) ?"启用" : "禁用";
                         test.setTestStatus(status);

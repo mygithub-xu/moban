@@ -18,7 +18,7 @@
             <el-form-item label="验证码" prop="checkCOde">
               <div style="display: flex;">
                 <el-input style="width: 100px; margin-right: 10px;"  v-model="form.checkCode"/>
-                <img class="login-codeimg" :src="captchaPath" @click="getCaptcha" alt="" >
+                <img  class="login-codeimg" :src="captchaPath" @click="getCaptcha" >
               </div>
             </el-form-item>
             <div class="login-button">

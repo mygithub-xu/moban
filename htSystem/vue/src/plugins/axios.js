@@ -6,7 +6,6 @@ import { Message } from 'element-ui';
 import BASE_URL from '@/config'
 
 axios.defaults.baseURL = BASE_URL
-// axios.defaults.baseURL = 'https://www.whfch.icu/moban/v1/'
 Vue.prototype.$http = axios;
 
 let loading;
@@ -56,7 +55,7 @@ axios.interceptors.request.use(
       let message="";
       //检查网络是否连接
       if(error.message=='Network Error'){
-        return Message.error("请检查网络是否连接")
+        return Message.error("未能连接到服务器")
       }
 
       //检查是否请求时出错
