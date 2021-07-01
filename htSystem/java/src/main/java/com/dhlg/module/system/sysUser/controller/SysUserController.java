@@ -8,11 +8,17 @@ import com.dhlg.utils.Result;
 import com.dhlg.utils.common.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.util.IOUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +37,30 @@ public class SysUserController {
 
     @Autowired
     ISysUserService doService;
+
+    @ApiOperation("获取验证码")
+    @GetMapping("/getCode/{uuid}")
+    public void getCode(HttpServletResponse response) throws IOException {
+        response.setHeader("Cache-Control", "no-store, no-cache");
+        response.setContentType("image/jpeg");
+
+        //获取图片验证码
+        BufferedImage image = doService.getCaptcha();
+
+        ServletOutputStream out = response.getOutputStream();
+        ImageIO.write(image, "jpg", out);
+        IOUtils.closeQuietly(out);
+    }
+
+    @ApiOperation("验证，验证码")
+    @GetMapping("/checkCode/{code}")
+    public Result checkCode(@PathVariable String code){
+        if(StringUtils.isBlank(code)){
+            throw new ParamIsNullException();
+        }
+        //获取图片验证码
+        return doService.checkCode(code);
+    }
 
     @ApiOperation("用户登录")
     @PostMapping("/login")

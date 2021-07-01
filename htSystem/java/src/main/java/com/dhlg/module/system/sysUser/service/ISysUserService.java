@@ -6,6 +6,7 @@ import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Result;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Set;
 
@@ -42,4 +43,8 @@ public interface ISysUserService extends IService<SysUser> {
     Result updatePassword(Parameter parameter);
 
     void logout(HttpServletRequest request);
+
+    BufferedImage getCaptcha();
+
+    Result checkCode(String code);
 }

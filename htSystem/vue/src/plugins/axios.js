@@ -30,7 +30,7 @@ axios.interceptors.request.use(
   },
   error => {
     return Promise.reject(error)
-  });
+  })
 
   axios.interceptors.response.use(
     response => {
@@ -38,7 +38,9 @@ axios.interceptors.request.use(
       if(loading){
         loading.close()
       }
-      if(response.config.url.indexOf("down") != -1){
+      // 下载&&验证码
+      let url = response.config.url
+      if(url.indexOf("down") != -1){
         return response;
       }
       if(response.data.code == "200"){
@@ -95,8 +97,6 @@ axios.interceptors.request.use(
         }else{
           return;
         }
-
       }
-
       return Promise.reject(error.response.data)
   })

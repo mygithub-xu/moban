@@ -20,6 +20,7 @@ import com.dhlg.utils.common.DateUtils;
 import com.dhlg.utils.common.JwtUtil;
 import com.dhlg.utils.common.StringUtils;
 import com.dhlg.utils.common.uploadFileUtils;
+import com.google.code.kaptcha.Producer;
 import net.sf.json.JSONObject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -28,7 +29,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
 import java.util.*;
 
 /**
@@ -66,6 +69,35 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Value("${common.password}")
     private String PASSWORD;
+
+    @Autowired
+    private Producer producer;
+
+    static final int CODE_TIME = 2*60;
+    @Override
+    public BufferedImage getCaptcha() {
+        String code = producer.createText();
+        redisUtil.set(Dictionaries.VERIFICATION_CODE + code, code);
+        redisUtil.set(Dictionaries.VERIFICATION_CODE_TIME + code, code);
+        // 设置为两分钟
+        redisUtil.expire(Dictionaries.VERIFICATION_CODE + code, CODE_TIME);
+        redisUtil.expire(Dictionaries.VERIFICATION_CODE_TIME + code, CODE_TIME*2);
+
+        return producer.createImage(code);
+    }
+
+    @Override
+    public Result checkCode(String code) {
+        Object o = redisUtil.get(Dictionaries.VERIFICATION_CODE + code);
+        Object o2 = redisUtil.get(Dictionaries.VERIFICATION_CODE_TIME + code);
+        if (StringUtils.isBlank(o2)){
+            return Result.error("验证码错误");
+        }
+        if (StringUtils.isBlank(o)){
+            return Result.error("验证码过期");
+        }
+        return Result.success("通过");
+    }
 
     @Override
     public Result login(String body, HttpServletRequest request) {

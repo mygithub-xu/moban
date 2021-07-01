@@ -144,4 +144,10 @@ public interface Dictionaries {
 
     //用户信息
     String PREFIX_USER_ = "PREFIX_USER_";
+
+    //验证码有效时间
+    String VERIFICATION_CODE = "VERIFICATION_CODE";
+
+    //验证码提示过期时间
+    String VERIFICATION_CODE_TIME = "VERIFICATION_CODE_TIME";
 }

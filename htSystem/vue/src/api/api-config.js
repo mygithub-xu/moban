@@ -57,6 +57,8 @@ export default {
   //账号管理 sys_user
   login: `api/system/sysUser/login`, // 登陆
   logout: `api/system/sysUser/logout`, // 登出
+  userGetVerificationCode: `api/system/sysUser/getCode`, // 登出
+  userGetCheckCode: `api/system/sysUser/checkCode`, // 登出
   userGetList: `api/system/sysUser/getList`,//获得全部账号
   userQueryByCondition: `api/system/sysUser/queryByCondition`,//查询
   userDeletebyid: `api/system/sysUser/deleteById/`,//单个删除用户
@@ -104,12 +106,4 @@ export default {
     sysTestqueryById: 'api/test/sysTest/queryById/',//get
     sysTestDown: 'api/test/sysTest/down',//post
     sysTestDown2: 'api/test/sysTest/down2',//post
-
-    // 验证码获取
-    sysVerificationCodesaveOrUpdate: 'api/system/sysVerificationCode/saveOrUpdate',//post
-    sysVerificationCodedeleteById: 'api/system/sysVerificationCode/deleteById/',//delete
-    sysVerificationCodebatchDelete: 'api/system/sysVerificationCode/batchDelete',//post
-    sysVerificationCodequery: 'api/system/sysVerificationCode/query',//post
-    sysVerificationCodequeryById: 'api/system/sysVerificationCode/queryById/',//get
-    sysVerificationCodeGetCode: 'api/system/sysVerificationCode/getCode',//post
 }

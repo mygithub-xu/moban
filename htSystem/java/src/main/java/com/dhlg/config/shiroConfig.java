@@ -56,23 +56,16 @@ public class shiroConfig {
         //配置拦截器
         Map<String, String> map = new LinkedHashMap<String, String>();
         // 配置不会被拦截的链接 顺序判断
-        //必须
         map.put("/static/**", "anon");
         //设置不被拦截的api
         map.put("/api/system/sysUser/login", "anon");
         map.put("/api/system/sysUser/logout", "anon");
+        map.put("/api/system/sysUser/getCode/*","anon");
         map.put("/druid/**","anon");
-
-
         map.put("/swagger-ui.html","anon");
         map.put("/webjars/**","anon");
         map.put("/swagger-resources/**","anon");
-        map.put("/v2/**","anon");
-        //添加
-        map.put("/api/system/phoneModel/getPhoneNumber","anon");
-        map.put("/api/familyTree/**","anon");
-        map.put("/api/blog/**","anon");
-        map.put("/api/system/sysdictype/gettype/blogType","anon");
+
 
         //自定义拦截器
         Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
