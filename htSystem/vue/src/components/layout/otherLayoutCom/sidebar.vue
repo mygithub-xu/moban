@@ -199,7 +199,6 @@ export default {
 .siderMenu{
   height: 100%;
   float: left;
-  border-right: solid 1px #e6e6e6;
   overflow: hidden;
   transition: width 0.5s; 
 }
@@ -210,9 +209,6 @@ export default {
 .horMenu{
   height: 50px;
   display: flex;
-}
-.el-menu{
-  border-right: solid 0px #e6e6e6;
 }
 .el-menu--collapse{
   width: 100%;

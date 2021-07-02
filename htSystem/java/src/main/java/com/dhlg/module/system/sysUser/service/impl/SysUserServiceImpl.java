@@ -347,10 +347,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (StringUtils.isBlank(token)){
             return;
         }
-        //删除用户信息
+        // 更改用户状态
+
+        // 删除用户信息
         redisUtil.del(Dictionaries.PREFIX_USER_TOKEN + token);
         redisUtil.del(Dictionaries.PREFIX_USER_ + token);
-
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
     }

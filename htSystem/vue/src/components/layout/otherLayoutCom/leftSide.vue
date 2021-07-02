@@ -5,6 +5,7 @@
             <span v-else>xxx系统 </span>
         </div>
         <el-scrollbar class="menu-scrollbar">
+        <div style="width:190px;overflow: hidden;">
         <el-menu
                 :background-color="getLayoutParam.siderBGColor"
                 :text-color="getLayoutParam.siderFontColor"
@@ -15,6 +16,8 @@
                 :default-active="$route.path">
                     <menuTree :menuData="menuData"></menuTree>
         </el-menu>
+        </div>
+
         </el-scrollbar >
     </div>
 </template>
@@ -54,7 +57,7 @@ export default {
     text-align: center;
 }
 .menu-scrollbar{
-    height: calc(100% - 50px);
+    height: calc(100% - 60px);
     transition: width 0.5s; 
 }
 .el-scrollbar__wrap .el-menu{

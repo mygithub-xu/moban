@@ -1,10 +1,10 @@
 export default {
   getToken () {
-    return sessionStorage.getItem("Token");
+    return localStorage.getItem("Token");
   },
   //获取当前用户信息
   getUser () {
-    return JSON.parse(sessionStorage.getItem("User"));
+    return JSON.parse(localStorage.getItem("User"));
   },
   //获取当前用户id
   getId () {

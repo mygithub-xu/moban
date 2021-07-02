@@ -48,7 +48,7 @@ export default {
   },
 
   downFile(url, data,file_name) {
-    const token = sessionStorage.getItem("Token")
+    const token = localStorage.getItem("Token")
     //下载路径
     file_name = !file_name ? '文件.txt' : file_name
     http({
