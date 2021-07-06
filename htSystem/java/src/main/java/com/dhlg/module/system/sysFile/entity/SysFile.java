@@ -49,6 +49,12 @@ public class SysFile implements Serializable {
     @TableField("name")
     private String name;
 
+    @TableField("real_name")
+    private String realName;
+
+    @TableField("path")
+    private String path;
+
     public static final String ID = "id";
 
     public static final String URL = "url";
@@ -61,4 +67,7 @@ public class SysFile implements Serializable {
 
     public static final String CREATE_USER = "create_user";
 
+    public static final String REAL_NAME = "real_name";
+
+    public static final String PATH = "path";
 }

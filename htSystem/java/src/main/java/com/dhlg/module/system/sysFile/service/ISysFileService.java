@@ -27,4 +27,6 @@ public interface ISysFileService extends IService<SysFile> {
     Result queryByCondition(Parameter parameter);
 
     Result uploadFileMore(MultipartFile file,String type);
+
+    Result down(String id);
 }

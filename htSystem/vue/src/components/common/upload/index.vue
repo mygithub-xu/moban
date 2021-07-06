@@ -16,7 +16,7 @@
     <ul class="upload-files">
       <li class="upload-files-item" v-for="(item, index) in fileListsdata" :key="index">
         <i class="el-icon-document"></i>
-        <span>{{ item.file_name }}</span>
+        <div class="file-name"><span>{{ item.realName }}</span></div>
         <i class="el-icon-delete" v-if="showDelete&&!readOnly" @click="deleteFile(index)"></i>
         <i class="el-icon-download" v-if="showDown" @click="downFile(item)"></i>
       </li>
@@ -24,8 +24,8 @@
       <div v-for="item2 in indown" :key="item2.uid">
       <li class="upload-files-item"  v-if="item2.status === 'uploading'">
         <i class="el-icon-document"></i>
-        <span>{{ item2.name }}</span>
-        <el-progress class="progress" :percentage="parseInt(item2.percentage)"></el-progress>
+        <!-- <span>{{ item2.name }}</span> -->
+        <el-progress class="progress" style="  width: 200px; line-height: 26px; margin-left: 10px;" :percentage="parseInt(item2.percentage)"></el-progress>
       </li>
       </div>
       <li class="upload-check" v-if="isNoPass">{{ message }}</li>
@@ -80,8 +80,7 @@ export default {
       return {'dh-Token':localStorage.getItem("Token")}
     },
     isNoPass() {
-      let aaa = this.fileListsdata.length
-      return aaa == 0 && this.message
+      return this.fileListsdata.length == 0 && this.message
     }
   },
   methods: {
@@ -106,12 +105,12 @@ export default {
       if (!this.fileListsdata) {
         this.value = []
       }
-      this.fileListsdata.forEach(f => {
-        if(f.file_name == file.name){
+      // this.fileListsdata.forEach(f => {
+      //   if(f.realName == file.name){
 
-        }
-      });
-      this.fileListsdata.push(data.data)
+      //   }
+      // })
+      this.fileListsdata.push(data.body)
       this.$emit('input', this.fileListsdata)
       this.$emit("change")
     },
@@ -119,15 +118,23 @@ export default {
       this.fileListsdata.splice(index, 1);
     },
     downFile(item) {
-      this.$utils.downFile(item.att_id, item.file_name)
+      this.$utils.downFile(this.api.sysFileDown + item.id,item.id, item.realName)
     }
   }
 }
 </script>
 <style scoped>
+.file-name{
+  width: 170px;
+  height: 26px;
+  overflow:hidden; /*超出的部分隐藏起来。*/ 
+  white-space:nowrap;/*不显示的地方用省略号...代替*/
+  text-overflow:ellipsis;/* 支持 IE */
+  margin-right: 30px;
+}
 .upload-files {
-  width: 100%;
-  min-width: 250px;
+  max-width: 250px;
+  min-width: 150px;
   list-style-type: none;
   margin: 0;
 }
@@ -140,14 +147,15 @@ export default {
   transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
   color: #606266;
   border-radius: 4px;
-  margin-left: -40px;
   cursor: pointer;
+  display: flex;
 }
-
 .upload-files-item:hover {
   background-color: #f3f3f3;
 }
-
+.el-icon-document{
+  line-height: 26px;
+}
 .upload-files-item span {
   margin-left: 10px;
 }
@@ -170,8 +178,6 @@ export default {
 .upload-check {
   font-size: 12px;
   line-height: 14px;
-  margin-left: -40px;
   margin-top: 9px;
 }
-
 </style>>

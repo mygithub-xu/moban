@@ -1,5 +1,6 @@
 package com.dhlg.module.system.sysFile.service.impl;
 
+import com.alibaba.excel.util.FileUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dhlg.utils.*;
 import com.dhlg.module.system.sysFile.entity.SysFile;
@@ -7,14 +8,17 @@ import com.dhlg.module.system.sysFile.dao.SysFileMapper;
 import com.dhlg.module.system.sysFile.service.ISysFileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.utils.Parameter.Parameter;
-import com.dhlg.utils.common.DateUtils;
-import com.dhlg.utils.common.StringUtils;
-import com.dhlg.utils.common.uploadFileUtils;
+import com.dhlg.utils.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -31,6 +35,9 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     @Autowired
     SysFileMapper doMapper;
 
+    @Autowired
+    UserInfo userInfo;
+
     @Value("${common.fileNetSrc}")
     private  String fileNetSrc;
 
@@ -39,16 +46,17 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
     @Override
     public Result uploadFile(MultipartFile file) {
-
-
+        String realName = file.getOriginalFilename();
         //上传文件，并返回上传图片的路径
-        String url = uploadFileUtils.uploadImg(file,fileNetSrc,fileDownSrc);
+        String fileName = uploadFileUtils.uploadImg(file,fileNetSrc,fileDownSrc);
         SysFile sysFile = new SysFile();
         sysFile.setId(StringUtils.uuid());
         sysFile.setCreateTime(DateUtils.getCurrentDate());
-        sysFile.setCreateUser(GetLoginUser.getCurrentUserId());
-        sysFile.setUrl(url);
-
+        sysFile.setCreateUser(userInfo.getUserID());
+        sysFile.setUrl(fileNetSrc + fileName);
+        sysFile.setName(fileName);
+        sysFile.setRealName(realName);
+        sysFile.setPath(fileDownSrc);
         if (!save(sysFile)){
             return new Result("400","", Dictionaries.UPLOAD_ERROR);
         }
@@ -117,7 +125,39 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             return new Result("400","",Dictionaries.UPLOAD_ERROR);
         }
         return new Result("200",sysFile,Dictionaries.UPLOAD_SUCCESS);
+    }
 
+    @Override
+    public Result down(String id) {
+        SysFile sysfile = getById(id);
+        if (StringUtils.isBlank(sysfile)){
+            return Result.error("未发现记录");
+        }
+
+        File file = new File(sysfile.getPath(), sysfile.getName());
+        if (!file.exists()){
+            return Result.error("未发现文件");
+        }
+        HttpServletResponse response = HttpContextUtils.getResponse();
+        response.setContentType("application/force-download");
+        response.setCharacterEncoding("UTF-8");
+        OutputStream out = null;
+        try {
+            out = response.getOutputStream();
+            out.write(FileUtils.readFileToByteArray(file));
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 
 }

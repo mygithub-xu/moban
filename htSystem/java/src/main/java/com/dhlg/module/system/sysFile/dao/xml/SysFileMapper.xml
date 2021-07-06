@@ -11,11 +11,13 @@
         <result column="create_time" property="createTime" />
         <result column="create_user" property="createUser" />
         <result column="name" property="name" />
+        <result column="real_name" property="realName" />
+
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, url, type, status, create_time, create_user,name
+        id, url, type, status, create_time, create_user,name,real_name
     </sql>
 
 

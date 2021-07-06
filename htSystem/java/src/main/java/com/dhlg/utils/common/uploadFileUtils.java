@@ -23,7 +23,6 @@ public class uploadFileUtils {
 
     public static String uploadImg(MultipartFile file, String fileNetSrc, String fileDownSrc) {
 
-
         //获取上传文件名,包含后缀
         String originalFilename = file.getOriginalFilename();
         //获取后缀
@@ -44,7 +43,7 @@ public class uploadFileUtils {
             e.printStackTrace();
         }
 
-        return fileNetSrc+dFileName;
+        return dFileName;
     }
     public static boolean delete(String url, String fileNetSrc, String fileDownSrc) {
         if (!StringUtils.isBlank(url)){

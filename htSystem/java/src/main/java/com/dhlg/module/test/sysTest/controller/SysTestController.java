@@ -9,6 +9,7 @@ import com.dhlg.utils.common.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import com.dhlg.utils.common.UserInfo;
 import io.swagger.annotations.ApiOperation;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -95,6 +96,15 @@ public class SysTestController {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("total", 1000);
                 ExcelUtils.down("demo.xlsx",response,data,map);
+        }
+
+        @Test
+        public void aaaa(){
+                StringBuffer stringBuffer = new StringBuffer();
+                for (int i = 0; i < 16383; i++) {
+                        stringBuffer.append("四");
+                }
+                System.out.println(stringBuffer.toString());
         }
 }
 

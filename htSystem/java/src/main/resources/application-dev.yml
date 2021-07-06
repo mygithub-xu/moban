@@ -48,9 +48,9 @@ spring:
     password: hehe
     jedis:
       pool:
-        max-idle: 500
-        min-idle: 0
-        max-active: 512
+        max-idle: 100
+        min-idle: 10
+        max-active: 100
         max-wait: -1
     timeout: 600 # 单位秒
   #mq配置---start

@@ -7,10 +7,15 @@ import com.dhlg.utils.Result;
 import com.dhlg.utils.common.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.util.List;
 
@@ -24,11 +29,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/system/sysFile")
+@Slf4j
 public class SysFileController {
     @Autowired
     ISysFileService doservice;
 
-    @ApiOperation("上传图片")
+    @ApiOperation("文件上传")
     @PostMapping(value = "/uploadFile")
     public Result uploadFile(@RequestParam("file") MultipartFile file){
 
@@ -74,5 +80,31 @@ public class SysFileController {
         return  doservice.queryByCondition(parameter);
     }
 
+    @ApiOperation("根据条件分页获取按钮数据")
+    @PostMapping("/down/{id}")
+    public Result down(@PathVariable String id) {
+        if(StringUtils.isBlank(id)){
+            throw new ParamIsNullException();
+        }
+        return  doservice.down(id);
+    }
+
+    @Test
+    public void text(){
+        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+        JedisPool jedisPool = new JedisPool(poolConfig, "127.0.0.1", 6379,-1,"hehe");
+
+        //向JedisPool借用8次连接，但是没有执行归还操作。
+        for (int i = 0; i < 6; i++) {
+            Jedis jedis = null;
+            try {
+                jedis = jedisPool.getResource();
+                jedis.ping();
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
+        }
+        jedisPool.getResource().ping();
+    }
 }
 

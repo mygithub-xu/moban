@@ -16,6 +16,7 @@ export default {
   sysFileDeleteFile: `api/system/sysFile/deleteFile/`,//单个文件删除
   sysFileBatchdelete: `api/system/sysFile/batchdelete`,//批量文件删除
   sysFileQuerybycondition: `api/system/sysFile/querybycondition`,//查询文件
+  sysFileDown: 'api/system/sysFile/down/',//post
 
   // 权限管理--角色管理
   roleQuerybycondition: `api/system/sysRole/querybycondition`,//查询（分页）

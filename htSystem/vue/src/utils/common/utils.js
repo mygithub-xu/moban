@@ -58,7 +58,7 @@ export default {
       data: data,
       responseType: 'blob'
     }).then(res => {
-      if (res) {
+      if (res.status && res.status == 200) {
         //eslint-disable-next-line
         const blob = new Blob([res.data]);
         //对于<a>标签，只有 Firefox 和 Chrome（内核） 支持 download 属性
