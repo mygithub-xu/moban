@@ -12,12 +12,14 @@ import io.swagger.annotations.ApiOperation;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import javax.transaction.SystemException;
+import javax.servlet.RequestDispatcher;
+import javax.mail.MessagingException;
+import javax.transaction.SystemException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -50,7 +52,8 @@ public class SysTestController {
         @ApiOperation("删除（物理删除）")
         @DeleteMapping("/deleteById/{id}")
         public Result delete(@PathVariable String id) {
-
+                new Hashtable<>();
+                new HashMap<>();
                 return doService.delete(id);
         }
 
@@ -104,7 +107,23 @@ public class SysTestController {
                 for (int i = 0; i < 16383; i++) {
                         stringBuffer.append("四");
                 }
+                stringBuffer.equals("b");
                 System.out.println(stringBuffer.toString());
+        }
+
+        @Test
+        public void bbbb(){
+
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("param1", "aaa");   //第14个桶
+                map.put("param2", "bbb");   //第15个桶
+                map.put("param3", "ccc");   //第12个桶
+                map.put("param4", "ddd");   //第13个桶
+
+                //Java8新增的遍历方式
+                map.forEach((key, value) -> {
+                        System.out.println("key:" + key + ", value:" + value);
+                });
         }
 }
 
