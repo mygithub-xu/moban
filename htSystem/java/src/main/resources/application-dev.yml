@@ -1,5 +1,5 @@
 server:
-  port: 4040
+  port: 9000
   session-timeout: 60
   servlet:
     context-path: /moban
