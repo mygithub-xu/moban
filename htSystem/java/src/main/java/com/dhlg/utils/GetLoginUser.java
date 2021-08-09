@@ -30,17 +30,4 @@ public class GetLoginUser {
         }
         return currentUser.getId();
     }
-
-
-//    public static String getCurrentUserOrgId() {
-//        SysUser currentUser = getCurrentUser();
-//        if(StringUtils.isBlank(currentUser))return "";
-//        return currentUser.getOrgId();
-//    }
-//
-//    public static String getCurrentUserDepId() {
-//        SysUser currentUser = getCurrentUser();
-//        if(StringUtils.isBlank(currentUser))return "";
-//        return currentUser.getDepId();
-//    }
 }

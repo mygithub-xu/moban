@@ -243,7 +243,7 @@ export default {
             this.pageData.totalCount = res.data.body.total;
             this.pageData.totalPage = res.data.body.pages;
           }
-        });
+        })
     },
     handleTypeAdd () {
       this.typeEditVisible = true;
@@ -280,7 +280,7 @@ export default {
                 this.search();
               }
             }
-          });
+          })
         } else {
           return false;
         }
@@ -292,19 +292,19 @@ export default {
           this.$message.success("删除成功");
           this.search();
         }
-      });
+      })
     },
     handleTypeDeleteBatch () {
       let deletebatch = [];
       this.multipleDicTypeSelection.forEach(i => {
         deletebatch.push(i.id);
-      });
+      })
       this.$http.post(this.api.dicTypeBatchDelete, deletebatch).then(res => {
         if (res.data.code == "200") {
           this.$message.success("批量删除成功");
           this.search();
         }
-      });
+      })
     },
     handleTypeSelectionChange (val) {
       if (val.length > 0) {

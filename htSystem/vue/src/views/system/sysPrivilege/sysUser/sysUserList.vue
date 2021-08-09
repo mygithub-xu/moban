@@ -291,7 +291,7 @@ export default {
       //清除校验
       this.$nextTick(() => {
         this.$refs["AddForm"].clearValidate();
-      });
+      })
 
     },
     //批量删除--不需要批量删除请将其注释，，
@@ -299,7 +299,7 @@ export default {
       let deletebatch = [];
       this.multipleSelection.forEach(i => {
         deletebatch.push(i.id);
-      });
+      })
       this.$confirm("此操作将永久删除, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -311,17 +311,17 @@ export default {
               this.$message({
                 message: "批量删除数据成功",
                 type: "success"
-              });
+              })
             }
             this.getdata();
-          });
+          })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消批量删除"
-          });
-        });
+          })
+        })
 
     },
     //查询
@@ -352,7 +352,7 @@ export default {
       }
       this.$nextTick(() => {
         this.$refs["AddForm"].clearValidate();
-      });
+      })
     },
 
     //单个删除
@@ -368,17 +368,17 @@ export default {
               this.$message({
                 message: "删除数据成功",
                 type: "success"
-              });
+              })
             }
             this.getdata();
-          });
+          })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除"
-          });
-        });
+          })
+        })
     },
     //页数
     handlePage (number, size) {
@@ -412,7 +412,7 @@ export default {
               this.$message.warning(res.data.message);
             }
           }
-        });
+        })
     },
     //保存/修改
     handleSave () {
@@ -432,7 +432,7 @@ export default {
             } else {
               this.$message.warning(res.data.body);
             }
-          });
+          })
         } else {
           return false;
         }
@@ -454,19 +454,19 @@ export default {
         if (res.data.code == 200) {
           this.statusData = res.data.body;
         }
-      });
+      })
 
       this.$http.post(this.api.roleGetList).then(res => {
         if (res.data.code == 200) {
           this.titleData = res.data.body;
         }
-      });
+      })
 
       this.$http.get(this.api.dicTypeGetType + "gender").then(res => {
         if (res.data.code == 200) {
           this.genderData = res.data.body;
         }
-      });
+      })
 
     },
     //清空
@@ -503,14 +503,14 @@ export default {
               } else {
                 this.$message.error(res.data.body);
               }
-            });
+            })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消重置密码"
-          });
-        });
+          })
+        })
     },
 
   },

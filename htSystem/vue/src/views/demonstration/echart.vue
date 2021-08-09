@@ -92,7 +92,7 @@ export default {
       myChart.setOption(option)
       myChart.on('click', function (params) {
         console.log(params);
-      });
+      })
     },
     getEchataaa () {
       let myChart = this.$echarts.init(document.getElementById("echat1"))
@@ -186,7 +186,7 @@ export default {
     //           background:"#eee",//设置条形码的背景
     //           lineColor:"#000000",//设置条和文本的颜色。
     //           margin:15//设置条形码周围的空白边距
-    //           });
+    //           })
     //       // JsBarcode("#barcode", "6921489013609");
     //   })
 

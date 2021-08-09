@@ -172,7 +172,7 @@ export default {
         return;
       }
       this.width = this.$el.getBoundingClientRect().width;
-    });
+    })
   },
   methods: {
     //此处控制部门中为【子公司】的数据禁用不可选
@@ -194,7 +194,7 @@ export default {
           }
           treeDataList.push(object);
         }
-      });
+      })
 
       return treeDataList;
     },
@@ -237,7 +237,7 @@ export default {
             this.ergodicTree(i.children, value);
           }
         }
-      });
+      })
     },
     getLabelTextByNodes (nodes) {
       return nodes.map(item => item && item[this.label]).join(",");
@@ -258,7 +258,7 @@ export default {
           } else if (!checked && idx > -1) {
             newCheckedKeys.splice(idx, 1);
           }
-        });
+        })
         this.$refs["tree2"].setCheckedKeys(newCheckedKeys);
         checkedKeys = newCheckedKeys;
         checkedNodes = newCheckedNodes;
@@ -275,7 +275,7 @@ export default {
           } else if (!checked && idx > -1) {
             newCheckedKeys.splice(idx, 1);
           }
-        });
+        })
         this.$refs["tree2"].setCheckedKeys(newCheckedKeys);
 
         checkedKeys = newCheckedKeys;
@@ -332,7 +332,7 @@ export default {
         node.children.forEach(item => {
           cb(item);
           this.walk(item, cb);
-        });
+        })
       }
     }
   }

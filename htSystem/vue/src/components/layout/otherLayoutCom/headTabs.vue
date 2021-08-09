@@ -169,7 +169,7 @@ export default {
                 if(matched[1].path==v.path){
                     isExist=true;
                 }
-            });
+            })
             if(!isExist){
                 let componet=!matched[1].components.default.name?'':matched[1].components.default.name;
                 
@@ -193,7 +193,7 @@ export default {
                 return this.$message({
                     type: "error",
                     message: "首页不能删除"
-                });
+                })
             }
             if(tabPath==this.indexTab){
                 //确定关闭当前页面？？
@@ -215,8 +215,8 @@ export default {
                         }
 
                     }).catch(() => {
-                        this.$message({type: "info", message: "已取消"});
-                    });
+                        this.$message({type: "info", message: "已取消"})
+                    })
             }else{
                 let index=this.tabPathChange(tabPath);   
             }
@@ -308,7 +308,7 @@ export default {
         },
         popClick(type){
             if(!this.path){
-                return this.$message({message: '请选择一个选项', type: 'warning'});
+                return this.$message({message: '请选择一个选项', type: 'warning'})
             }
             
             if(type=='reflash'){

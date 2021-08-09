@@ -50,7 +50,7 @@ export default {
           this.options = data;
         }).catch((error) => {
           console.log(error);
-        });
+        })
       },
       immediate: true
     },

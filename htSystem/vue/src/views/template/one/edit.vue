@@ -140,7 +140,7 @@ export default {
       this.openByNew()
       this.$http.get(this.api.sysTestqueryById + row.id).then(res => {
         this.form = res.data.body
-      });
+      })
     },
     //返回
     backHandle () {
@@ -162,7 +162,7 @@ export default {
                 this.editVisible = false
                 this.getData()
               }
-            });
+            })
           })
         }
       })

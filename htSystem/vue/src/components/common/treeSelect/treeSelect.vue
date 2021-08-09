@@ -144,7 +144,7 @@ export default {
         return;
       }
       this.width = this.$el.getBoundingClientRect().width;
-    });
+    })
   },
   methods: {
     //过滤数据
@@ -158,7 +158,7 @@ export default {
           }
           treeDataList.push(object);
         }
-      });
+      })
 
       return treeDataList;
     },
@@ -195,7 +195,7 @@ export default {
             this.ergodicTree(i.children, value);
           }
         }
-      });
+      })
     },
     nodeClick (Object, node, array) {
       if (this.onlyChildren) {
@@ -214,7 +214,7 @@ export default {
       this.readonly = false;
     },
     handleClear () {
-      this.$emit("changeValue", undefined, {});
+      this.$emit("changeValue", undefined, {})
       this.$emit("selected", undefined);
       this.$emit("selectedMerchat", undefined);
 

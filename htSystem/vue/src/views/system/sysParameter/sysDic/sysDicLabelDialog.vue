@@ -211,7 +211,7 @@ export default {
         if (res.data.code == "200") {
           this.dataList = res.data.body;
         }
-      });
+      })
     },
     handleAdd () {
       this.empty();
@@ -237,13 +237,13 @@ export default {
       let deletebatch = [];
       this.multipleSelection.forEach(i => {
         deletebatch.push(i.id);
-      });
+      })
       this.$http.post(this.api.dicBatchDelete, deletebatch).then(res => {
         if (res.data.code == "200") {
           this.$message.success("批量删除成功");
           this.getData(this.data.id);
         }
-      });
+      })
     },
     handleDelete (id) {
       this.$http.delete(this.api.dicDelete + id).then(res => {
@@ -251,7 +251,7 @@ export default {
           this.$message.success("删除成功");
           this.getData(this.data.id);
         }
-      });
+      })
     },
     handleSave () {
       this.form.dicTypeId = this.data.id;
@@ -270,7 +270,7 @@ export default {
             this.getData(this.data.id);
           }
         }
-      });
+      })
     },
     cancelSave () {
       this.editVisible = false;

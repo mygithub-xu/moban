@@ -117,7 +117,7 @@ export default {
             }
             this.photoTypeData.push(aa);
           }
-        });
+        })
     },
     handleSure () {
       this.dialogVisible = false;

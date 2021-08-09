@@ -43,7 +43,7 @@ export default {
     let deletebatch = []
     list.forEach(i => {
       deletebatch.push(i.id)
-    });
+    })
     return deletebatch
   },
 

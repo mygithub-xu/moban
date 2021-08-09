@@ -591,7 +591,7 @@ export default {
         })
       }).catch(() => {
         this.$message.info("已取消");
-      });
+      })
     },
     //保存
     saveParm () {
@@ -607,7 +607,7 @@ export default {
         this.savePost()
       }).catch(() => {
         this.$message.info("已取消");
-      });
+      })
     },
     savePost () {
       this.$http.post(this.api.sysAutoParamSaveOrUpdate, this.needParam).then(res => {

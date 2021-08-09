@@ -92,7 +92,7 @@ export default {
                     localStorage.removeItem("User");
                     //去除token
                     localStorage.removeItem("Token");
-            });
+            })
             this.$router.push("/login");
 
         },

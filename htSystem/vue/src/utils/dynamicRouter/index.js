@@ -133,7 +133,7 @@ function treeIteration (list) {
       kidRouters = kidRouters.concat(treeList)
     }
 
-  });
+  })
 
   return kidRouters;
 }

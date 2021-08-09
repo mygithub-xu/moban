@@ -171,7 +171,7 @@ export default {
         this.pageData.list = res.data.body.records;
         this.pageData.totalCount = res.data.body.total;
         this.pageData.totalPage = res.data.body.pages;
-      });
+      })
     },
 
     // 查询
@@ -212,7 +212,7 @@ export default {
             this.$message.success(res.data.message)
             this.getData()
           }
-        });
+        })
       })
     },
     handleDeleteBatch () {
@@ -227,7 +227,7 @@ export default {
             this.$message.success(res.data.message)
             this.getData()
           }
-        });
+        })
       })
     },
     //勾选

@@ -116,7 +116,7 @@
                     this.$message({
                       message: "登陆失败，账号或密码错误!!",
                       type: "error"
-                    }); 
+                    }) 
                 }
 
                 if (res.data.code === "500") {
@@ -129,7 +129,7 @@
             })
           } 
 
-        });
+        })
       }
     }
   }

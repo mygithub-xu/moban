@@ -69,7 +69,7 @@ export default {
         return this.$message({
           message: '请选择你要选择的图片',
           type: 'warning'
-        });
+        })
       }
       var value = photoData.url;
       let index = vm.addImgRange != null ? vm.addImgRange.index : 0;// 获取插入时的位置索引，如果获取失败，则插入到最前面

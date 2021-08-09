@@ -237,7 +237,7 @@ export default {
             this.pageData.totalCount = res.data.body.total;
             this.pageData.totalPage = res.data.body.pages;
           }
-        });
+        })
       this.getType("enabled");
     },
     //分页
@@ -276,19 +276,19 @@ export default {
             this.$message({
               message: "删除数据成功",
               type: "success"
-            });
+            })
           } else {
             this.$message.warning(`${(res.data && res.data.body) || '删除数据失败'}`);
           }
           this.handleSearch();
-        });
+        })
       })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除"
-          });
-        });
+          })
+        })
 
     },
     //权限分配---start
@@ -305,8 +305,8 @@ export default {
           if (res.data.code == "200") {
             this.$refs.menuTree.setCheckedKeys(res.data.body);
           }
-        });
-      });
+        })
+      })
     },
     //关闭权限配置窗口
     cancelTreeVisible () {
@@ -322,15 +322,15 @@ export default {
             roleId: this.currentId,
             menuId: i.id,
             parentId: i.parentId
-          });
+          })
         } else {
           saveData.push({
             roleId: this.currentId,
             buttonId: i.id,
             menuId: i.parentId
-          });
+          })
         }
-      });
+      })
       this.$http
         .put(this.api.rolePermissionBatchsave + this.currentId, saveData)
         .then(res => {
@@ -338,7 +338,7 @@ export default {
             this.$message.success("保存权限成功！");
             this.treeVisible = false;
           }
-        });
+        })
     },
     //权限分配---end
     //勾选表体
@@ -370,18 +370,18 @@ export default {
             i.status = "1";
             return i;
           }
-        });
+        })
       } else {
         changeData = this.multipleSelection.filter(i => {
           if (i.status === "1") {
             i.status = "0";
             return i;
           }
-        });
+        })
       }
       this.$http.put(this.api.roleBatchUpdate, changeData).then(res => {
         this.getData();
-      });
+      })
 
     },
     // 保存编辑
@@ -396,11 +396,11 @@ export default {
             } else {
               this.$message.error(res.data.body);
             }
-          });
+          })
         } else {
           return false;
         }
-      });
+      })
     },
     //剩余字数
     descInput_fou () {
@@ -413,18 +413,18 @@ export default {
       const deldata = [];
       this.multipleSelection.filter(i => {
         deldata.push(i.id);
-      });
+      })
       this.$http.post(this.api.roleBatchDelete, deldata).then(res => {
         if (res.body && res.body.code === '200') {
           this.$message({
             message: "批量删除数据成功",
             type: "success"
-          });
+          })
         } else {
           this.$message.warning(`${(res.data && res.data.body) || '批量删除数据失败'}`);
         }
         this.getData();
-      });
+      })
 
     },
     //获取状态
@@ -433,7 +433,7 @@ export default {
         if (res.data.code == 200) {
           this.options = res.data.body;
         }
-      });
+      })
     },
 
   }

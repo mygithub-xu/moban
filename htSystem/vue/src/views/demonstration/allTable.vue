@@ -445,7 +445,7 @@ export default {
       let deletebatch = [];
       this.multipleSelection.forEach(i => {
         deletebatch.push(i.id);
-      });
+      })
       this.$confirm("此操作将永久删除, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -457,17 +457,17 @@ export default {
               this.$message({
                 message: "批量删除数据成功",
                 type: "success"
-              });
+              })
             }
             this.getdata();
-          });
+          })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消批量删除"
-          });
-        });
+          })
+        })
 
     },
     //查询
@@ -520,17 +520,17 @@ export default {
                 this.$message({
                   message: "删除数据成功",
                   type: "success"
-                });
+                })
               }
               this.getdata();
-            });
+            })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除"
-          });
-        });
+          })
+        })
     },
     //页数
     handlePage (number, size) {
@@ -565,7 +565,7 @@ export default {
                   this.$message
                     .error(res.data.message);
                 }
-              });
+              })
           }
         })
     },
@@ -604,7 +604,7 @@ export default {
       //                 checked: false
       //             }));
       // }
-      // });
+      // })
 
       // this.$http
       //     .post(this.api.appUserQueryByCondition, {
@@ -622,7 +622,7 @@ export default {
       //     this.checkBoxList.userIdList=this.checkBoxList.parendIdList;
 
       //     }
-      // });
+      // })
     },
 
     //获取数据
@@ -640,7 +640,7 @@ export default {
             this.pageData.totalCount = res.data.body.total;
             this.pageData.totalPage = res.data.body.pages;
           }
-        });
+        })
     },
 
     //时间转换器---start
@@ -700,7 +700,7 @@ export default {
         if (v.checked) {
           aa.push(v.value)
         }
-      });
+      })
       if (aa.length == 0) { return this.$message.error("未勾选查询选框") }
       this.condition[filterName] = aa;
       this.queryVisible[filterName] = false;

@@ -199,7 +199,7 @@ export default {
       let deletebatch = [];
       this.multipleSelection.forEach(i => {
         deletebatch.push(i.id);
-      });
+      })
       this.$confirm("此操作将永久删除, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -213,17 +213,17 @@ export default {
                 this.$message({
                   message: "批量删除数据成功",
                   type: "success"
-                });
+                })
               }
               this.search();
-            });
+            })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消批量删除"
-          });
-        });
+          })
+        })
     },
     empty () {
       this.form = {
@@ -256,7 +256,7 @@ export default {
             this.pageData.totalCount = res.data.body.total;
             this.pageData.totalPage = res.data.body.pages;
           }
-        });
+        })
     },
     handleSelectionChange (val) {
       if (val.length > 0) {
@@ -271,8 +271,8 @@ export default {
       this.form = Object.assign({}, row);
       this.remnant_fou = 200 - this.form.description.length;
       this.$nextTick(() => {
-        this.$refs.form.validate(valid => { });
-      });
+        this.$refs.form.validate(valid => { })
+      })
     },
     handleDelete (id) {
       this.$confirm("此操作将永久删除, 是否继续?", "提示", {
@@ -286,24 +286,24 @@ export default {
               this.$message({
                 message: "删除数据成功",
                 type: "success"
-              });
+              })
             }
             this.search();
-          });
+          })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除"
-          });
-        });
+          })
+        })
     },
 
     handleDeleteBatch () {
       let deletebatch = [];
       this.multipleSelection.forEach(i => {
         deletebatch.push(i.id);
-      });
+      })
       this.$confirm("此操作将永久删除, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -317,17 +317,17 @@ export default {
                 this.$message({
                   message: "批量删除数据成功",
                   type: "success"
-                });
+                })
               }
               this.search();
-            });
+            })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消批量删除"
-          });
-        });
+          })
+        })
     },
     handlePage (number, size) {
       this.search(number, size);
@@ -356,11 +356,11 @@ export default {
             } else {
               this.$message.error(res.data.message);
             }
-          });
+          })
         } else {
           return false;
         }
-      });
+      })
     }
   }
 }

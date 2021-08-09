@@ -86,8 +86,4 @@ public class RedisUtil {
     public long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
-
-
-
-
 }

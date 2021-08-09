@@ -181,16 +181,16 @@ export default {
             this.$message.success("删除数据成功");
           }
           this.getdata();
-        });
+        })
       }).catch(() => {
         this.$message.info("已取消删除");
-      });
+      })
     },
     handleDeleteBatch () {
       let deletebatch = [];
       this.multipleSelection.forEach(i => {
         deletebatch.push(i.id);
-      });
+      })
       this.$confirm("此操作将永久删除, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -202,17 +202,17 @@ export default {
               this.$message({
                 message: "批量删除数据成功",
                 type: "success"
-              });
+              })
             }
             this.getdata();
-          });
+          })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消批量删除"
-          });
-        });
+          })
+        })
     },
     handleSelectionChange () {
 

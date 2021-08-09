@@ -190,7 +190,7 @@ export default {
           if (res.data.code == "200") {
             this.treeData = res.data.body;
           }
-        });
+        })
 
     },
 
@@ -240,18 +240,18 @@ export default {
               this.$message({
                 message: "删除数据成功",
                 type: "success"
-              });
+              })
             }
             this.empty();
             this.getData();
-          });
+          })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除"
-          });
-        });
+          })
+        })
 
 
 
@@ -277,7 +277,7 @@ export default {
           this.statusOpen(true);
           this.getData();
         }
-      });
+      })
     },
 
     //取消

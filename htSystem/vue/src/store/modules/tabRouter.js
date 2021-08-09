@@ -51,7 +51,7 @@ const tabRouter = {
                 if(!!v.component){
                     keep.push(v.component);
                 }
-            });
+            })
             state.keepTab=keep;
             state.openTab=data;
         },

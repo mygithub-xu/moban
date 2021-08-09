@@ -79,10 +79,4 @@ public class ExceptionHandlerUtils {
         e.printStackTrace();
         return new Result("500", "没有接收到请求参数！", "没有接收到请求参数");
     }
-    //为空
-//    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-//    public Object ParamIsNullException(Exception e, HttpServletRequest request) {
-//        e.printStackTrace();
-//        return new Result("500", "参数为空", e.getMessage());
-//    }
 }

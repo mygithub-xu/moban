@@ -300,12 +300,12 @@ export default {
                 this.$message.warning(res.data.message);
                 return false;
               }
-            });
+            })
         } else {
           return false;
         }
         this.activeName = "first";
-      });
+      })
     },
 
 
@@ -338,12 +338,12 @@ export default {
                 this.$message.warning(res.data.message);
                 return false;
               }
-            });
+            })
         } else {
           return false;
         }
         this.activeName = "second";
-      });
+      })
     },
 
     //取消
@@ -370,7 +370,7 @@ export default {
       this.$nextTick(() => {
         this.$refs["form"].clearValidate();
         this.$refs["formPass"].clearValidate();
-      });
+      })
     },
     getData () {
       //取出当前登录用户id
@@ -382,7 +382,7 @@ export default {
           this.$message.warning(res.data.body);
           return false;
         }
-      });
+      })
     },
     //显示头像
     showImg () {
@@ -396,7 +396,7 @@ export default {
         if (res.data.code == 200) {
           this.genderData = res.data.body;
         }
-      });
+      })
     },
     // 点击切换密码可见或不可见
     changeType1 () {

@@ -151,7 +151,7 @@ export default {
       let deletebatch = [];
       this.multipleSelection.forEach(i => {
         deletebatch.push(i.id);
-      });
+      })
       this.$confirm("此操作将永久删除, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -163,22 +163,22 @@ export default {
               this.$message({
                 message: "批量删除数据成功",
                 type: "success"
-              });
+              })
             } else {
               this.$message({
                 message: "批量删除数据失败",
                 type: "error"
-              });
+              })
             }
             this.getdata();
-          });
+          })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消批量删除"
-          });
-        });
+          })
+        })
 
     },
     //查询
@@ -216,22 +216,22 @@ export default {
               this.$message({
                 message: "删除数据成功",
                 type: "success"
-              });
+              })
             } else {
               this.$message({
                 message: "删除数据失败",
                 type: "error"
-              });
+              })
             }
             this.getdata();
-          });
+          })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除"
-          });
-        });
+          })
+        })
     },
     //页数
     handlePage (number, size) {
@@ -255,7 +255,7 @@ export default {
             this.pageData.totalCount = res.data.body.total;
             this.pageData.totalPage = res.data.body.pages;
           }
-        });
+        })
     },
 
     handleClose () {
@@ -270,15 +270,15 @@ export default {
           this.$message({
             message: "删除数据成功",
             type: "success"
-          });
+          })
         } else {
           this.$message({
             message: "删除数据失败",
             type: "error"
-          });
+          })
         }
         this.getdata();
-      });
+      })
     },
     openPhoto (url) {
       this.editVisible2 = true;

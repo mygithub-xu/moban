@@ -124,7 +124,7 @@ export default {
       this.$notify.error({
         title: '上传失败',
         message: '图片上传接口上传失败，可更改为自己的服务器接口'
-      });
+      })
     }
   },
   created () {

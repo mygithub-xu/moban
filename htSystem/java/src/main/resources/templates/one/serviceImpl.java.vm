@@ -9,11 +9,12 @@ import $!{projModel.packageName}.utils.Dictionaries;
 import $!{projModel.packageName}.utils.Parameter.Parameter;
 import $!{projModel.packageName}.utils.Parameter.QueryEntity;
 import $!{projModel.packageName}.utils.Result;
-import $!{projModel.packageName}.utils.StringUtils;
+import $!{projModel.packageName}.utils.common.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import $!{projModel.packageName}.utils.GetLoginUser;
-import $!{projModel.packageName}.utils.DateUtils;
+import $!{projModel.packageName}.utils.common.GetLoginUser;
+import $!{projModel.packageName}.utils.common.DateUtils;
 
 import java.util.List;
 

@@ -456,7 +456,7 @@ export default {
         } else {
           this.$message.warning(res.data.message);
         }
-      });
+      })
     },
     handleSelectionChangeDetil (val) {
       this.delVal = val;

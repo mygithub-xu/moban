@@ -88,7 +88,7 @@ export default {
             }
             this.photoTypeData.push(aa);
           }
-        });
+        })
     },
     beforeUpload (file) {
 

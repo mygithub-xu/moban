@@ -4,7 +4,7 @@ import $!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.t
 import $!{projModel.packageName}.module.$!{projModel.projectName}.$!{projModel.tableName}.service.I$!{projModel._TableName}Service;
 import $!{projModel.packageName}.utils.Parameter.QueryEntity;
 import $!{projModel.packageName}.utils.Result;
-import $!{projModel.packageName}.utils.StringUtils;
+import $!{projModel.packageName}.utils.common.StringUtils;
 import $!{projModel.packageName}.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

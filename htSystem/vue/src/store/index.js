@@ -17,6 +17,6 @@ const store = new Vuex.Store({
         layoutParam,
         globalSize
     }
-});
+})
 
 export default store;

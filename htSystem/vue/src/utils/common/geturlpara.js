@@ -16,7 +16,7 @@ export default {
         v: aaa
       }
       returnList.push(vs)
-    });
+    })
 
     return returnList;
   },

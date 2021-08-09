@@ -541,16 +541,16 @@ export default {
             this.$message({
               message: "批量删除数据成功",
               type: "success"
-            });
+            })
           }
           this.getdata();
-        });
+        })
       }).catch(() => {
         this.$message({
           type: "info",
           message: "已取消批量删除"
-        });
-      });
+        })
+      })
 
     },
     //查询
@@ -576,7 +576,7 @@ export default {
     handleEdit () {
 
       if (this.multipleSelection.length != 1) {
-        return this.$message({ type: "warning", message: "请选择一条数据" });
+        return this.$message({ type: "warning", message: "请选择一条数据" })
       }
 
       this.editVisible = true;
@@ -599,7 +599,7 @@ export default {
             this.form.testSysTetailList = res.data.body.records;
             this.$forceUpdate();
           }
-        });
+        })
       })
 
 
@@ -616,10 +616,10 @@ export default {
             this.$message.success("删除数据成功");
           }
           this.getdata();
-        });
+        })
       }).catch(() => {
         this.$message.info("已取消删除");
-      });
+      })
     },
     //页数
     handlePage (number, size) {
@@ -637,7 +637,7 @@ export default {
           this.pageData.list = res.data.body.records;
           this.pageData.totalCount = res.data.body.total;
           this.pageData.totalPage = res.data.body.pages;
-        });
+        })
 
     },
     //保存/修改
@@ -664,7 +664,7 @@ export default {
           this.$message.success(res.data.message);
         }
 
-      });
+      })
 
     },
 

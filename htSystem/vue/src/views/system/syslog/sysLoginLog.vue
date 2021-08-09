@@ -149,7 +149,7 @@ export default {
           this.pageData.list = res.data.body.records;
           this.pageData.totalCount = res.data.body.total;
           this.pageData.totalPage = res.data.body.pages;
-        });
+        })
     },
     empty () {
       this.condition = {
@@ -178,7 +178,7 @@ export default {
       let deletebatch = [];
       this.multipleSelection.forEach(i => {
         deletebatch.push(i.id);
-      });
+      })
       this.$confirm("此操作将永久删除, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -193,19 +193,19 @@ export default {
             }
             this.getdata();
             this.dicDisabled = true;
-          });
+          })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消批量删除"
-          });
-        });
+          })
+        })
 
     },
     handleExport () {
       //     this.$http.get(this.api.excelImport).then(res => {
-      // });
+      // })
 
       this.$axios({
         method: 'get',
@@ -217,7 +217,7 @@ export default {
           let blob = new Blob([response.data], {
             type:
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          });
+          })
           let url = window.URL.createObjectURL(blob);
           let a = document.createElement("a");
           a.href = url;
@@ -233,7 +233,7 @@ export default {
         if (res.data.code == 200) {
           this.options = res.data.body;
         }
-      });
+      })
     }
 
   },

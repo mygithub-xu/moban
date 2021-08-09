@@ -50,7 +50,7 @@ export default {
         if (i == 'w') return (m.length > 2 ? '星期' : '周') + week[val];
         for (var j = 0, len = val.length; j < m.length - len; j++) val = '0' + val;
         return m.length == 1 ? val : val.substring(val.length - m.length);
-      });
+      })
     }
     return fmt;
   },

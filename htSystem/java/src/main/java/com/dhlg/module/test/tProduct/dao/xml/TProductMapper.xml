@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.test.tProduct.dao.TProductMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.test.tProduct.entity.TProduct">
+        <result column="total" property="total" />
+        <result column="id" property="id" />
+        <result column="productNo" property="productNo" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+total,id,productNo    </sql>
+
+    <select id="queryByCondition" parameterType="com.dhlg.module.test.tProduct.entity.TProduct" 
+    resultType="com.dhlg.module.test.tProduct.entity.TProduct">
+        select t.*
+        from t_product t
+        <trim prefix="where" prefixOverrides="and">
+            <if test="params.productNo != null and params.productNo !=''">
+                and t.productNo like concat('%',#{params.productNo},'%')
+            </if>
+        </trim>
+    </select>
+
+    <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from t_product
+    </select>
+
+</mapper>
