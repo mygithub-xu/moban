@@ -106,7 +106,7 @@ export default {
         openByEdit(row){
             this.openByNew()
             this.$http.get("api/test/tSendMessageFile/queryById/" + row.id).then(res => {
-
+                this.form = res.data.body
             })
         },
         //返回
@@ -123,13 +123,14 @@ export default {
                   cancelButtonText: "取消",
                   type: "warning"
                 }).then(() => {
-                    this.$http.post("api/test/tSendMessageFile/saveOrUpdate",this.form).then(res => {
-                      if(res.data.code == '200'){
-                        this.$message.success(res.data.message)
-                        this.editVisible = false
-                        this.$emit("back")
-                      }
-                    })
+                    this.$utils.downFile("api/test/tSendMessageFile/downZip",this.form,'测试2.zip')
+                    // this.$http.post("api/test/tSendMessageFile/saveOrUpdate",this.form).then(res => {
+                    //   if(res.data.code == '200'){
+                    //     this.$message.success(res.data.message)
+                    //     this.editVisible = false
+                    //     this.$emit("back")
+                    //   }
+                    // })
                 })
               }
             })

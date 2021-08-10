@@ -94,7 +94,7 @@ export default {
             this.openByNew()
             this.${http}.get("api/$!{projModel.projectName}/$!{projModel.tableName}/queryById/" + row.id).then(res => {
                 this.form = res.data.body
-            });
+            })
         },
         //返回
         backHandle(){
@@ -119,7 +119,7 @@ export default {
                         this.editVisible = false
                         this.$emit("back")
                       }
-                    });
+                    })
                 })
               }
             })

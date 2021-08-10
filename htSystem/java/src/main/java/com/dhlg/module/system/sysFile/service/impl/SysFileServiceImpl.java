@@ -1,6 +1,5 @@
 package com.dhlg.module.system.sysFile.service.impl;
 
-import com.alibaba.excel.util.FileUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dhlg.utils.*;
 import com.dhlg.module.system.sysFile.entity.SysFile;
@@ -14,11 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -138,25 +133,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         if (!file.exists()){
             return Result.error("未发现文件");
         }
-        HttpServletResponse response = HttpContextUtils.getResponse();
-        response.setContentType("application/force-download");
-        response.setCharacterEncoding("UTF-8");
-        OutputStream out = null;
-        try {
-            out = response.getOutputStream();
-            out.write(FileUtils.readFileToByteArray(file));
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        FileUtils.downFile(file);
         return null;
     }
 

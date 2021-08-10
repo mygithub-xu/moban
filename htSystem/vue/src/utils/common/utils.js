@@ -80,7 +80,7 @@ export default {
         Message.warning('下载失败');
       }
     }).catch(res => {
-      Message.error("下载失败")
+      Message.error("下载失败",res)
     })
   }
   

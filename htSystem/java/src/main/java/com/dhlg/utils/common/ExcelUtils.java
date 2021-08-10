@@ -56,7 +56,7 @@ public class ExcelUtils {
         response.reset();
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("status", "failure");
         map.put("message", "下载文件失败" + e.getMessage());
         try {

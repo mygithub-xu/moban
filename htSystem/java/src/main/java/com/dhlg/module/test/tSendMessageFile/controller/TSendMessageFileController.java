@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -31,18 +32,17 @@ public class TSendMessageFileController {
         ITSendMessageFileService doService;
 
         @ApiOperation("保存或者更新")
-        @PostMapping("/saveOrUpdate")
-        public Result saveOrUpdate(@RequestBody TSendMessageFile tSendMessageFile) {
+        @PostMapping("/downZip")
+        public void saveOrUpdate(@RequestBody TSendMessageFile tSendMessageFile, HttpServletResponse response) {
                 if(StringUtils.isBlank(tSendMessageFile)){
                         throw new ParamIsNullException();
                 }
-                return  doService.saveOrUpdateCommon(tSendMessageFile);
+                doService.saveOrUpdateCommon(tSendMessageFile, response);
         }
 
         @ApiOperation("删除（物理删除）")
         @DeleteMapping("/deleteById/{id}")
         public Result delete(@PathVariable String id) {
-
                 return doService.delete(id);
         }
 

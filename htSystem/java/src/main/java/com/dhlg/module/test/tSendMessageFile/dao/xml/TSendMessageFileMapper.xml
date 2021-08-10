@@ -15,6 +15,7 @@
         <result column="is_delete" property="isDelete" />
         <result column="id" property="id" />
         <result column="create_time" property="createTime" />
+        <result column="code_author" property="codeAuthor" />
     </resultMap>
 
     <!-- 通用查询结果列 -->

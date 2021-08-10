@@ -31,6 +31,13 @@ public class TSendMessageFile implements Serializable {
          */
         @TableField("demand_number")
         private String demandNumber;
+
+        /**
+         * 代码作者
+         */
+        @TableField("code_author")
+        private String codeAuthor;
+
         /**
          * 更新时间
          */

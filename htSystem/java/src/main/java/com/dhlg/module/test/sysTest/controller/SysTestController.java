@@ -89,6 +89,7 @@ public class SysTestController {
 
                 ExcelUtils.downSimple(response,data);
         }
+
         @ApiOperation("复杂导出模板")
         @PostMapping("/down2")
         public void down2(@RequestBody List<SysTest> data , HttpServletResponse response){
@@ -101,29 +102,6 @@ public class SysTestController {
                 ExcelUtils.down("demo.xlsx",response,data,map);
         }
 
-        @Test
-        public void aaaa(){
-                StringBuffer stringBuffer = new StringBuffer();
-                for (int i = 0; i < 16383; i++) {
-                        stringBuffer.append("四");
-                }
-                stringBuffer.equals("b");
-                System.out.println(stringBuffer.toString());
-        }
 
-        @Test
-        public void bbbb(){
-
-                Map<String, String> map = new LinkedHashMap<>();
-                map.put("param1", "aaa");   //第14个桶
-                map.put("param2", "bbb");   //第15个桶
-                map.put("param3", "ccc");   //第12个桶
-                map.put("param4", "ddd");   //第13个桶
-
-                //Java8新增的遍历方式
-                map.forEach((key, value) -> {
-                        System.out.println("key:" + key + ", value:" + value);
-                });
-        }
 }
 

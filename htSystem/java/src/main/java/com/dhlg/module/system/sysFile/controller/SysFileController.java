@@ -88,23 +88,5 @@ public class SysFileController {
         }
         return  doservice.down(id);
     }
-
-    @Test
-    public void text(){
-        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
-        JedisPool jedisPool = new JedisPool(poolConfig, "127.0.0.1", 6379,-1,"hehe");
-
-        //向JedisPool借用8次连接，但是没有执行归还操作。
-        for (int i = 0; i < 6; i++) {
-            Jedis jedis = null;
-            try {
-                jedis = jedisPool.getResource();
-                jedis.ping();
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-            }
-        }
-        jedisPool.getResource().ping();
-    }
 }
 

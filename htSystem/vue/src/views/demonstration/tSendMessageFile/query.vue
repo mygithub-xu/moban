@@ -31,6 +31,8 @@
                     </el-table-column>
                     <el-table-column prop="createTime"  label="创建时间">
                     </el-table-column>
+                    <el-table-column prop="codeAuthor"  label="代码作者">
+                    </el-table-column>
                     <el-table-column  label="操作">
                       <template slot-scope="scope">
                             <el-button @click="handleDelete(scope.row)" type="text" style="color:red">删除</el-button>
@@ -92,7 +94,7 @@ export default {
             }
         },
         //获取数据
-        getData(row){
+        getData(){
             let queryContion = {
                 condition: this.queryContion,
                 number: this.pageData.pageNumber,

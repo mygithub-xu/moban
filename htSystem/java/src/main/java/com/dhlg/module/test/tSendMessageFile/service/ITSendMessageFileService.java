@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public interface ITSendMessageFileService extends IService<TSendMessageFile> {
 
-    Result saveOrUpdateCommon(TSendMessageFile tSendMessageFile);
+    void saveOrUpdateCommon(TSendMessageFile tSendMessageFile, HttpServletResponse response);
 
     Result delete(String id);
 
