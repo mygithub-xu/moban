@@ -27,4 +27,5 @@ public interface ITProductService extends IService<TProduct> {
 
     Result query(String id);
 
+    void send(int userId);
 }

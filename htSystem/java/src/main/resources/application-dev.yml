@@ -53,19 +53,11 @@ spring:
         max-active: 100
         max-wait: -1
     timeout: 600 # 单位秒
-  #mq配置---start
-  activemq:
-    broker-url: tcp://127.0.0.1:61616
-    user: admin
-    password: admin
-    pool:
-      enabled: false
-    #信任所有的包
-    packages:
-      trust-all: true
-  jms:
-    pub-sub-domain: true
-  #mq配置---end
+  rabbitmq:
+    host: 192.168.163.128
+    username: admin
+    password: 123456
+
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html

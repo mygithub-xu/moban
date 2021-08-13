@@ -17,6 +17,7 @@ import com.dhlg.utils.common.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dhlg.utils.GetLoginUser;
@@ -24,7 +25,6 @@ import com.dhlg.utils.common.DateUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +44,8 @@ public class TSendMessageFileServiceImpl extends ServiceImpl<TSendMessageFileMap
     @Autowired
     TSendMessageFileMapper doMapper;
 
-
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Override
     public void saveOrUpdateCommon(TSendMessageFile tSendMessageFile,HttpServletResponse response) {
@@ -114,6 +115,8 @@ public class TSendMessageFileServiceImpl extends ServiceImpl<TSendMessageFileMap
 
     @Override
     public Result getVersion() {
+        rabbitTemplate.convertAndSend("test.direct","test","aaaaaa哈哈哈哈或");
+
         String url = "https://uattest.life.cntaiping.com:8443/mobile/applicationMarket";
         String param = "sAction=queryAppList&sType=2,4&appCate=0";
         String result = HttpUtils.doGet(url, param);

@@ -71,6 +71,7 @@ public class TSendMessageFileController {
         @ApiOperation("获取版本号")
         @GetMapping("/getVersion")
         public Result getVersion() {
+
                 return  doService.getVersion();
         }
 

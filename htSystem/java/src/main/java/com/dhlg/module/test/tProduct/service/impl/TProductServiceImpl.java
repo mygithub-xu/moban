@@ -10,6 +10,7 @@ import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
 import com.dhlg.utils.common.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,8 @@ public class TProductServiceImpl extends ServiceImpl<TProductMapper, TProduct> i
     @Autowired
     TProductMapper doMapper;
 
+    @Autowired
+    RabbitTemplate rabbitTemplate;
     @Override
     public Result saveOrUpdateCommon(TProduct tProduct) {
         //判断新增还是修改
@@ -76,5 +79,14 @@ public class TProductServiceImpl extends ServiceImpl<TProductMapper, TProduct> i
             return Result.error(Dictionaries.DELETE_FAILED);
         }
         return Result.success(Dictionaries.DELETE_SUCCESS);
+    }
+
+    @Override
+    public void send(int messge){
+        //第一个参数：交换机名字  第二个参数：Routing Key的值  第三个参数：传递的消息对象
+        rabbitTemplate.convertAndSend("test.direct","test",messge);
+    }
+
+    public void robbingProduct(Integer userId) {
     }
 }

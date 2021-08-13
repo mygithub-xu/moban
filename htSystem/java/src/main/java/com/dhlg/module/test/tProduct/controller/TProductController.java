@@ -68,5 +68,15 @@ public class TProductController {
 
                 return doService.deleteBatch(ids);
         }
+
+
+        private int userId=0;
+        //开始抢单
+        @RequestMapping("/begin")
+        @ResponseBody
+        public void begin(){
+                userId++;
+                doService.send(userId);
+        }
 }
 
