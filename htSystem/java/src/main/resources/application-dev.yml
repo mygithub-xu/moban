@@ -53,10 +53,10 @@ spring:
         max-active: 100
         max-wait: -1
     timeout: 600 # 单位秒
-  rabbitmq:
-    host: 192.168.163.128
-    username: admin
-    password: 123456
+#  rabbitmq:
+#    host: 192.168.163.128
+#    username: admin
+#    password: 123456
 
   thymeleaf:
     prefix: classpath:/templates/

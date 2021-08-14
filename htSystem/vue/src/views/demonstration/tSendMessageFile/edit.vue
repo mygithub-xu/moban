@@ -123,7 +123,8 @@ export default {
                   cancelButtonText: "取消",
                   type: "warning"
                 }).then(() => {
-                    this.$utils.downFile("api/test/tSendMessageFile/downZip",this.form,'测试2.zip')
+                    const name = this.form.demandNumber + this.form.demandName + '.zip'
+                    this.$utils.downFile("api/test/tSendMessageFile/downZip",this.form,name)
                     // this.$http.post("api/test/tSendMessageFile/saveOrUpdate",this.form).then(res => {
                     //   if(res.data.code == '200'){
                     //     this.$message.success(res.data.message)

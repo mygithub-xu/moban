@@ -47,33 +47,62 @@ public class TSendMessageFileServiceImpl extends ServiceImpl<TSendMessageFileMap
     @Autowired
     RabbitTemplate rabbitTemplate;
 
+    String TEMPLATE_PATH = "src/main/resources/templates/excel/cpt/";
+    String TEMPLATE_DIR = "\\src\\main\\resources\\templates\\";
+    String SOURCE_PATH = System.getProperty("user.dir")+TEMPLATE_DIR;
+
+
     @Override
     public void saveOrUpdateCommon(TSendMessageFile tSendMessageFile,HttpServletResponse response) {
         // 生成file
 //        createFile(tSendMessageFile);
-        createZip();
+        tSendMessageFile.setCreateTime(DateUtils.getCurrentDate());
+        createFile(tSendMessageFile);
         // 插入数据库
 //        saveInData(tSendMessageFile);
     }
 
-    public void createZip() {
-        String fileSrc = "D:/aaaaaa";
-        String storeSrc = "D:/bbbb";
-        String zipName = "mytest04.zip";
-        FileUtils.compressToZip(fileSrc,storeSrc,zipName);
-        File file = new File(storeSrc, zipName);
+    public void createZip(String path,String name) {
+        String zipName = name+".zip";
+        FileUtils.compressToZip(path,SOURCE_PATH,zipName);
+        File file = new File(SOURCE_PATH, zipName);
         FileUtils.downFile(file);
+//        FileUtils.delZipFile(zipName);
     }
 
-    public void createFile() {
-        String fileName =  "D:/aaaaaa/" + System.currentTimeMillis() + ".xlsx";
-        String TEMPLATE_PATH = "src/main/resources/templates/excel/cpt/";
-        String templateFileName = TEMPLATE_PATH + "testDemo.xlsx";
+    public void createFile(TSendMessageFile tSendMessageFile) {
+        String path = getPath(tSendMessageFile);
+        String name = getName(tSendMessageFile);;
+        FileUtils.creatFile(path);
+        // 生成测试用例
+        creatDemoFile(tSendMessageFile,path,"-测试用例","testDemo");
+        // 生成android
+        creatDemoFile(tSendMessageFile,path,"-android","versionAndroid");
+        // 生成ios
+        creatDemoFile(tSendMessageFile,path,"-ios","versionIos");
+        // 生成复审记录表
+        creatDemoFile(tSendMessageFile,path,"-审记录表.","fsjl");
+
+        // 生成zip
+        createZip(path,name);
+    }
+
+    private void creatDemoFile(TSendMessageFile tSendMessageFile,String path, String houZhui, String tem) {
+        String name = getName(tSendMessageFile);
+        String fileName =  path  + name + houZhui +".xlsx";
+        String templateFileName = TEMPLATE_PATH + tem + ".xlsx";
         // 这里 会填充到第一个sheet， 然后文件流会自动关闭
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("demandNumber", "00000000");
-        map.put("demandName", 5.2);
-        EasyExcel.write(fileName).withTemplate(templateFileName).sheet().doFill(map);
+        EasyExcel.write(fileName).withTemplate(templateFileName).sheet().doFill(tSendMessageFile);
+    }
+
+    private String getName(TSendMessageFile tSendMessageFile) {
+        return tSendMessageFile.getDemandNumber()+tSendMessageFile.getDemandName();
+    }
+
+    private String getPath(TSendMessageFile tSendMessageFile) {
+        String name = getName(tSendMessageFile);
+//        return SOURCE_PATH + name + File.separator + type + File.separator;
+        return SOURCE_PATH + name + File.separator;
     }
 
     public void saveInData(TSendMessageFile tSendMessageFile){
@@ -115,7 +144,7 @@ public class TSendMessageFileServiceImpl extends ServiceImpl<TSendMessageFileMap
 
     @Override
     public Result getVersion() {
-        rabbitTemplate.convertAndSend("test.direct","test","aaaaaa哈哈哈哈或");
+//        rabbitTemplate.convertAndSend("test.direct","test","aaaaaa哈哈哈哈或");
 
         String url = "https://uattest.life.cntaiping.com:8443/mobile/applicationMarket";
         String param = "sAction=queryAppList&sType=2,4&appCate=0";

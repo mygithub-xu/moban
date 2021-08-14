@@ -18,7 +18,7 @@ import javax.servlet.MultipartConfigElement;
 @SpringBootApplication
 @MapperScan(basePackages = {"com.dhlg.module.*.*.dao","com.dhlg.module.*.*.*.dao"})
 @ServletComponentScan
-@EnableRabbit
+//@EnableRabbit
 public class MobanApplication {
 
     public static void main(String[] args) {

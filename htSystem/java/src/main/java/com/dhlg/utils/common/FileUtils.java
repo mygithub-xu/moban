@@ -20,6 +20,21 @@ import java.util.zip.ZipOutputStream;
 @Slf4j
 public class FileUtils {
 
+    /*
+    * 删除指定文件
+    *
+    */
+    public static void delZipFile(String url){
+        File file=new File(url);
+        if (file.getName().endsWith(".zip")) {  // zip文件  判断 是否存在
+            if(file.delete()) {
+                log.info("zip文件已经删除");
+            }else{
+                log.info("zip文件删除失败");
+            }
+        }
+    }
+
     /**
      *
      * @param file 文件
@@ -85,8 +100,8 @@ public class FileUtils {
             ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile))) {
             writeZip(sourceFile, "", zos);
             //文件压缩完成后，删除被压缩文件
-//            boolean flag = deleteDir(sourceFile);
-//            log.info("删除被压缩文件[" + sourceFile + "]标志：{}", flag);
+            boolean flag = deleteDir(sourceFile);
+            log.info("删除被压缩文件[" + sourceFile + "]标志：{}", flag);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage(), e.getCause());

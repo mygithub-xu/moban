@@ -12,10 +12,10 @@ import org.springframework.amqp.core.Message;
 @Component
 public class MsgReceiver {
 
-    @RabbitListener(queues = "test")
-    public void receive(Message message,String user){
-        System.out.println("message："+message);
-        System.out.println("收到消息："+user);
-    }
+//    @RabbitListener(queues = "test")
+//    public void receive(Message message,String user){
+//        System.out.println("message："+message);
+//        System.out.println("收到消息："+user);
+//    }
 
 }
