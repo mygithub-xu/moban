@@ -1,4 +1,4 @@
-package com.dhlg.module.test.tProduct.entity;
+package com.dhlg.module.test.tProductRecord.entity;
 
 import java.util.Date;
 import java.math.BigDecimal;
@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("t_product")
-public class TProduct implements Serializable {
+@TableName("t_product_record")
+public class TProductRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,8 +29,8 @@ public class TProduct implements Serializable {
         /**
          * 
          */
-        @TableField("total")
-        private int total;
+        @TableField("userId")
+        private int userId;
         /**
          * 
          */

@@ -1,6 +1,6 @@
-package com.dhlg.module.test.tProduct.service;
+package com.dhlg.module.test.tProductRecord.service;
 
-import com.dhlg.module.test.tProduct.entity.TProduct;
+import com.dhlg.module.test.tProductRecord.entity.TProductRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
@@ -15,19 +15,16 @@ import java.util.List;
  * @author xu
  * @since
  */
-public interface ITProductService extends IService<TProduct> {
+public interface ITProductRecordService extends IService<TProductRecord> {
 
-    Result saveOrUpdateCommon(TProduct tProduct);
+    Result saveOrUpdateCommon(TProductRecord tProductRecord);
 
     Result delete(String id);
 
     Result deleteBatch(List<String> ids);
 
-    Result query(QueryEntity<TProduct> parameter);
+    Result query(QueryEntity<TProductRecord> parameter);
 
     Result query(String id);
 
-    void send();
-
-    Result sendMessage(String message);
 }

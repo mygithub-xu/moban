@@ -1,12 +1,11 @@
-package com.dhlg.module.test.tProduct.controller;
+package com.dhlg.module.test.tProductRecord.controller;
 
-import com.dhlg.module.test.tProduct.entity.TProduct;
-import com.dhlg.module.test.tProduct.service.ITProductService;
+import com.dhlg.module.test.tProductRecord.entity.TProductRecord;
+import com.dhlg.module.test.tProductRecord.service.ITProductRecordService;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
-
-import com.dhlg.exception.ParamIsNullException;
 import com.dhlg.utils.common.StringUtils;
+import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,20 +21,20 @@ import java.util.List;
  * @since
  */
 @RestController
-@RequestMapping("/api/test/tProduct")
+@RequestMapping("/api/test/tProductRecord")
 @CrossOrigin
-public class TProductController {
+public class TProductRecordController {
 
         @Autowired
-        ITProductService doService;
+        ITProductRecordService doService;
 
         @ApiOperation("保存或者更新")
         @PostMapping("/saveOrUpdate")
-        public Result saveOrUpdate(@RequestBody TProduct tProduct) {
-                if(StringUtils.isBlank(tProduct)){
+        public Result saveOrUpdate(@RequestBody TProductRecord tProductRecord) {
+                if(StringUtils.isBlank(tProductRecord)){
                         throw new ParamIsNullException();
                 }
-                return  doService.saveOrUpdateCommon(tProduct);
+                return  doService.saveOrUpdateCommon(tProductRecord);
         }
 
         @ApiOperation("删除（物理删除）")
@@ -47,7 +46,7 @@ public class TProductController {
 
         @ApiOperation("查询")
         @PostMapping("/query")
-        public Result query(@RequestBody QueryEntity<TProduct> parameter) {
+        public Result query(@RequestBody QueryEntity<TProductRecord> parameter) {
                 if(StringUtils.isBlank(parameter)){
                         throw new ParamIsNullException();
                 }
@@ -65,19 +64,6 @@ public class TProductController {
         public Result batchDelete(@RequestBody List<String> ids) {
 
                 return doService.deleteBatch(ids);
-        }
-
-        @ApiOperation("发送rabbitMq消息")
-        @GetMapping("/sendMessage/{message}")
-        public Result sendMessage(@PathVariable String message){
-                return doService.sendMessage(message);
-        }
-
-        //开始抢单
-        @RequestMapping("/begin")
-        @ResponseBody
-        public void begin(){
-                doService.send();
         }
 }
 

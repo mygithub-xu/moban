@@ -16,9 +16,11 @@ import com.dhlg.utils.common.HttpUtils;
 import com.dhlg.utils.common.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import com.dhlg.utils.GetLoginUser;
 import com.dhlg.utils.common.DateUtils;
@@ -27,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -47,9 +48,11 @@ public class TSendMessageFileServiceImpl extends ServiceImpl<TSendMessageFileMap
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-    String TEMPLATE_PATH = "src/main/resources/templates/excel/cpt/";
-    String TEMPLATE_DIR = "\\src\\main\\resources\\templates\\";
-    String SOURCE_PATH = System.getProperty("user.dir")+TEMPLATE_DIR;
+    @Value("${common.templateStoreUrl}")
+    public String templateStoreUrl;
+
+    @Value("${common.storeUrl}")
+    public String storeUrl;
 
 
     @Override
@@ -59,10 +62,11 @@ public class TSendMessageFileServiceImpl extends ServiceImpl<TSendMessageFileMap
         tSendMessageFile.setCreateTime(DateUtils.getCurrentDate());
         createFile(tSendMessageFile);
         // 插入数据库
-//        saveInData(tSendMessageFile);
+        saveInData(tSendMessageFile);
     }
 
     public void createZip(String path,String name) {
+        String SOURCE_PATH = System.getProperty("user.dir")+storeUrl;
         String zipName = name+".zip";
         FileUtils.compressToZip(path,SOURCE_PATH,zipName);
         File file = new File(SOURCE_PATH, zipName);
@@ -70,19 +74,29 @@ public class TSendMessageFileServiceImpl extends ServiceImpl<TSendMessageFileMap
 //        FileUtils.delZipFile(zipName);
     }
 
-    public void createFile(TSendMessageFile tSendMessageFile) {
+    public void createFile(TSendMessageFile tSendMessageFile)  {
+        log.info("storeUrl:", storeUrl);
         String path = getPath(tSendMessageFile);
         String name = getName(tSendMessageFile);;
         FileUtils.creatFile(path);
         // 生成测试用例
         creatDemoFile(tSendMessageFile,path,"-测试用例","testDemo");
         // 生成android
-        creatDemoFile(tSendMessageFile,path,"-android","versionAndroid");
+        creatDemoFile(tSendMessageFile,path,"-版本号"+tSendMessageFile.getAndroidVersion(),"versionAndroid");
         // 生成ios
-        creatDemoFile(tSendMessageFile,path,"-ios","versionIos");
+        creatDemoFile(tSendMessageFile,path,"-版本号"+tSendMessageFile.getIosVersion(),"versionIos");
         // 生成复审记录表
-        creatDemoFile(tSendMessageFile,path,"-审记录表.","fsjl");
-
+        creatDemoFile(tSendMessageFile,path,"-复审记录表.","fsjl");
+        try {
+            // 生成代码截图
+            File file=new File(path + name + "-代码截图.docx");
+            file.createNewFile();
+            // 页面代码截图
+            File file2=new File(path + name + "-页面截图.docx");
+            file2.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // 生成zip
         createZip(path,name);
     }
@@ -90,16 +104,17 @@ public class TSendMessageFileServiceImpl extends ServiceImpl<TSendMessageFileMap
     private void creatDemoFile(TSendMessageFile tSendMessageFile,String path, String houZhui, String tem) {
         String name = getName(tSendMessageFile);
         String fileName =  path  + name + houZhui +".xlsx";
-        String templateFileName = TEMPLATE_PATH + tem + ".xlsx";
+        String templateFileName = System.getProperty("user.dir") + templateStoreUrl + tem + ".xlsx";
         // 这里 会填充到第一个sheet， 然后文件流会自动关闭
         EasyExcel.write(fileName).withTemplate(templateFileName).sheet().doFill(tSendMessageFile);
     }
 
     private String getName(TSendMessageFile tSendMessageFile) {
-        return tSendMessageFile.getDemandNumber()+tSendMessageFile.getDemandName();
+        return tSendMessageFile.getDemandNumber()+ "-" +tSendMessageFile.getDemandName();
     }
 
     private String getPath(TSendMessageFile tSendMessageFile) {
+        String SOURCE_PATH = System.getProperty("user.dir")+storeUrl;
         String name = getName(tSendMessageFile);
 //        return SOURCE_PATH + name + File.separator + type + File.separator;
         return SOURCE_PATH + name + File.separator;

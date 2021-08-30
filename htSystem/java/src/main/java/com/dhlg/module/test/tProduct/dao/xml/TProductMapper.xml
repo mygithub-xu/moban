@@ -27,5 +27,4 @@ total,id,productNo    </sql>
     <select id="listFieldQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
         select * from t_product
     </select>
-
 </mapper>

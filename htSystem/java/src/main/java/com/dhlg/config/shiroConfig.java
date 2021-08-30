@@ -61,6 +61,7 @@ public class shiroConfig {
         map.put("/api/system/sysUser/login", "anon");
         map.put("/api/system/sysUser/logout", "anon");
         map.put("/api/system/sysUser/getCode/*","anon");
+        map.put("/api/test/**","anon");
         map.put("/druid/**","anon");
         map.put("/swagger-ui.html","anon");
         map.put("/webjars/**","anon");

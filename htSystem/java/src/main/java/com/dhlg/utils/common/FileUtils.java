@@ -92,9 +92,11 @@ public class FileUtils {
     public static void compressToZip(String sourceFilePath, String zipFilePath, String zipFilename) {
         File sourceFile = new File(sourceFilePath);
         File zipPath = new File(zipFilePath);
-        if (!zipPath.exists()) {
-            zipPath.mkdirs();
+        if (zipPath.exists()) {
+            log.info("删除");
+            zipPath.delete();
         }
+        zipPath.mkdirs();
         File zipFile = new File(zipPath + File.separator + zipFilename);
         try (
             ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile))) {
