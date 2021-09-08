@@ -8,22 +8,25 @@
 
             </div>
             <div class="dialog-form">
-                <el-form ref="form" label-width="150px" :rules="rules" :model="form" style="width:50%">
-                    <el-form-item label="需求号" prop="demandNumber" style="width:60%">
-                        <el-input v-model="form.demandNumber"></el-input>
+                <el-form ref="form" label-width="150px" :rules="rules" :model="form" >
+                    <el-form-item label="作者" prop="codeAuthor" style="width:80%;min-width:600px">
+                        <el-input v-model="form.codeAuthor" style="width:400px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="需求号" prop="demandNumber" style="width:80%;min-width:600px">
+                        <el-input v-model="form.demandNumber" style="width:400px;min-width:600p"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="需求名称" prop="demandName" style="width:60%">
-                        <el-input v-model="form.demandName"></el-input>
+                    <el-form-item label="需求名称" prop="demandName" style="width:80%;min-width:600px">
+                        <el-input v-model="form.demandName"  style="width:400px"></el-input>
                     </el-form-item>
-
-                    <el-form-item label="安卓版本" prop="androidVersion" style="width:60%">
-                        <el-input v-model="form.androidVersion"></el-input>
+                    
+                    <el-form-item label="安卓版本" prop="androidVersion" style="width:50%;min-width:600px">
+                        <el-input v-model="form.androidVersion"  style="width:400px"></el-input>
                     </el-form-item>
-                    <el-button  @click="getVersion" style="height:32px;margin-left:20px">一键获取版本号</el-button>
-
-                    <el-form-item label="ios版本" prop="iosVersion" style="width:60%">
-                        <el-input v-model="form.iosVersion"></el-input>
+                    <el-button  @click="getVersion" style="height:32px;">一键获取版本号</el-button>
+                  
+                    <el-form-item label="ios版本" prop="iosVersion" style="width:80%;min-width:600px">
+                        <el-input v-model="form.iosVersion"  style="width:400px"></el-input>
                     </el-form-item>
                     
                 </el-form>
@@ -42,6 +45,13 @@ export default {
         form: {},
         //校验
         rules:{
+            codeAuthor: [
+                {
+                    required: true,
+                    message: "作者不能为空",
+                    trigger: "blur"
+                },
+            ],
             demandNumber: [
                 {
                     required: true,
@@ -118,21 +128,8 @@ export default {
         saveHandle(){
             this.$refs['form'].validate((valid)=>{
               if(valid){
-                this.$confirm("是否保存?", "提示", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                }).then(() => {
                     const name = this.form.demandNumber + this.form.demandName + '.zip'
                     this.$utils.downFile("api/test/tSendMessageFile/downZip",this.form,name)
-                    // this.$http.post("api/test/tSendMessageFile/saveOrUpdate",this.form).then(res => {
-                    //   if(res.data.code == '200'){
-                    //     this.$message.success(res.data.message)
-                    //     this.editVisible = false
-                    //     this.$emit("back")
-                    //   }
-                    // })
-                })
               }
             })
         }

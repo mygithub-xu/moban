@@ -5,6 +5,7 @@ import org.apache.velocity.runtime.directive.Foreach;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -12,12 +13,22 @@ import static jdk.nashorn.internal.objects.NativeString.search;
 
 public class textjhhhh {
     public static void main(String[] args){
-        ArrayList<Object> objects = new ArrayList<>();
-        // 复习二分查找
-        int[] nums = {5,7,7,8,8,10};
-        int target = 8;
-        int index = erfen(nums,target);
-        System.out.println(index);
+        // 接雨水 力扣42. 接雨水
+        int[] height = {0,1,2};
+        int aa = trap(height);
+
+        // 面试题 16.26. 计算器
+//        String s = " 3+5 / 2 ";
+//        calculate(s);
+//        // 150. 逆波兰表达式求值
+//        String[] tokens = {"2","1","+","3","*"};
+//        int sum = evalRPN(tokens);
+
+//        // 复习二分查找
+//        int[] nums = {5,7,7,8,8,10};
+//        int target = 8;
+//        int index = erfen(nums,target);
+//        System.out.println(index);
         // 34. 在排序数组中查找元素的第一个和最后一个位置  (使用二分法)
 //        int[] nums = {1};
 //        int target = 1;
@@ -69,6 +80,107 @@ public class textjhhhh {
 //        int num = 1;
 //        System.out.println(judgeSquareSum(num));
 
+    }
+
+    private static int trap(int[] height) {
+        int returnNum = 0;
+        // 左边面积
+        int s1 = 0;
+        // 右边面积
+        int s2 = 0;
+        // 柱子面积
+        int s3 = 0;
+
+        int maxLeft = 0;
+        int maxRight = 0;
+        for (int i = 0; i < height.length; i++) {
+            if (height[i]>maxLeft){
+                maxLeft = height[i];
+            }
+            if (height[height.length - i -1]>maxRight){
+                maxRight = height[height.length - i -1];
+            }
+            s1 = s1 + maxLeft;
+            s2 = s2 + maxRight;
+            s3 = s3 + height[i];
+        }
+        // 矩形面积
+        int s4 = height.length * maxLeft;
+        returnNum = s1 + s2 - s3 - s4;
+        System.out.println(returnNum);
+        return returnNum;
+    }
+
+    private static int calculate(String s) {
+
+        Stack<Integer> stack = new Stack<>();
+        char[] chars = s.toCharArray();
+        for (int i = 0;i<chars.length;i++){
+            char tmp = chars[i];
+            if (tmp == ' '){
+                continue;
+            }
+            int num = 0;
+            if (tmp == '*' || tmp == '/' || tmp == '+' || tmp == '-'){
+                i++;
+                num = Character.getNumericValue(chars[i]);
+            }else {
+                num = Character.getNumericValue(tmp);
+            }
+            switch (tmp){
+                case '-':
+                    num = -num;
+                    break;
+                case '*':
+                    num = stack.pop()*num;
+                    break;
+                case '/':
+                    num = stack.pop()/num;
+                    break;
+            }
+            stack.push(num);
+        }
+        int sum = 0;
+        while(!stack.isEmpty()) {
+            sum += stack.pop();
+        }
+        System.out.println(sum);
+        return sum;
+    }
+
+    private static int evalRPN(String[] tokens) {
+        int returnNum = 0;
+        Stack<Integer> stack = new Stack<>();
+        for(String token : tokens){
+            if (isNumber(token)){
+                stack.push(Integer.valueOf(token));
+            }
+            if (!isNumber(token)){
+                int num1 = stack.pop();
+                int num2 = stack.pop();
+                switch (token){
+                    case "-":
+                        stack.push(num2 - num1);
+                        break;
+                    case "+":
+                        stack.push(num2 + num1);
+                        break;
+                    case "*":
+                        stack.push(num2 * num1);
+                        break;
+                    case "/":
+                        stack.push(num2 / num1);
+                        break;
+                }
+            }
+        }
+        Integer pop = stack.pop();
+        System.out.println(pop);
+        return pop;
+    }
+
+    private static boolean isNumber(String token) {
+        return !("+".equals(token) || "-".equals(token) || "*".equals(token) || "/".equals(token));
     }
 
     private static int erfen(int[] arr, int key) {

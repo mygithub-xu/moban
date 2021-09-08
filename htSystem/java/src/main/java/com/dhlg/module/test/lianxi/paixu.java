@@ -7,6 +7,7 @@ public class paixu {
         // 冒泡
         int[] aa = {3,45,78,64,52,11,64,55,99,11,18};
 //        maopao(aa);
+        "".equals("sss");
         // 优化冒泡
 //        maopaoyouhua(aa);
         // 快排

@@ -13,12 +13,12 @@
             <query-item isButton style="width:100%;padding-left:30px">
                 <el-button type="primary"  @click="search" >查询</el-button>
                 <el-button  plain @click="reset" >重置</el-button>
-                <el-button  plain @click="handleAdd" >新增</el-button>
+                <el-button  plain @click="handleAdd" >获取提测邮件</el-button>
                 <el-button  plain @click="handleDeleteBatch" type="danger">删除</el-button>
             </query-item>
         </div>
         <!-- 数据表格 -->
-        <div class="container-table">
+        <div class="container-table" style="min-height:300px">
             <div class="common-table-style">
                 <el-table :data="pageData.list" border
                  @selection-change="handleSelectionChange"
