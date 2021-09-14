@@ -79,5 +79,18 @@ public class TProductController {
         public void begin(){
                 doService.send();
         }
+
+        @ApiOperation("测试线程池---不用线程池")
+        @GetMapping("/testxc")
+        public Result testxc() {
+
+                return doService.testxc();
+        }
+        @ApiOperation("测试线程池---使用线程池")
+        @GetMapping("/testxc2")
+        public Result testxc2() {
+
+                return doService.testxc2();
+        }
 }
 

@@ -12,16 +12,19 @@ import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
 import com.dhlg.utils.common.StringUtils;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * <p>
@@ -43,6 +46,12 @@ public class TProductServiceImpl extends ServiceImpl<TProductMapper, TProduct> i
 
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+//    static BlockingQueue<Runnable> bq = new ArrayBlockingQueue<Runnable>(10);
+//    static ThreadPoolExecutor poolTaskExecutor = new ThreadPoolExecutor(2,55,50, TimeUnit.MILLISECONDS,bq);
+
+    @Autowired
+    ThreadPoolTaskExecutor poolTaskExecutor;
 
 //    @PostConstruct
 //    private void init(){
@@ -141,6 +150,54 @@ public class TProductServiceImpl extends ServiceImpl<TProductMapper, TProduct> i
 //        tProduct.setProductNo(message);
         rabbitTemplate.convertAndSend("test.direct","test",message);
         return Result.success(message);
+    }
+
+    @Override
+    public Result testxc() {
+        long start = System.currentTimeMillis();
+        TProduct t = new TProduct();
+        // 查找表一
+        TProduct product = getById(1);
+        t.setProductNo(product.getProductNo());
+        // 查找表二
+        TProduct product2 = getById(2);
+        t.setTotal(product2.getTotal());
+        // 时间
+        long end = System.currentTimeMillis();
+        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
+        map.put("data",t);
+        map.put("time",end-start);
+        return Result.success(map);
+    }
+
+    @Override
+    public Result testxc2() {
+        long start = System.currentTimeMillis();
+
+        TProduct t = new TProduct();
+        // 查找表一
+        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.runAsync(() -> {
+            TProduct product = getById(1);
+            t.setProductNo(product.getProductNo());
+        }, poolTaskExecutor);
+        // 查找表二
+        CompletableFuture<Void> voidCompletableFuture2 = CompletableFuture.runAsync(() -> {
+            TProduct product2 = getById(2);
+            t.setTotal(product2.getTotal());
+        }, poolTaskExecutor);
+        try {
+            CompletableFuture.allOf(voidCompletableFuture,voidCompletableFuture2).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        // 时间
+        long end = System.currentTimeMillis();
+        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
+        map.put("data",t);
+        map.put("time",end-start);
+        return Result.success(map);
     }
 
     public synchronized void  robbingProduct(Integer userId) {

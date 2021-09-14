@@ -10,19 +10,19 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    @Bean
-    public MessageConverter messageConverter(){
-        return new Jackson2JsonMessageConverter();
-    }
-
-    /**
-     * 配置启用rabbitmq事务
-     *
-     * @param connectionFactory connectionFactory
-     * @return RabbitTransactionManager
-     */
-    @Bean
-    public RabbitTransactionManager rabbitTransactionManager(CachingConnectionFactory connectionFactory) {
-        return new RabbitTransactionManager(connectionFactory);
-    }
+//    @Bean
+//    public MessageConverter messageConverter(){
+//        return new Jackson2JsonMessageConverter();
+//    }
+//
+//    /**
+//     * 配置启用rabbitmq事务
+//     *
+//     * @param connectionFactory connectionFactory
+//     * @return RabbitTransactionManager
+//     */
+//    @Bean
+//    public RabbitTransactionManager rabbitTransactionManager(CachingConnectionFactory connectionFactory) {
+//        return new RabbitTransactionManager(connectionFactory);
+//    }
 }

@@ -30,4 +30,8 @@ public interface ITProductService extends IService<TProduct> {
     void send();
 
     Result sendMessage(String message);
+
+    Result testxc();
+
+    Result testxc2();
 }

@@ -53,19 +53,19 @@ spring:
         max-active: 100
         max-wait: -1
     timeout: 600 # 单位秒
-  rabbitmq:
-    host: 192.168.163.128
-    username: admin
-    password: 123456
-    publisher-confirms: true
-    publisher-returns: true
-    listener:
-      simple:
-        concurrency: 10
-        max-concurrency: 100
-        prefetch: 100
-        auto-startup: true
-        acknowledge-mode: manual
+#  rabbitmq:
+#    host: 192.168.163.128
+#    username: admin
+#    password: 123456
+#    publisher-confirms: true
+#    publisher-returns: true
+#    listener:
+#      simple:
+#        concurrency: 10
+#        max-concurrency: 100
+#        prefetch: 100
+#        auto-startup: true
+#        acknowledge-mode: manual
 
 
   thymeleaf:
