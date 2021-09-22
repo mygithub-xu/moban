@@ -1,4 +1,4 @@
-package com.dhlg.module.test.sysTest.controller;
+package com.dhlg.module.test.lianxi.suanfa;
 
 import com.dhlg.utils.common.StringUtils;
 import org.apache.velocity.runtime.directive.Foreach;
@@ -13,9 +13,12 @@ import static jdk.nashorn.internal.objects.NativeString.search;
 
 public class textjhhhh {
     public static void main(String[] args){
+        long n = 3;
+        long a = thenumberof0(n);
+        System.out.println("sum:"+a);
         // 接雨水 力扣42. 接雨水
-        int[] height = {0,1,2};
-        int aa = trap(height);
+//        int[] height = {0,1,2};
+//        int aa = trap(height);
 
         // 面试题 16.26. 计算器
 //        String s = " 3+5 / 2 ";
@@ -51,9 +54,11 @@ public class textjhhhh {
 //        int k = 2;
 //        printArray(topKFrequent(nums, k));
 
-//        String s = "{}{}{}{}{}{(([[]]))]";
+//        String s = "(*))";
 //        boolean valid = isValid(s);
-
+//        方法二队列
+//        boolean valid = isValid2(s);
+//        System.out.println("valid:"+valid);
 //        String s = "a1b2c3d4e";
 //        String valid = replaceDigits(s);
 //        System.out.println(valid);
@@ -80,6 +85,42 @@ public class textjhhhh {
 //        int num = 1;
 //        System.out.println(judgeSquareSum(num));
 
+    }
+
+    private static long thenumberof0(long n) {
+        if (n == 0){
+            return 1;
+        }
+        if (n == 1){
+            return 1;
+        }
+        if (n == 2){
+            return 2;
+        }
+        return n*thenumberof0(n-1);
+    }
+
+    private static boolean isValid2(String s) {
+        Stack<Character> strings = new Stack<>();
+        boolean flag = true;
+        char[] chars = s.toCharArray();
+        for (int i = 0;i < chars.length;i++){
+            if (chars[i] == '('){
+                strings.push(chars[i]);
+            }
+            if (chars[i] == ')'){
+                if (strings.size()==0){
+                    flag = false;
+                    break;
+                }
+                strings.pop();
+            }
+        }
+        if (flag&&strings.size()>0){
+            return false;
+        }
+
+        return flag;
     }
 
     private static int trap(int[] height) {

@@ -1,10 +1,6 @@
 package com.dhlg.module.test.templateTree.service.impl;
 
-import cn.hutool.core.lang.Snowflake;
-import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.dhlg.module.system.sysAutoField.entity.SysAutoField;
 import com.dhlg.module.test.templateTree.entity.TemplateTree;
 import com.dhlg.module.test.templateTree.dao.TemplateTreeMapper;
 import com.dhlg.module.test.templateTree.service.ITemplateTreeService;

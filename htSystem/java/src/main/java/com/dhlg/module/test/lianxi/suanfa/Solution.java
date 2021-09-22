@@ -1,4 +1,4 @@
-package com.dhlg.module.test.lianxi;
+package com.dhlg.module.test.lianxi.suanfa;
 
 import java.util.LinkedList;
 

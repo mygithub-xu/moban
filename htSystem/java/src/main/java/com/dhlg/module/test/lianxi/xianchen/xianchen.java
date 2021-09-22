@@ -1,4 +1,4 @@
-package com.dhlg.module.test.lianxi;
+package com.dhlg.module.test.lianxi.xianchen;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;

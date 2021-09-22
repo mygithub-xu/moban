@@ -1,4 +1,4 @@
-package com.dhlg.module.test.lianxi;
+package com.dhlg.module.test.lianxi.suanfa;
 
 import java.util.Arrays;
 
@@ -12,6 +12,7 @@ public class paixu {
 //        maopaoyouhua(aa);
         // 快排
         kuaiPai(aa);
+
     }
 
     private static void kuaiPai(int[] aa) {
