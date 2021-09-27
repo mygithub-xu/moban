@@ -9,11 +9,15 @@ import com.dhlg.utils.Dictionaries;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
 import com.dhlg.utils.common.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import com.dhlg.utils.GetLoginUser;
 import com.dhlg.utils.common.DateUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -24,11 +28,15 @@ import java.util.List;
  * @author xu
  * @since 2020-05-05
  */
+@Slf4j
 @Service
 public class SysTestServiceImpl extends ServiceImpl<SysTestMapper, SysTest> implements ISysTestService {
 
     @Autowired
     SysTestMapper doMapper;
+
+    @Resource(name="cacheUpdateTaskExecutor")
+    private ThreadPoolTaskExecutor taskExecutor;
 
     @Override
     public Result saveOrUpdateCommon(SysTest sysTest) {
@@ -64,9 +72,26 @@ public class SysTestServiceImpl extends ServiceImpl<SysTestMapper, SysTest> impl
     @Override
     public Result query(QueryEntity<SysTest> parameter) {
         IPage<SysTest> dataList = doMapper.queryByCondition(parameter.getPage(), parameter.getCondition());
+
         return new Result(dataList);
     }
-
+    @Async
+    public void sayHello(String name) {
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("***************************");
+                System.out.println(Thread.currentThread().getName());
+                System.out.println("***************************");
+            }
+        });
+        System.out.println("***********threadTest***********");
+    }
     @Override
     public Result query(String id) {
         return Result.success(getById(id));

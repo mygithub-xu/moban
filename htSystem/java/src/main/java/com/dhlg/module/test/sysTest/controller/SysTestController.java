@@ -9,8 +9,10 @@ import com.dhlg.utils.common.StringUtils;
 import com.dhlg.exception.ParamIsNullException;
 import com.dhlg.utils.common.UserInfo;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 import javax.transaction.SystemException;
 import javax.servlet.RequestDispatcher;
@@ -30,6 +32,7 @@ import java.util.*;
  * @author xu
  * @since
  */
+
 @RestController
 @RequestMapping("/api/test/sysTest")
 @CrossOrigin
@@ -102,6 +105,7 @@ public class SysTestController {
                 map.put("total", 1000);
                 ExcelUtils.down("demo.xlsx",response,data,map);
         }
+
 
 
 }

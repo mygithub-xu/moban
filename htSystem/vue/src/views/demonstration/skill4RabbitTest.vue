@@ -21,7 +21,7 @@
       </div>
       <div class="skill" style="height: 300px;">
         <div class="skill-item">
-            测试线程池
+            测试线程池（ThreadPoolTaskExecutor）
         </div>
         <div class="skill-item">
             <el-button @click="nouserxc">不使用线程池</el-button>
@@ -33,6 +33,7 @@
             时间：{{time1}}
         </div>
       </div>
+
       </div>
       </el-scrollbar>
     </div>

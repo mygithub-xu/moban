@@ -47,11 +47,11 @@ public class TProductServiceImpl extends ServiceImpl<TProductMapper, TProduct> i
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-//    static BlockingQueue<Runnable> bq = new ArrayBlockingQueue<Runnable>(10);
-//    static ThreadPoolExecutor poolTaskExecutor = new ThreadPoolExecutor(2,55,50, TimeUnit.MILLISECONDS,bq);
+    static BlockingQueue<Runnable> bq = new ArrayBlockingQueue<Runnable>(10);
+    static ThreadPoolExecutor poolTaskExecutor = new ThreadPoolExecutor(2,55,50, TimeUnit.MILLISECONDS,bq);
 
-    @Autowired
-    ThreadPoolTaskExecutor poolTaskExecutor;
+//    @Autowired
+//    ThreadPoolTaskExecutor poolTaskExecutor;
 
 //    @PostConstruct
 //    private void init(){
