@@ -107,4 +107,5 @@ export default {
     sysTestqueryById: 'api/test/sysTest/queryById/',//get
     sysTestDown: 'api/test/sysTest/down',//post
     sysTestDown2: 'api/test/sysTest/down2',//post
+    sysTestDown3: 'api/test/sysTest/down3',//post
 }

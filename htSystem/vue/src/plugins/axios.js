@@ -13,7 +13,7 @@ let loading;
 axios.interceptors.request.use(
   config => {
     //取到token
-    const token = localStorage.getItem("Token")
+    const token = sessionStorage.getItem("Token")
     // 将tokexn设置到headers中
     if (token) {
         config.headers['dh-Token'] = token;
@@ -89,10 +89,10 @@ axios.interceptors.request.use(
       if(error.response.data.message&&error.response.data.message == "Token失效请重新登录"){
 
         //这里防止其多次弹出，
-        if(localStorage.getItem("morePOp") == "1"){
+        if(sessionStorage.getItem("morePOp") == "1"){
           Message.error(error.response.data.message)
           router.push("/login")
-          localStorage.setItem("morePOp", "2");
+          sessionStorage.setItem("morePOp", "2");
         }else{
           return;
         }

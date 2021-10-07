@@ -80,8 +80,8 @@
                 // 更新登录状态,true为第一次登录。
                 this.$store.dispatch('changeLoginStatusFun',true)
                 // 防止多次弹出框，记录初始值
-                localStorage.setItem("morePOp", "1")
-                localStorage.setItem("Token", res.data.body.token)
+                sessionStorage.setItem("morePOp", "1")
+                sessionStorage.setItem("Token", res.data.body.token)
                 let userData = res.data.body.user
                 // 添加首页
                 if(userData.menuData){
@@ -95,7 +95,7 @@
                   }
                   userData.menuData.unshift(dashboard)
                 }
-                localStorage.setItem("User", JSON.stringify(res.data.body.user))
+                sessionStorage.setItem("User", JSON.stringify(res.data.body.user))
 
                 //更新头像
                 this.$message.success("登入成功");

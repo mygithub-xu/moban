@@ -291,7 +291,7 @@ export default {
                 this.$message.success(res.data.message);
                 //更新头像
                 // this.$store.dispatch('changeUrlFun',res.data.body);
-                localStorage.setItem("user", JSON.stringify(res.data.body));
+                sessionStorage.setItem("user", JSON.stringify(res.data.body));
                 //使用bus通知更换头像
                 bus.$emit("changeHead", "change");
 

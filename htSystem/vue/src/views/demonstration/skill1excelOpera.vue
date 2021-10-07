@@ -77,6 +77,16 @@
           <el-button @click = "down">导入xlsx</el-button>
         </div>
       </div>
+
+      <h2 class="skill-h2">5.excel百万数据导出</h2>
+      <div class="skill">
+        <div class="skill-item">
+        </div>
+        <div class="skill-item">
+          <el-button @click = "down3">导入xlsx</el-button>
+        </div>
+      </div>
+
       </div>
       </el-scrollbar>
     </div>
@@ -113,6 +123,9 @@ export default {
     }
   },
   methods:{
+    down3(){
+      this.$utils.downFile(this.api.sysTestDown3,JSON.parse(this.textarea),'百万数据.xlsx')
+    },
     down2(){
       this.$utils.downFile(this.api.sysTestDown2,JSON.parse(this.textarea),'测试2.xlsx')
     },

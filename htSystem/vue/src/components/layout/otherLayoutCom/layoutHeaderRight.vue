@@ -89,9 +89,9 @@ export default {
                     //初始化布局
                     this.$store.dispatch('initLayoutParamFun');
                     //去除user
-                    localStorage.removeItem("User");
+                    sessionStorage.removeItem("User");
                     //去除token
-                    localStorage.removeItem("Token");
+                    sessionStorage.removeItem("Token");
             })
             this.$router.push("/login");
 

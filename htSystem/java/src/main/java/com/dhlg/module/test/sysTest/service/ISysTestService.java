@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -28,4 +29,6 @@ public interface ISysTestService extends IService<SysTest> {
     Result query(String id);
 
     List<SysTest> findAllAdta();
+
+    void down3(HttpServletResponse response);
 }

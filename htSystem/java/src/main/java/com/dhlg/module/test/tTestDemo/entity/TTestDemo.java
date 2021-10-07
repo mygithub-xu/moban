@@ -1,7 +1,9 @@
-package com.dhlg.module.test.tProductRecord.entity;
+package com.dhlg.module.test.tTestDemo.entity;
 
 import java.util.Date;
 import java.math.BigDecimal;
+
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -15,27 +17,34 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("t_product_record")
-public class TProductRecord implements Serializable {
+@TableName("t_test_demo")
+public class TTestDemo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
         /**
         *id
         */
+        @ExcelProperty("id")
         @TableId("id")
         private String id;
 
         /**
          * 
          */
-        @TableField("userId")
-        private int userId;
+        @ExcelProperty("name")
+        @TableField("name")
+        private String name;
         /**
          * 
          */
-        @TableField("productNo")
-        private String productNo;
-
-        BigDecimal dd;
+        @ExcelProperty("age")
+        @TableField("age")
+        private Integer age;
+        /**
+         * 
+         */
+        @ExcelProperty("hobby")
+        @TableField("hobby")
+        private String hobby;
 }

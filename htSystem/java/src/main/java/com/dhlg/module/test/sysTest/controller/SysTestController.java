@@ -106,7 +106,11 @@ public class SysTestController {
                 ExcelUtils.down("demo.xlsx",response,data,map);
         }
 
-
+        @ApiOperation("下载")
+        @PostMapping("/down3")
+        public void down3(HttpServletResponse response) {
+                doService.down3(response);
+        }
 
 }
 

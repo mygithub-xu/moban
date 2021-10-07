@@ -64,7 +64,7 @@ export default {
       return BASE_URL + this.api.sysFileUploadFile
     },
     importHeaders(){
-      return {'dh-Token':localStorage.getItem("Token")}
+      return {'dh-Token':sessionStorage.getItem("Token")}
     }
   },
   methods: {

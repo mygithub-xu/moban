@@ -145,6 +145,9 @@ public interface Dictionaries {
     //用户信息
     String PREFIX_USER_ = "PREFIX_USER_";
 
+    //用户id
+    String PREFIX_USER_ID_ = "PREFIX_USER_ID_";
+
     //验证码有效时间
     String VERIFICATION_CODE = "VERIFICATION_CODE";
 

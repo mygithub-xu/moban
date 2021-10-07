@@ -1,17 +1,15 @@
-package com.dhlg.module.test.tProduct.controller;
+package com.dhlg.module.test.tTestDemo.controller;
 
-import com.dhlg.module.test.tProduct.entity.TProduct;
-import com.dhlg.module.test.tProduct.service.ITProductService;
+import com.dhlg.module.test.tTestDemo.entity.TTestDemo;
+import com.dhlg.module.test.tTestDemo.service.ITTestDemoService;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
-
-import com.dhlg.exception.ParamIsNullException;
 import com.dhlg.utils.common.StringUtils;
+import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -23,20 +21,20 @@ import java.util.List;
  * @since
  */
 @RestController
-@RequestMapping("/api/test/tProduct")
+@RequestMapping("/api/test/tTestDemo")
 @CrossOrigin
-public class TProductController {
+public class TTestDemoController {
 
         @Autowired
-        ITProductService doService;
+        ITTestDemoService doService;
 
         @ApiOperation("保存或者更新")
         @PostMapping("/saveOrUpdate")
-        public Result saveOrUpdate(@RequestBody TProduct tProduct) {
-                if(StringUtils.isBlank(tProduct)){
+        public Result saveOrUpdate(@RequestBody TTestDemo tTestDemo) {
+                if(StringUtils.isBlank(tTestDemo)){
                         throw new ParamIsNullException();
                 }
-                return  doService.saveOrUpdateCommon(tProduct);
+                return  doService.saveOrUpdateCommon(tTestDemo);
         }
 
         @ApiOperation("删除（物理删除）")
@@ -48,7 +46,7 @@ public class TProductController {
 
         @ApiOperation("查询")
         @PostMapping("/query")
-        public Result query(@RequestBody QueryEntity<TProduct> parameter) {
+        public Result query(@RequestBody QueryEntity<TTestDemo> parameter) {
                 if(StringUtils.isBlank(parameter)){
                         throw new ParamIsNullException();
                 }
@@ -65,34 +63,7 @@ public class TProductController {
         @PostMapping("/batchDelete")
         public Result batchDelete(@RequestBody List<String> ids) {
 
-                BigDecimal bigDecimal = new BigDecimal(500);
                 return doService.deleteBatch(ids);
-        }
-
-        @ApiOperation("发送rabbitMq消息")
-        @GetMapping("/sendMessage/{message}")
-        public Result sendMessage(@PathVariable String message){
-                return doService.sendMessage(message);
-        }
-
-        //开始抢单
-        @RequestMapping("/begin")
-        @ResponseBody
-        public void begin(){
-                doService.send();
-        }
-
-        @ApiOperation("测试线程池---不用线程池")
-        @GetMapping("/testxc")
-        public Result testxc() {
-
-                return doService.testxc();
-        }
-        @ApiOperation("测试线程池---使用线程池")
-        @GetMapping("/testxc2")
-        public Result testxc2() {
-
-                return doService.testxc2();
         }
 }
 

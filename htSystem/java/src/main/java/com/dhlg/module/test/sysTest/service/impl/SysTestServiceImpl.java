@@ -5,9 +5,12 @@ import com.dhlg.module.test.sysTest.entity.SysTest;
 import com.dhlg.module.test.sysTest.dao.SysTestMapper;
 import com.dhlg.module.test.sysTest.service.ISysTestService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dhlg.module.test.tTestDemo.entity.TTestDemo;
+import com.dhlg.module.test.tTestDemo.service.impl.TTestDemoServiceImpl;
 import com.dhlg.utils.Dictionaries;
 import com.dhlg.utils.Parameter.QueryEntity;
 import com.dhlg.utils.Result;
+import com.dhlg.utils.common.ExcelUtils;
 import com.dhlg.utils.common.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import com.dhlg.utils.GetLoginUser;
 import com.dhlg.utils.common.DateUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -34,6 +38,9 @@ public class SysTestServiceImpl extends ServiceImpl<SysTestMapper, SysTest> impl
 
     @Autowired
     SysTestMapper doMapper;
+
+    @Autowired
+    TTestDemoServiceImpl testDemoService;
 
     @Resource(name="cacheUpdateTaskExecutor")
     private ThreadPoolTaskExecutor taskExecutor;
@@ -100,6 +107,17 @@ public class SysTestServiceImpl extends ServiceImpl<SysTestMapper, SysTest> impl
     @Override
     public List<SysTest> findAllAdta() {
         return list();
+    }
+
+    @Override
+    public void down3(HttpServletResponse response) {
+        long startTime = System.currentTimeMillis();
+        List<TTestDemo> data = testDemoService.list();
+        long endTime = System.currentTimeMillis();
+        System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
+        ExcelUtils.downSimple(response,data);
+        long endTime2 = System.currentTimeMillis();
+        System.out.println("程序运行时间2：" + (endTime - endTime2) + "ms");
     }
 
     @Override

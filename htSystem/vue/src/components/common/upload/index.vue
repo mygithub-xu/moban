@@ -77,7 +77,7 @@ export default {
       return BASE_URL + this.api.sysFileUploadFile
     },
     importHeaders(){
-      return {'dh-Token':localStorage.getItem("Token")}
+      return {'dh-Token':sessionStorage.getItem("Token")}
     },
     isNoPass() {
       return this.fileListsdata.length == 0 && this.message

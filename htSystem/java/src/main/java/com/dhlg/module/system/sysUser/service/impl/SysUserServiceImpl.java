@@ -102,7 +102,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public Result login(String body, HttpServletRequest request) {
         // 校验验证码
-
         Map<String, Object> dataMap = new HashMap<>();
         JSONObject jsonObject = JSONObject.fromObject(body);
         String username = jsonObject.get( "userName").toString();
@@ -158,6 +157,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     private String saveToken(SysUser sysUser) {
+        // 查看user缓存，单个登录
+        tichu(sysUser);
         //保存token
         String token = JwtUtil.sign(sysUser.getLoginUser(), sysUser.getPassword());
         boolean set = redisUtil.set(Dictionaries.PREFIX_USER_TOKEN + token, token);
@@ -172,7 +173,20 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         redisUtil.set(Dictionaries.PREFIX_USER_ + token, vo);
         redisUtil.expire(Dictionaries.PREFIX_USER_ + token, JwtUtil.EXPIRE_TIME * 2/ 1000);
 
+        // 保存用户名称
+        redisUtil.set(Dictionaries.PREFIX_USER_ID_ + sysUser.getLoginUser(), token);
+        redisUtil.expire(Dictionaries.PREFIX_USER_ID_ + sysUser.getLoginUser(), JwtUtil.EXPIRE_TIME * 2/ 1000);
         return token;
+    }
+
+    private void tichu(SysUser sysUser) {
+        String token = (String)redisUtil.get(Dictionaries.PREFIX_USER_ID_ + sysUser.getLoginUser());
+        if (!StringUtils.isBlank(token)){
+            redisUtil.del(Dictionaries.PREFIX_USER_TOKEN + token);
+            redisUtil.del(Dictionaries.PREFIX_USER_ + token);
+            redisUtil.del(Dictionaries.PREFIX_USER_ID_ + sysUser.getLoginUser());
+        }
+
     }
 
     @Override
@@ -347,6 +361,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (StringUtils.isBlank(token)){
             return;
         }
+        String username = JwtUtil.getUsername(token);
+        // 获取用户
+
         // 更改用户状态
 
         // 删除用户信息
