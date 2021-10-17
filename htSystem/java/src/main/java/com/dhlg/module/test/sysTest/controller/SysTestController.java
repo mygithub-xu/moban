@@ -73,6 +73,7 @@ public class SysTestController {
         @ApiOperation("查询")
         @GetMapping("/queryById/{id}")
         public Result query(@PathVariable String id) {
+                System.out.println("aaaa");
                 return  doService.query(id);
         }
 

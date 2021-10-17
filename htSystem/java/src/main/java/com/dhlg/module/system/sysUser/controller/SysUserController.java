@@ -10,6 +10,7 @@ import com.dhlg.exception.ParamIsNullException;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.util.IOUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,6 +62,7 @@ public class SysUserController {
         //获取图片验证码
         return doService.checkCode(code);
     }
+
 
     @ApiOperation("用户登录")
     @PostMapping("/login")
