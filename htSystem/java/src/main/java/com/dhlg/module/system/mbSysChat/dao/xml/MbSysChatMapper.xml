@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhlg.module.system.mbSysChat.dao.MbSysChatMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dhlg.module.system.mbSysChat.entity.MbSysChat">
+        <id column="id" property="id" />
+        <result column="from_id" property="fromId" />
+        <result column="to_id" property="toId" />
+        <result column="time" property="time" />
+        <result column="data" property="data" />
+        <result column="type" property="type" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, from_id, to_id, time, data, type ,status
+    </sql>
+
+    <select id="findChatList" parameterType="string" resultType="com.dhlg.module.system.mbSysChat.entity.MbSysChat">
+        SELECT t1.*,t2.counts as noReadNum,t3.head_portrait as headPortrait,t3.user_name as userName from mb_sys_chat t1
+        inner JOIN (SELECT from_id,MAX(time)time,count(IF(status='1',true,null)) as counts FROM mb_sys_chat WHERE to_id=#{v} GROUP BY from_id)t2
+        ON t1.time=t2.time and t1.from_id=t2.from_id LEFT JOIN mb_sys_user t3 on t2.from_id=t3.id
+    </select>
+
+    <select id="findChatListById" parameterType="string" resultType="com.dhlg.module.system.mbSysChat.entity.MbSysChat">
+        select  c.*,u.head_portrait as headPortrait,u.user_name as userName from mb_sys_chat c left join mb_sys_user u on c.from_id=u.id
+        where c.status='1' and c.to_id=#{v} order by c.time asc
+    </select>
+
+    <update  id="changeChatStatus" parameterType="String" >
+        update mb_sys_chat set status='2' where  id in
+            <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+
+    </update>
+</mapper>
