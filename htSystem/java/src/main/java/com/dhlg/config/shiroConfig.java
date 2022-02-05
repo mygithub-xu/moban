@@ -58,6 +58,7 @@ public class shiroConfig {
         // 配置不会被拦截的链接 顺序判断
         map.put("/static/**", "anon");
         //设置不被拦截的api
+        map.put("/api/**","anon");
         map.put("/api/system/sysUser/login", "anon");
         map.put("/api/system/sysUser/logout", "anon");
         map.put("/api/system/sysUser/getCode/*","anon");
@@ -66,7 +67,7 @@ public class shiroConfig {
         map.put("/swagger-ui.html","anon");
         map.put("/webjars/**","anon");
         map.put("/swagger-resources/**","anon");
-
+        map.put("/websocket/**","anon");
 
         //自定义拦截器
         Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();

@@ -14,6 +14,7 @@ import javax.websocket.server.ServerEndpoint;
 
 
 import com.dhlg.config.WebSocketConfig;
+import com.dhlg.module.system.mbSysChat.entity.MbSysChat;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,7 @@ public class WebSocketServer {
      * 连接建立成功调用的方法*/
     @OnOpen
     public void onOpen(Session session,@PathParam("fromId") String fromId) {
+
         this.session = session;
         if (!connections.containsKey(fromId)){
             getOnlineCount();           //在线数加1
@@ -61,27 +63,37 @@ public class WebSocketServer {
         }
     }
 
+    public void sendMessageAllChat(MbSysChat chat) {
+        if (connections.size()==0){
+            return;
+        }
+        for (WebSocketServer item : connections.values()) {
+            JSONObject json = JSONObject.fromObject(chat);
+            item.session.getAsyncRemote().sendText(String.valueOf(json));
+        }
+    }
+
     private void sendMessageAll(String message,String fromId) {
         if (connections.size()==0){
             return;
         }
-//        for (WebSocketServer item : connections.values()) {
-//            item.session.getAsyncRemote().sendText(fromId+":"+message);
-//        }
+        for (WebSocketServer item : connections.values()) {
+            item.session.getAsyncRemote().sendText(fromId+":"+message);
+        }
     }
 
     //发送消息
-//    public void sendMessage(MbSysChat chat) {
-//        WebSocketServer to=connections.get(chat.getToId());
-//        if (to!=null){
-//            try {
-//                JSONObject json = JSONObject.fromObject(chat);
-//                to.session.getBasicRemote().sendText(String.valueOf(json));
-//            } catch (IOException e) {
-//                log.error("发送消息时出错");
-//            }
-//        }
-//    }
+    public void sendMessage(MbSysChat chat) {
+        WebSocketServer to = connections.get(chat.getToId());
+        if (to!=null){
+            try {
+                JSONObject json = JSONObject.fromObject(chat);
+                to.session.getBasicRemote().sendText(String.valueOf(json));
+            } catch (IOException e) {
+                log.error("发送消息时出错");
+            }
+        }
+    }
     //发送通知
     public void sendNotice(String message,String[] ToIds) {
         for (String id:ToIds){

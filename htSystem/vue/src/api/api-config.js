@@ -10,6 +10,10 @@ export default {
   deleteNode: `api/system/sysMenu/deletenode/`,
   saveNode: `api/system/sysMenu/savenode`,
 
+  //公告
+  mbSysChatSend:`api/mbSystem/mbSysChat/send`,
+  mbSysChatsendAll:`api/mbSystem/mbSysChat/sendAll`,
+
   //文件上传
   sysFileUploadFile: `api/system/sysFile/uploadFile`,//文件上传
   sysFileUploadFileMore: `api/system/sysFile/uploadFileMore`,//多文件上传

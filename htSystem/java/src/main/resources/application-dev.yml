@@ -17,11 +17,11 @@ spring:
   datasource:
     name: db
     type: com.alibaba.druid.pool.DruidDataSource #表明使用Druid连接池
-    username: root
+    username: wang
 #    password: zmy1022a.
     password: 123456
 #    url: jdbc:mysql://127.0.0.1:3306/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
-    url: jdbc:mysql://47.94.8.32:3306/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://123.60.5.25:33307/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     minIdle: 500
     maxActive: 1000 #最大连接池数量
@@ -42,7 +42,7 @@ spring:
     druidLoginName: admin # 登录druid的账号
     druidPassword: 123456 # 登录druid的密码
   redis:
-    host: 47.94.8.32
+    host: 123.60.5.25
 #    host: 127.0.0.1
     port: 6379
     password: hehe
