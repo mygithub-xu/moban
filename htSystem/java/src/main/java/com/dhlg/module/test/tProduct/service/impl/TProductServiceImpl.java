@@ -7,6 +7,7 @@ import com.dhlg.module.test.tProduct.service.ITProductService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dhlg.module.test.tProductRecord.entity.TProductRecord;
 import com.dhlg.module.test.tProductRecord.service.impl.TProductRecordServiceImpl;
+import com.dhlg.redis.RedisUtil;
 import com.dhlg.utils.Dictionaries;
 import com.dhlg.utils.Parameter.Parameter;
 import com.dhlg.utils.Parameter.QueryEntity;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 
 /**
@@ -46,6 +48,9 @@ public class TProductServiceImpl extends ServiceImpl<TProductMapper, TProduct> i
 
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    RedisUtil redisUtil;
 
     static BlockingQueue<Runnable> bq = new ArrayBlockingQueue<Runnable>(10);
     static ThreadPoolExecutor poolTaskExecutor = new ThreadPoolExecutor(2,55,50, TimeUnit.MILLISECONDS,bq);
@@ -170,6 +175,8 @@ public class TProductServiceImpl extends ServiceImpl<TProductMapper, TProduct> i
         return Result.success(map);
     }
 
+
+
     @Override
     public Result testxc2() {
         long start = System.currentTimeMillis();
@@ -218,4 +225,41 @@ public class TProductServiceImpl extends ServiceImpl<TProductMapper, TProduct> i
             log.error("用户{}抢单失败2", userId);
         }
     }
+
+    //string
+    void redisStringset(){
+        redisUtil.set("string","test string");
+
+    }
+
+    void redisStringget(){
+        Object string = redisUtil.get("string");
+        System.out.println(string);
+    }
+
+    //hash
+    void redisHashset(){
+        List<TProduct> list = list();
+        HashMap<String, Object> objectObjectHashMap = new HashMap<>();
+        objectObjectHashMap.put("hashhash",list);
+        redisUtil.hmset("hash",objectObjectHashMap);
+    }
+
+    void redishashget(){
+        Map<Object, Object> hash = redisUtil.hmget("hash");
+        TProduct hashhash = (TProduct) hash.get("hashhash");
+        System.out.println(hash);
+    }
+
+    //list
+    void redisListset(){
+        List<TProduct> list = list();
+        redisUtil.lSet("list",list);
+    }
+
+    void redisListget(){
+        List<Object> list = redisUtil.lGet("list", 0, -1);
+        System.out.println(list);
+    }
+
 }
