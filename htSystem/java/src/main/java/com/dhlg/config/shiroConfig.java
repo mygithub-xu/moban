@@ -59,6 +59,8 @@ public class shiroConfig {
         map.put("/static/**", "anon");
         //设置不被拦截的api
         map.put("/api/**","anon");
+        map.put("/v2/**","anon");
+
         map.put("/api/system/sysUser/login", "anon");
         map.put("/api/system/sysUser/logout", "anon");
         map.put("/api/system/sysUser/getCode/*","anon");
