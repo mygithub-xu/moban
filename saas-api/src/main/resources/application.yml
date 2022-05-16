@@ -1,0 +1,102 @@
+server:
+  port: 9000
+  session-timeout: 60
+  servlet:
+    context-path: /saas
+mybatisPlus:
+  mapperLocations: classpath:/com/dhlg/module/*/*/dao/xml/*.xml,classpath:/com/dhlg/module/*/*/*/dao/xml/*.xml
+  typeAliasesPackage: com.dhlg.module.*.*.entity
+
+spring:
+  # 文件上传
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  datasource:
+    name: db
+    type: com.alibaba.druid.pool.DruidDataSource #表明使用Druid连接池
+    username: wang
+    password: 123456
+    url: jdbc:mysql://123.60.5.25:33307/houtaisql?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    minIdle: 500
+    maxActive: 1000 #最大连接池数量
+    initialSize: 10 #初始化时建立物理连接的个数
+    maxWait: 60000 #获取连接时最大等待时间，单位毫秒
+  redis:
+    host: 123.60.5.25
+    #    host: 127.0.0.1
+    port: 6379
+    password: hehe
+    jedis:
+      pool:
+        max-idle: 100
+        min-idle: 10
+        max-active: 100
+        max-wait: -1
+    timeout: 600 # 单位秒
+  #  rabbitmq:
+  #    host: 192.168.163.128
+  #    username: admin
+  #    password: 123456
+  #    publisher-confirms: true
+  #    publisher-returns: true
+  #    listener:
+  #      simple:
+  #        concurrency: 10
+  #        max-concurrency: 100
+  #        prefetch: 100
+  #        auto-startup: true
+  #        acknowledge-mode: manual
+
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+
+  mail:
+    host: smtp.qq.com
+    default-encoding: utf-8
+    username: 2740835057@qq.com
+    password: wioqltexuiezdejc
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+shiro:
+  # 加密算法
+  algorithmName: "md5"
+  # hash 次数
+  hashIterations: 2
+
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
+
+common:
+  password: 123456 #默认密码
+  #默认头像
+  headPortraitSrc: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1600421306465&di=ceb5e70c7a4d5a7b55f7bcb1d1a9c8e3&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg"
+  #网络访问路径
+  fileNetSrc: https://www.whfch.icu/resources/
+  #云服务器路径
+  fileDownSrc: /usr/local/resources/
+  #  fileDownSrc: D:/resource/
+  #  模板存放路径
+  templateUrl: \src\main\resources\templates\
+  #  代码生成数据库名称
+  dataBase: houtaisql
+  #  文件保存路径
+  storeUrl: /zip/
+  #  storeUrl: \src\main\resources\templates\
+  #  提测模板存放路径
+  templateStoreUrl: /res/
+#  templateStoreUrl: /src/main/resources/templates/excel/cpt/
